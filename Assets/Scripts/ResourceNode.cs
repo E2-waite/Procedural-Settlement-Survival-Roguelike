@@ -1,0 +1,38 @@
+using UnityEngine;
+
+public class ResourceNode
+{
+    public enum Density
+    {
+        Sparse = 0,
+        Medium,
+        Dense
+    }
+
+    public enum Type
+    {
+        None,
+        Tree,
+        Stone
+    }
+
+    public Type resourceType;
+    public Density density;
+
+    public Vector3 worldPosition;
+    public Vector2Int tilePosition;
+    public ResourceObject resourceObj;
+    public GridTile gridTile;
+    public int index;
+
+    public ResourceNode(int i, Vector2Int pos, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
+    {
+        index = i;
+        gridTile = tile;
+        tilePosition = pos;
+        worldPosition = worldPos;
+        resourceType = type;
+        resourceObj = obj;
+        tile.SetResource(this);
+    }
+}
