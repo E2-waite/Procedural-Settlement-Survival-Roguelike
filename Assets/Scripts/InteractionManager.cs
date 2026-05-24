@@ -37,7 +37,6 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             {
                 state = GameState.Build;
                 BuildHandler.Instance.SetEnabled(true);
-                UnitHandler.Instance.ClearSelection();
             }
 
 
@@ -68,8 +67,8 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         }
         else
         {
-            if (state == GameState.Command)
-                UnitHandler.Instance.ClearHover();
+            //if (state == GameState.Command)
+            //    UnitHandler.Instance.ClearHover();
         }
     }
 
@@ -81,10 +80,10 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             {
                 BuildHandler.Instance.Build();
             }
-            else if (state == GameState.Command)
-            {
-                UnitHandler.Instance.SelectUnit();
-            }
+            //else if (state == GameState.Command)
+            //{
+            //    UnitHandler.Instance.SelectUnit();
+            //}
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)

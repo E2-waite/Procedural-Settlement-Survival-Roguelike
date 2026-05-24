@@ -4,19 +4,24 @@ using UnityEditor.ShaderGraph;
 using UnityEngine;
 using static InteractionManager;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
     PlayerControls controls;
     private Camera cam;
 
-
     public List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
+    public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Face the camera
         cam = Camera.main;
+        Vector3 forward = cam.transform.forward;
+        forward.Normalize();
+        transform.rotation = Quaternion.LookRotation(forward);
     }
 
     public float moveSpeed = 5f;
@@ -51,7 +56,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         if (InteractionManager.Instance.state != InteractionManager.GameState.Build)
             MovePlayer();
 
@@ -72,6 +76,7 @@ public class PlayerController : MonoBehaviour
                 nearbyUnits[i].FollowPlayer(this);
             }
 
+            UnitHandler.Instance.SetFollowing(nearbyUnits);
             nearbyUnits.Clear();
         }
     }
@@ -106,8 +111,6 @@ public class PlayerController : MonoBehaviour
         if (unit != null && !nearbyUnits.Contains(unit))
         {
             nearbyUnits.Add(unit);
-
-            Debug.Log(unit.name + " entered range");
         }
     }
 
@@ -118,8 +121,6 @@ public class PlayerController : MonoBehaviour
         if (unit != null)
         {
             nearbyUnits.Remove(unit);
-
-            Debug.Log(unit.name + " left range");
         }
     }
 }
