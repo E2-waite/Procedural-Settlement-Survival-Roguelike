@@ -9,8 +9,6 @@ public class UnitHandler : MonoSingleton<UnitHandler>
 
     public void SetFollowing(List<FollowerUnit> following)
     {
-
-
         followingUnits = new List<FollowerUnit>(following);
     }    
 
@@ -24,15 +22,13 @@ public class UnitHandler : MonoSingleton<UnitHandler>
         hoveringTile = Grid.Instance.getTile(hit.point);
     }
 
-    public void MoveUnit()
+    public void CommandUnits()
     {
         if (hoveringTile != null)
         {
-            Vector3 movePos = new Vector3(hoveringTile.position.x, 0.5f, hoveringTile.position.y);
-
             for (int i = 0; i < followingUnits.Count; i++)
             {
-                followingUnits[i].MoveTo(movePos);
+                followingUnits[i].Command(hoveringTile);
             }
         }
     }

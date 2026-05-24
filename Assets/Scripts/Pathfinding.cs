@@ -65,8 +65,8 @@ public class Pathfinding
             foreach (Vector2Int neighbourPos in GetNeighbours(current.pos))
             {
                 if (neighbourPos.x >= request.size || neighbourPos.x < 0 || 
-                    neighbourPos.y >= request.size || neighbourPos.y < 0 || 
-                    !request.pathable[neighbourPos.x, neighbourPos.y]) 
+                    neighbourPos.y >= request.size || neighbourPos.y < 0 ||
+                    (neighbourPos != targetLocal && !request.pathable[neighbourPos.x, neighbourPos.y]))
                     continue;
 
                 // Skip closed positions
@@ -152,12 +152,12 @@ public class Pathfinding
         return bestNode;
     }
 
-    // Returns manhattan distance
     private int GetDist(Vector2Int a, Vector2Int b)
     {
         int dx = Mathf.Abs(a.x - b.x);
         int dy = Mathf.Abs(a.y - b.y);
-        return dx + dy;
+
+        return Mathf.Max(dx, dy);
     }
 
 }

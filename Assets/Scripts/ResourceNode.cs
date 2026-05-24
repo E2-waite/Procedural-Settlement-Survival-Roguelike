@@ -25,6 +25,9 @@ public class ResourceNode
     public GridTile gridTile;
     public int index;
 
+    int numLeft = 10;
+
+
     public ResourceNode(int i, Vector2Int pos, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
     {
         index = i;
@@ -34,5 +37,28 @@ public class ResourceNode
         resourceType = type;
         resourceObj = obj;
         tile.SetResource(this);
+    }
+
+    public bool IsEmpty()
+    {
+        return numLeft == 0;
+    }
+
+    public int Gather(int amount)
+    {
+        Debug.Log("GATHERING RESOURCE");
+        int gathered = 0;
+        if (amount > numLeft)
+        {
+            gathered = numLeft;
+            numLeft = 0;
+        }
+        else
+        {
+            gathered = amount;
+            numLeft -= amount;
+        }
+
+        return gathered;
     }
 }

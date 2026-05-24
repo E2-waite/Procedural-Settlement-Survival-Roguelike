@@ -18,7 +18,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
 
     private void Start()
     {
-        state = GameState.Build;
+        state = GameState.Command;
     }
 
     void Update()
@@ -89,7 +89,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             if (state == GameState.Command)
-                UnitHandler.Instance.MoveUnit();
+                UnitHandler.Instance.CommandUnits();
         }
     }
 

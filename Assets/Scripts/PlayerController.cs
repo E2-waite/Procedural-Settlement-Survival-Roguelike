@@ -73,11 +73,10 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < nearbyUnits.Count; i++)
             {
-                nearbyUnits[i].FollowPlayer(this);
+                //nearbyUnits[i].FollowPlayer(this);
             }
 
             UnitHandler.Instance.SetFollowing(nearbyUnits);
-            nearbyUnits.Clear();
         }
     }
 

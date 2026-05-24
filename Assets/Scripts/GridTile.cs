@@ -15,20 +15,17 @@ public class GridTile
     public TileType tileType;
     public Chunk chunk= null;
     public Vector2Int position;
-
-    public int gCost;
-    public int hCost;
-
-    public int fCost => gCost + hCost;
+    public Vector3 worldPosition;
 
     GameObject building;
     ResourceNode resource = null;
 
-    public GridTile(Chunk inChunk, TileType type, Vector2Int pos)
+    public GridTile(Chunk inChunk, TileType type, Vector2Int pos, Vector3 worldPos)
     {
         chunk = inChunk;
         tileType = type;
         position = pos;
+        worldPosition = worldPos;
     }
 
     public void SetResource(ResourceNode node)
@@ -39,6 +36,16 @@ public class GridTile
     public ResourceNode GetResource()
     {
         return resource;
+    }
+
+    public bool HasResource()
+    {
+        return resource != null;
+    }
+
+    public bool HasBuilding()
+    {
+        return building != null;
     }
 
     public void Hover(bool active)

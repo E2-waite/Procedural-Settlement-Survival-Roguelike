@@ -7,7 +7,7 @@ public class PathAgent : MonoBehaviour
     const int pathRange = 50;
 
     public float moveSpeed = 10f;
-    public float reachedThresh = 1.5f;
+    public float reachedThresh = .05f;
     public List<Vector2Int> currentPath = new List<Vector2Int>();
     private float pathInterval = 0.5f, repathTimer = 0;
 
@@ -15,9 +15,8 @@ public class PathAgent : MonoBehaviour
     protected bool pathRequested = false;
     protected Vector3 targetPos;
 
-    protected void RequestPath(Vector2Int start, Vector2Int target,Vector3 worldPos)
+    protected void RequestPath(Vector2Int start, Vector2Int target, Vector3 worldPos)
     {
-        Debug.Log("REQUESTING PATH");
         targetPos = worldPos;
 
         pathRequested = true;
@@ -62,6 +61,8 @@ public class PathAgent : MonoBehaviour
             }
         };
 
+        //Debug.Log("Requesting path from " + start + " to " + target);
+
         // Send pathfinding request
         PathfindingHandler.Instance.RequestPath(request);
     }
@@ -72,7 +73,7 @@ public class PathAgent : MonoBehaviour
         {
             Vector2Int currentTarget = currentPath[pathIndex];
 
-            Vector3 currentTargetPos = new Vector3(currentTarget.x + .5f, .5f, currentTarget.y + .5f);
+            Vector3 currentTargetPos = new Vector3(currentTarget.x, .5f, currentTarget.y);
             transform.position = Vector3.MoveTowards(transform.position, currentTargetPos, moveSpeed * Time.deltaTime);
 
             if ((transform.position - currentTargetPos).sqrMagnitude < reachedThresh)

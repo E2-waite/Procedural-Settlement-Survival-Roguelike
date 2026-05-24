@@ -23,7 +23,6 @@ public class ChunkResources
 
     public ChunkResources(Chunk chunk)
     {
-        return;
         thischunk = chunk;
 
         count = chunk.size * chunk.size;
@@ -93,6 +92,9 @@ public class ChunkResources
         {
             int id = ids[i];
             ResourceNode resource = resources[id];
+
+            // Don't render if it's been gathered
+            if (resource.IsEmpty()) continue;
 
             if (lastObj == null)
                 lastObj = resource.resourceObj;

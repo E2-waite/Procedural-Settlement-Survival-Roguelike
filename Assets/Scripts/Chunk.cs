@@ -58,7 +58,7 @@ public class Chunk : MonoBehaviour
                 Vector2Int tilePos = new Vector2Int(x + position.x * chunkSize, y + position.y * chunkSize);
 
                 GridTile.TileType tileType = GetTileType(x, y);
-                GridTile tile = new GridTile(this, tileType, tilePos);
+                GridTile tile = new GridTile(this, tileType, tilePos, new Vector3(tilePos.x, 0, tilePos.y));
 
                 Grid.Instance.setTile(tilePos, tile);
                 tiles[new Vector2Int(x, y)] = tile;
