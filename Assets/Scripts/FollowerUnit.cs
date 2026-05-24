@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Pathfinding;
+using static UnityEngine.GraphicsBuffer;
 
 public class FollowerUnit : MonoBehaviour
 {
@@ -24,6 +27,7 @@ public class FollowerUnit : MonoBehaviour
     private float pathInterval = 0.5f, repathTimer = 0;
 
     private int pathIndex = 0;
+    private bool pathRequested = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,17 +45,67 @@ public class FollowerUnit : MonoBehaviour
         {
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
 
-            if ((currentPath == null || currentPath.Count == 0))
+            if (!pathRequested && (currentPath == null || currentPath.Count == 0))
             {
                 currentTarget = playerPos;
 
                 Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
-                currentPath = UnitHandler.Instance.FindPath(currentPos, playerPos);
+                RequestPath(currentPos, playerPos);
             }
 
             MoveUnit();
         }
+    }
+
+    const int pathRange = 50;
+
+    void RequestPath(Vector2Int start, Vector2Int target)
+    {
+        pathRequested = true;
+        int size = pathRange * 2;
+
+        bool[,] pathable = new bool[size, size];
+
+        Vector2Int origin = new Vector2Int(
+                            start.x - pathRange,
+                            start.y - pathRange);
+
+        // Define pathing area
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
+
+                GridTile tile = Grid.Instance.getTile(tilePos);
+
+                if (tile != null && tile.Walkable())
+                    pathable[x, y] = true;
+                else
+                    pathable[x, y] = false;
+            }
+        }
+
+        // Construct the pathing request
+        Pathfinding.PathRequest request = new Pathfinding.PathRequest
+        {
+            size = size,
+            start = start,
+            target = target,
+            origin = origin,
+            pathable = pathable,
+            callback = (path) =>
+            {
+                // Updates the path on callback
+                currentPath = path;
+                pathIndex = 0;
+                pathRequested = false;
+            }
+        };
+
+        // Send pathfinding request
+        PathfindingHandler.Instance.RequestPath(request);
     }
 
     void MoveUnit()
