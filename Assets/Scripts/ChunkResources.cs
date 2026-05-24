@@ -23,6 +23,7 @@ public class ChunkResources
 
     public ChunkResources(Chunk chunk)
     {
+        return;
         thischunk = chunk;
 
         count = chunk.size * chunk.size;
@@ -30,8 +31,6 @@ public class ChunkResources
         matrices = new Matrix4x4[count];
         resources = new ResourceNode[count];
         int index = 0;
-
-        //return;
 
         for (int x = 0; x < chunk.size; x++)
         {
@@ -44,15 +43,16 @@ public class ChunkResources
                     GridTile tile = Grid.Instance.getTile(worldPos);
 
                     ResourceObject resource = null;
+                    float rand = Random.Range(0, 100);
 
 
                     if (tile.tileType == TileType.Forest)
                     {
-                        resource = ResourceHandler.Instance.treeObj;
+                        if (rand >= 30f)
+                            resource = ResourceHandler.Instance.treeObj;
                     }
                     else if (tile.tileType == TileType.Grass)
                     {
-                        float rand = Random.Range(0, 100);
 
                         if (rand >= 90f)
                             resource = ResourceHandler.Instance.stoneObj;

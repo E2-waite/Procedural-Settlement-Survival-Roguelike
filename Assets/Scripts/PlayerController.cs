@@ -1,12 +1,18 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+using static InteractionManager;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     PlayerControls controls;
     private Camera cam;
-    
+
+
+    public List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,6 +63,17 @@ public class PlayerController : MonoBehaviour
             Grid.Instance.HandleChunks(currentTile.chunk.position);
         }
 
+
+
+        if (Keyboard.current.fKey.wasReleasedThisFrame)
+        {
+            for (int i = 0; i < nearbyUnits.Count; i++)
+            {
+                nearbyUnits[i].FollowPlayer(this);
+            }
+
+            nearbyUnits.Clear();
+        }
     }
 
     void MovePlayer()
@@ -80,5 +97,29 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = cam.transform.forward;
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        FollowerUnit unit = other.GetComponent<FollowerUnit>();
+
+        if (unit != null && !nearbyUnits.Contains(unit))
+        {
+            nearbyUnits.Add(unit);
+
+            Debug.Log(unit.name + " entered range");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        FollowerUnit unit = other.GetComponent<FollowerUnit>();
+
+        if (unit != null)
+        {
+            nearbyUnits.Remove(unit);
+
+            Debug.Log(unit.name + " left range");
+        }
     }
 }

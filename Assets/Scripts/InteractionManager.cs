@@ -26,7 +26,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         CastRay();
         HandleClick();
 
-        if (Keyboard.current.fKey.wasReleasedThisFrame)
+        if (Keyboard.current.eKey.wasReleasedThisFrame)
         {
             if (state == GameState.Build)
             {

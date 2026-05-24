@@ -15,6 +15,12 @@ public class GridTile
     public TileType tileType;
     public Chunk chunk= null;
     public Vector2Int position;
+
+    public int gCost;
+    public int hCost;
+
+    public int fCost => gCost + hCost;
+
     GameObject building;
     ResourceNode resource = null;
 
@@ -48,6 +54,7 @@ public class GridTile
     // Check if this tile can be used in pathing
     public bool Walkable()
     {
+        //return true;
         return tileType != TileType.Water && building == null && resource == null;
     }
  

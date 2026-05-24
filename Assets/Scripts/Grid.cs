@@ -139,4 +139,25 @@ public class Grid : MonoSingleton<Grid>
         return tile;
 
     }
+
+
+    public List<GridTile> GetNeighbours(Vector2Int pos)
+    {
+        List<GridTile> neighbours = new List<GridTile>();
+
+        for (int x = pos.x - 1; x <= pos.x + 1; x++)
+        {
+            for (int y = pos.y - 1; y <= pos.y + 1; y++)
+            {
+                if (x == pos.x && y == pos.y)
+                    continue;
+
+                GridTile neighbouringTile = getTile(new Vector2Int(x, y));
+                if (neighbouringTile != null)
+                    neighbours.Add(neighbouringTile);
+            }
+        }
+
+        return neighbours;
+    }
 }
