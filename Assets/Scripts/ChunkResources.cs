@@ -31,7 +31,7 @@ public class ChunkResources
         resources = new ResourceNode[count];
         int index = 0;
 
-        return;
+        //return;
 
         for (int x = 0; x < chunk.size; x++)
         {

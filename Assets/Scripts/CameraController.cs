@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
 
     public PlayerController player;
 
-    private Vector3 followOffset = new Vector3(-80, 0, -80);
+    private Vector3 followOffset = new Vector3(-10, 10, -10);
 
     private void Start()
     {
@@ -26,12 +26,12 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float scroll = Mouse.current.scroll.ReadValue().y;
+        //float scroll = Mouse.current.scroll.ReadValue().y;
 
-        if (scroll != 0)
-        {
-            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize + scroll, minScroll, maxScroll);
-        }
+        //if (scroll != 0)
+        //{
+        //    camera.orthographicSize = Mathf.Clamp(camera.orthographicSize + scroll, minScroll, maxScroll);
+        //}
 
         if (InteractionManager.Instance.state == InteractionManager.GameState.Build)
         {
