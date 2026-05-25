@@ -17,7 +17,7 @@ public class GridTile
     public Vector2Int position;
     public Vector3 worldPosition;
 
-    GameObject building;
+    Building building;
     ResourceNode resource = null;
 
     public GridTile(Chunk inChunk, TileType type, Vector2Int pos, Vector3 worldPos)
@@ -71,7 +71,7 @@ public class GridTile
     }
 
     // Assign building/structure
-    public void Build(GameObject build)
+    public void Build(Building build)
     {
         building = build;
     }

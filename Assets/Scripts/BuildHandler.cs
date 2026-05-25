@@ -5,7 +5,7 @@ public class BuildHandler : MonoSingleton<BuildHandler>
     //public Vector2Int buildSize = new Vector2Int(1, 1);
 
     public TileMarker tileMarker;
-    public Building selectedBuilding = null;
+    public BuildingObject selectedBuilding = null;
 
     GridTile currTile = null;
     Vector2Int gridPos = new Vector2Int(0, 0);
@@ -43,8 +43,11 @@ public class BuildHandler : MonoSingleton<BuildHandler>
         {
             Vector2Int tilePos = new Vector2Int();
 
-            GameObject building = Instantiate(selectedBuilding.prefab, new Vector3(currTile.position.x, 0, currTile.position.y), Quaternion.identity);
-            building.transform.localScale = new Vector3(selectedBuilding.size.x, 1, selectedBuilding.size.y);
+            GameObject buildingObj = Instantiate(selectedBuilding.prefab, new Vector3(currTile.position.x, 0, currTile.position.y), Quaternion.identity);
+            buildingObj.transform.localScale = new Vector3(selectedBuilding.size.x, 1, selectedBuilding.size.y);
+            Building building = buildingObj.GetComponent<Building>();
+
+            if (building == null) return;
 
             // Assign buildings to appropriate tiles
             for (int x = gridPos.x; x < gridPos.x + selectedBuilding.size.x; x++)

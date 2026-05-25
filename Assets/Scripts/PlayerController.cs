@@ -56,14 +56,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (InteractionManager.Instance.state != InteractionManager.GameState.Build)
-            MovePlayer();
+        MovePlayer();
 
         // Player controller needs to know which chunk it's in so it can handle chunk visibility
 
         GridTile currentTile = Grid.Instance.getTile(transform.position);
         if (currentTile != null)
         {
+            // TODO: stop doing this each update (likely expensive)
             Grid.Instance.HandleChunks(currentTile.chunk.position);
         }
 

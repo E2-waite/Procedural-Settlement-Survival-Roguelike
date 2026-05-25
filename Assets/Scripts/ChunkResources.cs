@@ -24,6 +24,7 @@ public class ChunkResources
 
     public ChunkResources(Chunk chunk)
     {
+        //return;
         thischunk = chunk;
 
         count = chunk.size * chunk.size;

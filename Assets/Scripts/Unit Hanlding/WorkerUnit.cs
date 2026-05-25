@@ -16,14 +16,13 @@ public class WorkerUnit : FollowerUnit
 
     public int currentCapacity = 0, maxCapacity = 100;
 
-    ResourceNode targetNode;
+    ResourceNode targetResource;
 
     float gatherInterval = 0.5f, gatherTimer = 0;
 
     protected override void Start()
     {
         base.Start();
-
         workerState = WorkerState.Idle;
     }
 
@@ -50,13 +49,13 @@ public class WorkerUnit : FollowerUnit
         {
             if (gatherTimer > 0) gatherTimer -= Time.deltaTime;
 
-            if (targetNode == null)
+            if (targetResource == null)
             {
                 workerState = WorkerState.Idle;
             }
             else
             {
-                float dist = Vector3.Distance(transform.position, targetNode.worldPosition);
+                float dist = Vector3.Distance(transform.position, targetResource.worldPosition);
 
                 // Move towards resource if not in range
                 if (dist > 1.25f)
@@ -90,7 +89,7 @@ public class WorkerUnit : FollowerUnit
 
             if (resource != null && !resource.IsEmpty())
             {
-                targetNode = resource;
+                targetResource = resource;
                 workerState = WorkerState.Gathering;
 
                 Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
@@ -142,11 +141,11 @@ public class WorkerUnit : FollowerUnit
         else
         {
             // TODO: move to next resource 
-            currentCapacity += targetNode.Gather(5);
+            currentCapacity += targetResource.Gather(5);
             gatherTimer = gatherInterval;
 
-            if (targetNode.IsEmpty())
-                targetNode = null;
+            if (targetResource.IsEmpty())
+                targetResource = null;
         }
     }
 }
