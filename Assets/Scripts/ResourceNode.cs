@@ -16,7 +16,7 @@ public class ResourceNode
         Max
     }
 
-    public Type resourceType;
+    public Type type;
     public Density density;
 
     public Vector3 worldPosition;
@@ -34,7 +34,7 @@ public class ResourceNode
         gridTile = tile;
         tilePosition = pos;
         worldPosition = worldPos;
-        resourceType = type;
+        this.type = type;
         resourceObj = obj;
         tile.SetResource(this);
     }

@@ -14,7 +14,9 @@ public class WorkerUnit : FollowerUnit
 
     public WorkerState workerState;
 
-    public int currentCapacity = 0, maxCapacity = 100;
+    public int maxCapacity = 100;
+    public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
+
 
     ResourceNode targetResource;
     public ResourceStore targetStore;
@@ -93,6 +95,8 @@ public class WorkerUnit : FollowerUnit
                 {
                     Store(); // Store resources if in range
 
+                    // TODO: move to next resource type if available
+
                     if (targetResource != null && !targetResource.IsEmpty())
                     {
                         // Continue gathering current resource
@@ -140,7 +144,7 @@ public class WorkerUnit : FollowerUnit
             {
                 ResourceStore store = (ResourceStore)building;
 
-                if (store != null && currentCapacity > 0)
+                if (store != null && CurrentCapacity() > 0)
                 {
                     TargetStore(store);
                     targetResource = null; // Don't return to gathering if we've commanded to store
@@ -209,7 +213,9 @@ public class WorkerUnit : FollowerUnit
 
         if (!CheckCapacity())
         {
-            currentCapacity += targetResource.Gather(5);
+            Debug.Log("Gathering " + targetResource.type.ToString());
+
+            resourceCount[(int)targetResource.type] += targetResource.Gather(5);
             gatherTimer = gatherInterval;
 
             if (targetResource.IsEmpty())
@@ -233,7 +239,7 @@ public class WorkerUnit : FollowerUnit
     // Checks if resources are at capacity and switch to storing if so
     bool CheckCapacity()
     {
-        if (currentCapacity >= maxCapacity)
+        if (CurrentCapacity() >= maxCapacity)
         {
             // Find closest resource store
             ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Tree, GridPos());
@@ -255,10 +261,23 @@ public class WorkerUnit : FollowerUnit
     {
         if (targetStore != null)
         {
-            targetStore.Store(currentCapacity);
-            currentCapacity = 0;
+            Debug.Log("SHOULD STORE");
+            targetStore.Store(resourceCount[(int)targetStore.type]);
+
+            resourceCount[(int)targetStore.type] = 0;
+
             return true;
         }
         return false;
+    }
+
+    int CurrentCapacity()
+    {
+        int total = 0;
+        for (int i = 0; i < (int)ResourceNode.Type.Max; i++)
+        {
+            total += resourceCount[i];
+        }
+        return total;
     }
 }

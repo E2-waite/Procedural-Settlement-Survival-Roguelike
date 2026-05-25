@@ -20,8 +20,6 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
     // Searches for the closest neighbouring resource node
     public ResourceNode GetClosestNeighbour(ResourceNode node, bool sameType = true)
     {
-        Debug.Log("Finding neighbouring resource");
-
         GridTile tile = node.gridTile;
 
         Queue<(Vector2Int pos, int distance)> queue = new();
@@ -40,7 +38,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
             ResourceNode currentNode = Grid.Instance.getTile(currentPos).GetResource();
             if (distance > 0 && currentNode != null && !currentNode.IsEmpty() &&
-                ((sameType && currentNode.resourceType == node.resourceType) || !sameType))
+                ((sameType && currentNode.type == node.type) || !sameType))
             {
                 // Return the current node if it exists and is not empty
                 return currentNode;
@@ -60,7 +58,6 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
             }
         }
 
-        Debug.Log("Failed to find resource");
         // No resource found
         return null;
     }

@@ -104,7 +104,7 @@ public class ChunkResources
             //if (lastObj == null)
             //    lastObj = resource.resourceObj;
 
-            if (lastObj != null && (resource.resourceType != lastObj.type || batchCount == MAX_BATCH))
+            if (lastObj != null && (resource.type != lastObj.type || batchCount == MAX_BATCH))
             {
                 DrawBatch(batchCount, lastObj);
                 batchCount = 0;
