@@ -68,12 +68,11 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
         if (Keyboard.current.fKey.wasReleasedThisFrame)
         {
             for (int i = 0; i < nearbyUnits.Count; i++)
             {
-                //nearbyUnits[i].FollowPlayer(this);
+                nearbyUnits[i].StartFollowing(this);
             }
 
             UnitHandler.Instance.SetFollowing(nearbyUnits);

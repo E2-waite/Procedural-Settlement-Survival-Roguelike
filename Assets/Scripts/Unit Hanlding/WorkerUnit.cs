@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class WorkerUnit : FollowerUnit
 {
+    // YOU MUST ENSURE CONSISTENCY 0 = idle, 1 = moving, 2 = following
     public enum WorkerState
     {
         Idle,
         Moving,
+        following, 
         Gathering,
         Storing
     }
@@ -25,14 +27,24 @@ public class WorkerUnit : FollowerUnit
         workerState = WorkerState.Idle;
     }
 
-    private void Update()
+    protected override int GetState()
     {
+        return (int)workerState;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override bool HandleStates()
+    {
+        bool handled = false;
+
         if (workerState == WorkerState.Moving)
         {
-            //if (!HasPath())
-            //    workerState = WorkerState.Idle;
-            //else
-                FollowPath();
+            FollowPath();
+            handled = true;
         }
         else if (workerState == WorkerState.Gathering)
         {
@@ -49,7 +61,6 @@ public class WorkerUnit : FollowerUnit
                 // Move towards resource if not in range
                 if (dist > 1.25f)
                 {
-                    //Debug.Log("Following Path... Dist = " + dist);
                     FollowPath();
                 }
                 else
@@ -61,7 +72,10 @@ public class WorkerUnit : FollowerUnit
                     }
                 }
             }
+            handled = true;
         }
+
+        return handled;
     }
 
     public override void Command(GridTile tile)
@@ -87,6 +101,15 @@ public class WorkerUnit : FollowerUnit
         else if (tile.HasBuilding())
         {
             // Interact with building if tile has one
+            
+            // TODO: implement building interaction
+
+            // If building is broken, repair
+
+            // If building hasn't finished building, build
+
+            // If building is repaired and built, interact
+
         }
         else
         {
@@ -102,14 +125,23 @@ public class WorkerUnit : FollowerUnit
         }
     }
 
+    public override void StartFollowing(PlayerController thePlayer)
+    {
+        base.StartFollowing(thePlayer);
+
+        workerState = WorkerState.following;
+    }
+
     public void Gather()
     {
         if (currentCapacity >= maxCapacity)
         {
+            // TODO: store resources
             workerState = WorkerState.Storing;
         }
         else
         {
+            // TODO: move to next resource 
             currentCapacity += targetNode.Gather(5);
             gatherTimer = gatherInterval;
 

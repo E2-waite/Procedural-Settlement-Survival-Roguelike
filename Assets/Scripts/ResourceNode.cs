@@ -59,6 +59,8 @@ public class ResourceNode
             numLeft -= amount;
         }
 
+        // TODO: clear node from tile when empty
+
         return gathered;
     }
 }

@@ -38,10 +38,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
                 state = GameState.Build;
                 BuildHandler.Instance.SetEnabled(true);
             }
-
-
         }
-
     }
 
     LayerMask GetLayerMask()
@@ -65,11 +62,6 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             else if (state == GameState.Command)
                 UnitHandler.Instance.Hover(hit);
         }
-        else
-        {
-            //if (state == GameState.Command)
-            //    UnitHandler.Instance.ClearHover();
-        }
     }
 
     void HandleClick()
@@ -80,10 +72,6 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             {
                 BuildHandler.Instance.Build();
             }
-            //else if (state == GameState.Command)
-            //{
-            //    UnitHandler.Instance.SelectUnit();
-            //}
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)

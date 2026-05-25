@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 using static GridTile;
 using static UnityEngine.Rendering.DebugUI;
 
+// Handles generation and rendering of resources for a chunk
 public class ChunkResources
 {
     private const int MAX_BATCH = 1023;
