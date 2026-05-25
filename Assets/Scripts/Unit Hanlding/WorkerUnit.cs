@@ -93,7 +93,25 @@ public class WorkerUnit : FollowerUnit
                 {
                     Store(); // Store resources if in range
 
-                    // TODO: return to gathering after storing
+                    if (targetResource != null && !targetResource.IsEmpty())
+                    {
+                        // Continue gathering current resource
+                        TargetResource(targetResource);
+                    }
+                    else if (targetResource != null)
+                    {
+                        // Find next resource
+                        ResourceNode neighbuoringNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+
+                        if (neighbuoringNode != null)
+                        {
+                            TargetResource(neighbuoringNode);
+                        }
+                        else
+                        {
+                            targetResource = null;
+                        }
+                    }
                 }
             }
         }
@@ -108,7 +126,6 @@ public class WorkerUnit : FollowerUnit
         if (tile.HasResource())
         {
              // Command to gather if tile has resource
-            Debug.Log("Commanding to gather!");
             ResourceNode resource = tile.GetResource();
 
             TargetResource(resource);
@@ -116,8 +133,19 @@ public class WorkerUnit : FollowerUnit
         else if (tile.HasBuilding())
         {
             // Interact with building if tile has one
-            
-            // TODO: implement building interaction
+            Building building = tile.GetBuilding();
+
+
+            if (building is ResourceStore)
+            {
+                ResourceStore store = (ResourceStore)building;
+
+                if (store != null && currentCapacity > 0)
+                {
+                    TargetStore(store);
+                    targetResource = null; // Don't return to gathering if we've commanded to store
+                }
+            }
 
             // If building is broken, repair
 
@@ -178,21 +206,8 @@ public class WorkerUnit : FollowerUnit
 
     public void Gather()
     {
-        if (currentCapacity >= maxCapacity)
-        {
-            // Find closest resource store
-            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Tree, GridPos());
-            if (closestStore == null)
-            {
-                workerState = WorkerState.Idle;
-            }
-            if (closestStore != null)
-            {
-                TargetStore(closestStore);
-            }
 
-        }
-        else
+        if (!CheckCapacity())
         {
             currentCapacity += targetResource.Gather(5);
             gatherTimer = gatherInterval;
@@ -210,7 +225,30 @@ public class WorkerUnit : FollowerUnit
                     targetResource = null;
                 }    
             }
+
+            CheckCapacity();
         }
+    }
+
+    // Checks if resources are at capacity and switch to storing if so
+    bool CheckCapacity()
+    {
+        if (currentCapacity >= maxCapacity)
+        {
+            // Find closest resource store
+            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Tree, GridPos());
+            if (closestStore == null)
+            {
+                workerState = WorkerState.Idle;
+            }
+            if (closestStore != null)
+            {
+                TargetStore(closestStore);
+            }
+
+            return true;
+        }
+        return false;
     }
 
     bool Store()

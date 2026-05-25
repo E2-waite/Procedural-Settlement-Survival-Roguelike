@@ -48,6 +48,11 @@ public class GridTile
         return building != null;
     }
 
+    public Building GetBuilding()
+    {
+        return building;
+    }
+
     public void Hover(bool active)
     {
        // Grid.Instance.HandleChunks(chunk.position);
