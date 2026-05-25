@@ -11,7 +11,7 @@ public class ResourceNode
 
     public enum Type : int
     {
-        Tree = 0,
+        Wood = 0,
         Stone,
         Max
     }

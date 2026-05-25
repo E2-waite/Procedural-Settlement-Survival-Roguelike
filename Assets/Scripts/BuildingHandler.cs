@@ -116,6 +116,9 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
         for (int i = 0; storeList != null && i < storeList.Count; i++)
         {
             ResourceStore current = storeList[i];
+
+            if (!current.Built()) continue; // Don't include non-built or broken stores
+
             Vector2Int storePos = new Vector2Int((int)current.transform.position.x, (int)current.transform.position.z);
 
             float dist = Vector2Int.Distance(storePos, pos);

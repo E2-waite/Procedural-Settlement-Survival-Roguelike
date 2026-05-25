@@ -7,9 +7,10 @@ public class WorkerUnit : FollowerUnit
     {
         Idle,
         Moving,
-        following, 
+        Following, 
         Gathering,
-        Storing
+        Storing,
+        Building
     }
 
     public WorkerState workerState;
@@ -20,8 +21,9 @@ public class WorkerUnit : FollowerUnit
 
     ResourceNode targetResource;
     public ResourceStore targetStore;
+    Building targetBuilding;
 
-    float gatherInterval = 0.5f, gatherTimer = 0;
+    float interactInterval = 0.5f, interactTimer = 0;
 
     protected override void Start()
     {
@@ -43,6 +45,8 @@ public class WorkerUnit : FollowerUnit
     {
         bool handled = false;
 
+        if (interactTimer > 0) interactTimer -= Time.deltaTime;
+
         if (workerState == WorkerState.Moving)
         {
             FollowPath();
@@ -50,8 +54,6 @@ public class WorkerUnit : FollowerUnit
         }
         else if (workerState == WorkerState.Gathering)
         {
-            if (gatherTimer > 0) gatherTimer -= Time.deltaTime;
-
             if (targetResource == null)
             {
                 workerState = WorkerState.Idle;
@@ -67,7 +69,7 @@ public class WorkerUnit : FollowerUnit
                 }
                 else
                 {
-                    if (gatherTimer <= 0)
+                    if (interactTimer <= 0)
                     {
                         // Gather if in range and timer has finished
                         Gather();
@@ -120,6 +122,28 @@ public class WorkerUnit : FollowerUnit
                 }
             }
         }
+        else if (workerState == WorkerState.Building)
+        {
+            float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
+
+            // Move towards resource if not in range
+            if (dist > 1.25f)
+            {
+                FollowPath();
+            }
+            else
+            {
+                if (interactTimer <= 0)
+                {
+                    // Gather if in range and timer has finished
+                    if (Build())
+                    {
+                        targetBuilding = null;
+                        workerState = WorkerState.Idle;
+                    }
+                }
+            }
+        }
 
         return handled;
     }
@@ -141,18 +165,26 @@ public class WorkerUnit : FollowerUnit
             Building building = tile.GetBuilding();
 
 
-            if (building is ResourceStore)
-            {
-                ResourceStore store = (ResourceStore)building;
 
-                if (store != null && CurrentCapacity() > 0)
-                {
-                    TargetStore(store);
-                    targetResource = null; // Don't return to gathering if we've commanded to store
-                }
-            }
 
             // If building is broken, repair
+            if (!building.Built())
+            {
+                TargetBuilding(building);
+            }
+            else
+            {
+                if (building is ResourceStore)
+                {
+                    ResourceStore store = (ResourceStore)building;
+
+                    if (store != null && CurrentCapacity() > 0)
+                    {
+                        TargetStore(store);
+                        targetResource = null; // Don't return to gathering if we've commanded to store
+                    }
+                }
+            }
 
             // If building hasn't finished building, build
 
@@ -182,7 +214,7 @@ public class WorkerUnit : FollowerUnit
     {
         base.StartFollowing(thePlayer);
 
-        workerState = WorkerState.following;
+        workerState = WorkerState.Following;
     }
 
     void TargetResource(ResourceNode resource)
@@ -209,6 +241,19 @@ public class WorkerUnit : FollowerUnit
         }
     }
 
+    void TargetBuilding(Building building)
+    {
+        if (building != null)
+        {
+            targetBuilding = building;
+            workerState = WorkerState.Building;
+
+            Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
+
+            RequestPath(GridPos(), buildingPos, building.transform.position);
+        }
+    }
+
     public void Gather()
     {
 
@@ -217,7 +262,7 @@ public class WorkerUnit : FollowerUnit
             Debug.Log("Gathering " + targetResource.type.ToString());
 
             resourceCount[(int)targetResource.type] += targetResource.Gather(5);
-            gatherTimer = gatherInterval;
+            interactTimer = interactInterval;
 
             if (targetResource.IsEmpty())
             {
@@ -243,7 +288,7 @@ public class WorkerUnit : FollowerUnit
         if (CurrentCapacity() >= maxCapacity)
         {
             // Find closest resource store
-            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Tree, GridPos());
+            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
                 workerState = WorkerState.Idle;
@@ -279,5 +324,16 @@ public class WorkerUnit : FollowerUnit
             total += resourceCount[i];
         }
         return total;
+    }
+
+    bool Build()
+    {
+        if (targetBuilding != null)
+        {
+            bool finished = targetBuilding.Build(10);
+            interactTimer = interactInterval;
+            return finished;
+        }
+        return false;
     }
 }
