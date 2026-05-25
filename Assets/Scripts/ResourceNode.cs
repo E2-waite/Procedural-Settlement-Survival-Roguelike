@@ -9,11 +9,11 @@ public class ResourceNode
         Dense
     }
 
-    public enum Type
+    public enum Type : int
     {
-        None,
-        Tree,
-        Stone
+        Tree = 0,
+        Stone,
+        Max
     }
 
     public Type resourceType;

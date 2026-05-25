@@ -31,12 +31,12 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             if (state == GameState.Build)
             {
                 state = GameState.Command;
-                BuildHandler.Instance.SetEnabled(false);
+                BuildingHandler.Instance.SetEnabled(false);
             }
             else
             {
                 state = GameState.Build;
-                BuildHandler.Instance.SetEnabled(true);
+                BuildingHandler.Instance.SetEnabled(true);
             }
         }
     }
@@ -58,7 +58,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
             Debug.DrawLine(ray.origin, hit.point, Color.red);
 
             if (state == GameState.Build)
-                BuildHandler.Instance.HandleRay(hit);
+                BuildingHandler.Instance.HandleRay(hit);
             else if (state == GameState.Command)
                 UnitHandler.Instance.Hover(hit);
         }
@@ -70,7 +70,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         {
             if (state == GameState.Build)
             {
-                BuildHandler.Instance.Build();
+                BuildingHandler.Instance.Build();
             }
         }
 

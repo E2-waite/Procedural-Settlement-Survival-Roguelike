@@ -62,7 +62,8 @@ public class GridTile
     public bool Walkable()
     {
         //return true;
-        return tileType != TileType.Water && building == null && resource == null;
+        return tileType != TileType.Water;
+        //return tileType != TileType.Water && building == null && resource == null;
     }
  
     public bool Buildable()

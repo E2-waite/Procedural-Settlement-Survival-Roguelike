@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class BuildHandler : MonoSingleton<BuildHandler>
+public class BuildingHandler : MonoSingleton<BuildingHandler>
 {
     //public Vector2Int buildSize = new Vector2Int(1, 1);
 
@@ -10,6 +11,10 @@ public class BuildHandler : MonoSingleton<BuildHandler>
     GridTile currTile = null;
     Vector2Int gridPos = new Vector2Int(0, 0);
     Vector2Int lastPos;
+
+    // Resource stores
+    public List<ResourceStore>[] resourceStores = new List<ResourceStore>[(int)ResourceNode.Type.Max];
+
     public void SetEnabled(bool enabled)
     {
         tileMarker.gameObject.SetActive(enabled);
@@ -49,6 +54,21 @@ public class BuildHandler : MonoSingleton<BuildHandler>
 
             if (building == null) return;
 
+            // Add resource store to its appropriate list (based on type)
+            if (building is ResourceStore)
+            {
+                ResourceStore store = (ResourceStore)building;
+
+                ResourceNode.Type type = store.type;
+
+                if (resourceStores[(int)type] == null)
+                {
+                    resourceStores[(int)type] = new List<ResourceStore>();
+                }
+
+                resourceStores[(int)type].Add(store);
+            }
+
             // Assign buildings to appropriate tiles
             for (int x = gridPos.x; x < gridPos.x + selectedBuilding.size.x; x++)
             {
@@ -84,5 +104,28 @@ public class BuildHandler : MonoSingleton<BuildHandler>
         }
 
         return true;
+    }
+
+    public ResourceStore GetClosestStore(ResourceNode.Type type, Vector2Int pos)
+    {
+        float lowestDist = float.MaxValue;
+        ResourceStore store = null;
+
+        List<ResourceStore> storeList = resourceStores[(int)type];
+
+        for (int i = 0; storeList != null && i < storeList.Count; i++)
+        {
+            ResourceStore current = storeList[i];
+            Vector2Int storePos = new Vector2Int((int)current.transform.position.x, (int)current.transform.position.z);
+
+            float dist = Vector2Int.Distance(storePos, pos);
+            if (dist < lowestDist)
+            {
+                lowestDist = dist;
+                store = current;
+            }
+        }
+
+        return store;
     }
 }

@@ -17,6 +17,7 @@ public class WorkerUnit : FollowerUnit
     public int currentCapacity = 0, maxCapacity = 100;
 
     ResourceNode targetResource;
+    public ResourceStore targetStore;
 
     float gatherInterval = 0.5f, gatherTimer = 0;
 
@@ -73,8 +74,31 @@ public class WorkerUnit : FollowerUnit
             }
             handled = true;
         }
+        else if (workerState == WorkerState.Storing)
+        {
+            if (targetStore == null)
+            {
+                workerState = WorkerState.Idle;
+            }
+            else
+            {
+                float dist = Vector3.Distance(transform.position, targetStore.transform.position);
 
-        return handled;
+                // Move towards resource if not in range
+                if (dist > 1.25f)
+                {
+                    FollowPath();
+                }
+                else
+                {
+                    Store(); // Store resources if in range
+
+                    // TODO: return to gathering after storing
+                }
+            }
+        }
+
+            return handled;
     }
 
     public override void Command(GridTile tile)
@@ -87,15 +111,7 @@ public class WorkerUnit : FollowerUnit
             Debug.Log("Commanding to gather!");
             ResourceNode resource = tile.GetResource();
 
-            if (resource != null && !resource.IsEmpty())
-            {
-                targetResource = resource;
-                workerState = WorkerState.Gathering;
-
-                Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
-                RequestPath(currentPos, tile.position, resource.worldPosition);
-            }    
+            TargetResource(resource);
         }
         else if (tile.HasBuilding())
         {
@@ -118,10 +134,15 @@ public class WorkerUnit : FollowerUnit
             currentPath.Clear();
             workerState = WorkerState.Moving;
 
-            Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
-            RequestPath(currentPos, tile.position, tile.worldPosition);
+            RequestPath(GridPos(), tile.position, tile.worldPosition);
         }
+    }
+
+    Vector2Int GridPos()
+    {
+        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+
     }
 
     public override void StartFollowing(PlayerController thePlayer)
@@ -131,21 +152,75 @@ public class WorkerUnit : FollowerUnit
         workerState = WorkerState.following;
     }
 
+    void TargetResource(ResourceNode resource)
+    {
+        if (resource != null && !resource.IsEmpty())
+        {
+            targetResource = resource;
+            workerState = WorkerState.Gathering;
+
+            RequestPath(GridPos(), resource.gridTile.position, resource.worldPosition);
+        }
+    }
+
+    void TargetStore(ResourceStore store)
+    {
+        if (store != null)
+        {
+            targetStore = store;
+            workerState = WorkerState.Storing;
+
+            Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
+
+            RequestPath(GridPos(), storePos, store.transform.position);
+        }
+    }
+
     public void Gather()
     {
         if (currentCapacity >= maxCapacity)
         {
-            // TODO: store resources
-            workerState = WorkerState.Storing;
+            // Find closest resource store
+            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Tree, GridPos());
+            if (closestStore == null)
+            {
+                workerState = WorkerState.Idle;
+            }
+            if (closestStore != null)
+            {
+                TargetStore(closestStore);
+            }
+
         }
         else
         {
-            // TODO: move to next resource 
             currentCapacity += targetResource.Gather(5);
             gatherTimer = gatherInterval;
 
             if (targetResource.IsEmpty())
-                targetResource = null;
+            {
+                ResourceNode neighbuoringNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+
+                if (neighbuoringNode != null)
+                {
+                    TargetResource(neighbuoringNode);
+                }
+                else
+                {
+                    targetResource = null;
+                }    
+            }
         }
+    }
+
+    bool Store()
+    {
+        if (targetStore != null)
+        {
+            targetStore.Store(currentCapacity);
+            currentCapacity = 0;
+            return true;
+        }
+        return false;
     }
 }

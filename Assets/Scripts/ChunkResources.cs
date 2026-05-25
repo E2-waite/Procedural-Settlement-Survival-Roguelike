@@ -96,19 +96,21 @@ public class ChunkResources
             ResourceNode resource = resources[id];
 
             // Don't render if it's been gathered
-            if (resource.IsEmpty()) continue;
+            if (resource.IsEmpty())
+            {
+                continue;
+            }
 
-            if (lastObj == null)
-                lastObj = resource.resourceObj;
+            //if (lastObj == null)
+            //    lastObj = resource.resourceObj;
 
-            batchBuffer[batchCount++] = matrices[id];
-
-            if (resource.resourceType != lastObj.type || batchCount == MAX_BATCH)
+            if (lastObj != null && (resource.resourceType != lastObj.type || batchCount == MAX_BATCH))
             {
                 DrawBatch(batchCount, lastObj);
                 batchCount = 0;
             }
 
+            batchBuffer[batchCount++] = matrices[id];
             lastObj = resource.resourceObj;
         }
 

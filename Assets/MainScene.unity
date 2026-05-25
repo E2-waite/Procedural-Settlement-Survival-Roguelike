@@ -263,7 +263,8 @@ MonoBehaviour:
   followDist: 1.5
   workerState: 0
   currentCapacity: 0
-  maxCapacity: 100
+  maxCapacity: 5
+  targetStore: {fileID: 0}
 --- !u!1 &1360183771 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2188326325806694745, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
@@ -425,6 +426,10 @@ PrefabInstance:
     - target: {fileID: 3767616630019710532, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: chunkDistance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833945353354088802, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: maxSearchRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8971146122719184875, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: cam
