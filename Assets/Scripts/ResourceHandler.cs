@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ResourceHandler : MonoSingleton<ResourceHandler>
@@ -22,12 +23,25 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
     {
         GridTile tile = node.gridTile;
 
+        return ClosestNode(tile.position, node.type, sameType);
+    }
+
+    // Searches for the closest node to the passed store
+    public ResourceNode GetClosestNode(ResourceStore store, bool sameType = true)
+    {
+        Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
+
+        return ClosestNode(storePos, store.type, sameType);
+    }
+
+    ResourceNode ClosestNode(Vector2Int pos, ResourceNode.Type type, bool sameType)
+    {
         Queue<(Vector2Int pos, int distance)> queue = new();
 
         HashSet<Vector2Int> visited = new();
 
         // Add the first tile to the queue
-        queue.Enqueue((tile.position, 0));
+        queue.Enqueue((pos, 0));
 
         while (queue.Count > 0)
         {
@@ -38,15 +52,15 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
             ResourceNode currentNode = Grid.Instance.getTile(currentPos).GetResource();
             if (distance > 0 && currentNode != null && !currentNode.IsEmpty() &&
-                ((sameType && currentNode.type == node.type) || !sameType))
+                ((sameType && currentNode.type == type) || !sameType))
             {
                 // Return the current node if it exists and is not empty
                 return currentNode;
             }
 
-            foreach (Vector2Int pos in Directions)
+            foreach (Vector2Int dir in Directions)
             {
-                Vector2Int neighbour = currentPos + pos;
+                Vector2Int neighbour = currentPos + dir;
 
                 // Skip visited nodes
                 if (visited.Contains(neighbour)) continue;
@@ -65,5 +79,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
     public void StoreResource(ResourceNode.Type type, int count)
     {
         resourceCount[(int)type] += count;
+
+        ResourcesPanel.Instance.UpdateCount(type, resourceCount[(int)type]);
     }
 }

@@ -97,30 +97,31 @@ public class WorkerUnit : FollowerUnit
 
                     // TODO: move to next resource type if available
 
-                    if (targetResource != null && !targetResource.IsEmpty())
-                    {
-                        // Continue gathering current resource
-                        TargetResource(targetResource);
-                    }
-                    else if (targetResource != null)
-                    {
-                        // Find next resource
-                        ResourceNode neighbuoringNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+                    // Find closest resource to store
+                    ResourceNode nextNode = ResourceHandler.Instance.GetClosestNode(targetStore);
 
-                        if (neighbuoringNode != null)
-                        {
-                            TargetResource(neighbuoringNode);
-                        }
+                    if (nextNode == null && targetResource != null)
+                    {
+                        // If no resources in range of store, find closest node to current target resource
+                        if (targetResource.IsEmpty())
+                            nextNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
                         else
-                        {
-                            targetResource = null;
-                        }
+                            nextNode = targetResource;
+                    }
+
+                    if (nextNode != null)
+                    {
+                        TargetResource(nextNode);
+                    }
+                    else
+                    {
+                        targetResource = null;
                     }
                 }
             }
         }
 
-            return handled;
+        return handled;
     }
 
     public override void Command(GridTile tile)
@@ -261,7 +262,6 @@ public class WorkerUnit : FollowerUnit
     {
         if (targetStore != null)
         {
-            Debug.Log("SHOULD STORE");
             targetStore.Store(resourceCount[(int)targetStore.type]);
 
             resourceCount[(int)targetStore.type] = 0;

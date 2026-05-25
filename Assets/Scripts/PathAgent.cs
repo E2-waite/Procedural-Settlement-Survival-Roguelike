@@ -17,7 +17,6 @@ public class PathAgent : MonoBehaviour
 
     protected void RequestPath(Vector2Int start, Vector2Int target, Vector3 worldPos)
     {
-        Debug.Log("REQUESTING PATH");
         targetPos = worldPos;
 
         pathRequested = true;

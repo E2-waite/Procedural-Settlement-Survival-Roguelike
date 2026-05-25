@@ -46,7 +46,6 @@ public class ResourceNode
 
     public int Gather(int amount)
     {
-        Debug.Log("GATHERING RESOURCE");
         int gathered = 0;
         if (amount > numLeft)
         {
