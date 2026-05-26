@@ -23,7 +23,7 @@ public class Chunk : MonoBehaviour
     ChunkResources resources;
     private Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
-    public List<Unit> followers = new List<Unit>();
+    public List<FollowerUnit> followers = new List<FollowerUnit>();
     public List<EnemyUnit> enemies = new List<EnemyUnit>();
    public  List<Chunk> neighbouringChunks = new List<Chunk>();
 
@@ -85,8 +85,6 @@ public class Chunk : MonoBehaviour
 
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
-
-        // TODO: assign neighbouring chunks
 
         resources = new ChunkResources(this);
     }
@@ -253,5 +251,41 @@ public class Chunk : MonoBehaviour
         {
             return Color.darkGreen;
         }
+    }
+
+
+
+    public List<EnemyUnit> GetEnemies(bool includeSurrounding = true)
+    {
+        if (!includeSurrounding) return enemies;
+
+        List<EnemyUnit> enemyList = new List<EnemyUnit>(enemies);
+
+        if (includeSurrounding)
+        {
+            foreach (Chunk neighbour in neighbouringChunks)
+            {
+                enemyList.AddRange(neighbour.GetEnemies(false));
+            }
+        }
+
+        return enemyList;
+    }
+
+    public List<FollowerUnit> GetFollowers(bool includeSurrounding = true)
+    {
+        if (!includeSurrounding) return followers;
+
+        List<FollowerUnit> followerList = new List<FollowerUnit>(followers);
+
+        if (includeSurrounding)
+        {
+            foreach (Chunk neighbour in neighbouringChunks)
+            {
+                followerList.AddRange(neighbour.GetFollowers(false));
+            }
+        }
+
+        return followerList;
     }
 }

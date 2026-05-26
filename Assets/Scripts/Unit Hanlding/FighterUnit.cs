@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using static WorkerUnit;
 
 public class FighterUnit : FollowerUnit
 {
@@ -20,6 +20,7 @@ public class FighterUnit : FollowerUnit
     public float attackDist = 1f, attackDamage = 10f;
 
     float attackInterval = 0.5f, attackTimer = 0;
+    float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby enemies
 
     protected override void Start()
     {
@@ -60,7 +61,25 @@ public class FighterUnit : FollowerUnit
 
     protected override void Update()
     {
+        ScanForEnemies();
+
         base.Update();
+    }
+
+    void ScanForEnemies()
+    {
+        if (scanTimer > 0) scanTimer -= Time.deltaTime;
+
+        if (scanTimer <= 0)
+        {
+            scanTimer = scanInterval;
+
+            if (chunk != null)
+            {
+                List<EnemyUnit> nearbyEnemies = chunk.GetEnemies();
+                Debug.Log(name + ": " + nearbyEnemies.Count.ToString() + " enemies nearby");
+            }
+        }
     }
 
     protected override bool HandleStates()

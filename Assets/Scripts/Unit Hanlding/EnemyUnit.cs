@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static FighterUnit;
 using static UnityEditorInternal.VersionControl.ListControl;
@@ -17,6 +18,7 @@ public class EnemyUnit : Unit
     EnemyState lastState;
     public float attackDist = 1f, attackDamage = 10f;
     float attackInterval = 0.5f, attackTimer = 0;
+    float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
 
     Unit targetUnit;
 
@@ -67,10 +69,25 @@ public class EnemyUnit : Unit
 
     protected override void Update()
     {
+        ScanForFriendlies();
         base.Update();
     }
 
+    void ScanForFriendlies()
+    {
+        if (scanTimer > 0) scanTimer -= Time.deltaTime;
 
+        if (scanTimer <= 0)
+        {
+            scanTimer = scanInterval;
+
+            if (chunk != null)
+            {
+                List<FollowerUnit> nearbyFollowers = chunk.GetFollowers();
+                Debug.Log(name + ": " + nearbyFollowers.Count.ToString() + " followers nearby");
+            }
+        }
+    }
     protected override bool HandleStates()
     {
         if (attackTimer > 0) attackTimer -= Time.deltaTime;

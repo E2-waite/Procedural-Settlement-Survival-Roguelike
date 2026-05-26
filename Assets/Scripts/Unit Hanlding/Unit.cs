@@ -7,8 +7,8 @@ public class Unit : PathAgent
 {
     private Camera cam;
     public float currentHealth, maxHealth = 100;
-    Chunk currentChunk;
     public float chunkInterval = 1f, chunkTimer = 0f;
+    protected Chunk chunk;
 
     protected virtual void Start()
     {
@@ -42,9 +42,9 @@ public class Unit : PathAgent
 
     protected virtual void Die()
     {
-        if (currentChunk != null)
+        if (chunk != null)
         {
-            currentChunk.RemoveUnit(this);
+            chunk.RemoveUnit(this);
         }
         StartCoroutine(DeathRoutine());
     }
@@ -87,13 +87,13 @@ public class Unit : PathAgent
             chunkTimer = chunkInterval;
 
             Chunk newChunk = Grid.Instance.ChunkFromGridPos(GridPos());
-            if (newChunk != null && newChunk != currentChunk)
+            if (newChunk != null && newChunk != chunk)
             {
-                if (currentChunk != null) currentChunk.RemoveUnit(this);
+                if (chunk != null) chunk.RemoveUnit(this);
 
                 newChunk.AddUnit(this);
 
-                currentChunk = newChunk;
+                chunk = newChunk;
             }
         }
     }
