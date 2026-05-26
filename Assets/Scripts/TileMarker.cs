@@ -40,12 +40,17 @@ public class TileMarker : MonoBehaviour
     //    mesh.colors = colors;
     //}
 
-    public void HighlightTiles(Vector2Int highlightPos, Vector2Int selectSize)
+    public void HighlightTiles(Vector2Int highlightPos, Vector2Int selectSize, bool canAfford)
     {
         if (selectSize.x > maxSize.x) maxSize.x = selectSize.x;
         if (selectSize.y > maxSize.y) maxSize.y = selectSize.y;
 
         bool valid = true;
+
+        if (!canAfford)
+        {
+            valid = false;
+        }
 
         Vector2Int tilePos = new Vector2Int();
         for (int x = highlightPos.x; x < highlightPos.x + maxSize.x; x++)

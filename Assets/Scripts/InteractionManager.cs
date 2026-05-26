@@ -26,21 +26,25 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         CastRay();
         HandleClick();
 
-        if (Keyboard.current.eKey.wasReleasedThisFrame)
+        if (state == GameState.Build && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (state == GameState.Build)
-            {
-                state = GameState.Command;
-                BuildingHandler.Instance.SetEnabled(false);
-            }
-            else
-            {
-                state = GameState.Build;
-                BuildingHandler.Instance.SetEnabled(true);
-            }
+            SetState(GameState.Command);
         }
     }
 
+    public void SetState(GameState newState)
+    {
+        if (newState == GameState.Build)
+        {
+            BuildingHandler.Instance.SetEnabled(true);
+        }
+        else if (newState == GameState.Command)
+        {
+            BuildingHandler.Instance.SetEnabled(false);
+        }
+
+        state = newState;
+    }
     LayerMask GetLayerMask()
     {
         if (state == GameState.Build) return buildLayerMask;
@@ -78,6 +82,8 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         {
             if (state == GameState.Command)
                 UnitHandler.Instance.CommandUnits();
+            else if (state == GameState.Build)
+                SetState(GameState.Command);
         }
     }
 

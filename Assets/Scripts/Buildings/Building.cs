@@ -9,15 +9,10 @@ public class Building : MonoBehaviour
 
     public MeshRenderer rend;
 
-    public int[] resourceCost = new int[(int)ResourceNode.Type.Max];
-
-
     private void Start()
     {
         if (!Built())
             rend.material.color = Color.red;
-
-        resourceCost[(int)ResourceNode.Type.Wood] = 30;
     }
 
     public bool Built()

@@ -18,6 +18,26 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
         new Vector2Int(0, -1)
     };
 
+    private void Start()
+    {
+        resourceCount[0] = 25;
+        ResourcesPanel.Instance.UpdateCount(0, resourceCount[0]);
+
+    }
+
+    public int GetResourceCount(int type)
+    {
+        return resourceCount[type];
+    }
+
+    public void ConsumeResource(int type, int count)
+    {
+        resourceCount[type] -= count;
+
+        ResourcesPanel.Instance.UpdateCount((ResourceNode.Type)type, resourceCount[type]);
+
+    }
+
     // Searches for the closest neighbouring resource node
     public ResourceNode GetClosestNeighbour(ResourceNode node, bool sameType = true)
     {

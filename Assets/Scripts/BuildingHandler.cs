@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class BuildingHandler : MonoSingleton<BuildingHandler>
 {
     //public Vector2Int buildSize = new Vector2Int(1, 1);
 
     public TileMarker tileMarker;
-    public BuildingObject selectedBuilding = null;
+    BuildingObject selectedBuilding = null;
+
+    public List<BuildingObject> buildings = new List<BuildingObject>();
 
     GridTile currTile = null;
     Vector2Int gridPos = new Vector2Int(0, 0);
@@ -14,6 +18,20 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
 
     // Resource stores
     public List<ResourceStore>[] resourceStores = new List<ResourceStore>[(int)ResourceNode.Type.Max];
+
+    private void Start()
+    {
+        // Add building buttons to building menu
+        BuildPanel.Instance.UpdateDisplay(buildings);
+    }
+
+    public void SelectBuilding(int index)
+    {
+        if (index < buildings.Count) 
+            selectedBuilding = buildings[index];
+
+        InteractionManager.Instance.SetState(InteractionManager.GameState.Build);
+    }
 
     public void SetEnabled(bool enabled)
     {
@@ -36,7 +54,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
             {
                 currTile = hitTile;
                 hitTile.Hover(true);
-                tileMarker.HighlightTiles(gridPos, selectedBuilding.size);
+                tileMarker.HighlightTiles(gridPos, selectedBuilding.size, selectedBuilding != null && selectedBuilding.CanAfford());
                 tileMarker.transform.position = new Vector3(gridPos.x + 1.5f, 0, gridPos.y + 1.5f);
             }
         }
@@ -44,7 +62,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
 
     public void Build()
     {
-        if (CanBuild(gridPos, selectedBuilding.size))
+        if (CanBuild(gridPos, selectedBuilding.size) && selectedBuilding.CanAfford())
         {
             Vector2Int tilePos = new Vector2Int();
 
@@ -53,6 +71,8 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
             Building building = buildingObj.GetComponent<Building>();
 
             if (building == null) return;
+
+            selectedBuilding.ConsumeResources();
 
             // Add resource store to its appropriate list (based on type)
             if (building is ResourceStore)
@@ -81,7 +101,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
                 }
             }
 
-            tileMarker.HighlightTiles(gridPos, selectedBuilding.size);
+            tileMarker.HighlightTiles(gridPos, selectedBuilding.size, selectedBuilding != null && selectedBuilding.CanAfford());
         }
     }
 
@@ -131,4 +151,27 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
 
         return store;
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Refresh Building List")]
+    public void RefreshBuildings()
+    {
+
+        string buildingsPath = "Assets/Buildings/Objects";
+
+        buildings.Clear();
+        string[] guids = AssetDatabase.FindAssets("t:BuildingObject", new[] { buildingsPath });
+
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            BuildingObject obj = AssetDatabase.LoadAssetAtPath<BuildingObject>(path);
+
+            if (obj != null)
+                buildings.Add(obj);
+        }
+
+
+    }
+#endif
 }
