@@ -26,7 +26,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         CastRay();
         HandleClick();
 
-        if (state == GameState.Build && Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (state == GameState.Build && (Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.rKey.wasPressedThisFrame))
         {
             SetState(GameState.Command);
         }
