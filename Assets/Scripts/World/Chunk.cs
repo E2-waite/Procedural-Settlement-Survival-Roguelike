@@ -23,10 +23,21 @@ public class Chunk : MonoBehaviour
     ChunkResources resources;
     private Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
+    public List<Unit> followers = new List<Unit>();
+    public List<EnemyUnit> enemies = new List<EnemyUnit>();
+   public  List<Chunk> neighbouringChunks = new List<Chunk>();
+
+    public void AddNeighbour(Chunk chunk)
+    {
+        if (!neighbouringChunks.Contains(chunk))
+        {
+            neighbouringChunks.Add(chunk);
+        }
+    }
+
     // Generate this chunk's mesh 
     public void Generate(Grid theGrid, Vector2Int pos, int chunkSize, float noiseScale)
     {
-
         size = chunkSize;
         position = pos;
 
@@ -75,7 +86,41 @@ public class Chunk : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
+        // TODO: assign neighbouring chunks
+
         resources = new ChunkResources(this);
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        if (unit is FollowerUnit)
+        {
+            FollowerUnit follower = (FollowerUnit)unit;
+            if (!followers.Contains(follower))
+                followers.Add(follower);
+        }
+        else if (unit is EnemyUnit)
+        {
+            EnemyUnit enemy = (EnemyUnit)unit;
+            if (!enemies.Contains(enemy))
+                enemies.Add(enemy);
+        }
+    }
+
+    public void RemoveUnit(Unit unit)
+    {
+        if (unit is FollowerUnit)
+        {
+            FollowerUnit follower = (FollowerUnit)unit;
+            if (followers.Contains(follower))
+                followers.Remove(follower);
+        }
+        else if (unit is EnemyUnit)
+        {
+            EnemyUnit enemy = (EnemyUnit)unit;
+            if (enemies.Contains(enemy))
+                enemies.Remove(enemy);
+        }
     }
 
     private void Update()

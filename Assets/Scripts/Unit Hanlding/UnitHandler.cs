@@ -8,11 +8,50 @@ public class UnitHandler : MonoSingleton<UnitHandler>
     public Unit hoveringUnit = null;
     public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
 
+    public List<FighterUnit> fighters = new List<FighterUnit>();
+    public List<WorkerUnit> workers = new List<WorkerUnit>();
 
-    public void SetFollowing(List<FollowerUnit> following)
+    public void AddUnit(Unit unit)
     {
-        followingUnits = new List<FollowerUnit>(following);
-    }    
+        if (unit is FighterUnit)
+        {
+            FighterUnit fighter = (FighterUnit)unit;
+            if (!fighters.Contains(fighter))
+            {
+                fighters.Add(fighter);
+            }
+        }
+        else if (unit is WorkerUnit)
+        {
+            WorkerUnit worker = (WorkerUnit)unit;
+            if (!workers.Contains(worker))
+            {
+                workers.Add(worker);
+            }
+        }
+
+    }
+
+    public void RemoveUnit(Unit unit)
+    {
+        if (unit is FighterUnit)
+        {
+            FighterUnit fighter = (FighterUnit)unit;
+            if (fighters.Contains(fighter))
+            {
+                fighters.Remove(fighter);
+            }
+        }
+        else if (unit is WorkerUnit)
+        {
+            WorkerUnit worker = (WorkerUnit)unit;
+            if (workers.Contains(worker))
+            {
+                workers.Remove(worker);
+            }
+        }
+    }
+
 
     public void Hover(RaycastHit hit)
     {
@@ -33,6 +72,11 @@ public class UnitHandler : MonoSingleton<UnitHandler>
             hoveringTile = Grid.Instance.getTile(hit.point);
             hoveringUnit = null;
         }
+    }
+
+    public void SetFollowing(List<FollowerUnit> following)
+    {
+        followingUnits = new List<FollowerUnit>(following);
     }
 
     public void CommandUnits()

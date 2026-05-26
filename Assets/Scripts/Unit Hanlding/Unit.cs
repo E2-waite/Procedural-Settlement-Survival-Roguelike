@@ -7,6 +7,9 @@ public class Unit : PathAgent
 {
     private Camera cam;
     public float currentHealth, maxHealth = 100;
+    Chunk currentChunk;
+    public float chunkInterval = 1f, chunkTimer = 0f;
+
     protected virtual void Start()
     {
         // Face the camera
@@ -16,6 +19,8 @@ public class Unit : PathAgent
         transform.rotation = Quaternion.LookRotation(forward);
 
         currentHealth = maxHealth;
+
+        //currentChunk = Grid.Instance.ChunkFromGridPos(GridPos());
     }
 
     // Returns true if target is dead
@@ -23,16 +28,25 @@ public class Unit : PathAgent
     {
         if (currentHealth <= 0) return true; // Already dead
 
-        Debug.Log(name + " hit by " + source.name + "(" + damage + "dmg)");
+        Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
 
         currentHealth -= damage;
 
         if (currentHealth <= 0)
         {
-            StartCoroutine(DeathRoutine());
+            Die();
             return true;
         }
         return false;
+    }
+
+    protected virtual void Die()
+    {
+        if (currentChunk != null)
+        {
+            currentChunk.RemoveUnit(this);
+        }
+        StartCoroutine(DeathRoutine());
     }
 
     IEnumerator DeathRoutine()
@@ -41,6 +55,8 @@ public class Unit : PathAgent
         Debug.Log(name + " should die");
         Destroy(gameObject);
     }
+
+    // TODO: handle targetting targets in range
 
     protected virtual void SetState(int newState)
     {
@@ -60,6 +76,26 @@ public class Unit : PathAgent
     protected virtual void Update()
     {
         HandleStates();
+
+        UpdateChunk();
+    }
+
+    void UpdateChunk()
+    {
+        if (chunkTimer <= 0)
+        {
+            chunkTimer = chunkInterval;
+
+            Chunk newChunk = Grid.Instance.ChunkFromGridPos(GridPos());
+            if (newChunk != null && newChunk != currentChunk)
+            {
+                if (currentChunk != null) currentChunk.RemoveUnit(this);
+
+                newChunk.AddUnit(this);
+
+                currentChunk = newChunk;
+            }
+        }
     }
 
     protected virtual bool HandleStates()

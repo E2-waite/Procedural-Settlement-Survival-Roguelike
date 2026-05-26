@@ -25,6 +25,14 @@ public class EnemyUnit : Unit
         base.Start();
         state = EnemyState.Idle;
         lastState = EnemyState.Idle;
+
+        EnemyHandler.Instance.AddEnemy(this);
+    }
+
+    protected override void Die()
+    {
+        EnemyHandler.Instance.RemoveEnemy(this);
+        base.Die();
     }
 
     protected override int GetState()
@@ -50,7 +58,7 @@ public class EnemyUnit : Unit
 
         if (source is FighterUnit)
         {
-            // 
+            // Targets the unit that hit this enemy
             TargetUnit(source);
         }
 

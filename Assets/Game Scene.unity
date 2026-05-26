@@ -393,6 +393,10 @@ MonoBehaviour:
   moveSpeed: 4.5
   reachedThresh: 0.05
   currentPath: []
+  currentHealth: 0
+  maxHealth: 100
+  chunkInterval: 1
+  chunkTimer: 0
   followDist: 1.5
   state: 0
   maxCapacity: 100
@@ -511,13 +515,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2214493174657560647, guid: 0c6d79380fddf544bb94eddf21b202ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4340890009949230984, guid: 0c6d79380fddf544bb94eddf21b202ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.85776
       objectReference: {fileID: 0}
     - target: {fileID: 4340890009949230984, guid: 0c6d79380fddf544bb94eddf21b202ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4340890009949230984, guid: 0c6d79380fddf544bb94eddf21b202ea, type: 3}
       propertyPath: m_LocalPosition.z

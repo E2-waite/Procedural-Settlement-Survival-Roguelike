@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Grid : MonoSingleton<Grid>
 {
@@ -47,7 +49,17 @@ public class Grid : MonoSingleton<Grid>
                 chunk.Generate(this, chunkPos, chunkSize, noiseScale);
                 chunkObj.transform.parent = transform;
                 chunkGrid[chunkPos] = chunk;
-                
+                chunk.name = "Chunk: " + chunkPos.ToString();
+            }
+        }
+
+
+        for (int x = -1; x < 1; x++)
+        {
+            for (int y = -1; y < 1; y++)
+            {
+                Vector2Int chunkPos = new Vector2Int(x, y);
+                UpdateChunkNeighbours(chunkGrid[chunkPos]);
             }
         }
     }
@@ -107,10 +119,29 @@ public class Grid : MonoSingleton<Grid>
             chunkObj.transform.parent = transform;
             chunk = chunkObj.GetComponent<Chunk>();
             chunk.Generate(this, pos, chunkSize, noiseScale);
+            chunk.name = "Chunk: " + pos.ToString();
             chunkGrid[pos] = chunk;
+            UpdateChunkNeighbours(chunk);
         }
 
         return chunk;
+    }
+
+
+    // Updates chunk's neighbours
+    void UpdateChunkNeighbours(Chunk chunk)
+    {
+        for (int i = 0; i < Consts.ALL_NEIGHBOURS.Length; i++)
+        {
+            Vector2Int neighbourPos = chunk.position + Consts.ALL_NEIGHBOURS[i];
+
+            if (chunkGrid.ContainsKey(neighbourPos))
+            {
+                Chunk neighbour = chunkGrid[neighbourPos];
+                neighbour.AddNeighbour(chunk);
+                chunk.AddNeighbour(neighbour);
+            }
+        }
     }
 
     public void setTile(Vector2Int pos, GridTile tile)
@@ -159,5 +190,19 @@ public class Grid : MonoSingleton<Grid>
         }
 
         return neighbours;
+    }
+
+    public Chunk ChunkFromGridPos(Vector2Int pos)
+    {
+        Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / chunkSize), Mathf.FloorToInt((float)pos.y / chunkSize));
+
+        Debug.Log("Getting chunk at " + chunkPos);
+
+
+        if (chunkGrid.ContainsKey(chunkPos))
+        {
+            return chunkGrid[chunkPos];
+        }
+        return null;
     }
 }

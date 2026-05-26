@@ -52,6 +52,7 @@ public class FighterUnit : FollowerUnit
         if (source is EnemyUnit)
         {
             // Update target?
+            TargetEnemy((EnemyUnit)source);
         }
 
         return false;

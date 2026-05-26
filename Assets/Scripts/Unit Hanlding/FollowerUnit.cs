@@ -12,6 +12,18 @@ public class FollowerUnit : Unit
     public float followDist = 1.5f;
     PlayerController player;
 
+    protected override void Start()
+    {
+        base.Start();
+
+        UnitHandler.Instance.AddUnit(this);
+    }
+
+    protected override void Die()
+    {
+        UnitHandler.Instance.RemoveUnit(this);
+        base.Die();
+    }
 
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(PlayerController thePlayer)

@@ -56,8 +56,6 @@ public class WorkerUnit : FollowerUnit
         base.Update();
     }
 
-
-
     protected override bool HandleStates()
     {
         if (interactTimer > 0) interactTimer -= Time.deltaTime;
