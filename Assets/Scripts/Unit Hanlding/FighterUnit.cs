@@ -17,6 +17,10 @@ public class FighterUnit : FollowerUnit
 
     EnemyUnit targetEnemy;
 
+    public float attackDist = 1f, attackDamage = 10f;
+
+    float attackInterval = 0.5f, attackTimer = 0;
+
     protected override void Start()
     {
         base.Start();
@@ -41,6 +45,18 @@ public class FighterUnit : FollowerUnit
         state = newState;
     }
 
+    public override bool Hit(float damage, Unit source)
+    {
+        if (base.Hit(damage, source)) return true;
+
+        if (source is EnemyUnit)
+        {
+            // Update target?
+        }
+
+        return false;
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -48,6 +64,8 @@ public class FighterUnit : FollowerUnit
 
     protected override bool HandleStates()
     {
+        if (attackTimer > 0) attackTimer -= Time.deltaTime;
+
         bool handled = base.HandleStates();
         if (handled) return true;
 
@@ -57,13 +75,22 @@ public class FighterUnit : FollowerUnit
             {
                 // Chase the enemy, or attack in range
 
-                Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(targetEnemy.transform.position.x), Mathf.FloorToInt(targetEnemy.transform.position.z));
+                Vector2Int enemyPos = new Vector2Int(Mathf.FloorToInt(targetEnemy.transform.position.x), Mathf.FloorToInt(targetEnemy.transform.position.z));
+                float dist = Vector3.Distance(transform.position, targetEnemy.transform.position);
 
-                if (!pathRequested && (currentPath == null || currentPath.Count == 0) && Vector3.Distance(transform.position, targetEnemy.transform.position) > followDist)
+                if (dist <= attackDist)
+                {
+                    if (attackTimer <= 0)
+                    {
+                        // Gather if in range and timer has finished
+                        Attack();
+                    }
+                }    
+                else if (!pathRequested && (currentPath == null || currentPath.Count == 0))
                 {
                     Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
-                    RequestPath(currentPos, playerPos, targetEnemy.transform.position);
+                    RequestPath(currentPos, enemyPos, targetEnemy.transform.position);
                 }
             }
 
@@ -88,8 +115,6 @@ public class FighterUnit : FollowerUnit
     // Command to interact with unit
     public override void Command(Unit unit)
     {
-        Debug.Log("Commanding to: " + unit.ToString());
-
         if (unit == null || unit == this) return;
 
         if (unit is EnemyUnit)
@@ -100,8 +125,6 @@ public class FighterUnit : FollowerUnit
 
     void TargetEnemy(EnemyUnit enemy)
     {
-        Debug.Log("Should target enemy");
-
         targetEnemy = enemy;
 
         SetState(FighterState.Fighting);
@@ -109,7 +132,15 @@ public class FighterUnit : FollowerUnit
         Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.z));
 
         RequestPath(GridPos(), playerPos, enemy.transform.position);
+    }
 
+    void Attack()
+    {
+        if (targetEnemy != null)
+        {
+            attackTimer = attackInterval;
 
+            targetEnemy.Hit(attackDamage, this);
+        }
     }
 }

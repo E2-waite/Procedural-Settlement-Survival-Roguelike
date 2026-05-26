@@ -60,10 +60,10 @@ public class WorkerUnit : FollowerUnit
 
     protected override bool HandleStates()
     {
+        if (interactTimer > 0) interactTimer -= Time.deltaTime;
+
         bool handled = base.HandleStates();
         if (handled) return true;
-
-        if (interactTimer > 0) interactTimer -= Time.deltaTime;
 
         if (state == WorkerState.Gathering)
         {
