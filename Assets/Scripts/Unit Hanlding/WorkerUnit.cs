@@ -13,7 +13,8 @@ public class WorkerUnit : FollowerUnit
         Building
     }
 
-    public WorkerState workerState;
+    public WorkerState state;
+    WorkerState lastState;
 
     public int maxCapacity = 100;
     public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
@@ -28,35 +29,47 @@ public class WorkerUnit : FollowerUnit
     protected override void Start()
     {
         base.Start();
-        workerState = WorkerState.Idle;
+        state = WorkerState.Idle;
+        lastState = WorkerState.Idle;
     }
 
     protected override int GetState()
     {
-        return (int)workerState;
+        return (int)state;
     }
+
+    protected override void SetState(int newState)
+    {
+        lastState = state;
+        state = (WorkerState)newState;
+    }
+
+    void SetState(WorkerState newState)
+    {
+        lastState = state;
+        state = newState;
+    }
+
 
     protected override void Update()
     {
         base.Update();
     }
 
+
+
     protected override bool HandleStates()
     {
-        bool handled = false;
+        bool handled = base.HandleStates();
+        if (handled) return true;
 
         if (interactTimer > 0) interactTimer -= Time.deltaTime;
 
-        if (workerState == WorkerState.Moving)
-        {
-            FollowPath();
-            handled = true;
-        }
-        else if (workerState == WorkerState.Gathering)
+        if (state == WorkerState.Gathering)
         {
             if (targetResource == null)
             {
-                workerState = WorkerState.Idle;
+                SetState(WorkerState.Idle);
             }
             else
             {
@@ -78,11 +91,11 @@ public class WorkerUnit : FollowerUnit
             }
             handled = true;
         }
-        else if (workerState == WorkerState.Storing)
+        else if (state == WorkerState.Storing)
         {
             if (targetStore == null)
             {
-                workerState = WorkerState.Idle;
+                SetState(WorkerState.Idle);
             }
             else
             {
@@ -97,7 +110,7 @@ public class WorkerUnit : FollowerUnit
                 {
                     Store(); // Store resources if in range
 
-                    // TODO: move to next resource type if available
+                    // TODO: move to storeing next resource type if available
 
                     // Find closest resource to store
                     ResourceNode nextNode = ResourceHandler.Instance.GetClosestNode(targetStore);
@@ -118,11 +131,11 @@ public class WorkerUnit : FollowerUnit
                     else
                     {
                         targetResource = null;
-                    }
+                    } 
                 }
             }
         }
-        else if (workerState == WorkerState.Building)
+        else if (state == WorkerState.Building)
         {
             float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
 
@@ -139,7 +152,7 @@ public class WorkerUnit : FollowerUnit
                     if (Build())
                     {
                         targetBuilding = null;
-                        workerState = WorkerState.Idle;
+                        SetState(WorkerState.Idle);
                     }
                 }
             }
@@ -152,69 +165,39 @@ public class WorkerUnit : FollowerUnit
     {
         if (tile == null) return;
 
-        if (tile.HasResource())
-        {
-             // Command to gather if tile has resource
-            ResourceNode resource = tile.GetResource();
+        bool handled = false;
 
-            TargetResource(resource);
-        }
-        else if (tile.HasBuilding())
+        if (tile.HasBuilding())
         {
             // Interact with building if tile has one
             Building building = tile.GetBuilding();
 
-
-
-
-            // If building is broken, repair
             if (!building.Built())
             {
+                // If building isn't built, repair/build
                 TargetBuilding(building);
             }
             else
             {
+                // If building IS built, interact
                 if (building is ResourceStore)
                 {
-                    ResourceStore store = (ResourceStore)building;
-
-                    if (store != null && CurrentCapacity() > 0)
-                    {
-                        TargetStore(store);
-                        targetResource = null; // Don't return to gathering if we've commanded to store
-                    }
+                    TargetStore((ResourceStore)building);
                 }
             }
 
-            // If building hasn't finished building, build
-
-            // If building is repaired and built, interact
-
+            handled = true;
         }
-        else
-        {
-            // Move to tile if empty
-            Debug.Log("Commanding to move!");
-            pathRequested = false;
-            currentPath.Clear();
-            workerState = WorkerState.Moving;
 
-
-            RequestPath(GridPos(), tile.position, tile.worldPosition);
-        }
-    }
-
-    Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
+        if (!handled)
+            base.Command(tile);
     }
 
     public override void StartFollowing(PlayerController thePlayer)
     {
         base.StartFollowing(thePlayer);
 
-        workerState = WorkerState.Following;
+        SetState(WorkerState.Following);
     }
 
     void TargetResource(ResourceNode resource)
@@ -222,7 +205,7 @@ public class WorkerUnit : FollowerUnit
         if (resource != null && !resource.IsEmpty())
         {
             targetResource = resource;
-            workerState = WorkerState.Gathering;
+            SetState(WorkerState.Gathering);
 
             RequestPath(GridPos(), resource.gridTile.position, resource.worldPosition);
         }
@@ -232,12 +215,24 @@ public class WorkerUnit : FollowerUnit
     {
         if (store != null)
         {
-            targetStore = store;
-            workerState = WorkerState.Storing;
+            if (resourceCount[(int)store.type] > 0)
+            {
+                // Store resources if have some
+                targetStore = store;
+                SetState(WorkerState.Storing);
 
-            Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
+                Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
-            RequestPath(GridPos(), storePos, store.transform.position);
+                RequestPath(GridPos(), storePos, store.transform.position);
+                targetResource = null; // Don't return to gathering if we've commanded to store
+            }
+            else
+            {
+                // If we don't have resources, just start gathering closest nodes
+                ResourceNode closestResource = ResourceHandler.Instance.GetClosestNode(store);
+
+                TargetResource(closestResource);
+            }
         }
     }
 
@@ -246,7 +241,7 @@ public class WorkerUnit : FollowerUnit
         if (building != null)
         {
             targetBuilding = building;
-            workerState = WorkerState.Building;
+            SetState(WorkerState.Building);
 
             Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
@@ -291,7 +286,7 @@ public class WorkerUnit : FollowerUnit
             ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
-                workerState = WorkerState.Idle;
+                SetState(WorkerState.Idle);
             }
             if (closestStore != null)
             {

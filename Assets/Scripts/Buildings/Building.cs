@@ -35,7 +35,6 @@ public class Building : MonoBehaviour
                 broken = false;
             }
             rend.material.color = Color.green;
-            Debug.Log("FINISHED BUILDING");
 
             return true;
         }

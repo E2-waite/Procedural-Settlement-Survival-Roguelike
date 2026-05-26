@@ -1,50 +1,61 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Pathfinding;
 using static UnityEngine.GraphicsBuffer;
+using static WorkerUnit;
 
-public class FollowerUnit : PathAgent
+public class FollowerUnit : Unit
 {
     public float followDist = 1.5f;
     PlayerController player;
-    private Camera cam;
-    protected virtual void Start()
-    {
-        // Face the camera
-        cam = Camera.main;
-        Vector3 forward = cam.transform.forward;
-        forward.Normalize();
-        transform.rotation = Quaternion.LookRotation(forward);
-    }
+
 
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(PlayerController thePlayer)
     {
         player = thePlayer;
 
-        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-        Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+        SetState(Consts.FOLLOWING_STATE);
 
-        RequestPath(currentPos, playerPos, player.transform.position);
+        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
+
+        RequestPath(GridPos(), playerPos, player.transform.position);
     }
 
     public virtual void Command(GridTile tile)
     {
+        // Move to tile if empty
+        pathRequested = false;
+        currentPath.Clear();
+        SetState(Consts.MOVING_STATE);
 
+        RequestPath(GridPos(), tile.position, tile.worldPosition);
     }
 
-    protected virtual int GetState()
+    public virtual void Command(Unit unit)
     {
-        return 0;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
-        HandleStates();
+        base.Update();
+    }
 
-        if (GetState() == Consts.FOLLOWING_STATE)
+
+    protected override bool HandleStates()
+    {
+        bool handled = false;
+
+        int state = GetState();
+        if (state == Consts.MOVING_STATE)
+        {
+            FollowPath();
+            handled = true;
+        }
+        else if (GetState() == Consts.FOLLOWING_STATE)
         {
             // Continuously update path if following player
             if (player != null)
@@ -60,11 +71,10 @@ public class FollowerUnit : PathAgent
             }
 
             FollowPath();
-        }
-    }
 
-    protected virtual bool HandleStates()
-    {
-        return false;
+            handled = true;
+        }
+        
+        return handled;
     }
 }

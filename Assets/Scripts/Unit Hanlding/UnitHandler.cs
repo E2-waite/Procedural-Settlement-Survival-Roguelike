@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public class UnitHandler : MonoSingleton<UnitHandler>
 {
     public GridTile hoveringTile = null;
+    public Unit hoveringUnit = null;
     public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
+
 
     public void SetFollowing(List<FollowerUnit> following)
     {
@@ -19,16 +21,30 @@ public class UnitHandler : MonoSingleton<UnitHandler>
             return;
         }
 
-        hoveringTile = Grid.Instance.getTile(hit.point);
+        // If hovering over tile
+        // Else if hovering over unit
+        if (hit.transform.CompareTag("Unit"))
+        {
+            hoveringUnit = hit.transform.GetComponent<Unit>();
+            hoveringTile = null;
+        }
+        else
+        {
+            hoveringTile = Grid.Instance.getTile(hit.point);
+            hoveringUnit = null;
+        }
     }
 
     public void CommandUnits()
     {
-        if (hoveringTile != null)
+        if (hoveringTile != null || hoveringUnit != null)
         {
             for (int i = 0; i < followingUnits.Count; i++)
             {
-                followingUnits[i].Command(hoveringTile);
+                if (hoveringTile != null)
+                    followingUnits[i].Command(hoveringTile);
+                else if (hoveringUnit != null)
+                    followingUnits[i].Command(hoveringUnit);
             }
         }
     }

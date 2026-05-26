@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 5314474919162683455}
   - component: {fileID: 5730783855735072610}
   - component: {fileID: 781593957845857580}
-  - component: {fileID: 3937531338662641826}
   - component: {fileID: 1978357376971131164}
   - component: {fileID: 7372397876177005944}
+  - component: {fileID: 5222712973150957121}
   m_Layer: 7
-  m_Name: Unit
-  m_TagString: Untagged
+  m_Name: Enemy
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32b8abef671979d4794f206141935757, type: 2}
+  - {fileID: 2100000, guid: 76a71c242a15aad489f35a2701d825ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,19 +112,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3937531338662641826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2214493174657560647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7525f70afe4cf754fba7fa49f0561d70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
 --- !u!54 &1978357376971131164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -173,3 +160,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5222712973150957121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214493174657560647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0900005cd9762408cea0e1b0ad9c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  reachedThresh: 0.05
+  currentPath: []
