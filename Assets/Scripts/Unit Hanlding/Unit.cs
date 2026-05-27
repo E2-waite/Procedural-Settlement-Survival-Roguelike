@@ -2,22 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyUnit;
+using static FighterUnit;
 using static UnityEditorInternal.VersionControl.ListControl;
+using static UnityEngine.GraphicsBuffer;
 using static WorkerUnit;
 
 public class Unit : PathAgent
 {
+    public enum State
+    {
+        Idle,
+        Moving,
+        Following,
+        Fighting,
+        Gathering,
+        Storing,
+        Building
+    }
+
+    public State state, lastState;
+
     private Camera cam;
     public float currentHealth, maxHealth = 100;
     public float chunkInterval = 1f, chunkTimer = 0f;
+
+    public UnitCombat combat;
+
     protected Chunk chunk;
 
-    public float attackDist = 1f, attackDamage = 10f;
-    public bool combatUnit = false;
-    protected float attackInterval = 0.5f, attackTimer = 0;
-
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
-    protected Unit targetUnit;
     protected List<Unit> nearbyUnits;
 
 
@@ -30,72 +43,35 @@ public class Unit : PathAgent
         transform.rotation = Quaternion.LookRotation(forward);
 
         currentHealth = maxHealth;
-    }
 
-    // Returns true if target is dead
-    public virtual bool Hit(float damage, Unit source)
-    {
-        if (currentHealth <= 0) return true; // Already dead
-
-        Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
-
-        currentHealth -= damage;
-
-        if (currentHealth <= 0)
-        {
-            Die();
-            return true;
-        }
-        return false;
-    }
-
-    protected virtual void Die()
-    {
-        if (chunk != null)
-        {
-            chunk.RemoveUnit(this);
-        }
-        StartCoroutine(DeathRoutine());
-    }
-
-    IEnumerator DeathRoutine()
-    {
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log(name + " should die");
-        Destroy(gameObject);
-    }
-
-    protected virtual void SetState(int newState)
-    {
-    }
-
-    protected virtual int GetState()
-    {
-        return 0;
-    }
-
-    protected Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
+        state = State.Idle;
+        lastState = State.Idle;
     }
 
     protected virtual void Update()
     {
         if (currentHealth <= 0) return; // Dead
 
-        HandleStates();
+        StateHandling();
 
         UpdateChunk();
 
-        if (combatUnit)
+        if (combat != null)
         {
-            Unit nearbyUnit = ScanForUnits();
-            //if (nearbyUnit != null)
-            //{
-            //    TargetUnit(nearbyUnit);
-            //}
+            combat.Update();
         }
+
+        //if (combatUnit)
+        //{
+        //    Unit nearbyUnit = ScanForUnits();
+        //}
+    }
+
+    // Converts world position to grid position
+    public Vector2Int GridPos()
+    {
+        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -117,43 +93,168 @@ public class Unit : PathAgent
         }
     }
 
-    protected virtual bool HandleStates()
+    #region StateHandling
+
+    // Generic SetState function for setting units' state to generic state (idle, moving, following and attacking)
+    protected virtual void SetState(State newState)
     {
-        if (attackTimer > 0) attackTimer -= Time.deltaTime;
+        lastState = state;
+        state = newState;
+    }
 
-        bool handled = false;
 
-        if (GetState() == Consts.ATTACKING_STATE)
+    // Generic GetState function for getting units' state as an int
+    protected virtual State GetState()
+    {
+        return state;
+    }
+
+    void StateHandling()
+    {
+        switch(state)
         {
-            if (targetUnit != null)
+            case State.Idle:
+                IdleState(); break;
+
+            case State.Moving:
+                MoveState(); break;
+
+            case State.Following:
+                FollowState(); break;
+
+            case State.Fighting:
+                FightState(); break;
+
+            case State.Gathering:
+                GatherState(); break;
+
+            case State.Storing:
+                StoreState(); break;
+
+            case State.Building:
+                BuildState(); break;
+        }
+    }
+
+    protected virtual void IdleState()
+    {
+        // Do nothing
+    }
+
+    protected virtual void MoveState()
+    {
+
+    }
+
+    protected virtual void FollowState()
+    {
+
+    }
+
+    protected virtual void FightState()
+    {
+        if (combat != null)
+        {
+            // Chase the target, or attack in range
+            if (combat.HasTarget())
             {
-                // Chase the target, or attack in range
-                Vector2Int enemyPos = new Vector2Int(Mathf.FloorToInt(targetUnit.transform.position.x), Mathf.FloorToInt(targetUnit.transform.position.z));
-                float dist = Vector3.Distance(transform.position, targetUnit.transform.position);
-
-                if (dist <= attackDist)
+                if (combat.InRange())
                 {
-                    if (attackTimer <= 0)
-                    {
-                        // Attack if in range and timer has finished
-                        Attack();
-                    }
+                    combat.AttackTarget();
                 }
-                else if (!pathRequested && (currentPath == null || currentPath.Count == 0))
+                else
                 {
-                    Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
-                    RequestPath(currentPos, enemyPos, targetUnit.transform.position);
+                    if (!pathRequested && (currentPath == null || currentPath.Count == 0))
+                    {
+                        RequestPath(GridPos(), combat.TargetPos(), combat.target.transform.position);
+                    }
+                    FollowPath();
                 }
             }
+            else
+            {
+                SetState(State.Idle);
+            }
+        }
+    }
 
-            FollowPath();
+    protected virtual void GatherState()
+    {
 
-            handled = true;
+    }
+
+    protected virtual void StoreState()
+    {
+
+    }
+
+    protected virtual void BuildState()
+    {
+
+    }
+
+    #endregion
+
+    #region HitHandling
+
+    // Handles receiving hits from another unit. Returns true if target is dead
+    public virtual bool Hit(float damage, Unit source)
+    {
+        if (currentHealth <= 0) return true; // Already dead
+
+        Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+            return true;
+        }
+        return false;
+    }
+
+    // Handle death
+    protected virtual void Die()
+    {
+        if (chunk != null)
+        {
+            chunk.RemoveUnit(this);
+        }
+        StartCoroutine(DeathRoutine());
+    }
+
+    // Delayed death
+    IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log(name + " should die");
+        Destroy(gameObject);
+    }
+
+    #endregion
+
+    #region TargetHandling
+
+    // Targets the passed unit and sets state to attacking
+    protected virtual void TargetUnit(Unit unit)
+    {
+        if (combat != null && unit != null)
+        {
+            combat.SetTarget(unit);
+
+            SetState(State.Fighting);
+
+            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(unit.transform.position.x), Mathf.FloorToInt(unit.transform.position.z));
+
+            RequestPath(GridPos(), combat.TargetPos(), unit.transform.position);
         }
 
-        return handled;
+
     }
+    #endregion
+
+    #region CombatHandling
 
     // Gets all nearby units (in the chunk area) - Fighters get enemies, Enemies get followers
     protected virtual List<Unit> GetNearbyUnits()
@@ -196,34 +297,29 @@ public class Unit : PathAgent
         return closestUnit;
     }
 
-    // Targets the passed unit and sets state to attacking
-    protected virtual void TargetUnit(Unit unit)
-    {
-        targetUnit = unit;
-
-        SetState(Consts.ATTACKING_STATE);
-
-        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(unit.transform.position.x), Mathf.FloorToInt(unit.transform.position.z));
-
-        RequestPath(GridPos(), playerPos, unit.transform.position);
-    }
-
     // Attacks the target unit
-    protected virtual void Attack()
-    {
-        if (targetUnit != null)
-        {
-            attackTimer = attackInterval;
+    //protected virtual void Attack()
+    //{
+    //    if (targetUnit != null)
+    //    {
+    //        attackTimer = attackInterval;
 
-            if (targetUnit.Hit(attackDamage, this))
-            {
-                Unit nearbyUnit = ScanForUnits(true);
+    //        if (targetUnit.Hit(attackDamage, this))
+    //        {
+    //            Unit nearbyUnit = ScanForUnits(true);
 
-                if (nearbyUnit != null)
-                {
-                    TargetUnit(nearbyUnit);
-                }
-            }
-        }
-    }
+    //            if (nearbyUnit == null)
+    //            {
+    //                // Become idle if no nearby valid units
+    //                SetState(Consts.IDLE_STATE);
+    //            }
+    //            else
+    //            {
+    //                // Target unit if nearby unit was found
+    //                TargetUnit(nearbyUnit);
+    //            }
+    //        }
+    //    }
+    //}
+    #endregion
 }

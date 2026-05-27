@@ -19,31 +19,54 @@ public class FollowerUnit : Unit
         UnitHandler.Instance.AddUnit(this);
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    #region States
+    protected override void MoveState()
+    {
+        FollowPath();
+    }
+
+    // Follow player
+    protected override void FollowState()
+    {
+        // Continuously update path if following player
+        if (player != null)
+        {
+            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
+
+            if (!pathRequested && (currentPath == null || currentPath.Count == 0) && Vector3.Distance(transform.position, player.transform.position) > followDist)
+            {
+                Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+
+                RequestPath(currentPos, playerPos, player.transform.position);
+            }
+        }
+
+        FollowPath();
+    }
+    #endregion
+    #region HitHandling
+
     protected override void Die()
     {
         UnitHandler.Instance.RemoveUnit(this);
         base.Die();
     }
 
-    // Set state to following, set target player, and request a path
-    public virtual void StartFollowing(PlayerController thePlayer)
-    {
-        player = thePlayer;
+    #endregion
 
-        SetState(Consts.FOLLOWING_STATE);
-
-        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-
-        RequestPath(GridPos(), playerPos, player.transform.position);
-    }
-
+    #region Command
     public virtual void Command(GridTile tile)
     {
         // Move to tile if empty
         pathRequested = false;
         currentPath.Clear();
-        SetState(Consts.MOVING_STATE);
 
+        SetState(State.Moving);
         RequestPath(GridPos(), tile.position, tile.worldPosition);
     }
 
@@ -51,43 +74,19 @@ public class FollowerUnit : Unit
     {
     }
 
-    protected override void Update()
+    #endregion
+
+    #region TargetHandling
+    // Set state to following, set target player, and request a path
+    public virtual void StartFollowing(PlayerController thePlayer)
     {
-        base.Update();
+        player = thePlayer;
+
+        SetState(State.Following);
+
+        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
+
+        RequestPath(GridPos(), playerPos, player.transform.position);
     }
-
-    // Handles moving to target tile, or following player
-    protected override bool HandleStates()
-    {
-        bool handled = base.HandleStates();
-        if (handled) return true;
-
-        int state = GetState();
-        if (state == Consts.MOVING_STATE)
-        {
-            FollowPath();
-            handled = true;
-        }
-        else if (GetState() == Consts.FOLLOWING_STATE)
-        {
-            // Continuously update path if following player
-            if (player != null)
-            {
-                Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-
-                if (!pathRequested && (currentPath == null || currentPath.Count == 0) && Vector3.Distance(transform.position, player.transform.position) > followDist)
-                {
-                    Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
-                    RequestPath(currentPos, playerPos, player.transform.position);
-                }
-            }
-
-            FollowPath();
-
-            handled = true;
-        }
-        
-        return handled;
-    }
+    #endregion
 }

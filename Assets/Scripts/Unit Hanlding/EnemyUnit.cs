@@ -6,49 +6,20 @@ using static WorkerUnit;
 
 public class EnemyUnit : Unit
 {
-    public enum EnemyState
-    {
-        Idle,
-        Moving,
-        Following,
-        Fighting
-    }
-
-    public EnemyState state;
-    EnemyState lastState;
-
     protected override void Start()
     {
         base.Start();
-        state = EnemyState.Idle;
-        lastState = EnemyState.Idle;
+        combat = new UnitCombat(this);
 
         EnemyHandler.Instance.AddEnemy(this);
-        combatUnit = true;
     }
 
-    protected override void Die()
+    protected override void Update()
     {
-        EnemyHandler.Instance.RemoveEnemy(this);
-        base.Die();
+        base.Update();
     }
 
-    protected override int GetState()
-    {
-        return (int)state;
-    }
-
-    protected override void SetState(int newState)
-    {
-        lastState = state;
-        state = (EnemyState)newState;
-    }
-
-    void SetState(EnemyState newState)
-    {
-        lastState = state;
-        state = newState;
-    }
+    #region HitHandling
 
     public override bool Hit(float damage, Unit source)
     {
@@ -63,19 +34,15 @@ public class EnemyUnit : Unit
         return false;
     }
 
-    protected override void Update()
+    protected override void Die()
     {
-        base.Update();
+        EnemyHandler.Instance.RemoveEnemy(this);
+        base.Die();
     }
+    #endregion
 
-    protected override bool HandleStates()
-    {
-        bool handled = base.HandleStates();
-        if (handled) return true;
-
-        return false;
-    }
-
+    #region CombatHandling
+    // Gets nearby follower units for targetting
     protected override List<Unit> GetNearbyUnits()
     {
         if (chunk != null)
@@ -85,4 +52,5 @@ public class EnemyUnit : Unit
 
         return null;
     }
+    #endregion
 }

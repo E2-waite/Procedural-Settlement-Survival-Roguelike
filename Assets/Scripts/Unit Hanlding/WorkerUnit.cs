@@ -2,20 +2,6 @@ using UnityEngine;
 
 public class WorkerUnit : FollowerUnit
 {
-    // YOU MUST ENSURE CONSISTENCY 0 = idle, 1 = moving, 2 = following
-    public enum WorkerState
-    {
-        Idle,
-        Moving,
-        Following, 
-        Gathering,
-        Storing,
-        Building
-    }
-
-    public WorkerState state;
-    WorkerState lastState;
-
     public int maxCapacity = 100;
     public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
 
@@ -29,114 +15,25 @@ public class WorkerUnit : FollowerUnit
     protected override void Start()
     {
         base.Start();
-        state = WorkerState.Idle;
-        lastState = WorkerState.Idle;
-        combatUnit = false;
     }
-
-    protected override int GetState()
-    {
-        return (int)state;
-    }
-
-    protected override void SetState(int newState)
-    {
-        lastState = state;
-        state = (WorkerState)newState;
-    }
-
-    void SetState(WorkerState newState)
-    {
-        lastState = state;
-        state = newState;
-    }
-
 
     protected override void Update()
     {
+        if (interactTimer > 0) interactTimer -= Time.deltaTime;
         base.Update();
     }
 
-    protected override bool HandleStates()
+    #region StateHandling
+
+    protected override void GatherState()
     {
-        if (interactTimer > 0) interactTimer -= Time.deltaTime;
-
-        bool handled = base.HandleStates();
-        if (handled) return true;
-
-        if (state == WorkerState.Gathering)
+        if (targetResource == null)
         {
-            if (targetResource == null)
-            {
-                SetState(WorkerState.Idle);
-            }
-            else
-            {
-                float dist = Vector3.Distance(transform.position, targetResource.worldPosition);
-
-                // Move towards resource if not in range
-                if (dist > 1.25f)
-                {
-                    FollowPath();
-                }
-                else
-                {
-                    if (interactTimer <= 0)
-                    {
-                        // Gather if in range and timer has finished
-                        Gather();
-                    }
-                }
-            }
-            handled = true;
+            SetState(State.Idle);
         }
-        else if (state == WorkerState.Storing)
+        else
         {
-            if (targetStore == null)
-            {
-                SetState(WorkerState.Idle);
-            }
-            else
-            {
-                float dist = Vector3.Distance(transform.position, targetStore.transform.position);
-
-                // Move towards resource if not in range
-                if (dist > 1.25f)
-                {
-                    FollowPath();
-                }
-                else
-                {
-                    Store(); // Store resources if in range
-
-                    // TODO: move to storeing next resource type if available
-
-                    // Find closest resource to store
-                    ResourceNode nextNode = ResourceHandler.Instance.GetClosestNode(targetStore);
-
-                    if (nextNode == null && targetResource != null)
-                    {
-                        // If no resources in range of store, find closest node to current target resource
-                        if (targetResource.IsEmpty())
-                            nextNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
-                        else
-                            nextNode = targetResource;
-                    }
-
-                    if (nextNode != null)
-                    {
-                        TargetResource(nextNode);
-                    }
-                    else
-                    {
-                        targetResource = null;
-                    } 
-                }
-            }
-        }
-        else if (state == WorkerState.Building)
-        {
-            float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
+            float dist = Vector3.Distance(transform.position, targetResource.worldPosition);
 
             // Move towards resource if not in range
             if (dist > 1.25f)
@@ -148,17 +45,83 @@ public class WorkerUnit : FollowerUnit
                 if (interactTimer <= 0)
                 {
                     // Gather if in range and timer has finished
-                    if (Build())
-                    {
-                        targetBuilding = null;
-                        SetState(WorkerState.Idle);
-                    }
+                    Gather();
                 }
             }
         }
-
-        return handled;
     }
+
+    protected override void StoreState()
+    {
+        if (targetStore == null)
+        {
+            SetState(State.Idle);
+        }
+        else
+        {
+            float dist = Vector3.Distance(transform.position, targetStore.transform.position);
+
+            // Move towards resource if not in range
+            if (dist > 1.25f)
+            {
+                FollowPath();
+            }
+            else
+            {
+                Store(); // Store resources if in range
+
+                // TODO: move to storeing next resource type if available
+
+                // Find closest resource to store
+                ResourceNode nextNode = ResourceHandler.Instance.GetClosestNode(targetStore);
+
+                if (nextNode == null && targetResource != null)
+                {
+                    // If no resources in range of store, find closest node to current target resource
+                    if (targetResource.IsEmpty())
+                        nextNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+                    else
+                        nextNode = targetResource;
+                }
+
+                if (nextNode != null)
+                {
+                    TargetResource(nextNode);
+                }
+                else
+                {
+                    targetResource = null;
+                }
+            }
+        }
+    }
+
+    protected override void BuildState()
+    {
+        float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
+
+        // Move towards resource if not in range
+        if (dist > 1.25f)
+        {
+            FollowPath();
+        }
+        else
+        {
+            if (interactTimer <= 0)
+            {
+                // Gather if in range and timer has finished
+                if (Build())
+                {
+                    targetBuilding = null;
+                    SetState(State.Idle);
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region CommandHandling
 
     public override void Command(GridTile tile)
     {
@@ -192,11 +155,13 @@ public class WorkerUnit : FollowerUnit
             base.Command(tile);
     }
 
+    #endregion
+
+    #region TargetHandling
+
     public override void StartFollowing(PlayerController thePlayer)
     {
         base.StartFollowing(thePlayer);
-
-        SetState(WorkerState.Following);
     }
 
     void TargetResource(ResourceNode resource)
@@ -204,7 +169,7 @@ public class WorkerUnit : FollowerUnit
         if (resource != null && !resource.IsEmpty())
         {
             targetResource = resource;
-            SetState(WorkerState.Gathering);
+            SetState(State.Gathering);
 
             RequestPath(GridPos(), resource.gridTile.position, resource.worldPosition);
         }
@@ -218,7 +183,7 @@ public class WorkerUnit : FollowerUnit
             {
                 // Store resources if have some
                 targetStore = store;
-                SetState(WorkerState.Storing);
+                SetState(State.Storing);
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
@@ -239,14 +204,18 @@ public class WorkerUnit : FollowerUnit
     {
         if (building != null)
         {
+            Debug.Log("Targetting building");
             targetBuilding = building;
-            SetState(WorkerState.Building);
+            SetState(State.Building);
 
             Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
             RequestPath(GridPos(), buildingPos, building.transform.position);
         }
     }
+    #endregion
+
+    #region InteractHandling
 
     public void Gather()
     {
@@ -285,7 +254,7 @@ public class WorkerUnit : FollowerUnit
             ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
-                SetState(WorkerState.Idle);
+                SetState(State.Idle);
             }
             if (closestStore != null)
             {
@@ -330,4 +299,6 @@ public class WorkerUnit : FollowerUnit
         }
         return false;
     }
+
+    #endregion
 }

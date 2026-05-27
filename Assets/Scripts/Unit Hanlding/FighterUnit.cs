@@ -3,43 +3,19 @@ using UnityEngine;
 
 public class FighterUnit : FollowerUnit
 {
-    // YOU MUST ENSURE CONSISTENCY 0 = idle, 1 = moving, 2 = following
-    public enum FighterState
-    {
-        Idle,
-        Moving,
-        Following,
-        Fighting
-    }
-
-    public FighterState state;
-    FighterState lastState;
 
     protected override void Start()
     {
         base.Start();
-        state = FighterState.Idle;
-        lastState = FighterState.Idle;
-        combatUnit = true;
+        combat = new UnitCombat(this);
     }
 
-    protected override int GetState()
+    protected override void Update()
     {
-        return (int)state;
+        base.Update();
     }
 
-    protected override void SetState(int newState)
-    {
-        lastState = state;
-        state = (FighterState)newState;
-    }
-
-    void SetState(FighterState newState)
-    {
-        lastState = state;
-        state = newState;
-    }
-
+    #region HitHandling
     public override bool Hit(float damage, Unit source)
     {
         if (base.Hit(damage, source)) return true;
@@ -53,18 +29,9 @@ public class FighterUnit : FollowerUnit
         return false;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
+    #endregion
 
-    protected override bool HandleStates()
-    {
-        bool handled = base.HandleStates();
-        if (handled) return true;
-
-        return false;
-    }
+    #region CommandHandling
 
     // Command to interact with tile
     public override void Command(GridTile tile)
@@ -87,6 +54,10 @@ public class FighterUnit : FollowerUnit
         }
     }
 
+    #endregion
+
+    #region CombatHandling
+    // Gets nearby follower units for targetting
     protected override List<Unit> GetNearbyUnits()
     {
         if (chunk != null)
@@ -96,4 +67,6 @@ public class FighterUnit : FollowerUnit
 
         return null;
     }
+
+    #endregion
 }
