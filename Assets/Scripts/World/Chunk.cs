@@ -23,8 +23,8 @@ public class Chunk : MonoBehaviour
     ChunkResources resources;
     private Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
-    public List<FollowerUnit> followers = new List<FollowerUnit>();
-    public List<EnemyUnit> enemies = new List<EnemyUnit>();
+    public List<Unit> followers = new List<Unit>();
+    public List<Unit> enemies = new List<Unit>();
    public  List<Chunk> neighbouringChunks = new List<Chunk>();
 
     public void AddNeighbour(Chunk chunk)
@@ -255,11 +255,11 @@ public class Chunk : MonoBehaviour
 
 
 
-    public List<EnemyUnit> GetEnemies(bool includeSurrounding = true)
+    public List<Unit> GetEnemies(bool includeSurrounding = true)
     {
         if (!includeSurrounding) return enemies;
 
-        List<EnemyUnit> enemyList = new List<EnemyUnit>(enemies);
+        List<Unit> enemyList = new List<Unit>(enemies);
 
         if (includeSurrounding)
         {
@@ -272,11 +272,11 @@ public class Chunk : MonoBehaviour
         return enemyList;
     }
 
-    public List<FollowerUnit> GetFollowers(bool includeSurrounding = true)
+    public List<Unit> GetFollowers(bool includeSurrounding = true)
     {
         if (!includeSurrounding) return followers;
 
-        List<FollowerUnit> followerList = new List<FollowerUnit>(followers);
+        List<Unit> followerList = new List<Unit>(followers);
 
         if (includeSurrounding)
         {

@@ -97,10 +97,11 @@ MonoBehaviour:
   reachedThresh: 0.05
   currentPath: []
   currentHealth: 0
-  maxHealth: 100
+  maxHealth: 1000
   chunkInterval: 1
   chunkTimer: 0
-  followDist: 1.5
-  state: 0
   attackDist: 1
   attackDamage: 10
+  combatUnit: 0
+  followDist: 1.5
+  state: 0

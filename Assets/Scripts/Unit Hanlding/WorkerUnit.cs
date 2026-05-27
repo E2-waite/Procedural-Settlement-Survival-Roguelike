@@ -31,6 +31,7 @@ public class WorkerUnit : FollowerUnit
         base.Start();
         state = WorkerState.Idle;
         lastState = WorkerState.Idle;
+        combatUnit = false;
     }
 
     protected override int GetState()

@@ -56,10 +56,11 @@ public class FollowerUnit : Unit
         base.Update();
     }
 
-
+    // Handles moving to target tile, or following player
     protected override bool HandleStates()
     {
-        bool handled = false;
+        bool handled = base.HandleStates();
+        if (handled) return true;
 
         int state = GetState();
         if (state == Consts.MOVING_STATE)

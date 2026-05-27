@@ -8,6 +8,7 @@ public static class Consts
     public const int IDLE_STATE = 0;
     public const int MOVING_STATE = 1;
     public const int FOLLOWING_STATE = 2;
+    public const int ATTACKING_STATE = 3;
 
     public static readonly Vector2Int[] ADJ_NEIGHBOURS =
     {
