@@ -2,9 +2,18 @@ using UnityEngine;
 
 public class WorkerUnit : FollowerUnit
 {
+    public enum WorkState
+    {
+        None,
+        Gathering,
+        Storing,
+        Building
+    }
+
+    WorkState workState, lastWorkState;
+
     public int maxCapacity = 100;
     public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
-
 
     ResourceNode targetResource;
     public ResourceStore targetStore;
@@ -12,9 +21,18 @@ public class WorkerUnit : FollowerUnit
 
     float interactInterval = 0.5f, interactTimer = 0;
 
+    void SetWorkState(WorkState state)
+    {
+        lastWorkState = workState;
+        workState = state;
+    }
+
     protected override void Start()
     {
         base.Start();
+
+        workState = WorkState.None;
+        lastWorkState = WorkState.None;
     }
 
     protected override void Update()
@@ -23,9 +41,24 @@ public class WorkerUnit : FollowerUnit
         base.Update();
     }
 
-    #region StateHandling
+    #region States
 
-    protected override void GatherState()
+    protected override void WorkingState()
+    {
+        switch (workState)
+        {
+            case WorkState.Gathering:
+                GatherState(); break;
+
+            case WorkState.Storing:
+                StoreState(); break;
+
+            case WorkState.Building:
+                BuildState(); break;
+        }
+    }
+
+    protected void GatherState()
     {
         if (targetResource == null)
         {
@@ -51,7 +84,7 @@ public class WorkerUnit : FollowerUnit
         }
     }
 
-    protected override void StoreState()
+    protected void StoreState()
     {
         if (targetStore == null)
         {
@@ -96,7 +129,7 @@ public class WorkerUnit : FollowerUnit
         }
     }
 
-    protected override void BuildState()
+    protected void BuildState()
     {
         float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
 
@@ -159,17 +192,13 @@ public class WorkerUnit : FollowerUnit
 
     #region TargetHandling
 
-    public override void StartFollowing(PlayerController thePlayer)
-    {
-        base.StartFollowing(thePlayer);
-    }
-
     void TargetResource(ResourceNode resource)
     {
         if (resource != null && !resource.IsEmpty())
         {
             targetResource = resource;
-            SetState(State.Gathering);
+            SetState(State.Working);
+            SetWorkState(WorkState.Gathering);
 
             RequestPath(GridPos(), resource.gridTile.position, resource.worldPosition);
         }
@@ -183,7 +212,8 @@ public class WorkerUnit : FollowerUnit
             {
                 // Store resources if have some
                 targetStore = store;
-                SetState(State.Storing);
+                SetState(State.Working);
+                SetWorkState(WorkState.Storing);
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
@@ -206,7 +236,8 @@ public class WorkerUnit : FollowerUnit
         {
             Debug.Log("Targetting building");
             targetBuilding = building;
-            SetState(State.Building);
+            SetState(State.Working);
+            SetWorkState(WorkState.Building);
 
             Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
@@ -219,7 +250,6 @@ public class WorkerUnit : FollowerUnit
 
     public void Gather()
     {
-
         if (!CheckCapacity())
         {
             Debug.Log("Gathering " + targetResource.type.ToString());

@@ -9,7 +9,7 @@ public class EnemyUnit : Unit
     protected override void Start()
     {
         base.Start();
-        combat = new UnitCombat(this);
+        combat.SetUnit(this);
 
         EnemyHandler.Instance.AddEnemy(this);
     }
@@ -41,7 +41,7 @@ public class EnemyUnit : Unit
     }
     #endregion
 
-    #region CombatHandling
+    #region DetectionHandling
     // Gets nearby follower units for targetting
     protected override List<Unit> GetNearbyUnits()
     {

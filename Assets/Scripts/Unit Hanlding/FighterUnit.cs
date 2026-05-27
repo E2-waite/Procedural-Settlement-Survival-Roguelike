@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class FighterUnit : FollowerUnit
 {
-
     protected override void Start()
     {
         base.Start();
-        combat = new UnitCombat(this);
+        combat.SetUnit(this);
     }
 
     protected override void Update()
@@ -56,7 +55,7 @@ public class FighterUnit : FollowerUnit
 
     #endregion
 
-    #region CombatHandling
+    #region DetectionHandling
     // Gets nearby follower units for targetting
     protected override List<Unit> GetNearbyUnits()
     {

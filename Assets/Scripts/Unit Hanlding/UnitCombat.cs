@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class UnitCombat
 {
     private Unit unit;
@@ -8,7 +9,7 @@ public class UnitCombat
     protected float attackInterval = 0.5f, attackTimer = 0;
     public  Unit target;
 
-    public UnitCombat(Unit unit)
+    public void SetUnit(Unit unit)
     {
         this.unit = unit;
     }
@@ -53,7 +54,22 @@ public class UnitCombat
         if (dist < attackDist)
         {
             attackTimer = attackInterval;
-            target.Hit(attackDamage, unit);
+            if (target.Hit(attackDamage, unit))
+            {
+                Unit nearbyUnit = unit.ScanForUnits(true);
+
+                if (nearbyUnit == null)
+                {
+                    // Become idle if no nearby valid units
+                    unit.SetIdle();
+                }
+                else
+                {
+                    // Target unit if nearby unit was found
+                    SetTarget(nearbyUnit);
+                }
+            }
+
             return true;
         }
 

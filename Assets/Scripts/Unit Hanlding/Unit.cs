@@ -15,18 +15,16 @@ public class Unit : PathAgent
         Moving,
         Following,
         Fighting,
-        Gathering,
-        Storing,
-        Building
+        Working
     }
 
-    public State state, lastState;
+    [SerializeField] protected UnitCombat combat = new UnitCombat();
 
-    private Camera cam;
+    public State state, lastState;
     public float currentHealth, maxHealth = 100;
     public float chunkInterval = 1f, chunkTimer = 0f;
 
-    public UnitCombat combat;
+    private Camera cam;
 
     protected Chunk chunk;
 
@@ -60,18 +58,12 @@ public class Unit : PathAgent
         {
             combat.Update();
         }
-
-        //if (combatUnit)
-        //{
-        //    Unit nearbyUnit = ScanForUnits();
-        //}
     }
 
     // Converts world position to grid position
     public Vector2Int GridPos()
     {
         return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -109,6 +101,11 @@ public class Unit : PathAgent
         return state;
     }
 
+    public void SetIdle()
+    {
+        SetState(State.Idle);
+    }
+
     void StateHandling()
     {
         switch(state)
@@ -125,14 +122,8 @@ public class Unit : PathAgent
             case State.Fighting:
                 FightState(); break;
 
-            case State.Gathering:
-                GatherState(); break;
-
-            case State.Storing:
-                StoreState(); break;
-
-            case State.Building:
-                BuildState(); break;
+            case State.Working:
+                WorkingState(); break;
         }
     }
 
@@ -178,24 +169,14 @@ public class Unit : PathAgent
         }
     }
 
-    protected virtual void GatherState()
-    {
-
-    }
-
-    protected virtual void StoreState()
-    {
-
-    }
-
-    protected virtual void BuildState()
+    protected virtual void WorkingState()
     {
 
     }
 
     #endregion
 
-    #region HitHandling
+    #region DamageHandling
 
     // Handles receiving hits from another unit. Returns true if target is dead
     public virtual bool Hit(float damage, Unit source)
@@ -235,7 +216,6 @@ public class Unit : PathAgent
     #endregion
 
     #region TargetHandling
-
     // Targets the passed unit and sets state to attacking
     protected virtual void TargetUnit(Unit unit)
     {
@@ -249,12 +229,10 @@ public class Unit : PathAgent
 
             RequestPath(GridPos(), combat.TargetPos(), unit.transform.position);
         }
-
-
     }
     #endregion
 
-    #region CombatHandling
+    #region DetectionHandling
 
     // Gets all nearby units (in the chunk area) - Fighters get enemies, Enemies get followers
     protected virtual List<Unit> GetNearbyUnits()
@@ -265,7 +243,7 @@ public class Unit : PathAgent
     // TODO: get nearby when the chunk's units change, rather than continuously every second
 
     // Scans chunk area for all nearby valid units
-    protected virtual Unit ScanForUnits(bool onKill = false)
+    public virtual Unit ScanForUnits(bool onKill = false)
     {
         if (scanTimer > 0) scanTimer -= Time.deltaTime;
 
@@ -296,30 +274,5 @@ public class Unit : PathAgent
 
         return closestUnit;
     }
-
-    // Attacks the target unit
-    //protected virtual void Attack()
-    //{
-    //    if (targetUnit != null)
-    //    {
-    //        attackTimer = attackInterval;
-
-    //        if (targetUnit.Hit(attackDamage, this))
-    //        {
-    //            Unit nearbyUnit = ScanForUnits(true);
-
-    //            if (nearbyUnit == null)
-    //            {
-    //                // Become idle if no nearby valid units
-    //                SetState(Consts.IDLE_STATE);
-    //            }
-    //            else
-    //            {
-    //                // Target unit if nearby unit was found
-    //                TargetUnit(nearbyUnit);
-    //            }
-    //        }
-    //    }
-    //}
     #endregion
 }

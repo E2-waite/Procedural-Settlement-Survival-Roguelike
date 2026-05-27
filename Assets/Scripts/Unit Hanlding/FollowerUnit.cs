@@ -76,7 +76,7 @@ public class FollowerUnit : Unit
 
     #endregion
 
-    #region TargetHandling
+    #region Target
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(PlayerController thePlayer)
     {
