@@ -19,8 +19,6 @@ public class Unit : PathAgent
         transform.rotation = Quaternion.LookRotation(forward);
 
         currentHealth = maxHealth;
-
-        //currentChunk = Grid.Instance.ChunkFromGridPos(GridPos());
     }
 
     // Returns true if target is dead
@@ -75,6 +73,8 @@ public class Unit : PathAgent
 
     protected virtual void Update()
     {
+        if (currentHealth <= 0) return; // Dead
+
         HandleStates();
 
         UpdateChunk();

@@ -19,7 +19,7 @@ public class EnemyUnit : Unit
     public float attackDist = 1f, attackDamage = 10f;
     float attackInterval = 0.5f, attackTimer = 0;
     float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
-
+    List<FollowerUnit> nearbyFollowers;
     Unit targetUnit;
 
     protected override void Start()
@@ -83,8 +83,20 @@ public class EnemyUnit : Unit
 
             if (chunk != null)
             {
-                List<FollowerUnit> nearbyFollowers = chunk.GetFollowers();
-                Debug.Log(name + ": " + nearbyFollowers.Count.ToString() + " followers nearby");
+                nearbyFollowers = chunk.GetFollowers();
+
+                float closestDist = float.MaxValue;
+                FollowerUnit followerUnit = null;
+                foreach (FollowerUnit follower in nearbyFollowers)
+                {
+                    float dist = Vector3.Distance(transform.position, follower.transform.position);
+
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        followerUnit = follower;
+                    }
+                }
             }
         }
     }

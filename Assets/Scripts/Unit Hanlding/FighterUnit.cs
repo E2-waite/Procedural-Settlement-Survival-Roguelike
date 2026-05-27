@@ -22,6 +22,8 @@ public class FighterUnit : FollowerUnit
     float attackInterval = 0.5f, attackTimer = 0;
     float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby enemies
 
+    List<EnemyUnit> nearbyEnemies;
+
     protected override void Start()
     {
         base.Start();
@@ -61,11 +63,12 @@ public class FighterUnit : FollowerUnit
 
     protected override void Update()
     {
-        ScanForEnemies();
+        //ScanForEnemies();
 
         base.Update();
     }
 
+    // TODO: get nearby when the chunk's units change, rather than continuously
     void ScanForEnemies()
     {
         if (scanTimer > 0) scanTimer -= Time.deltaTime;
@@ -76,8 +79,25 @@ public class FighterUnit : FollowerUnit
 
             if (chunk != null)
             {
-                List<EnemyUnit> nearbyEnemies = chunk.GetEnemies();
-                Debug.Log(name + ": " + nearbyEnemies.Count.ToString() + " enemies nearby");
+                nearbyEnemies = chunk.GetEnemies();
+
+                float closestDist = float.MaxValue;
+                EnemyUnit enemyUnit = null;
+                foreach (EnemyUnit enemy in nearbyEnemies)
+                {
+                    float dist = Vector3.Distance(transform.position, enemy.transform.position);
+
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        enemyUnit = enemy;
+                    }
+                }
+
+                if (enemyUnit != null)
+                {
+                    TargetEnemy(enemyUnit);
+                }
             }
         }
     }
@@ -160,7 +180,11 @@ public class FighterUnit : FollowerUnit
         {
             attackTimer = attackInterval;
 
-            targetEnemy.Hit(attackDamage, this);
+            if (targetEnemy.Hit(attackDamage, this))
+            {
+                // Scan for next target if current target died
+                ScanForEnemies();
+            }
         }
     }
 }
