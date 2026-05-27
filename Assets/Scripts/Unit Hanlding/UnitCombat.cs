@@ -1,17 +1,35 @@
+using System.Data.Common;
 using UnityEngine;
+using static Pathfinding;
 
 [System.Serializable]
 public class UnitCombat
 {
+    enum CombatState
+    {
+        None,
+        Attacking,
+        Defending,
+        Chasing,
+        Fleeing
+    }
+    CombatState combatState, lastCombatState;
+
     private Unit unit;
 
     public float attackDist = 1f, attackDamage = 10f;
     protected float attackInterval = 0.5f, attackTimer = 0;
-    public  Unit target;
+    public Unit target;
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
+    }
+
+    void SetState(CombatState state)
+    {
+        lastCombatState = combatState;
+        combatState = state;
     }
 
     public void Update()
@@ -22,21 +40,64 @@ public class UnitCombat
         }
     }
 
+    // Updates the current combat state
+    public void UpdateState()
+    {
+        if (target == null)
+        {
+            // Scan for new targets
+            SetState(CombatState.Defending);
+        }
+        else
+        {
+            if (InRange())
+            {
+                SetState(CombatState.Attacking);
+            }
+            else
+            {
+                SetState(CombatState.Chasing);
+            }
+        }
+    }
+
+    // Executes the current combat state
+    public void ExecuteState()
+    {
+        switch (combatState)
+        {
+            case CombatState.Attacking:
+                Attack(); break;
+
+            case CombatState.Defending:
+                Defend(); break;
+
+            case CombatState.Chasing:
+                Chase(); break;
+
+            case CombatState.Fleeing:
+                Flee(); break;
+        }
+    }
+
     public void SetTarget(Unit unit)
     {
         target = unit;
     }
 
+    // Returns the target's grid position
     public Vector2Int TargetPos()
     {
         return target.GridPos();
     }
 
+    // Returns true if we have a target
     public bool HasTarget()
     {
         return target != null;
     }
 
+    // Returns true if in range of the target
     public bool InRange()
     {
         float dist = Vector3.Distance(unit.transform.position, target.transform.position);
@@ -44,35 +105,52 @@ public class UnitCombat
         return dist < attackDist;
     }
 
-    public bool AttackTarget()
+    #region States
+    public bool Attack()
     {
-        if (target == null) return false;
-        if (attackTimer > 0) return false;
+        if (target == null || attackTimer > 0) return false;
 
-        float dist = Vector3.Distance(unit.transform.position, target.transform.position);
-
-        if (dist < attackDist)
+        attackTimer = attackInterval;
+        if (target.Hit(attackDamage, unit))
         {
-            attackTimer = attackInterval;
-            if (target.Hit(attackDamage, unit))
+            Unit nearbyUnit = unit.ScanForUnits(true);
+
+            if (nearbyUnit == null)
             {
-                Unit nearbyUnit = unit.ScanForUnits(true);
-
-                if (nearbyUnit == null)
-                {
-                    // Become idle if no nearby valid units
-                    unit.SetIdle();
-                }
-                else
-                {
-                    // Target unit if nearby unit was found
-                    SetTarget(nearbyUnit);
-                }
+                // Become idle if no nearby valid units
+                unit.SetIdle();
             }
-
-            return true;
+            else
+            {
+                // Target unit if nearby unit was found
+                SetTarget(nearbyUnit);
+            }
         }
 
-        return false;
+        return true;
     }
+
+    // Stays at position and scans for targets
+    void Defend()
+    {
+
+    }
+
+    // Move towards target
+    void Chase()
+    {
+        if (!unit.pathRequested && !unit.HasPath())
+        {
+            unit.RequestPath(TargetPos(), target.transform.position);
+        }
+
+        unit.FollowPath();
+    }
+
+    // Move away from target
+    void Flee()
+    {
+        
+    }
+    #endregion
 }

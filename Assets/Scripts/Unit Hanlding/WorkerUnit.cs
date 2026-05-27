@@ -11,9 +11,9 @@ public class WorkerUnit : FollowerUnit
         Building
     }
 
-    WorkState workState, lastWorkState;
-
     [SerializeField] ResourceStorage storage = new ResourceStorage();
+
+    WorkState workState, lastWorkState;
 
     ResourceNode targetResource;
     public ResourceBuilding targetStore;
@@ -154,7 +154,7 @@ public class WorkerUnit : FollowerUnit
 
     #endregion
 
-    #region CommandHandling
+    #region Commanding
 
     public override void Command(GridTile tile)
     {
@@ -190,17 +190,16 @@ public class WorkerUnit : FollowerUnit
 
     #endregion
 
-    #region TargetHandling
-
+    #region Targeting Objects (Resources, stores and buildings)
     void TargetResource(ResourceNode resource)
     {
         if (resource != null && !resource.IsEmpty())
         {
             targetResource = resource;
-            SetState(State.Working);
+            SetState(State.Work);
             SetWorkState(WorkState.Gathering);
 
-            RequestPath(GridPos(), resource.gridTile.position, resource.worldPosition);
+            RequestPath(resource.gridTile.position, resource.worldPosition);
         }
     }
 
@@ -218,12 +217,12 @@ public class WorkerUnit : FollowerUnit
             {
                 // Store resources if have some
                 targetStore = store;
-                SetState(State.Working);
+                SetState(State.Work);
                 SetWorkState(WorkState.Storing);
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
-                RequestPath(GridPos(), storePos, store.transform.position);
+                RequestPath(storePos, store.transform.position);
                 targetResource = null; // Don't return to gathering if we've commanded to store
             }
         }
@@ -235,18 +234,17 @@ public class WorkerUnit : FollowerUnit
         {
             Debug.Log("Targetting building");
             targetBuilding = building;
-            SetState(State.Working);
+            SetState(State.Work);
             SetWorkState(WorkState.Building);
 
             Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
-            RequestPath(GridPos(), buildingPos, building.transform.position);
+            RequestPath(buildingPos, building.transform.position);
         }
     }
     #endregion
 
-    #region InteractHandling
-
+    #region Worker Actions (Gathering, storing and building)
     public void Gather()
     {
         if (!CheckCapacity())

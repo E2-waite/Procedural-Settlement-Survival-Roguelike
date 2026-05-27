@@ -19,7 +19,7 @@ public class EnemyUnit : Unit
         base.Update();
     }
 
-    #region HitHandling
+    #region Taking Damage
 
     public override bool Hit(float damage, Unit source)
     {
@@ -41,7 +41,7 @@ public class EnemyUnit : Unit
     }
     #endregion
 
-    #region DetectionHandling
+    #region Detecting Units
     // Gets nearby follower units for targetting
     protected override List<Unit> GetNearbyUnits()
     {

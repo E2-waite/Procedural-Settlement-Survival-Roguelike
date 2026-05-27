@@ -40,17 +40,15 @@ public class FollowerUnit : Unit
 
             if (!pathRequested && (currentPath == null || currentPath.Count == 0) && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
-                Vector2Int currentPos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-
-                RequestPath(currentPos, playerPos, player.transform.position);
+                RequestPath(playerPos, player.transform.position);
             }
         }
 
         FollowPath();
     }
     #endregion
-    #region HitHandling
 
+    #region Taking Damage
     protected override void Die()
     {
         UnitHandler.Instance.RemoveUnit(this);
@@ -67,7 +65,7 @@ public class FollowerUnit : Unit
         currentPath.Clear();
 
         SetState(State.Moving);
-        RequestPath(GridPos(), tile.position, tile.worldPosition);
+        RequestPath(tile.position, tile.worldPosition);
     }
 
     public virtual void Command(Unit unit)
@@ -76,7 +74,7 @@ public class FollowerUnit : Unit
 
     #endregion
 
-    #region Target
+    #region Targeting
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(PlayerController thePlayer)
     {
@@ -86,7 +84,7 @@ public class FollowerUnit : Unit
 
         Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
 
-        RequestPath(GridPos(), playerPos, player.transform.position);
+        RequestPath(playerPos, player.transform.position);
     }
     #endregion
 }

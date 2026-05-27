@@ -12,11 +12,18 @@ public class PathAgent : MonoBehaviour
     private float pathInterval = 0.5f, repathTimer = 0;
 
     protected int pathIndex = 0;
-    protected bool pathRequested = false;
+    public bool pathRequested = false;
     protected Vector3 targetPos;
 
-    protected void RequestPath(Vector2Int start, Vector2Int target, Vector3 worldPos)
+    // Converts world position to grid position
+    public Vector2Int GridPos()
     {
+        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+    }
+
+    public void RequestPath(Vector2Int target, Vector3 worldPos)
+    {
+        Vector2Int start = GridPos();
         targetPos = worldPos;
 
         pathRequested = true;
@@ -65,7 +72,7 @@ public class PathAgent : MonoBehaviour
         PathfindingHandler.Instance.RequestPath(request);
     }
 
-    protected void FollowPath()
+    public void FollowPath()
     {
         if (currentPath != null && currentPath.Count > 0)
         {
@@ -87,8 +94,13 @@ public class PathAgent : MonoBehaviour
         }
     }
 
-    protected bool HasPath()
+    public bool HasPath()
     {
         return !(currentPath.Count == 0 || currentPath == null);
+    }
+
+    public bool WaitingForPath()
+    {
+        return pathRequested;
     }
 }

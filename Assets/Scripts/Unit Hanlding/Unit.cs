@@ -14,8 +14,8 @@ public class Unit : PathAgent
         Idle,
         Moving,
         Following,
-        Fighting,
-        Working
+        Combat,
+        Work
     }
 
     [SerializeField] protected UnitCombat combat = new UnitCombat();
@@ -30,7 +30,6 @@ public class Unit : PathAgent
 
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
-
 
     protected virtual void Start()
     {
@@ -51,19 +50,12 @@ public class Unit : PathAgent
         if (currentHealth <= 0) return; // Dead
 
         StateHandling();
-
         UpdateChunk();
 
         if (combat != null)
         {
             combat.Update();
         }
-    }
-
-    // Converts world position to grid position
-    public Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -85,15 +77,13 @@ public class Unit : PathAgent
         }
     }
 
-    #region StateHandling
-
+    #region States
     // Generic SetState function for setting units' state to generic state (idle, moving, following and attacking)
     protected virtual void SetState(State newState)
     {
         lastState = state;
         state = newState;
     }
-
 
     // Generic GetState function for getting units' state as an int
     protected virtual State GetState()
@@ -119,10 +109,10 @@ public class Unit : PathAgent
             case State.Following:
                 FollowState(); break;
 
-            case State.Fighting:
-                FightState(); break;
+            case State.Combat:
+                CombatState(); break;
 
-            case State.Working:
+            case State.Work:
                 WorkingState(); break;
         }
     }
@@ -142,30 +132,12 @@ public class Unit : PathAgent
 
     }
 
-    protected virtual void FightState()
+    protected virtual void CombatState()
     {
         if (combat != null)
         {
-            // Chase the target, or attack in range
-            if (combat.HasTarget())
-            {
-                if (combat.InRange())
-                {
-                    combat.AttackTarget();
-                }
-                else
-                {
-                    if (!pathRequested && (currentPath == null || currentPath.Count == 0))
-                    {
-                        RequestPath(GridPos(), combat.TargetPos(), combat.target.transform.position);
-                    }
-                    FollowPath();
-                }
-            }
-            else
-            {
-                SetState(State.Idle);
-            }
+            combat.UpdateState();
+            combat.ExecuteState();
         }
     }
 
@@ -173,11 +145,9 @@ public class Unit : PathAgent
     {
 
     }
-
     #endregion
 
-    #region DamageHandling
-
+    #region Taking Damage
     // Handles receiving hits from another unit. Returns true if target is dead
     public virtual bool Hit(float damage, Unit source)
     {
@@ -212,10 +182,9 @@ public class Unit : PathAgent
         Debug.Log(name + " should die");
         Destroy(gameObject);
     }
-
     #endregion
 
-    #region TargetHandling
+    #region Targeting
     // Targets the passed unit and sets state to attacking
     protected virtual void TargetUnit(Unit unit)
     {
@@ -223,16 +192,16 @@ public class Unit : PathAgent
         {
             combat.SetTarget(unit);
 
-            SetState(State.Fighting);
+            SetState(State.Combat);
 
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(unit.transform.position.x), Mathf.FloorToInt(unit.transform.position.z));
 
-            RequestPath(GridPos(), combat.TargetPos(), unit.transform.position);
+            RequestPath(combat.TargetPos(), unit.transform.position);
         }
     }
     #endregion
 
-    #region DetectionHandling
+    #region Unit Detection
 
     // Gets all nearby units (in the chunk area) - Fighters get enemies, Enemies get followers
     protected virtual List<Unit> GetNearbyUnits()
