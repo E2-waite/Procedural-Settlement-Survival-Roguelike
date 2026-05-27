@@ -17,7 +17,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
     Vector2Int lastPos;
 
     // Resource stores
-    public List<ResourceStore>[] resourceStores = new List<ResourceStore>[(int)ResourceNode.Type.Max];
+    public List<ResourceBuilding>[] resourceStores = new List<ResourceBuilding>[(int)ResourceNode.Type.Max];
 
     private void Start()
     {
@@ -75,15 +75,15 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
             selectedBuilding.ConsumeResources();
 
             // Add resource store to its appropriate list (based on type)
-            if (building is ResourceStore)
+            if (building is ResourceBuilding)
             {
-                ResourceStore store = (ResourceStore)building;
+                ResourceBuilding store = (ResourceBuilding)building;
 
                 ResourceNode.Type type = store.type;
 
                 if (resourceStores[(int)type] == null)
                 {
-                    resourceStores[(int)type] = new List<ResourceStore>();
+                    resourceStores[(int)type] = new List<ResourceBuilding>();
                 }
 
                 resourceStores[(int)type].Add(store);
@@ -126,16 +126,16 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
         return true;
     }
 
-    public ResourceStore GetClosestStore(ResourceNode.Type type, Vector2Int pos)
+    public ResourceBuilding GetClosestStore(ResourceNode.Type type, Vector2Int pos)
     {
         float lowestDist = float.MaxValue;
-        ResourceStore store = null;
+        ResourceBuilding store = null;
 
-        List<ResourceStore> storeList = resourceStores[(int)type];
+        List<ResourceBuilding> storeList = resourceStores[(int)type];
 
         for (int i = 0; storeList != null && i < storeList.Count; i++)
         {
-            ResourceStore current = storeList[i];
+            ResourceBuilding current = storeList[i];
 
             if (!current.Built()) continue; // Don't include non-built or broken stores
 

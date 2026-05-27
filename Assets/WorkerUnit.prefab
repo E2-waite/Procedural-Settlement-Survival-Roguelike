@@ -109,12 +109,18 @@ MonoBehaviour:
   moveSpeed: 10
   reachedThresh: 0.05
   currentPath: []
+  combat:
+    attackDist: 1
+    attackDamage: 10
+    target: {fileID: 0}
+  state: 0
+  lastState: 0
   currentHealth: 0
   maxHealth: 100
   chunkInterval: 1
   chunkTimer: 0
   followDist: 1.5
-  state: 0
-  maxCapacity: 100
-  resourceCount: 0000000000000000
+  storage:
+    resourceCount: 0000000000000000
+    max: 10
   targetStore: {fileID: 0}

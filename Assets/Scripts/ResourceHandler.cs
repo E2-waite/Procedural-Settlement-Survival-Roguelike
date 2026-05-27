@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ResourceHandler : MonoSingleton<ResourceHandler>
 {
+    [SerializeField] ResourceStorage storage;
+
     public ResourceObject treeObj;
     public ResourceObject stoneObj;
     public int maxSearchRange = 10;
-
-    public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
 
     private static readonly Vector2Int[] Directions =
     {
@@ -20,22 +20,22 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
     private void Start()
     {
-        resourceCount[0] = 25;
-        ResourcesPanel.Instance.UpdateCount(0, resourceCount[0]);
-
+        storage.Add(ResourceNode.Type.Wood, 25);
+        ResourcesPanel.Instance.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));
     }
 
-    public int GetResourceCount(int type)
+    public int GetResourceCount(ResourceNode.Type type)
     {
-        return resourceCount[type];
+
+
+        return storage.Get(type);
     }
 
-    public void ConsumeResource(int type, int count)
+    public void ConsumeResource(ResourceNode.Type type, int count)
     {
-        resourceCount[type] -= count;
+        storage.Remove(type, count);
 
-        ResourcesPanel.Instance.UpdateCount((ResourceNode.Type)type, resourceCount[type]);
-
+        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
     }
 
     // Searches for the closest neighbouring resource node
@@ -47,7 +47,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
     }
 
     // Searches for the closest node to the passed store
-    public ResourceNode GetClosestNode(ResourceStore store, bool sameType = true)
+    public ResourceNode GetClosestNode(ResourceBuilding store, bool sameType = true)
     {
         Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
@@ -98,8 +98,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
     public void StoreResource(ResourceNode.Type type, int count)
     {
-        resourceCount[(int)type] += count;
-
-        ResourcesPanel.Instance.UpdateCount(type, resourceCount[(int)type]);
+        storage.Add(type, count);
+        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
     }
 }

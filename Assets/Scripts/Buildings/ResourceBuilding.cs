@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResourceStore : Building
+public class ResourceBuilding : Building
 {
     public ResourceNode.Type type;
 

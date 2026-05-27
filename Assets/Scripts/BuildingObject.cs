@@ -7,13 +7,13 @@ public class BuildingObject : ScriptableObject
     public Vector2Int size;
     public Sprite icon;
 
-    public int[] resourceCost = new int[(int)ResourceNode.Type.Max];
+    [SerializeField] ResourceStorage cost = new ResourceStorage();
 
     public bool CanAfford()
     {
-        for (int i = 0; i < (int)ResourceNode.Type.Max; i++)
+        for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            if (ResourceHandler.Instance.GetResourceCount(i) < resourceCost[i])
+            if (ResourceHandler.Instance.GetResourceCount(i) < cost.Get(i))
                 return false;
         }
 
@@ -22,9 +22,9 @@ public class BuildingObject : ScriptableObject
 
     public void ConsumeResources()
     {
-        for (int i = 0; i < (int)ResourceNode.Type.Max; i++)
+        for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            ResourceHandler.Instance.ConsumeResource(i, resourceCost[i]);
+            ResourceHandler.Instance.ConsumeResource(i, cost.Get(i));
         }
     }
 }

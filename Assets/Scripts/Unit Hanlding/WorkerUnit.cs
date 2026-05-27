@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorkerUnit : FollowerUnit
@@ -12,11 +13,10 @@ public class WorkerUnit : FollowerUnit
 
     WorkState workState, lastWorkState;
 
-    public int maxCapacity = 100;
-    public int[] resourceCount = new int[(int)ResourceNode.Type.Max];
+    [SerializeField] ResourceStorage storage = new ResourceStorage();
 
     ResourceNode targetResource;
-    public ResourceStore targetStore;
+    public ResourceBuilding targetStore;
     Building targetBuilding;
 
     float interactInterval = 0.5f, interactTimer = 0;
@@ -175,9 +175,9 @@ public class WorkerUnit : FollowerUnit
             else
             {
                 // If building IS built, interact
-                if (building is ResourceStore)
+                if (building is ResourceBuilding)
                 {
-                    TargetStore((ResourceStore)building);
+                    TargetStore((ResourceBuilding)building);
                 }
             }
 
@@ -204,11 +204,17 @@ public class WorkerUnit : FollowerUnit
         }
     }
 
-    void TargetStore(ResourceStore store)
+    void TargetStore(ResourceBuilding store)
     {
         if (store != null)
         {
-            if (resourceCount[(int)store.type] > 0)
+            if (storage.IsEmpty(store.type))
+            {
+                // If we don't have resources, just start gathering closest nodes
+                ResourceNode closestResource = ResourceHandler.Instance.GetClosestNode(store);
+                TargetResource(closestResource);
+            }
+            else
             {
                 // Store resources if have some
                 targetStore = store;
@@ -219,13 +225,6 @@ public class WorkerUnit : FollowerUnit
 
                 RequestPath(GridPos(), storePos, store.transform.position);
                 targetResource = null; // Don't return to gathering if we've commanded to store
-            }
-            else
-            {
-                // If we don't have resources, just start gathering closest nodes
-                ResourceNode closestResource = ResourceHandler.Instance.GetClosestNode(store);
-
-                TargetResource(closestResource);
             }
         }
     }
@@ -254,7 +253,7 @@ public class WorkerUnit : FollowerUnit
         {
             Debug.Log("Gathering " + targetResource.type.ToString());
 
-            resourceCount[(int)targetResource.type] += targetResource.Gather(5);
+            storage.Add(targetResource.type, targetResource.Gather(5));
             interactTimer = interactInterval;
 
             if (targetResource.IsEmpty())
@@ -278,10 +277,10 @@ public class WorkerUnit : FollowerUnit
     // Checks if resources are at capacity and switch to storing if so
     bool CheckCapacity()
     {
-        if (CurrentCapacity() >= maxCapacity)
+        if (storage.AtCapacity())
         {
             // Find closest resource store
-            ResourceStore closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
+            ResourceBuilding closestStore = BuildingHandler.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
                 SetState(State.Idle);
@@ -300,23 +299,12 @@ public class WorkerUnit : FollowerUnit
     {
         if (targetStore != null)
         {
-            targetStore.Store(resourceCount[(int)targetStore.type]);
-
-            resourceCount[(int)targetStore.type] = 0;
+            targetStore.Store(storage.Get(targetStore.type));
+            storage.Clear(targetStore.type);
 
             return true;
         }
         return false;
-    }
-
-    int CurrentCapacity()
-    {
-        int total = 0;
-        for (int i = 0; i < (int)ResourceNode.Type.Max; i++)
-        {
-            total += resourceCount[i];
-        }
-        return total;
     }
 
     bool Build()
