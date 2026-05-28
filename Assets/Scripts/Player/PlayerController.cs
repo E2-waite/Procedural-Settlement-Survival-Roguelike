@@ -10,52 +10,30 @@ using Unity.VisualScripting;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Health health = new Health();
-    PlayerControls controls;
+    [SerializeField] PlayerMovement movement = new PlayerMovement();
     private Camera cam;
     private Chunk chunk;
 
     private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
     private List<FollowerUnit> followingUnits = new List<FollowerUnit>();
 
+    private void Awake()
+    {
+        movement.Init(this);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Face the camera
-        cam = Camera.main;
-        Vector3 forward = cam.transform.forward;
+        Vector3 forward = Camera.main.transform.forward;
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
         health.Fill();
     }
 
-    public float moveSpeed = 5f;
-    private Vector2 moveInput;
-
-    void Awake()
-    {
-        controls = new PlayerControls();
-
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-    }
-
-    void OnEnable() => controls.Enable();
-    void OnDisable() => controls.Disable();
-
-    Vector3 CameraRelativeMove(Vector2 input, Transform cam)
-    {
-        Vector3 forward = cam.forward;
-        Vector3 right = cam.right;
-
-        // flatten so camera tilt doesn't affect movement
-        forward.y = 0;
-        right.y = 0;
-
-        forward.Normalize();
-        right.Normalize();
-
-        return forward * input.y + right * input.x;
-    }
+    void OnEnable() => movement.EnableControls(true);
+    void OnDisable() => movement.EnableControls(false);
 
     // Converts world position to grid position
     public Vector2Int GridPos()
@@ -66,7 +44,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateChunk();
-        MovePlayer();
+        movement.Update();
 
         if (Keyboard.current.fKey.wasReleasedThisFrame)
         {
@@ -94,25 +72,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void MovePlayer()
-    {
-        Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);
-
-        Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
-
-        GridTile tile = WorldHandler.grid.GetTile(targetPos);
-
-        // Only move if tile is walkable
-        if (tile.Walkable())
-        {
-            transform.position = targetPos;
-        }
-    }
-
     void LateUpdate()
     {
         // Face the camera
-        Vector3 forward = cam.transform.forward;
+        Vector3 forward = Camera.main.transform.forward;
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
     }

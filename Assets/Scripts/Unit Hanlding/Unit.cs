@@ -19,8 +19,8 @@ public class Unit : MonoBehaviour
         Work
     }
 
-    [SerializeField] public UnitMovement movement;
     [SerializeField] protected Health health = new Health();
+    [SerializeField] public UnitMovement movement;
     [SerializeField] protected UnitCombat combat = new UnitCombat();
 
     const int pathRange = 50;
