@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EnemyUnit;
 using static FighterUnit;
+using static Pathfinding;
 using static UnityEditorInternal.VersionControl.ListControl;
 using static UnityEngine.GraphicsBuffer;
 using static WorkerUnit;
 
-public class Unit : PathAgent
+public class Unit : MonoBehaviour
 {
     public enum State
     {
@@ -18,11 +19,15 @@ public class Unit : PathAgent
         Work
     }
 
+    [SerializeField] public UnitMovement movement;
     [SerializeField] protected UnitCombat combat = new UnitCombat();
+    const int pathRange = 50;
 
     public State state, lastState;
     public float currentHealth, maxHealth = 100;
     public float chunkInterval = 1f, chunkTimer = 0f;
+    public float swarmRadius = .5f;
+    [HideInInspector] public bool pathRequested = false;
 
     private Camera cam;
 
@@ -33,6 +38,8 @@ public class Unit : PathAgent
 
     protected virtual void Start()
     {
+        movement = new UnitMovement(this);
+
         // Face the camera
         cam = Camera.main;
         Vector3 forward = cam.transform.forward;
@@ -56,6 +63,12 @@ public class Unit : PathAgent
         {
             combat.Update();
         }
+    }
+
+    // Converts world position to grid position
+    public Vector2Int GridPos()
+    {
+        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -201,35 +214,16 @@ public class Unit : PathAgent
     }
     #endregion
 
-    public float separationRadius = 1f;
-    protected override Vector3 SwarmDirection()
-    {
-        List<Unit> friendlyUnits = GetNearbyFriendly();
-
-        Vector3 separation = Vector3.zero;
-        foreach (Unit unit in friendlyUnits)
-        {
-            Vector3 diff = transform.position - unit.transform.position;
-            float dist = diff.magnitude;
-
-            if (dist < separationRadius && dist > 0.0001f)
-            {
-                separation += diff.normalized / dist;
-            }
-        }
-
-        return separation;
-    }
 
     #region Unit Detection
 
     // Gets all nearby units (in the chunk area) - Fighters get enemies, Enemies get followers
-    protected virtual List<Unit> GetNearbyHostile()
+    public virtual List<Unit> GetNearbyHostile()
     {
         return null;
     }
 
-    protected virtual List<Unit> GetNearbyFriendly()
+    public virtual List<Unit> GetNearbyFriendly()
     {
         return null;
     }
@@ -269,4 +263,59 @@ public class Unit : PathAgent
         return closestUnit;
     }
     #endregion
+
+    public void RequestPath(Vector2Int target, Vector3 worldPos)
+    {
+        Vector2Int start = GridPos();
+        Vector3 targetPos = worldPos;
+
+        pathRequested = true;
+        int size = pathRange * 2;
+
+        bool[,] pathable = new bool[size, size];
+
+        Vector2Int origin = new Vector2Int(
+                            start.x - pathRange,
+                            start.y - pathRange);
+
+        // Define pathing area
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
+
+                GridTile tile = WorldHandler.grid.GetTile(tilePos);
+
+                if (tile != null && tile.Walkable())
+                    pathable[x, y] = true;
+                else
+                    pathable[x, y] = false;
+            }
+        }
+
+        // Construct the pathing request
+        Pathfinding.PathRequest request = new Pathfinding.PathRequest
+        {
+            size = size,
+            start = start,
+            target = target,
+            origin = origin,
+            pathable = pathable,
+            callback = (path) =>
+            {
+                // Updates the path on callback
+                movement.SetPath(path);
+                pathRequested = false;
+            }
+        };
+
+        // Send pathfinding request
+        PathfindingHandler.Instance.RequestPath(request);
+    }
+
+    public bool WaitingForPath()
+    {
+        return pathRequested;
+    }
 }

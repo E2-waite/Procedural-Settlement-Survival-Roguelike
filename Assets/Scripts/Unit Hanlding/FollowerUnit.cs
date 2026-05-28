@@ -27,7 +27,7 @@ public class FollowerUnit : Unit
     #region States
     protected override void MoveState()
     {
-        FollowPath();
+        movement.FollowPath();
     }
 
     // Follow player
@@ -38,13 +38,13 @@ public class FollowerUnit : Unit
         {
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
 
-            if (!pathRequested && (currentPath == null || currentPath.Count == 0) && Vector3.Distance(transform.position, player.transform.position) > followDist)
+            if (!pathRequested && !movement.HasPath() && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
                 RequestPath(playerPos, player.transform.position);
             }
         }
 
-        FollowPath();
+        movement.FollowPath();
     }
     #endregion
 
@@ -62,7 +62,7 @@ public class FollowerUnit : Unit
     {
         // Move to tile if empty
         pathRequested = false;
-        currentPath.Clear();
+        movement.ClearPath();
 
         SetState(State.Moving);
         RequestPath(tile.position, tile.worldPosition);
@@ -73,7 +73,7 @@ public class FollowerUnit : Unit
     }
     #endregion
 
-    protected override List<Unit> GetNearbyFriendly()
+    public override List<Unit> GetNearbyFriendly()
     {
         if (chunk != null)
         {

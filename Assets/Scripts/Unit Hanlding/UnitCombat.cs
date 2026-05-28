@@ -139,12 +139,12 @@ public class UnitCombat
     // Move towards target
     void Chase()
     {
-        if (!unit.pathRequested && !unit.HasPath())
+        if (!unit.pathRequested && !unit.movement.HasPath())
         {
             unit.RequestPath(TargetPos(), target.transform.position);
         }
 
-        unit.FollowPath();
+        unit.movement.FollowPath();
     }
 
     // Move away from target

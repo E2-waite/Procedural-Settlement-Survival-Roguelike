@@ -104,7 +104,7 @@ public class UnitWork
         }
         else
         {
-            unit.FollowPath();
+            unit.movement.FollowPath();
         }
     }
 
@@ -139,7 +139,7 @@ public class UnitWork
         }
         else
         {
-            unit.FollowPath();
+            unit.movement.FollowPath();
         }
     }
 
@@ -160,7 +160,7 @@ public class UnitWork
         }
         else
         {
-            unit.FollowPath();
+            unit.movement.FollowPath();
         }
     }
     #endregion
