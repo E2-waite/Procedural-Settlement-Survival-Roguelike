@@ -113,7 +113,7 @@ public class UnitCombat
         attackTimer = attackInterval;
         if (target.Hit(attackDamage, unit))
         {
-            Unit nearbyUnit = unit.ScanForUnits(true);
+            Unit nearbyUnit = unit.ScanForHostile(true);
 
             if (nearbyUnit == null)
             {

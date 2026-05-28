@@ -43,11 +43,22 @@ public class EnemyUnit : Unit
 
     #region Detecting Units
     // Gets nearby follower units for targetting
-    protected override List<Unit> GetNearbyUnits()
+    protected override List<Unit> GetNearbyHostile()
     {
         if (chunk != null)
         {
             return chunk.GetFollowers();
+        }
+
+        return null;
+    }
+
+    // Gets nearby enemies units for swarming
+    protected override List<Unit> GetNearbyFriendly()
+    {
+        if (chunk != null)
+        {
+            return chunk.GetEnemies();
         }
 
         return null;

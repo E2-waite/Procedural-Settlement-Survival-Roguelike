@@ -201,10 +201,35 @@ public class Unit : PathAgent
     }
     #endregion
 
+    public float separationRadius = 1f;
+    protected override Vector3 SwarmDirection()
+    {
+        List<Unit> friendlyUnits = GetNearbyFriendly();
+
+        Vector3 separation = Vector3.zero;
+        foreach (Unit unit in friendlyUnits)
+        {
+            Vector3 diff = transform.position - unit.transform.position;
+            float dist = diff.magnitude;
+
+            if (dist < separationRadius && dist > 0.0001f)
+            {
+                separation += diff.normalized / dist;
+            }
+        }
+
+        return separation;
+    }
+
     #region Unit Detection
 
     // Gets all nearby units (in the chunk area) - Fighters get enemies, Enemies get followers
-    protected virtual List<Unit> GetNearbyUnits()
+    protected virtual List<Unit> GetNearbyHostile()
+    {
+        return null;
+    }
+
+    protected virtual List<Unit> GetNearbyFriendly()
     {
         return null;
     }
@@ -212,7 +237,7 @@ public class Unit : PathAgent
     // TODO: get nearby when the chunk's units change, rather than continuously every second
 
     // Scans chunk area for all nearby valid units
-    public virtual Unit ScanForUnits(bool onKill = false)
+    public virtual Unit ScanForHostile(bool onKill = false)
     {
         if (scanTimer > 0) scanTimer -= Time.deltaTime;
 
@@ -223,7 +248,7 @@ public class Unit : PathAgent
 
             if (chunk != null)
             {
-                nearbyUnits = GetNearbyUnits();
+                nearbyUnits = GetNearbyHostile();
 
                 if (nearbyUnits == null) return null;
 

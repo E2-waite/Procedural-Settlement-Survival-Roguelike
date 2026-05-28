@@ -73,6 +73,16 @@ public class FollowerUnit : Unit
     }
     #endregion
 
+    protected override List<Unit> GetNearbyFriendly()
+    {
+        if (chunk != null)
+        {
+            return chunk.GetFollowers();
+        }
+
+        return null;
+    }
+
     #region Targeting
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(PlayerController thePlayer)

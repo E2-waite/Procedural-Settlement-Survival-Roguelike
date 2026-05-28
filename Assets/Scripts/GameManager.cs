@@ -19,6 +19,7 @@ public class GameManager : MonoSingleton<GameManager>
             player = playerObj.GetComponent<PlayerController>();
 
             Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(1.5f, 0.5f, 1.5f), Quaternion.identity);
+            Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
 
             WorldHandler.Instance.HandleChunks(spawnTile.chunk);
         }

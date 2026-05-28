@@ -57,7 +57,7 @@ public class FighterUnit : FollowerUnit
 
     #region Detecting Units
     // Gets nearby follower units for targetting
-    protected override List<Unit> GetNearbyUnits()
+    protected override List<Unit> GetNearbyHostile()
     {
         if (chunk != null)
         {

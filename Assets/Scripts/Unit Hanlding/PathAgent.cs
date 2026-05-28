@@ -7,7 +7,7 @@ public class PathAgent : MonoBehaviour
     const int pathRange = 50;
 
     public float moveSpeed = 10f;
-    public float reachedThresh = .05f;
+    
     public List<Vector2Int> currentPath = new List<Vector2Int>();
     private float pathInterval = 0.5f, repathTimer = 0;
 
@@ -15,6 +15,7 @@ public class PathAgent : MonoBehaviour
     public bool pathRequested = false;
     protected Vector3 targetPos;
     private Vector2Int gridPos = new Vector2Int();
+    private float reachedThresh = .5f;
 
     // Converts world position to grid position
     public Vector2Int GridPos()
@@ -79,10 +80,16 @@ public class PathAgent : MonoBehaviour
         {
             Vector2Int currentTarget = currentPath[pathIndex];
 
-            Vector3 currentTargetPos = new Vector3(currentTarget.x + .5f, .5f, currentTarget.y + .5f);
-            transform.position = Vector3.MoveTowards(transform.position, currentTargetPos, moveSpeed * Time.deltaTime);
+            Vector3 targetPos = new Vector3(currentTarget.x + .5f, .5f, currentTarget.y + .5f);
 
-            if ((transform.position - currentTargetPos).sqrMagnitude < reachedThresh)
+            Vector3 targetDir = (targetPos - transform.position).normalized;
+            Vector3 swarmDir = SwarmDirection();
+
+            Vector3 moveDir = (targetDir + swarmDir).normalized;
+
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
+
+            if ((transform.position - targetPos).sqrMagnitude < reachedThresh)
             {
                 pathIndex++;
 
@@ -93,6 +100,11 @@ public class PathAgent : MonoBehaviour
                 }
             }
         }
+    }
+
+    protected virtual Vector3 SwarmDirection()
+    {
+        return Vector3.zero;
     }
 
     public bool HasPath()
