@@ -61,7 +61,7 @@ public class ChunkResources
 
                     if (resource != null)
                     {
-                        resources[index] = new ResourceNode(index, new Vector2Int(x, y), worldPos, resource.type, tile, resource);
+                        resources[index] = new ResourceNode(index, worldPos, resource.type, tile, resource);
                         ids.Add(index);
                         UpdateMatrix(index);
                         index++;

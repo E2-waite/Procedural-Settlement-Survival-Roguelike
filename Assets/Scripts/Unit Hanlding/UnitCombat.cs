@@ -13,7 +13,7 @@ public class UnitCombat
         Chasing,
         Fleeing
     }
-    CombatState combatState, lastCombatState;
+    CombatState state, lastState;
 
     private Unit unit;
 
@@ -28,8 +28,8 @@ public class UnitCombat
 
     void SetState(CombatState state)
     {
-        lastCombatState = combatState;
-        combatState = state;
+        lastState = this.state;
+        this.state = state;
     }
 
     public void Update()
@@ -64,7 +64,7 @@ public class UnitCombat
     // Executes the current combat state
     public void ExecuteState()
     {
-        switch (combatState)
+        switch (state)
         {
             case CombatState.Attacking:
                 Attack(); break;

@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearbyUnits: []
   followingUnits: []
-  moveSpeed: 5
+  moveSpeed: 7
 --- !u!212 &4316466795535994981
 SpriteRenderer:
   m_ObjectHideFlags: 0

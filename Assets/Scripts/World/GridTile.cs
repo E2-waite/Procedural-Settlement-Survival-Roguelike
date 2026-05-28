@@ -63,6 +63,11 @@ public class GridTile
         Debug.Log("Interacted with: " + tileType.ToString());
     }
 
+    public bool Empty()
+    {
+        return tileType != TileType.Water && building == null && resource == null;
+    }
+
     // Check if this tile can be used in pathing
     public bool Walkable()
     {

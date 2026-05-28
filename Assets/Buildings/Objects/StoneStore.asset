@@ -15,4 +15,6 @@ MonoBehaviour:
   prefab: {fileID: 7387552947533391560, guid: df1297cbc2cb3974e9038671841f3be8, type: 3}
   size: {x: 2, y: 2}
   icon: {fileID: 0}
-  resourceCost: 0a00000000000000
+  cost:
+    resourceCount: 0a00000000000000
+    max: 0

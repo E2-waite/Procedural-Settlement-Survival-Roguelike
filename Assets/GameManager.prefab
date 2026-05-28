@@ -9,11 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1043128713799209120}
+  - component: {fileID: 4710643134306229886}
   - component: {fileID: 3767616630019710532}
   - component: {fileID: 4833945353354088802}
   - component: {fileID: 8971146122719184875}
   - component: {fileID: 9172480445059753431}
   - component: {fileID: 7976667344765694226}
+  - component: {fileID: 2539149676435843786}
+  - component: {fileID: 4820027608928115934}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -36,6 +39,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4710643134306229886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188326325806694745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dbc06fcdbf0dd45832c9d29d4d6e4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
 --- !u!114 &3767616630019710532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,7 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 0, y: 0}
   chunkSize: 100
-  chunkDistance: 2
+  chunkDistance: 1
   noiseScale: 0.05
   chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
   seedOffset: {x: 0, y: 0}
@@ -66,8 +82,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05890fa3c3dda254a91980ed2c1574f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storage:
+    resourceCount: 0000000000000000
+    max: 0
   treeObj: {fileID: 11400000, guid: ada1663e0f5787b4f8d52ad0eca5b545, type: 2}
   stoneObj: {fileID: 11400000, guid: 390567ac189ae9e40be61363badd8fb6, type: 2}
+  maxSearchRange: 10
 --- !u!114 &8971146122719184875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +107,7 @@ MonoBehaviour:
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  state: 0
+  state: 1
 --- !u!114 &9172480445059753431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMarker: {fileID: 0}
-  selectedBuilding: {fileID: 11400000, guid: 9cb131e8b882d2f4b8f9ae6052f6314f, type: 2}
+  buildings:
+  - {fileID: 11400000, guid: f031a6272e27b5545be70b7858b718b7, type: 2}
+  - {fileID: 11400000, guid: 9cb131e8b882d2f4b8f9ae6052f6314f, type: 2}
 --- !u!114 &7976667344765694226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,5 +136,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835c6ec2dcb7fa44590419221b27a8ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedUnit: {fileID: 0}
   hoveringUnit: {fileID: 0}
+  followingUnits: []
+  fighters: []
+  workers: []
+--- !u!114 &2539149676435843786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188326325806694745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ada6412abdcd54398acdf57972dec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
+--- !u!114 &4820027608928115934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188326325806694745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a23de16fd0ce7e41a7f6104bb918546, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

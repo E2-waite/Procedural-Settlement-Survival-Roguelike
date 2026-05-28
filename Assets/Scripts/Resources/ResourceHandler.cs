@@ -41,7 +41,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
     // Searches for the closest neighbouring resource node
     public ResourceNode GetClosestNeighbour(ResourceNode node, bool sameType = true)
     {
-        GridTile tile = node.gridTile;
+        GridTile tile = node.tile;
 
         return ClosestNode(tile.position, node.type, sameType);
     }

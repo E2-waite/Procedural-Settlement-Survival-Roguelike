@@ -71,7 +71,6 @@ public class FollowerUnit : Unit
     public virtual void Command(Unit unit)
     {
     }
-
     #endregion
 
     #region Targeting

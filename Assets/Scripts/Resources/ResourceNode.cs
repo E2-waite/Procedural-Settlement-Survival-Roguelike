@@ -22,17 +22,17 @@ public class ResourceNode
     public Vector3 worldPosition;
     public Vector2Int tilePosition;
     public ResourceObject resourceObj;
-    public GridTile gridTile;
+    public GridTile tile;
     public int index;
 
     int numLeft = 10;
 
 
-    public ResourceNode(int i, Vector2Int pos, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
+    public ResourceNode(int i, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
     {
         index = i;
-        gridTile = tile;
-        tilePosition = pos;
+        this.tile = tile;
+        tilePosition = tile.position;
         worldPosition = worldPos;
         this.type = type;
         resourceObj = obj;

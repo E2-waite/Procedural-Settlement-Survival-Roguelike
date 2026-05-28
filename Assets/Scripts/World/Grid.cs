@@ -12,19 +12,13 @@ public class Grid : MonoSingleton<Grid>
     public float noiseScale = 0.5f;
     public GameObject chunkPrefab;
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
-    private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
+    public Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
 
     private HashSet<Vector2Int> activeChunks = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
     private Vector2Int lastChunkPos;
 
     public Vector2 seedOffset;
-
-    void Start()
-    {
-        seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode()); 
-        GenerateGrid();
-    }
 
     Vector2 GenerateSeedOffset(int seed)
     {
@@ -36,8 +30,10 @@ public class Grid : MonoSingleton<Grid>
         return new Vector2(x, y);
     }
 
-    void GenerateGrid()
+    public void GenerateGrid()
     {
+        seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
+
         // Generate the initial grid
         for (int x = -1; x < 1; x++)
         {
