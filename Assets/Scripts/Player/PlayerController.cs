@@ -9,12 +9,13 @@ using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Health health = new Health();
     PlayerControls controls;
     private Camera cam;
     private Chunk chunk;
 
-    public List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
-    public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
+    private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
+    private List<FollowerUnit> followingUnits = new List<FollowerUnit>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,12 +25,11 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = cam.transform.forward;
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
+        health.Fill();
     }
 
     public float moveSpeed = 5f;
-
     private Vector2 moveInput;
-    Vector2Int gridPos = new Vector2Int();
 
     void Awake()
     {

@@ -86,7 +86,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 4847930130566233340}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
 --- !u!1 &6264898249333736780 stripped
@@ -106,9 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcad231a34964d41b03c164abb89c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  reachedThresh: 0.05
-  currentPath: []
+  movement:
+    moveSpeed: 0
+    pathWeight: 0
+    swarmWeight: 0
+    path: []
   combat:
     attackDist: 1
     attackDamage: 10
@@ -119,8 +121,14 @@ MonoBehaviour:
   maxHealth: 100
   chunkInterval: 1
   chunkTimer: 0
+  swarmRadius: 0.5
+  pathRequested: 0
   followDist: 1.5
   storage:
     resourceCount: 0000000000000000
     max: 10
-  targetStore: {fileID: 0}
+  work:
+    state: 0
+    lastState: 0
+    interactDist: 1.5
+    targetStore: {fileID: 0}

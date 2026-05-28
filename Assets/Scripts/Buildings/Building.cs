@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
+    [SerializeField] Health health = new Health();
     public Vector2Int tilePos;
 
     bool built = false, broken = false;
-    float health = 0, maxHealth = 100;
 
     public MeshRenderer rend;
 
@@ -22,9 +22,9 @@ public class Building : MonoBehaviour
 
     public bool Build(float val)
     {
-        health = Mathf.Clamp(health + val, 0, maxHealth);
+        health.Heal(val);
 
-        if (health >= maxHealth)
+        if (health.Full())
         {
             if (!built)
             {
@@ -43,8 +43,7 @@ public class Building : MonoBehaviour
 
     public void Damage(float val)
     {
-        health = Mathf.Clamp(health - val, 0, maxHealth);
-
-        if (health <= 0) broken = true;
+        health.Damage(val);
+        if (health.Empty()) broken = true;
     }
 }

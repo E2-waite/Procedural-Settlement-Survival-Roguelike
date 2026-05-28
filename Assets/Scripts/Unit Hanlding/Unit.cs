@@ -20,11 +20,12 @@ public class Unit : MonoBehaviour
     }
 
     [SerializeField] public UnitMovement movement;
+    [SerializeField] protected Health health = new Health();
     [SerializeField] protected UnitCombat combat = new UnitCombat();
+
     const int pathRange = 50;
 
     public State state, lastState;
-    public float currentHealth, maxHealth = 100;
     public float chunkInterval = 1f, chunkTimer = 0f;
     public float swarmRadius = .5f;
     [HideInInspector] public bool pathRequested = false;
@@ -46,7 +47,7 @@ public class Unit : MonoBehaviour
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
 
-        currentHealth = maxHealth;
+        health.Fill();
 
         state = State.Idle;
         lastState = State.Idle;
@@ -54,7 +55,7 @@ public class Unit : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (currentHealth <= 0) return; // Dead
+        if (health.Empty()) return; // Dead
 
         StateHandling();
         UpdateChunk();
@@ -164,13 +165,13 @@ public class Unit : MonoBehaviour
     // Handles receiving hits from another unit. Returns true if target is dead
     public virtual bool Hit(float damage, Unit source)
     {
-        if (currentHealth <= 0) return true; // Already dead
+        if (health.Empty()) return true; // Already dead
 
         Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
 
-        currentHealth -= damage;
+        health.Damage(damage);
 
-        if (currentHealth <= 0)
+        if (health.Empty())
         {
             Die();
             return true;

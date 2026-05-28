@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UnitMovement
 {
     public float moveSpeed = 10f, pathWeight = 2f, swarmWeight = 1f;
