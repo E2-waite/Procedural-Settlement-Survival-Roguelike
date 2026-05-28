@@ -38,10 +38,10 @@ public class ChunkResources
             for (int y = 0; y < chunk.size; y++)
             {
                 Vector3 worldPos = new Vector3(chunk.position.x * chunk.size + x + 0.5f, 0, chunk.position.y * chunk.size + y + 0.5f);
-                float noise = Mathf.PerlinNoise((worldPos.x + Grid.Instance.seedOffset.x + 1000) * 0.05f, (worldPos.z + Grid.Instance.seedOffset.y + 1000) * 0.05f);
+                float noise = Mathf.PerlinNoise((worldPos.x + WorldHandler.Instance.seedOffset.x + 1000) * 0.05f, (worldPos.z + WorldHandler.Instance.seedOffset.y + 1000) * 0.05f);
                 //if (noise > 0.5f)
                 {
-                    GridTile tile = Grid.Instance.getTile(worldPos);
+                    GridTile tile = WorldHandler.grid.GetTile(worldPos);
 
                     ResourceObject resource = null;
                     float rand = Random.Range(0, 100);
@@ -77,7 +77,7 @@ public class ChunkResources
 
         matrices[id] =
             Matrix4x4.TRS(
-                resources[id].worldPosition,
+                resources[id].tile.worldPosition,
                 Quaternion.identity,
                 Vector3.one * scale
             );

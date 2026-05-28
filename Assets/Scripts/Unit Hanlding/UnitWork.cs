@@ -42,7 +42,7 @@ public class UnitWork
             case WorkState.Gathering:
                 if (targetResource != null)
                 {
-                    pos = targetResource.worldPosition;
+                    pos = targetResource.tile.worldPosition;
                 }
                 break;
             case WorkState.Storing:
@@ -172,10 +172,7 @@ public class UnitWork
         targetResource = resource;
         SetState(WorkState.Gathering);
 
-        // TODO: fix resources have wrong tile pos
-        Vector2Int resourcePos = new Vector2Int((int)targetResource.worldPosition.x, (int)targetResource.worldPosition.z);
-
-        unit.RequestPath(targetResource.tile.position, targetResource.worldPosition);
+        unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition);
     }
 
     public void SetTarget(ResourceBuilding store)

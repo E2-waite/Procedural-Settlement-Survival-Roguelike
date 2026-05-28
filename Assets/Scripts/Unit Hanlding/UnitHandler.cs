@@ -69,7 +69,7 @@ public class UnitHandler : MonoSingleton<UnitHandler>
         }
         else
         {
-            hoveringTile = Grid.Instance.getTile(hit.point);
+            hoveringTile = WorldHandler.grid.GetTile(hit.point);
             hoveringUnit = null;
         }
     }

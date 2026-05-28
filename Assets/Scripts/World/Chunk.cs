@@ -23,9 +23,10 @@ public class Chunk : MonoBehaviour
     ChunkResources resources;
     private Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
+    PlayerController player = null;
     public List<Unit> followers = new List<Unit>();
     public List<Unit> enemies = new List<Unit>();
-   public  List<Chunk> neighbouringChunks = new List<Chunk>();
+    public  List<Chunk> neighbouringChunks = new List<Chunk>();
 
     public void AddNeighbour(Chunk chunk)
     {
@@ -36,7 +37,7 @@ public class Chunk : MonoBehaviour
     }
 
     // Generate this chunk's mesh 
-    public void Generate(Grid theGrid, Vector2Int pos, int chunkSize, float noiseScale)
+    public void Generate(Grid grid, Vector2Int pos, int chunkSize, float noiseScale)
     {
         size = chunkSize;
         position = pos;
@@ -71,7 +72,7 @@ public class Chunk : MonoBehaviour
                 GridTile.TileType tileType = GetTileType(x, y);
                 GridTile tile = new GridTile(this, tileType, tilePos, new Vector3(tilePos.x, 0, tilePos.y));
 
-                Grid.Instance.setTile(tilePos, tile);
+                grid.SetTile(tilePos, tile);
                 tiles[new Vector2Int(x, y)] = tile;
                 AddTile(x, y, tile, ref vertexIndex);
             }
@@ -121,6 +122,16 @@ public class Chunk : MonoBehaviour
         }
     }
 
+    public void AddPlayer(PlayerController player)
+    {
+        this.player = player;
+    }
+
+    public void RemovePlayer()
+    {
+        player = null;
+    }
+
     private void Update()
     {
         resources.Render();
@@ -150,7 +161,7 @@ public class Chunk : MonoBehaviour
 
     float GetHeight(float x, float y, float noiseScale)
     {
-        float height = GenerateNoise((x + Grid.Instance.seedOffset.x) * noiseScale, (y + Grid.Instance.seedOffset.y) * noiseScale);
+        float height = GenerateNoise((x + WorldHandler.Instance.seedOffset.x) * noiseScale, (y + WorldHandler.Instance.seedOffset.y) * noiseScale);
 
         height = Mathf.Clamp01(height);
         height = Mathf.Pow(height, 1.2f);

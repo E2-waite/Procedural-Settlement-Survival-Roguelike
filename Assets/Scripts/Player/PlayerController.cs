@@ -5,11 +5,13 @@ using UnityEngine;
 using static InteractionManager;
 using UnityEngine.InputSystem;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
     PlayerControls controls;
     private Camera cam;
+    private Chunk chunk;
 
     public List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
     public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
 
     private Vector2 moveInput;
+    Vector2Int gridPos = new Vector2Int();
 
     void Awake()
     {
@@ -54,19 +57,16 @@ public class PlayerController : MonoBehaviour
         return forward * input.y + right * input.x;
     }
 
+    // Converts world position to grid position
+    public Vector2Int GridPos()
+    {
+        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+    }
+
     void Update()
     {
+        UpdateChunk();
         MovePlayer();
-
-        // Player controller needs to know which chunk it's in so it can handle chunk visibility
-
-        GridTile currentTile = Grid.Instance.getTile(transform.position);
-        if (currentTile != null)
-        {
-            // TODO: stop doing this each update (likely expensive)
-            Grid.Instance.HandleChunks(currentTile.chunk.position);
-        }
-
 
         if (Keyboard.current.fKey.wasReleasedThisFrame)
         {
@@ -79,13 +79,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void UpdateChunk()
+    {
+        Chunk newChunk = WorldHandler.grid.ChunkFromGridPos(GridPos());
+
+        if (newChunk != chunk)
+        {
+            if (chunk != null) chunk.RemovePlayer();
+            newChunk.AddPlayer(this);
+            chunk = newChunk;
+
+            // Update chunks (disable stale chunks and enable/create active chunks)
+            WorldHandler.Instance.HandleChunks(chunk);
+        }
+    }
+
     void MovePlayer()
     {
         Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);
 
         Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-        GridTile tile = Grid.Instance.getTile(targetPos);
+        GridTile tile = WorldHandler.grid.GetTile(targetPos);
 
         // Only move if tile is walkable
         if (tile.Walkable())

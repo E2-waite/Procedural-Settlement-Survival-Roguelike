@@ -48,7 +48,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
         if (gridPos != lastPos)
         {
             lastPos = gridPos;
-            GridTile hitTile = Grid.Instance.getTile(gridPos);
+            GridTile hitTile = WorldHandler.grid.GetTile(gridPos);
 
             if (hitTile != null)
             {
@@ -96,7 +96,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
                 {
                     tilePos.x = x;
                     tilePos.y = y;
-                    GridTile tile = Grid.Instance.getTile(tilePos);
+                    GridTile tile = WorldHandler.grid.GetTile(tilePos);
                     tile.Build(building);
                 }
             }
@@ -114,7 +114,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
             {
                 tilePos.x = x;
                 tilePos.y = y;
-                GridTile tile = Grid.Instance.getTile(tilePos);
+                GridTile tile = WorldHandler.grid.GetTile(tilePos);
 
                 if (tile == null || !tile.Buildable())
                 {

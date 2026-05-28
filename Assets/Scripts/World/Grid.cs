@@ -4,169 +4,62 @@ using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Grid : MonoSingleton<Grid>
+public class Grid
 {
-    public Vector2Int size;
-    public int chunkSize = 100;
-    public int chunkDistance = 2;
-    public float noiseScale = 0.5f;
-    public GameObject chunkPrefab;
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
-    public Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
+    private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
+    private WorldHandler world;
 
-    private HashSet<Vector2Int> activeChunks = new HashSet<Vector2Int>();
-    private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
-    private Vector2Int lastChunkPos;
-
-    public Vector2 seedOffset;
-
-    Vector2 GenerateSeedOffset(int seed)
+    public Grid(WorldHandler world)
     {
-        System.Random rand = new System.Random(seed);
-
-        float x = (float)(rand.NextDouble() * 20000 - 10000);
-        float y = (float)(rand.NextDouble() * 20000 - 10000);
-
-        return new Vector2(x, y);
+        this.world = world;
     }
 
-    public void GenerateGrid()
+    public void SetChunk(Vector2Int pos, Chunk chunk)
     {
-        seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
-
-        // Generate the initial grid
-        for (int x = -1; x < 1; x++)
-        {
-            for (int y = -1; y < 1; y++)
-            {
-                Vector2Int chunkPos = new Vector2Int(x, y);
-                GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(chunkPos.x * chunkSize, 0, chunkPos.y * chunkSize), Quaternion.identity);
-                Chunk chunk = chunkObj.GetComponent<Chunk>();
-                chunk.Generate(this, chunkPos, chunkSize, noiseScale);
-                chunkObj.transform.parent = transform;
-                chunkGrid[chunkPos] = chunk;
-                chunk.name = "Chunk: " + chunkPos.ToString();
-            }
-        }
-
-
-        for (int x = -1; x < 1; x++)
-        {
-            for (int y = -1; y < 1; y++)
-            {
-                Vector2Int chunkPos = new Vector2Int(x, y);
-                UpdateChunkNeighbours(chunkGrid[chunkPos]);
-            }
-        }
+        chunkGrid[pos] = chunk;
     }
 
-    // Handle enabling/creation and disabling of valid/invalid chunks
-    public void HandleChunks(Vector2Int pos)
+    public bool HasChunk(Vector2Int pos)
     {
-        if (lastChunkPos == pos) return; // Don't handle chunks if we've already handled this pos
-        lastChunkPos = pos;
-
-        requiredChunks.Clear();
-
-        // Get the chunk positions we want to be active (5 x 5 grid)
-        for (int x = pos.x - 2; x <= pos.x + chunkDistance; x++)
-        {
-            for (int y = pos.y - 2; y <= pos.y + chunkDistance; y++)
-            {
-                requiredChunks.Add(new Vector2Int(x, y));
-            }
-        }
-
-        // Activate/create required chunks
-        foreach (Vector2Int chunkPos in requiredChunks)
-        {
-            Chunk chunk = getChunk(chunkPos);
-        }
-
-        // Disable non-required chunks
-        foreach (var chunkPos in activeChunks)
-        {
-            if (!requiredChunks.Contains(chunkPos))
-            {
-                Chunk chunk = chunkGrid[chunkPos];
-                if (chunk != null && chunk.gameObject.activeSelf)
-                    chunk.gameObject.SetActive(false);
-            }
-        }
-
-        activeChunks.Clear();
-        activeChunks.UnionWith(requiredChunks);
+        return chunkGrid.ContainsKey(pos);
     }
 
-    public Chunk getChunk(Vector2Int pos)
+    public Chunk GetChunk(Vector2Int pos)
     {
-        Chunk chunk;
+        Chunk chunk = null;
         if (chunkGrid.ContainsKey(pos))
-        {
-            // Return the chunk if there is one
             chunk = chunkGrid[pos];
-            if (!chunk.gameObject.activeSelf)
-                chunk.gameObject.SetActive(true);
-        }
-        else
-        {
-            // Create a new chunk if there isn't one
-            GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(pos.x * chunkSize, 0, pos.y * chunkSize), Quaternion.identity);
-            chunkObj.transform.parent = transform;
-            chunk = chunkObj.GetComponent<Chunk>();
-            chunk.Generate(this, pos, chunkSize, noiseScale);
-            chunk.name = "Chunk: " + pos.ToString();
-            chunkGrid[pos] = chunk;
-            UpdateChunkNeighbours(chunk);
-        }
-
         return chunk;
     }
 
-
-    // Updates chunk's neighbours
-    void UpdateChunkNeighbours(Chunk chunk)
-    {
-        for (int i = 0; i < Consts.ALL_NEIGHBOURS.Length; i++)
-        {
-            Vector2Int neighbourPos = chunk.position + Consts.ALL_NEIGHBOURS[i];
-
-            if (chunkGrid.ContainsKey(neighbourPos))
-            {
-                Chunk neighbour = chunkGrid[neighbourPos];
-                neighbour.AddNeighbour(chunk);
-                chunk.AddNeighbour(neighbour);
-            }
-        }
-    }
-
-    public void setTile(Vector2Int pos, GridTile tile)
+    public void SetTile(Vector2Int pos, GridTile tile)
     {
         tileGrid[pos] = tile;
     }
 
-    public GridTile getTile(Vector2Int pos)
+    public bool HasTile(Vector2Int pos)
     {
+        return tileGrid.ContainsKey(pos);
+    }
+
+    public GridTile GetTile(Vector2Int pos)
+    {
+        GridTile tile = null;
         if (tileGrid.ContainsKey(pos))
-        {
-            // Return the tile if there is one
-            return tileGrid[pos];
-        }
-        return null;
-    }
-
-    Vector2Int gridPos = new Vector2Int(), lastGridPos = new Vector2Int();
-    GridTile lastTile = null;
-    public GridTile getTile(Vector3 worldPos)
-    {
-        Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(worldPos.x), Mathf.FloorToInt(worldPos.z));
-
-        GridTile tile = getTile(gridPos);
-
+            tile = tileGrid[pos];
         return tile;
-
     }
 
+    public GridTile GetTile(Vector3 pos)
+    {
+        return GetTile(new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.z)));
+    }
+
+    public IEnumerable<GridTile> Tiles()
+    {
+        return tileGrid.Values;
+    }
 
     public List<GridTile> GetNeighbours(Vector2Int pos)
     {
@@ -179,7 +72,7 @@ public class Grid : MonoSingleton<Grid>
                 if (x == pos.x && y == pos.y)
                     continue;
 
-                GridTile neighbouringTile = getTile(new Vector2Int(x, y));
+                GridTile neighbouringTile = GetTile(new Vector2Int(x, y));
                 if (neighbouringTile != null)
                     neighbours.Add(neighbouringTile);
             }
@@ -190,15 +83,8 @@ public class Grid : MonoSingleton<Grid>
 
     public Chunk ChunkFromGridPos(Vector2Int pos)
     {
-        Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / chunkSize), Mathf.FloorToInt((float)pos.y / chunkSize));
+        Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / world.chunkSize), Mathf.FloorToInt((float)pos.y / world.chunkSize));
 
-        Debug.Log("Getting chunk at " + chunkPos);
-
-
-        if (chunkGrid.ContainsKey(chunkPos))
-        {
-            return chunkGrid[chunkPos];
-        }
-        return null;
+        return GetChunk(chunkPos);
     }
 }

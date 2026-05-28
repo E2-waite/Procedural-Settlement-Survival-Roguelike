@@ -63,7 +63,7 @@ public class GridTile
         Debug.Log("Interacted with: " + tileType.ToString());
     }
 
-    public bool Empty()
+    public bool IsEmpty()
     {
         return tileType != TileType.Water && building == null && resource == null;
     }

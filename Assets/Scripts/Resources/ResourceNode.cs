@@ -18,9 +18,6 @@ public class ResourceNode
 
     public Type type;
     public Density density;
-
-    public Vector3 worldPosition;
-    public Vector2Int tilePosition;
     public ResourceObject resourceObj;
     public GridTile tile;
     public int index;
@@ -32,8 +29,6 @@ public class ResourceNode
     {
         index = i;
         this.tile = tile;
-        tilePosition = tile.position;
-        worldPosition = worldPos;
         this.type = type;
         resourceObj = obj;
         tile.SetResource(this);

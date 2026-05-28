@@ -14,6 +14,7 @@ public class PathAgent : MonoBehaviour
     protected int pathIndex = 0;
     public bool pathRequested = false;
     protected Vector3 targetPos;
+    private Vector2Int gridPos = new Vector2Int();
 
     // Converts world position to grid position
     public Vector2Int GridPos()
@@ -42,7 +43,7 @@ public class PathAgent : MonoBehaviour
             {
                 Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
-                GridTile tile = Grid.Instance.getTile(tilePos);
+                GridTile tile = WorldHandler.grid.GetTile(tilePos);
 
                 if (tile != null && tile.Walkable())
                     pathable[x, y] = true;

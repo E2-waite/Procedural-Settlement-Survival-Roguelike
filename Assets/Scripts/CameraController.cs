@@ -9,18 +9,11 @@ public class CameraController : MonoBehaviour
     public float buildRange = 200f;
 
     Vector3 currentVelocity;
-    Camera camera;
     PlayerController player;
     public float minScroll = 10;
     public float maxScroll = 50;
 
     private Vector3 followOffset = new Vector3(-10, 10, -10);
-
-    private void Start()
-    {
-        camera = GetComponent<Camera>();
-    }
-
 
     void Update()
     {

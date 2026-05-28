@@ -65,7 +65,7 @@ public class Unit : PathAgent
         {
             chunkTimer = chunkInterval;
 
-            Chunk newChunk = Grid.Instance.ChunkFromGridPos(GridPos());
+            Chunk newChunk = WorldHandler.grid.ChunkFromGridPos(GridPos());
             if (newChunk != null && newChunk != chunk)
             {
                 if (chunk != null) chunk.RemoveUnit(this);

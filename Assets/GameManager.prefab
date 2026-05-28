@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1043128713799209120}
   - component: {fileID: 4710643134306229886}
-  - component: {fileID: 3767616630019710532}
+  - component: {fileID: 1314803252080212948}
   - component: {fileID: 4833945353354088802}
   - component: {fileID: 8971146122719184875}
   - component: {fileID: 9172480445059753431}
@@ -51,8 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9dbc06fcdbf0dd45832c9d29d4d6e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 0}
---- !u!114 &3767616630019710532
+  playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
+  workerPrefab: {fileID: 6264898249333736780, guid: e85cb5ba4ea55ce41a4f9af07fa72748, type: 3}
+  player: {fileID: 0}
+--- !u!114 &1314803252080212948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,14 +63,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2188326325806694745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcff574ae4821ba4d83048524eacf297, type: 3}
+  m_Script: {fileID: 11500000, guid: 81e4e120204046645852e7cf21a3da34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
-  chunkSize: 100
-  chunkDistance: 1
-  noiseScale: 0.05
   chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
+  size: {x: 3, y: 3}
+  chunkSize: 100
+  chunkDistance: 2
+  noiseScale: 0.05
   seedOffset: {x: 0, y: 0}
 --- !u!114 &4833945353354088802
 MonoBehaviour:
