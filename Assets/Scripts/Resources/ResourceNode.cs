@@ -22,7 +22,7 @@ public class ResourceNode
     public GridTile tile;
     public int index;
 
-    int numLeft = 10;
+    public int remaining = 10;
 
 
     public ResourceNode(int i, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
@@ -36,21 +36,21 @@ public class ResourceNode
 
     public bool IsEmpty()
     {
-        return numLeft == 0;
+        return remaining == 0;
     }
 
     public int Gather(int amount)
     {
         int gathered = 0;
-        if (amount > numLeft)
+        if (amount > remaining)
         {
-            gathered = numLeft;
-            numLeft = 0;
+            gathered = remaining;
+            remaining = 0;
         }
         else
         {
             gathered = amount;
-            numLeft -= amount;
+            remaining -= amount;
         }
 
         // TODO: clear node from tile when empty

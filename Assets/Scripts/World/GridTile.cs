@@ -12,7 +12,7 @@ public class GridTile
         Mountain
     }
 
-    public TileType tileType;
+    public TileType type;
     public Chunk chunk= null;
     public Vector2Int position;
     public Vector3 worldPosition;
@@ -23,7 +23,7 @@ public class GridTile
     public GridTile(Chunk inChunk, TileType type, Vector2Int pos, Vector3 worldPos)
     {
         chunk = inChunk;
-        tileType = type;
+        this.type = type;
         position = pos;
         worldPosition = worldPos;
     }
@@ -33,7 +33,7 @@ public class GridTile
         resource = node;
     }
 
-    public ResourceNode GetResource()
+    public ResourceNode Resource()
     {
         return resource;
     }
@@ -48,7 +48,7 @@ public class GridTile
         return building != null;
     }
 
-    public Building GetBuilding()
+    public Building Building()
     {
         return building;
     }
@@ -60,25 +60,25 @@ public class GridTile
 
     public void Interact()
     {
-        Debug.Log("Interacted with: " + tileType.ToString());
+        Debug.Log("Interacted with: " + type.ToString());
     }
 
     public bool IsEmpty()
     {
-        return tileType != TileType.Water && building == null && resource == null;
+        return type != TileType.Water && building == null && resource == null;
     }
 
     // Check if this tile can be used in pathing
     public bool Walkable()
     {
         //return true;
-        return tileType != TileType.Water;
+        return type != TileType.Water;
         //return tileType != TileType.Water && building == null && resource == null;
     }
  
     public bool Buildable()
     {
-        return tileType != TileType.Water && building == null && resource == null;
+        return type != TileType.Water && building == null && resource == null;
     }
 
     // Assign building/structure

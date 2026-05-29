@@ -9,14 +9,15 @@ public class UnitWork
     public enum WorkState
     {
         None,
-        Gathering,
-        Storing,
-        Building
+        Gather,
+        Store,
+        Build,
+        Convert
     }
     public WorkState state, lastState;
     public float interactDist = 1.5f;
     float interactInterval = 0.5f, interactTimer = 0;
-
+    private bool startedConverting = false;
     WorkerUnit unit;
 
     ResourceNode targetResource;
@@ -39,20 +40,26 @@ public class UnitWork
 
         switch (state)
         {
-            case WorkState.Gathering:
+            case WorkState.Gather:
                 if (targetResource != null)
                 {
                     pos = targetResource.tile.worldPosition;
                 }
                 break;
-            case WorkState.Storing:
+            case WorkState.Store:
                 if (targetStore != null)
                 {
                     pos = targetStore.transform.position;
                 }
                 break;
-            case WorkState.Building:
+            case WorkState.Build:
                 if (targetBuilding != null)
+                {
+                    pos = targetBuilding.transform.position;
+                }
+                break;
+            case WorkState.Convert:
+                if (targetBuilding != null && targetBuilding is BarracksBuilding)
                 {
                     pos = targetBuilding.transform.position;
                 }
@@ -84,14 +91,17 @@ public class UnitWork
     {
         switch (state)
         {
-            case WorkState.Gathering:
+            case WorkState.Gather:
                 GatherState(); break;
 
-            case WorkState.Storing:
+            case WorkState.Store:
                 StoreState(); break;
 
-            case WorkState.Building:
+            case WorkState.Build:
                 BuildState(); break;
+
+            case WorkState.Convert:
+                ConvertState(); break;
         }
     }
 
@@ -163,6 +173,30 @@ public class UnitWork
             unit.movement.FollowPath();
         }
     }
+
+    void ConvertState()
+    {
+        if (!startedConverting && InRange())
+        {
+            if (targetBuilding is BarracksBuilding)
+            {
+                BarracksBuilding barracks = (BarracksBuilding)targetBuilding;
+
+                if (barracks != null)
+                {
+                    startedConverting = true;
+                    barracks.Convert(unit);
+                    SetState(WorkState.None);
+                    unit.SetIdle();
+                }
+            }    
+        }
+        else
+        {
+            unit.movement.FollowPath();
+        }
+    }
+
     #endregion
     #region Targeting
     public void SetTarget(ResourceNode resource)
@@ -170,7 +204,7 @@ public class UnitWork
         if (resource == null) return;
 
         targetResource = resource;
-        SetState(WorkState.Gathering);
+        SetState(WorkState.Gather);
 
         unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition);
     }
@@ -189,7 +223,7 @@ public class UnitWork
             {
                 // Store resources if have some
                 targetStore = store;
-                SetState(WorkState.Storing);
+                SetState(WorkState.Store);
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
@@ -203,12 +237,30 @@ public class UnitWork
     {
         if (building == null) return;
 
-        targetBuilding = building;
-        SetState(WorkState.Building);
+        if (building.Built())
+        {
+            if (building is BarracksBuilding)
+            {
+                targetBuilding = building;
+                SetState(WorkState.Convert);
 
-        Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
+                Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
-        unit.RequestPath(buildingPos, building.transform.position);
+                unit.RequestPath(buildingPos, building.transform.position);
+
+            }
+        }
+        else
+        {
+            targetBuilding = building;
+            SetState(WorkState.Build);
+
+            Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
+
+            unit.RequestPath(buildingPos, building.transform.position);
+        }
+
+
     }
     #endregion
 

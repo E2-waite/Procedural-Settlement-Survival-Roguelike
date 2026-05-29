@@ -21,7 +21,7 @@ public class Chunk : MonoBehaviour
     public int size;
 
     ChunkResources resources;
-    private Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
+    public Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
     PlayerController player = null;
     public List<Unit> followers = new List<Unit>();
@@ -181,7 +181,7 @@ public class Chunk : MonoBehaviour
         vertices.Add(new Vector3(x + 1, heights[x + 1, y + 1] * heightScale, y + 1));
         vertices.Add(new Vector3(x + 1, heights[x + 1, y] * heightScale, y));
 
-        Color tileColor = ColorFromType(tile.tileType);
+        Color tileColor = ColorFromType(tile.type);
 
         // same color for all 4 vertices
         colours.Add(tileColor);

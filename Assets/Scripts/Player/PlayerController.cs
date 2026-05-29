@@ -50,7 +50,10 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < nearbyUnits.Count; i++)
             {
-                nearbyUnits[i].StartFollowing(this);
+                if (nearbyUnits[i] == null)
+                    nearbyUnits.RemoveAt(i--);
+                else
+                    nearbyUnits[i].StartFollowing(this);
             }
 
             UnitHandler.Instance.SetFollowing(nearbyUnits);

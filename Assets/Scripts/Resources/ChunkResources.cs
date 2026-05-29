@@ -47,12 +47,12 @@ public class ChunkResources
                     float rand = Random.Range(0, 100);
 
 
-                    if (tile.tileType == TileType.Forest)
+                    if (tile.type == TileType.Forest)
                     {
                         if (rand >= 30f)
                             resource = ResourceHandler.Instance.treeObj;
                     }
-                    else if (tile.tileType == TileType.Grass)
+                    else if (tile.type == TileType.Grass)
                     {
 
                         if (rand >= 90f)

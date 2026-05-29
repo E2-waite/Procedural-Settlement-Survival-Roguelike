@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
         Work
     }
 
-    [SerializeField] protected Health health = new Health();
+    [SerializeField] public Health health = new Health();
     [SerializeField] public UnitMovement movement;
     [SerializeField] protected UnitCombat combat = new UnitCombat();
 
@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
 
     private Camera cam;
 
-    protected Chunk chunk;
+    public Chunk chunk;
 
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;

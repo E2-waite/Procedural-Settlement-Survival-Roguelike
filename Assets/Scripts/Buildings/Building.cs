@@ -5,6 +5,13 @@ public class Building : MonoBehaviour
     [SerializeField] Health health = new Health();
     public Vector2Int tilePos;
 
+    public int id;
+
+    public void Init(int id)
+    {
+        this.id = id;
+    }
+
     bool built = false, broken = false;
 
     public MeshRenderer rend;
@@ -46,4 +53,6 @@ public class Building : MonoBehaviour
         health.Damage(val);
         if (health.Empty()) broken = true;
     }
+
+
 }

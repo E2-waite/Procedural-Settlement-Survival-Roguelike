@@ -14,6 +14,11 @@ public class FighterUnit : FollowerUnit
         base.Update();
     }
 
+    public void Init(WorkerUnit unit)
+    {
+        health = unit.health;
+    }
+
     #region Taking Damage
     public override bool Hit(float damage, Unit source)
     {

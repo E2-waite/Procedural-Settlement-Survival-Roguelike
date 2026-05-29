@@ -38,7 +38,7 @@ public class WorkerUnit : FollowerUnit
         if (tile.HasBuilding())
         {
             // Interact with building if tile has one
-            Building building = tile.GetBuilding();
+            Building building = tile.Building();
 
             if (!building.Built())
             {
@@ -51,6 +51,10 @@ public class WorkerUnit : FollowerUnit
                 if (building is ResourceBuilding)
                 {
                     TargetStore((ResourceBuilding)building);
+                }
+                else if (building is BarracksBuilding)
+                {
+                    TargetBuilding(building);
                 }
             }
 

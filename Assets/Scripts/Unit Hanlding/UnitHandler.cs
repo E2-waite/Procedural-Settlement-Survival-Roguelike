@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class UnitHandler : MonoSingleton<UnitHandler>
 {
+    public GameObject fighterPrefab;
+
     public GridTile hoveringTile = null;
     public Unit hoveringUnit = null;
     public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
