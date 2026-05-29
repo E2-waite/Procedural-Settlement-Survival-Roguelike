@@ -722,6 +722,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7976667344765694226, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: fighterPrefab
+      value: 
+      objectReference: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
     - target: {fileID: 8971146122719184875, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: cam
       value: 
@@ -730,6 +734,22 @@ PrefabInstance:
       propertyPath: tileMarker
       value: 
       objectReference: {fileID: 1828321788}
+    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: buildings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: 'buildings.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6643644101c74bc4899c328c184d2a06, type: 2}
+    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: 'buildings.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f031a6272e27b5545be70b7858b718b7, type: 2}
+    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: 'buildings.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cb131e8b882d2f4b8f9ae6052f6314f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -47,9 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5be38ffd177c44ae677ce207b6089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearbyUnits: []
-  followingUnits: []
-  moveSpeed: 7
+  sprite:
+    spriteRenderer: {fileID: 4316466795535994981}
+    upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
 --- !u!212 &4316466795535994981
 SpriteRenderer:
   m_ObjectHideFlags: 0

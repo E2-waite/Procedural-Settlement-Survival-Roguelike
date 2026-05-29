@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class PlayerMovement
 {
+    Animator anim;
     public float moveSpeed = 5f;
     [HideInInspector]public PlayerController player;
     private PlayerControls controls;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
 
     public void EnableControls(bool enable)
     {
@@ -23,6 +24,8 @@ public class PlayerMovement
 
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        anim = player.GetComponent<Animator>();
     }
 
     public void Update()

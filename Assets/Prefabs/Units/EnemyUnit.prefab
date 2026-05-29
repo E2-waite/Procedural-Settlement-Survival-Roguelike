@@ -93,6 +93,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0900005cd9762408cea0e1b0ad9c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite:
+    spriteRenderer: {fileID: 5226875053498561622}
+    upRight: {fileID: -1078560978, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
+    upLeft: {fileID: -1910660295, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
+    downRight: {fileID: -814534063, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
+    downLeft: {fileID: -783307016, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
   movement:
     moveSpeed: 0
     pathWeight: 0
@@ -104,9 +110,13 @@ MonoBehaviour:
     target: {fileID: 0}
   state: 0
   lastState: 0
-  currentHealth: 0
-  maxHealth: 100
   chunkInterval: 1
   chunkTimer: 0
   swarmRadius: 0.5
   pathRequested: 0
+  chunk: {fileID: 0}
+--- !u!212 &5226875053498561622 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6255756112258551462, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 2186917774960868080}
+  m_PrefabAsset: {fileID: 0}

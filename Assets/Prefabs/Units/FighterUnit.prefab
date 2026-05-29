@@ -75,6 +75,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
       insertIndex: 1
       addedObject: {fileID: 3092913945188860916}
+    - targetCorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4641106469875735490}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
 --- !u!1 &4515021916246453854 stripped
 GameObject:
@@ -93,6 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47ac2f1960a1664f864fc138dcce55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite:
+    spriteRenderer: {fileID: 8557692821436551359}
+    upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
   movement:
     moveSpeed: 0
     pathWeight: 0
@@ -104,10 +113,36 @@ MonoBehaviour:
     target: {fileID: 0}
   state: 0
   lastState: 0
-  currentHealth: 0
-  maxHealth: 1000
   chunkInterval: 1
   chunkTimer: 0
   swarmRadius: 0.5
   pathRequested: 0
+  chunk: {fileID: 0}
   followDist: 1.5
+--- !u!95 &-4641106469875735490
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4515021916246453854}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &8557692821436551359 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6255756112258551462, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 2311438758458990105}
+  m_PrefabAsset: {fileID: 0}

@@ -33,6 +33,13 @@ public class UnitMovement
         pathIndex = 0;
     }
 
+    Vector3 moveDir = Vector3.zero;
+
+    public Vector3 MoveDir()
+    {
+        return moveDir;
+    }
+
     public void FollowPath()
     {
         if (path != null && path.Count > 0)
@@ -44,7 +51,7 @@ public class UnitMovement
             Vector3 pathDir = (targetPos - unit.transform.position).normalized;
             Vector3 swarmDir = SwarmDirection();
 
-            Vector3 moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
+            moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
             unit.transform.position += moveDir * moveSpeed * Time.deltaTime;
 

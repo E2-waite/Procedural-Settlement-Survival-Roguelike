@@ -19,6 +19,8 @@ public class Unit : MonoBehaviour
         Work
     }
 
+
+    [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public Health health = new Health();
     [SerializeField] public UnitMovement movement;
     [SerializeField] protected UnitCombat combat = new UnitCombat();
@@ -59,6 +61,8 @@ public class Unit : MonoBehaviour
 
         StateHandling();
         UpdateChunk();
+
+        sprite.SetDirection(movement.MoveDir());
 
         if (combat != null)
         {

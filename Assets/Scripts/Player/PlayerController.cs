@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] Health health = new Health();
     [SerializeField] PlayerMovement movement = new PlayerMovement();
     private Camera cam;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateChunk();
         movement.Update();
+        sprite.SetDirection(movement.moveInput);
 
         if (Keyboard.current.fKey.wasReleasedThisFrame)
         {

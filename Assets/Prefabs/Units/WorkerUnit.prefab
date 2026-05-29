@@ -89,6 +89,11 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 4847930130566233340}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+--- !u!212 &2205355372038519725 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6255756112258551462, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 5209000163720082699}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6264898249333736780 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
@@ -106,6 +111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcad231a34964d41b03c164abb89c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite:
+    spriteRenderer: {fileID: 2205355372038519725}
+    upRight: {fileID: -1985923885, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
+    upLeft: {fileID: -1893485436, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
+    downRight: {fileID: 892262829, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
+    downLeft: {fileID: 295343136, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
   movement:
     moveSpeed: 0
     pathWeight: 0
@@ -117,12 +128,11 @@ MonoBehaviour:
     target: {fileID: 0}
   state: 0
   lastState: 0
-  currentHealth: 0
-  maxHealth: 100
   chunkInterval: 1
   chunkTimer: 0
   swarmRadius: 0.5
   pathRequested: 0
+  chunk: {fileID: 0}
   followDist: 1.5
   storage:
     resourceCount: 0000000000000000
