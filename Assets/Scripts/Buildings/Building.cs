@@ -4,22 +4,28 @@ public class Building : MonoBehaviour
 {
     [SerializeField] Health health = new Health();
     public Vector2Int tilePos;
+    public bool autoBuild = false;
 
     public int id;
+
+    bool built = false, broken = false;
+
+    public MeshRenderer mesh;
+
+    protected virtual void Start()
+    {
+        if (!Built())
+            mesh.material.color = Color.red;
+
+        if (autoBuild)
+        {
+            FinishBuilding();
+        }
+    }
 
     public void Init(int id)
     {
         this.id = id;
-    }
-
-    bool built = false, broken = false;
-
-    public MeshRenderer rend;
-
-    private void Start()
-    {
-        if (!Built())
-            rend.material.color = Color.red;
     }
 
     public bool Built()
@@ -36,16 +42,21 @@ public class Building : MonoBehaviour
             if (!built)
             {
                 built = true;
+                FinishBuilding();
             }
             else
             {
                 broken = false;
             }
-            rend.material.color = Color.green;
 
             return true;
         }
         return false;
+    }
+
+    protected virtual void FinishBuilding()
+    {
+        mesh.material.color = Color.green;
     }
 
     public void Damage(float val)

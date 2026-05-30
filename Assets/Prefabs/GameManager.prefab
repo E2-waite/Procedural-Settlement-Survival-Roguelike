@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7976667344765694226}
   - component: {fileID: 2539149676435843786}
   - component: {fileID: 4820027608928115934}
+  - component: {fileID: -4518729084076049903}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   workerPrefab: {fileID: 6264898249333736780, guid: e85cb5ba4ea55ce41a4f9af07fa72748, type: 3}
+  firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
   player: {fileID: 0}
 --- !u!114 &1314803252080212948
 MonoBehaviour:
@@ -138,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835c6ec2dcb7fa44590419221b27a8ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fighterPrefab: {fileID: 0}
   hoveringUnit: {fileID: 0}
   followingUnits: []
   fighters: []
@@ -167,3 +170,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a23de16fd0ce7e41a7f6104bb918546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4518729084076049903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188326325806694745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096a5d6a379e81c4c815dd0e99b8031a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireBuildings: []

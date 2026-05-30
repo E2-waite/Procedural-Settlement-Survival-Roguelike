@@ -5,6 +5,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public GameObject playerPrefab;
     public GameObject workerPrefab;
+    public GameObject firePrefab;
     public PlayerController player;
 
     private void Start()
@@ -15,10 +16,15 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (spawnTile != null)
         {
-            GameObject playerObj = Instantiate(playerPrefab, spawnTile.worldPosition + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity);
+            GameObject fireObj = Instantiate(firePrefab, spawnTile.worldPosition, Quaternion.identity);
+            FireBuilding fireBuilding = fireObj.GetComponent<FireBuilding>();
+            spawnTile.Build(fireBuilding);
+
+            GameObject playerObj = Instantiate(playerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
             player = playerObj.GetComponent<PlayerController>();
 
-            Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(1.5f, 0.5f, 1.5f), Quaternion.identity);
+            Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+            
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, 1.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);

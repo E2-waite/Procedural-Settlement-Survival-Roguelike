@@ -37,7 +37,7 @@ public class ChunkResources
         {
             for (int y = 0; y < chunk.size; y++)
             {
-                Vector3 worldPos = new Vector3(chunk.position.x * chunk.size + x + 0.5f, 0, chunk.position.y * chunk.size + y + 0.5f);
+                Vector3 worldPos = new Vector3(chunk.position.x * chunk.size + x, 0, chunk.position.y * chunk.size + y);
                 float noise = Mathf.PerlinNoise((worldPos.x + WorldHandler.Instance.seedOffset.x + 1000) * 0.05f, (worldPos.z + WorldHandler.Instance.seedOffset.y + 1000) * 0.05f);
                 //if (noise > 0.5f)
                 {
@@ -49,8 +49,7 @@ public class ChunkResources
 
                     if (tile.type == TileType.Forest)
                     {
-                        if (rand >= 30f)
-                            resource = ResourceHandler.Instance.treeObj;
+                        resource = ResourceHandler.Instance.treeObj;
                     }
                     else if (tile.type == TileType.Grass)
                     {
@@ -75,9 +74,11 @@ public class ChunkResources
     {
         float scale = 1f;
 
+        ResourceNode resource = resources[id];
+
         matrices[id] =
             Matrix4x4.TRS(
-                resources[id].tile.worldPosition,
+                resources[id].tile.Center(),
                 Quaternion.identity,
                 Vector3.one * scale
             );

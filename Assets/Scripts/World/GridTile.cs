@@ -28,6 +28,11 @@ public class GridTile
         worldPosition = worldPos;
     }
 
+    public Vector3 Center()
+    {
+        return worldPosition + new Vector3(.5f, 0, .5f);
+    }
+
     public void SetResource(ResourceNode node)
     {
         resource = node;

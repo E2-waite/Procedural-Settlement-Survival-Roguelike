@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
-using static InteractionManager;
 using UnityEngine.InputSystem;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] Health health = new Health();
     [SerializeField] PlayerMovement movement = new PlayerMovement();
+    [SerializeField] Fire fire = new Fire(false);
+    public float fireLightDist = 2f, fireCheckInterval = .5f;
+    private float fireCheckTimer = 0f;
+    public Light fireLight;
     private Camera cam;
     private Chunk chunk;
 
@@ -31,6 +30,8 @@ public class PlayerController : MonoBehaviour
         forward.Normalize();
         transform.rotation = Quaternion.LookRotation(forward);
         health.Fill();
+
+        fire.Init(fireLight);
     }
 
     void OnEnable() => movement.EnableControls(true);
@@ -59,6 +60,47 @@ public class PlayerController : MonoBehaviour
             }
 
             UnitHandler.Instance.SetFollowing(nearbyUnits);
+        }
+
+        if (fireCheckTimer <= 0)
+        {
+            CheckFires();
+        }
+        else
+        {
+            fireCheckTimer -= Time.deltaTime;
+        }
+        fire.Update();
+    }
+
+    FireBuilding FindFire()
+    {
+        fireCheckTimer = fireCheckInterval;
+
+        List<FireBuilding> fires = FireHandler.Instance.fireBuildings;
+        FireBuilding closest = null;
+        float closestDist = float.MaxValue;
+
+        foreach (FireBuilding fire in fires)
+        {
+            float dist = Vector3.Distance(transform.position, fire.transform.position);
+            if (dist < closestDist && dist < fireLightDist)
+            {
+                closestDist = dist;
+                closest = fire;
+            }
+        }
+
+        return closest;
+    }
+
+    void CheckFires()
+    {
+        FireBuilding fireBuilding = FindFire();
+
+        if (fireBuilding != null)
+        {
+            fire.Light();
         }
     }
 
