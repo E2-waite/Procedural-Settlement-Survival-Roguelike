@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         if (fireBuilding != null)
         {
-            fire.Light();
+            fireBuilding.Light(fire);
         }
     }
 

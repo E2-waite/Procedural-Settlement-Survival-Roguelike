@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FireBuilding : Building
 {
-    protected Fire fire = new Fire(false);
+    [SerializeField] protected Fire fire = new Fire(false);
     public Light fireLight;
 
     protected override void Start()
@@ -19,5 +19,32 @@ public class FireBuilding : Building
         {
             FireHandler.Instance.Add(this);
         }
+    }
+
+    private void Update()
+    {
+        fire.Update();
+    }
+
+    public bool Lit()
+    {
+        return fire.Lit();
+    }
+
+    public void Light(Fire other)
+    {
+        if (fire != null && other != null)
+        {
+            if (other.Lit())
+            {
+                fire.Light();
+            }
+
+            if (fire.Lit())
+            {
+                other.Light();
+            }
+        }
+
     }
 }
