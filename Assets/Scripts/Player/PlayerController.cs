@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Damageable
 {
+    public override TargetType Type => TargetType.Player;
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] PlayerMovement movement = new PlayerMovement();
     [SerializeField] Fire fire = new Fire(false);

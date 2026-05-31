@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Building : Damageable
 {
+    public override TargetType Type => TargetType.Building;
+
     public Vector2Int tilePos;
     public bool autoBuild = false;
 

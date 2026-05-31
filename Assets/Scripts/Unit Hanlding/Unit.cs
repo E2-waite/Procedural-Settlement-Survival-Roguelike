@@ -13,11 +13,12 @@ public class Unit : Damageable
         Work
     }
 
+    public virtual UnitCombat Combat => null;
 
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public UnitMovement movement;
-    [SerializeField] protected UnitCombat combat = new UnitCombat();
-
+    //[SerializeField] protected UnitCombat combat = new UnitCombat();
+    public override TargetType Type => TargetType.Unit;
     const int pathRange = 50;
 
     public State state, lastState;
@@ -57,9 +58,9 @@ public class Unit : Damageable
 
         sprite.SetDirection(movement.MoveDir());
 
-        if (combat != null)
+        if (Combat != null)
         {
-            combat.Update();
+            Combat.Update();
         }
     }
 
@@ -84,7 +85,7 @@ public class Unit : Damageable
 
     #region States
     // Generic SetState function for setting units' state to generic state (idle, moving, following and attacking)
-    protected virtual void SetState(State newState)
+    public virtual void SetState(State newState)
     {
         lastState = state;
         state = newState;
@@ -99,6 +100,11 @@ public class Unit : Damageable
     public void SetIdle()
     {
         SetState(State.Idle);
+    }
+
+    public void StartCombat()
+    {
+        SetState(State.Combat);
     }
 
     void StateHandling()
@@ -139,10 +145,10 @@ public class Unit : Damageable
 
     protected virtual void CombatState()
     {
-        if (combat != null)
+        if (Combat != null)
         {
-            combat.UpdateState();
-            combat.ExecuteState();
+            Combat.UpdateState();
+            Combat.ExecuteState();
         }
     }
 
@@ -166,28 +172,33 @@ public class Unit : Damageable
 
     }
 
-    // Delayed death
-    IEnumerator DeathRoutine()
+    public override bool Hit(float damage, Damageable source)
     {
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log(name + " should die");
-        Destroy(gameObject);
+        bool died = base.Hit(damage, source);
+
+        if (!died && Combat != null)
+        {
+            Combat.AddThreat(source, 5);
+        }
+
+        return died;
     }
+
     #endregion
 
     #region Targeting
     // Targets the passed unit and sets state to attacking
     protected virtual void TargetUnit(Unit unit)
     {
-        if (combat != null && unit != null)
+        if (Combat != null && unit != null)
         {
-            combat.Target(unit);
+            Combat.Target(unit);
 
             SetState(State.Combat);
 
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(unit.transform.position.x), Mathf.FloorToInt(unit.transform.position.z));
 
-            RequestPath(combat.TargetPos(), unit.transform.position);
+            RequestPath(Combat.TargetPos(), unit.transform.position);
         }
     }
     #endregion

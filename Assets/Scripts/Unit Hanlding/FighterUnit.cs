@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FighterUnit : FollowerUnit
 {
+    [SerializeField] public UnitCombat combat = new UnitCombat();
+    public override UnitCombat Combat => combat;
+
     protected override void Start()
     {
         base.Start();

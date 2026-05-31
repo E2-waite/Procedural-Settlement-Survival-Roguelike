@@ -6,6 +6,9 @@ using static WorkerUnit;
 
 public class EnemyUnit : Unit
 {
+    [SerializeField] public UnitCombat combat = new UnitCombat();
+    public override UnitCombat Combat => combat;
+
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
     FireBuilding targetFire;
@@ -27,8 +30,8 @@ public class EnemyUnit : Unit
             targetFire = FindFire();
             if (targetFire != null)
             {
-                SetState(State.Combat);
-                combat.Target(targetFire);
+                //SetState(State.Combat);
+                //combat.Target(targetFire);
             }
         }
         else

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FireBuilding : Building
 {
+    public override TargetType Type => TargetType.Fire;
+
     [SerializeField] protected Fire fire = new Fire(false);
     public Light fireLight;
 

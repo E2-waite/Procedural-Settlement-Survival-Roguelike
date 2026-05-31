@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Damageable : MonoBehaviour
 {
+    public enum TargetType
+    {
+        Unit,
+        Building,
+        Fire,
+        Player,
+        Max
+    }
+    public virtual TargetType Type => TargetType.Unit;
     [SerializeField] protected Health health = new Health();
     public Health Health => health;
 
