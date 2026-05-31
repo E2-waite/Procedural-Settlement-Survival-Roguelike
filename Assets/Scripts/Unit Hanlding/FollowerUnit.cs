@@ -49,10 +49,9 @@ public class FollowerUnit : Unit
     #endregion
 
     #region Taking Damage
-    protected override void Die()
+    protected override void OnDeathStart()
     {
         UnitHandler.Instance.RemoveUnit(this);
-        base.Die();
     }
 
     #endregion

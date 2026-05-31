@@ -6,6 +6,8 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject playerPrefab;
     public GameObject workerPrefab;
     public GameObject firePrefab;
+    public GameObject fighterPrefab;
+    public GameObject enemyPrefab;
     public PlayerController player;
 
     private void Start()
@@ -24,7 +26,10 @@ public class GameManager : MonoSingleton<GameManager>
             player = playerObj.GetComponent<PlayerController>();
 
             Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
-            
+
+            Instantiate(fighterPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
+            Instantiate(enemyPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, 1.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);

@@ -9,4 +9,9 @@ public class FireHandler : MonoSingleton<FireHandler>
     {
         fireBuildings.Add(building);
     }
+
+    public void Remove(FireBuilding building)
+    {
+        fireBuildings.Remove(building);
+    }
 }

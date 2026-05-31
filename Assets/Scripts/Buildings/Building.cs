@@ -1,14 +1,13 @@
 using UnityEngine;
 
-public class Building : MonoBehaviour
+public class Building : Damageable
 {
-    [SerializeField] Health health = new Health();
     public Vector2Int tilePos;
     public bool autoBuild = false;
 
     public int id;
 
-    bool built = false, broken = false;
+    bool built = false, destroyed = false;
 
     public MeshRenderer mesh;
 
@@ -30,7 +29,7 @@ public class Building : MonoBehaviour
 
     public bool Built()
     {
-        return built && !broken;
+        return built && !destroyed;
     }
 
     public bool Build(float val)
@@ -46,7 +45,7 @@ public class Building : MonoBehaviour
             }
             else
             {
-                broken = false;
+                destroyed = false;
             }
 
             return true;
@@ -58,12 +57,4 @@ public class Building : MonoBehaviour
     {
         mesh.material.color = Color.green;
     }
-
-    public void Damage(float val)
-    {
-        health.Damage(val);
-        if (health.Empty()) broken = true;
-    }
-
-
 }

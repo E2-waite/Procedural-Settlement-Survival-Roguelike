@@ -16,24 +16,8 @@ public class FighterUnit : FollowerUnit
 
     public void Init(WorkerUnit unit)
     {
-        health = unit.health;
+        health = unit.Health;
     }
-
-    #region Taking Damage
-    public override bool Hit(float damage, Unit source)
-    {
-        if (base.Hit(damage, source)) return true;
-
-        if (source is EnemyUnit)
-        {
-            // Update target?
-            TargetUnit(source);
-        }
-
-        return false;
-    }
-
-    #endregion
 
     #region Commanding
 

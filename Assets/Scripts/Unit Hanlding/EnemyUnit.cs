@@ -6,6 +6,10 @@ using static WorkerUnit;
 
 public class EnemyUnit : Unit
 {
+    public float fireCheckInterval = .5f, fireDetectDist = 30f;
+    private float fireCheckTimer = 0f;
+    FireBuilding targetFire;
+
     protected override void Start()
     {
         base.Start();
@@ -17,27 +21,61 @@ public class EnemyUnit : Unit
     protected override void Update()
     {
         base.Update();
+
+        if ((targetFire == null || targetFire.IsDead) && fireCheckTimer <= 0)
+        {
+            targetFire = FindFire();
+            if (targetFire != null)
+            {
+                SetState(State.Combat);
+                combat.Target(targetFire);
+            }
+        }
+        else
+        {
+            fireCheckTimer -= Time.deltaTime;
+        }
+    }
+
+    FireBuilding FindFire()
+    {
+        fireCheckTimer = fireCheckInterval;
+
+        List<FireBuilding> fires = FireHandler.Instance.fireBuildings;
+        FireBuilding closest = null;
+        float closestDist = float.MaxValue;
+
+        foreach (FireBuilding fire in fires)
+        {
+            float dist = Vector3.Distance(transform.position, fire.transform.position);
+            if (dist < closestDist && dist < fireDetectDist)
+            {
+                closestDist = dist;
+                closest = fire;
+            }
+        }
+
+        return closest;
     }
 
     #region Taking Damage
 
-    public override bool Hit(float damage, Unit source)
+    public override bool Hit(float damage, Damageable source)
     {
         if (base.Hit(damage, source)) return true;
 
         if (source is FighterUnit)
         {
             // Targets the unit that hit this enemy
-            TargetUnit(source);
+            TargetUnit((FighterUnit)source);
         }
 
         return false;
     }
 
-    protected override void Die()
+    protected override void OnDeathStart()
     {
         EnemyHandler.Instance.RemoveEnemy(this);
-        base.Die();
     }
     #endregion
 

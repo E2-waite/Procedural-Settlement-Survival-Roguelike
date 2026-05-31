@@ -1,14 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static EnemyUnit;
-using static FighterUnit;
-using static Pathfinding;
-using static UnityEditorInternal.VersionControl.ListControl;
-using static UnityEngine.GraphicsBuffer;
-using static WorkerUnit;
 
-public class Unit : MonoBehaviour
+public class Unit : Damageable
 {
     public enum State
     {
@@ -21,7 +15,6 @@ public class Unit : MonoBehaviour
 
 
     [SerializeField] UnitSprite sprite = new UnitSprite();
-    [SerializeField] public Health health = new Health();
     [SerializeField] public UnitMovement movement;
     [SerializeField] protected UnitCombat combat = new UnitCombat();
 
@@ -57,7 +50,7 @@ public class Unit : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (health.Empty()) return; // Dead
+        if (IsDead) return; // Dead
 
         StateHandling();
         UpdateChunk();
@@ -68,12 +61,6 @@ public class Unit : MonoBehaviour
         {
             combat.Update();
         }
-    }
-
-    // Converts world position to grid position
-    public Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -167,30 +154,16 @@ public class Unit : MonoBehaviour
 
     #region Taking Damage
     // Handles receiving hits from another unit. Returns true if target is dead
-    public virtual bool Hit(float damage, Unit source)
-    {
-        if (health.Empty()) return true; // Already dead
 
-        Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
+    
 
-        health.Damage(damage);
-
-        if (health.Empty())
-        {
-            Die();
-            return true;
-        }
-        return false;
-    }
-
-    // Handle death
-    protected virtual void Die()
+    protected override void OnDeathStart()
     {
         if (chunk != null)
         {
             chunk.RemoveUnit(this);
         }
-        StartCoroutine(DeathRoutine());
+
     }
 
     // Delayed death
@@ -208,7 +181,7 @@ public class Unit : MonoBehaviour
     {
         if (combat != null && unit != null)
         {
-            combat.SetTarget(unit);
+            combat.Target(unit);
 
             SetState(State.Combat);
 

@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Damageable
 {
     [SerializeField] UnitSprite sprite = new UnitSprite();
-    [SerializeField] Health health = new Health();
     [SerializeField] PlayerMovement movement = new PlayerMovement();
     [SerializeField] Fire fire = new Fire(false);
     public float fireLightDist = 2f, fireCheckInterval = .5f;

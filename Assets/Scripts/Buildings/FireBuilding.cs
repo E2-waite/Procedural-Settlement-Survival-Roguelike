@@ -21,6 +21,11 @@ public class FireBuilding : Building
         }
     }
 
+    protected override void OnDeathStart()
+    {
+        FireHandler.Instance.Remove(this);
+    }
+
     private void Update()
     {
         fire.Update();

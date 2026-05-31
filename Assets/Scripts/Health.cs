@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class Health
 {
     [SerializeField] protected float current = 0, max = 100;
@@ -29,8 +30,5 @@ public class Health
         return current >= max;
     }
 
-    public bool Empty()
-    {
-        return current <= 0;
-    }
+    public bool IsEmpty {  get { return current <= 0; } }
 }

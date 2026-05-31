@@ -13,13 +13,13 @@ public class UnitCombat
         Chasing,
         Fleeing
     }
-    CombatState state, lastState;
+    [SerializeField]CombatState state, lastState;
 
     private Unit unit;
 
     public float attackDist = 1f, attackDamage = 10f;
     protected float attackInterval = 0.5f, attackTimer = 0;
-    public Unit target;
+    public Damageable target;
 
     public void SetUnit(Unit unit)
     {
@@ -80,9 +80,10 @@ public class UnitCombat
         }
     }
 
-    public void SetTarget(Unit unit)
+    public void Target(Damageable target)
     {
-        target = unit;
+        this.target = target;
+        SetState(CombatState.Attacking);
     }
 
     // Returns the target's grid position
@@ -123,7 +124,7 @@ public class UnitCombat
             else
             {
                 // Target unit if nearby unit was found
-                SetTarget(nearbyUnit);
+                Target(nearbyUnit);
             }
         }
 

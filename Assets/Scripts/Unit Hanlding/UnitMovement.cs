@@ -75,6 +75,8 @@ public class UnitMovement
         Vector3 separation = Vector3.zero;
         foreach (Unit nearby in friendlyUnits)
         {
+            if (nearby == null) continue;
+
             Vector3 diff = unit.transform.position - nearby.transform.position;
             float dist = diff.magnitude;
 
