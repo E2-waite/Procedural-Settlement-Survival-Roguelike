@@ -59,7 +59,7 @@ public class TileMarker : MonoBehaviour
             {
                 tilePos.x = x; 
                 tilePos.y = y;
-                GridTile tile = WorldHandler.grid.GetTile(tilePos);
+                GridTile tile = WorldManager.grid.GetTile(tilePos);
 
                 Vector2Int markerPos = new Vector2Int(x - highlightPos.x, y - highlightPos.y);
                 MeshRenderer marker = null;
@@ -98,7 +98,7 @@ public class TileMarker : MonoBehaviour
             {
                 tilePos.x = x;
                 tilePos.y = y;
-                GridTile tile = WorldHandler.grid.GetTile(tilePos);
+                GridTile tile = WorldManager.grid.GetTile(tilePos);
 
                 MeshRenderer marker = null;
                 Vector2Int markerPos = new Vector2Int(x - highlightPos.x, y - highlightPos.y);

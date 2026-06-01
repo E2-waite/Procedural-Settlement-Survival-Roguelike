@@ -5,9 +5,9 @@ public class Grid
 {
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
     private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
-    private WorldHandler world;
+    private WorldManager world;
 
-    public Grid(WorldHandler world)
+    public Grid(WorldManager world)
     {
         this.world = world;
     }

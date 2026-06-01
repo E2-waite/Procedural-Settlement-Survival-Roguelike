@@ -17,7 +17,6 @@ public class Unit : Damageable
 
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public UnitMovement movement;
-    //[SerializeField] protected UnitCombat combat = new UnitCombat();
     public override TargetType Type => TargetType.Unit;
     const int pathRange = 50;
 
@@ -71,7 +70,7 @@ public class Unit : Damageable
         {
             chunkTimer = chunkInterval;
 
-            Chunk newChunk = WorldHandler.grid.ChunkFromGridPos(GridPos());
+            Chunk newChunk = WorldManager.grid.ChunkFromGridPos(GridPos());
             if (newChunk != null && newChunk != chunk)
             {
                 if (chunk != null) chunk.RemoveUnit(this);
@@ -87,8 +86,11 @@ public class Unit : Damageable
     // Generic SetState function for setting units' state to generic state (idle, moving, following and attacking)
     public virtual void SetState(State newState)
     {
-        lastState = state;
-        state = newState;
+        if (state != newState)
+        {
+            lastState = state;
+            state = newState;
+        }
     }
 
     // Generic GetState function for getting units' state as an int
@@ -135,7 +137,11 @@ public class Unit : Damageable
 
     protected virtual void MoveState()
     {
-
+        //// Becomes idle if unit reaches target tile
+        //if (targetTile == null || Vector3.Distance(transform.position, targetTile.worldPosition) < .25f)
+        //{
+        //    SetIdle();
+        //}
     }
 
     protected virtual void FollowState()
@@ -218,43 +224,20 @@ public class Unit : Damageable
     }
 
     // TODO: get nearby when the chunk's units change, rather than continuously every second
-
-    // Scans chunk area for all nearby valid units
-    public virtual Unit ScanForHostile(bool onKill = false)
-    {
-        if (scanTimer > 0) scanTimer -= Time.deltaTime;
-
-        Unit closestUnit = null;
-        if (scanTimer <= 0 || onKill)
-        {
-            scanTimer = scanInterval;
-
-            if (chunk != null)
-            {
-                nearbyUnits = GetNearbyHostile();
-
-                if (nearbyUnits == null) return null;
-
-                float closestDist = float.MaxValue;
-                foreach (Unit unit in nearbyUnits)
-                {
-                    float dist = Vector3.Distance(transform.position, unit.transform.position);
-
-                    if (dist < closestDist)
-                    {
-                        closestDist = dist;
-                        closestUnit = unit;
-                    }
-                }
-            }
-        }
-
-        return closestUnit;
-    }
     #endregion
 
+    // Request a path to a position and set target tile
+    public void RequestPath(GridTile tile)
+    {
+        movement.SetTargetTile(tile);
+        RequestPath(tile.position, tile.worldPosition);
+    }
+
+    // Request a path to the position
     public void RequestPath(Vector2Int target, Vector3 worldPos)
     {
+        movement.ClearPath();
+
         Vector2Int start = GridPos();
         Vector3 targetPos = worldPos;
 
@@ -274,7 +257,7 @@ public class Unit : Damageable
             {
                 Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
-                GridTile tile = WorldHandler.grid.GetTile(tilePos);
+                GridTile tile = WorldManager.grid.GetTile(tilePos);
 
                 if (tile != null && tile.Walkable())
                     pathable[x, y] = true;
@@ -303,8 +286,5 @@ public class Unit : Damageable
         PathfindingHandler.Instance.RequestPath(request);
     }
 
-    public bool WaitingForPath()
-    {
-        return pathRequested;
-    }
+    public bool WaitingForPath => pathRequested;
 }

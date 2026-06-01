@@ -3,16 +3,26 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    [SerializeField] private UnitHandler units = new UnitHandler();
+    public UnitHandler Units => units;
+
+    //[SerializeField] private BuildingManager buildings = new BuildingManager();
+    //public BuildingManager Buildings => buildings;
+
     public GameObject playerPrefab;
     public GameObject workerPrefab;
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
-    public PlayerController player;
+    private static PlayerController player = null;
+    public static PlayerController Player => player;
+
 
     private void Start()
     {
-        WorldHandler.Instance.GenerateGrid();
+        //buildings.Init();
+
+        WorldManager.Instance.GenerateGrid();
         
         GridTile spawnTile = FindSpawnTile();
 
@@ -27,14 +37,14 @@ public class GameManager : MonoSingleton<GameManager>
 
             Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
 
-            Instantiate(fighterPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
-            Instantiate(enemyPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+            //Instantiate(fighterPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
+            //Instantiate(enemyPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
 
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, 1.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
             //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
 
-            WorldHandler.Instance.HandleChunks(spawnTile.chunk);
+            WorldManager.Instance.HandleChunks(spawnTile.chunk);
         }
     }
 
@@ -42,7 +52,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         List<GridTile> validTiles = new List<GridTile>();
 
-        foreach (GridTile tile in WorldHandler.grid.Tiles())
+        foreach (GridTile tile in WorldManager.grid.Tiles())
         {
             bool valid = true;
 
@@ -52,7 +62,7 @@ public class GameManager : MonoSingleton<GameManager>
 
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {
-                GridTile neighbourTile = WorldHandler.grid.GetTile(tile.position + neighbourPos);
+                GridTile neighbourTile = WorldManager.grid.GetTile(tile.position + neighbourPos);
                 if (neighbourTile == null || !neighbourTile.IsEmpty())
                 {
                     valid = false;

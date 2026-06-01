@@ -17,9 +17,40 @@ public class FighterUnit : FollowerUnit
         base.Update();
     }
 
+    void SearchForHostile()
+    {
+        // Find hostile units
+        List<Unit> hostile = GetNearbyHostile();
+
+        // Add nearby hostile targets to target candidates
+        Combat.AddTargets(hostile);
+
+        // Set to combat state if targets exist
+        if (Combat.HasTargets)
+        {
+            SetState(State.Combat);
+        }
+    }
+
     public void Init(WorkerUnit unit)
     {
         health = unit.Health;
+    }
+
+    // Called when unit reaches target tile when in move state
+    protected override void TargetTileReached()
+    {
+        // Starts defending if reached target position
+        SetState(State.Combat);
+        Combat.SetState(UnitCombat.CombatState.Defending);
+    }
+
+    protected override void CombatState()
+    {
+        base.CombatState();
+
+        // Search for hostile
+        SearchForHostile();
     }
 
     #region Commanding

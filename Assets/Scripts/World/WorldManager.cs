@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldHandler : MonoSingleton<WorldHandler>
+public class WorldManager : MonoSingleton<WorldManager>
 {
     public GameObject chunkPrefab;
     public Vector2Int size;
@@ -141,5 +141,10 @@ public class WorldHandler : MonoSingleton<WorldHandler>
         chunk.name = "Chunk: " + pos.ToString();
         grid.SetChunk(pos, chunk);
         UpdateChunkNeighbours(chunk);
+    }
+
+    public void SpawnBuilding(BuildingObject building)
+    {
+
     }
 }

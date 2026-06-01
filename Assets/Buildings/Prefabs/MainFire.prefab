@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 4785709971562393384}
   m_Layer: 0
   m_Name: MainFire
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f468bc50a7473ac4f91c45c3e601f10c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
   tilePos: {x: 0, y: 0}
   autoBuild: 1
   id: 0

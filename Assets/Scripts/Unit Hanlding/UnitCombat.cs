@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting;
 
 [System.Serializable]
 public class UnitCombat
 {
-    enum CombatState
+    public enum CombatState
     {
         None,
         Attacking,
@@ -20,24 +23,28 @@ public class UnitCombat
         public float threat;
     }
 
-    [SerializeField]CombatState state, lastState;
+    // TODO: add array of threat defs for target types
+    [SerializeField] CombatState state, lastState;
 
     private Unit unit;
 
     public float attackDist = 1f, attackDamage = 10f;
     protected float attackInterval = 0.5f, attackTimer = 0;
     public Damageable currentTarget;
-    List<ThreatCandidate> threatCandidates = new List<ThreatCandidate>(); // List of potential targets to focus on
+    List<ThreatCandidate> targetCandidates = new List<ThreatCandidate>(); // List of potential targets to focus on
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
     }
 
-    void SetState(CombatState state)
+    public void SetState(CombatState state)
     {
-        lastState = this.state;
-        this.state = state;
+        if (state != this.state)
+        {
+            lastState = this.state;
+            this.state = state;
+        }
     }
 
     public void Update()
@@ -56,28 +63,20 @@ public class UnitCombat
     {
         if (unit.IsDead) return;
 
-        if (currentTarget == null && threatCandidates.Count == 0)
+        UpdateThreat();
+        CheckTargets();
+
+        if (currentTarget == null && targetCandidates.Count == 0)
         {
-            // Scan for new targets
             SetState(CombatState.Defending);
         }
-        else 
+        else if (InRange())
         {
-            CheckThreat();
-
-            if (currentTarget == null)
-            {
-                SetState(CombatState.None);
-                unit.SetIdle();
-            }
-            else if (InRange())
-            {
-                SetState(CombatState.Attacking);
-            }
-            else
-            {
-                SetState(CombatState.Chasing);
-            }
+            SetState(CombatState.Attacking);
+        }
+        else
+        {
+            SetState(CombatState.Chasing);
         }
     }
 
@@ -100,8 +99,10 @@ public class UnitCombat
         }
     }
 
+    public bool HasTargets => targetCandidates.Count > 0;
+
     // Gets the candidate with the highest threat and targets it
-    private void CheckThreat()
+    private void CheckTargets()
     {
         ThreatCandidate highestThreat = HighestThreat();
 
@@ -110,6 +111,69 @@ public class UnitCombat
             // TODO: have a threshold to ensure it doesn't continuously switch targets when threat is close
             Target(highestThreat.target);
         }
+        else if (highestThreat == null && currentTarget == null)
+        {
+            // No target
+            SetState(CombatState.None);
+        }
+    }
+
+    public void AddTargets(List<Unit> newTarget)
+    {
+        foreach (Unit targetUnit in newTarget)
+        {
+            if (targetUnit == null) continue;
+
+            bool exists = false;
+
+            // Check if we already have this target
+            foreach (ThreatCandidate existing in targetCandidates)
+            {
+                if (existing.target == targetUnit)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists)
+            {
+                // Adds target to candidates list if it doesn't exist
+                ThreatCandidate newCandidate = new ThreatCandidate()
+                {
+                    target = targetUnit,
+                    threat = 100
+                };
+
+                Debug.Log("Adding target cadidate " + newCandidate.target.name + " (" + newCandidate.threat + " threat)");
+                targetCandidates.Add(newCandidate);
+            }
+        }
+    }
+
+    private void UpdateThreat()
+    {
+        for (int i = targetCandidates.Count - 1; i >= 0; i--)
+        {
+            ThreatCandidate candidate = targetCandidates[i];
+            if (candidate == null || candidate.target == null) // Remove null (dead) candidates
+            {
+                targetCandidates.RemoveAt(i);
+                continue;
+            }
+
+            float dist = Vector3.Distance(unit.transform.position, candidate.target.transform.position);
+            dist = Mathf.Clamp(dist - 10, 0, float.MaxValue);
+
+            // Remove threat if above 10 dist
+            candidate.threat -= dist * Time.deltaTime;
+
+            // Remove candidate if it has no threat
+            if (candidate.threat <= 0)
+            {
+                targetCandidates.RemoveAt(i);
+            }
+        }
     }
 
     // Returns the threat candidate that currently has the highest threat
@@ -117,15 +181,9 @@ public class UnitCombat
     {
         float highestVal = 0;
         ThreatCandidate highestThreat = null;
-        for (int i = threatCandidates.Count - 1; i >= 0; i--)
+        for (int i = targetCandidates.Count - 1; i >= 0; i--)
         {
-            ThreatCandidate candidate = threatCandidates[i];
-            if (candidate == null || candidate.target == null) // Remove dead candidates
-            {
-                threatCandidates.RemoveAt(i);
-                continue;
-            }
-
+            ThreatCandidate candidate = targetCandidates[i];
             if (candidate.threat > highestVal)
             {
                 highestVal = candidate.threat;
@@ -141,9 +199,9 @@ public class UnitCombat
     {
         if (target == null) return;
 
-        for (int i = threatCandidates.Count - 1; i >= 0; i--)
+        for (int i = targetCandidates.Count - 1; i >= 0; i--)
         {
-            ThreatCandidate candidate = threatCandidates[i];
+            ThreatCandidate candidate = targetCandidates[i];
             if (candidate != null && candidate.target == target)
             {
                 // If candidate with target exists, add threat and return
@@ -160,7 +218,7 @@ public class UnitCombat
             threat = threat
         };
 
-        threatCandidates.Add(newCandidate);
+        targetCandidates.Add(newCandidate);
     }
 
     public void Target(Damageable target)
@@ -183,12 +241,14 @@ public class UnitCombat
     // Returns true if in range of the target
     public bool InRange()
     {
+
+
         float dist = Vector3.Distance(unit.transform.position, currentTarget.transform.position);
 
         return dist < attackDist;
     }
 
-    #region States
+    #region Actions
     public bool Attack()
     {
         if (currentTarget == null || attackTimer > 0) return false;
@@ -196,34 +256,22 @@ public class UnitCombat
         attackTimer = attackInterval;
         if (currentTarget.Hit(attackDamage, unit))
         {
-            Unit nearbyUnit = unit.ScanForHostile(true);
 
-            if (nearbyUnit == null)
-            {
-                // Become idle if no nearby valid units
-                unit.SetIdle();
-            }
-            else
-            {
-                // Target unit if nearby unit was found
-                unit.StartCombat();
-                Target(nearbyUnit);
-            }
         }
 
         return true;
     }
 
-    // Stays at position and scans for targets
+    // Should return to defending pos
     void Defend()
     {
-
+        
     }
 
     // Move towards target
     void Chase()
     {
-        if (!unit.pathRequested && !unit.movement.HasPath())
+        if (!unit.pathRequested && !unit.movement.HasPath)
         {
             unit.RequestPath(TargetPos(), currentTarget.transform.position);
         }

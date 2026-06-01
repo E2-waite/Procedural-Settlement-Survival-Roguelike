@@ -16,7 +16,7 @@ public class FollowerUnit : Unit
     {
         base.Start();
 
-        UnitHandler.Instance.AddUnit(this);
+        GameManager.Instance.Units.Add(this);
     }
 
     protected override void Update()
@@ -25,20 +25,29 @@ public class FollowerUnit : Unit
     }
 
     #region States
+
+    // Moves to target position
     protected override void MoveState()
     {
         movement.FollowPath();
+
+        if (movement.HasPath && movement.TargetReached)
+        {
+            TargetTileReached();
+        }
     }
+
+    protected virtual void TargetTileReached() { }
 
     // Follow player
     protected override void FollowState()
     {
-        // Continuously update path if following player
+        // Continuously update path
         if (player != null)
         {
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
 
-            if (!pathRequested && !movement.HasPath() && Vector3.Distance(transform.position, player.transform.position) > followDist)
+            if (!pathRequested && (movement.TargetReached || !movement.HasPath) && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
                 RequestPath(playerPos, player.transform.position);
             }
@@ -51,24 +60,24 @@ public class FollowerUnit : Unit
     #region Taking Damage
     protected override void OnDeathStart()
     {
-        UnitHandler.Instance.RemoveUnit(this);
+        GameManager.Instance.Units.Remove(this);
     }
 
     #endregion
 
     #region Command
+
+    // Commands to move to tile
     public virtual void Command(GridTile tile)
     {
         // Move to tile if empty
-        pathRequested = false;
-        movement.ClearPath();
-
+        RequestPath(tile);
         SetState(State.Moving);
-        RequestPath(tile.position, tile.worldPosition);
     }
 
     public virtual void Command(Unit unit)
     {
+        // No longer following player
     }
     #endregion
 
@@ -89,10 +98,15 @@ public class FollowerUnit : Unit
         player = thePlayer;
 
         SetState(State.Following);
-
         Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-
         RequestPath(playerPos, player.transform.position);
     }
+
+    // Stops following the player
+    public virtual void StopFollowing()
+    {
+        player = null;
+    }
+
     #endregion
 }

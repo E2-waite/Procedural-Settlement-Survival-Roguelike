@@ -70,7 +70,7 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
             // Skip nodes outside of range
             if (distance > maxSearchRange) continue;
 
-            ResourceNode currentNode = WorldHandler.grid.GetTile(currentPos).Resource();
+            ResourceNode currentNode = WorldManager.grid.GetTile(currentPos).Resource();
             if (distance > 0 && currentNode != null && !currentNode.IsEmpty() &&
                 ((sameType && currentNode.type == type) || !sameType))
             {

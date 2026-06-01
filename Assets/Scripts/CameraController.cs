@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameManager.Instance.player;
+            player = GameManager.Player;
             InitCamera();
         }
         else

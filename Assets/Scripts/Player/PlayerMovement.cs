@@ -34,7 +34,7 @@ public class PlayerMovement
 
         Vector3 targetPos = player.transform.position + move * moveSpeed * Time.deltaTime;
 
-        GridTile tile = WorldHandler.grid.GetTile(targetPos);
+        GridTile tile = WorldManager.grid.GetTile(targetPos);
 
         // Only move if tile is walkable
         if (tile.Walkable())

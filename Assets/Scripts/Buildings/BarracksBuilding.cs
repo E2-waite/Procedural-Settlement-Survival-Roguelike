@@ -24,7 +24,7 @@ public class BarracksBuilding : Building
     IEnumerator ConvertWorker(WorkerUnit worker)
     {
         // Disable worker
-        UnitHandler.Instance.RemoveUnit(worker);
+        GameManager.Instance.Units.Remove(worker);
         worker.gameObject.SetActive(false);
         worker.chunk.RemoveUnit(worker);
         yield return new WaitForSeconds(convertTime);
@@ -36,14 +36,14 @@ public class BarracksBuilding : Building
         }
         else
         {
-            GameObject fighterObj = Instantiate(UnitHandler.Instance.fighterPrefab, transform.position, Quaternion.identity);
+            GameObject fighterObj = Instantiate(GameManager.Instance.Units.fighterPrefab, transform.position, Quaternion.identity);
             FighterUnit newFighter = fighterObj.GetComponent<FighterUnit>();
 
             if (newFighter != null)
             {
                 newFighter.Init(worker);
             }
-            UnitHandler.Instance.RemoveUnit(newFighter);
+            GameManager.Instance.Units.Remove(newFighter);
             
 
             Destroy(worker.gameObject);

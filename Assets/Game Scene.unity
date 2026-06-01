@@ -524,11 +524,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &1651353589 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5227699760496916989, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
-  m_PrefabInstance: {fileID: 609993327282371029}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1828321787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,32 +717,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7976667344765694226, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
-      propertyPath: fighterPrefab
-      value: 
-      objectReference: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
-    - target: {fileID: 8971146122719184875, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 1651353589}
-    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: tileMarker
       value: 
       objectReference: {fileID: 1828321788}
-    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: buildings.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: 'buildings.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 6643644101c74bc4899c328c184d2a06, type: 2}
-    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: 'buildings.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: f031a6272e27b5545be70b7858b718b7, type: 2}
-    - target: {fileID: 9172480445059753431, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      objectReference: {fileID: 11400000, guid: ade7bcace7f4d464aa5cfd02bf2baa75, type: 2}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
       propertyPath: 'buildings.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f031a6272e27b5545be70b7858b718b7, type: 2}
+    - target: {fileID: 7156977259463953519, guid: 57b404f79e9ec2f40be98b8a93586a92, type: 3}
+      propertyPath: 'buildings.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 9cb131e8b882d2f4b8f9ae6052f6314f, type: 2}
     m_RemovedComponents: []

@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 5180229564839595544}
   - component: {fileID: 274208105682649808}
+  - component: {fileID: -6213078078361821049}
   - component: {fileID: 4316466795535994981}
   - component: {fileID: 1559498122392465145}
   - component: {fileID: 2642216254434340462}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5be38ffd177c44ae677ce207b6089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
   sprite:
     spriteRenderer: {fileID: 4316466795535994981}
     upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
@@ -60,6 +65,25 @@ MonoBehaviour:
   fireLightDist: 2
   fireCheckInterval: 0.5
   fireLight: {fileID: 705921184901987953}
+--- !u!114 &-6213078078361821049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971953758240167567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434c91504eee2414b951a37e67905678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  unitLayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  state: 1
 --- !u!212 &4316466795535994981
 SpriteRenderer:
   m_ObjectHideFlags: 0

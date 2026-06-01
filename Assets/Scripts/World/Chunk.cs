@@ -161,7 +161,7 @@ public class Chunk : MonoBehaviour
 
     float GetHeight(float x, float y, float noiseScale)
     {
-        float height = GenerateNoise((x + WorldHandler.Instance.seedOffset.x) * noiseScale, (y + WorldHandler.Instance.seedOffset.y) * noiseScale);
+        float height = GenerateNoise((x + WorldManager.Instance.seedOffset.x) * noiseScale, (y + WorldManager.Instance.seedOffset.y) * noiseScale);
 
         height = Mathf.Clamp01(height);
         height = Mathf.Pow(height, 1.2f);

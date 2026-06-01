@@ -9,7 +9,7 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         Command
     }
 
-    public Camera cam;
+    //public Camera cam;
     public LayerMask buildLayerMask;
     public LayerMask unitLayerMask;
 
@@ -34,15 +34,6 @@ public class InteractionManager : MonoSingleton<InteractionManager>
 
     public void SetState(GameState newState)
     {
-        if (newState == GameState.Build)
-        {
-            BuildingHandler.Instance.SetEnabled(true);
-        }
-        else if (newState == GameState.Command)
-        {
-            BuildingHandler.Instance.SetEnabled(false);
-        }
-
         state = newState;
     }
     LayerMask GetLayerMask()
@@ -53,18 +44,24 @@ public class InteractionManager : MonoSingleton<InteractionManager>
 
     void CastRay()
     {
+        if (Camera.main == null) return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
-        Ray ray = cam.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, GetLayerMask()))
         {
             Debug.DrawLine(ray.origin, hit.point, Color.red);
 
             if (state == GameState.Build)
-                BuildingHandler.Instance.HandleRay(hit);
+            {
+                BuildingManager.Instance.HandleRay(hit);
+            }
             else if (state == GameState.Command)
-                UnitHandler.Instance.Hover(hit);
+            {
+                GameManager.Instance.Units.HandleHovering(hit);
+            }
         }
     }
 
@@ -74,14 +71,14 @@ public class InteractionManager : MonoSingleton<InteractionManager>
         {
             if (state == GameState.Build)
             {
-                BuildingHandler.Instance.Build();
+                BuildingManager.Instance.CreateBuilding();
             }
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             if (state == GameState.Command)
-                UnitHandler.Instance.CommandUnits();
+                GameManager.Instance.Units.Command();
             else if (state == GameState.Build)
                 SetState(GameState.Command);
         }

@@ -16,6 +16,7 @@ public class PlayerController : Damageable
 
     private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
     private List<FollowerUnit> followingUnits = new List<FollowerUnit>();
+    public List<FollowerUnit> Followers => followingUnits;
 
     private void Awake()
     {
@@ -37,12 +38,6 @@ public class PlayerController : Damageable
     void OnEnable() => movement.EnableControls(true);
     void OnDisable() => movement.EnableControls(false);
 
-    // Converts world position to grid position
-    public Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-    }
-
     void Update()
     {
         UpdateChunk();
@@ -51,15 +46,13 @@ public class PlayerController : Damageable
 
         if (Keyboard.current.fKey.wasReleasedThisFrame)
         {
-            for (int i = 0; i < nearbyUnits.Count; i++)
+            // Tells nearby units to start following
+            foreach (FollowerUnit nearby in nearbyUnits)
             {
-                if (nearbyUnits[i] == null)
-                    nearbyUnits.RemoveAt(i--);
-                else
-                    nearbyUnits[i].StartFollowing(this);
+                AddFollower(nearby);
             }
 
-            UnitHandler.Instance.SetFollowing(nearbyUnits);
+            nearbyUnits.Clear();
         }
 
         if (fireCheckTimer <= 0)
@@ -106,7 +99,7 @@ public class PlayerController : Damageable
 
     void UpdateChunk()
     {
-        Chunk newChunk = WorldHandler.grid.ChunkFromGridPos(GridPos());
+        Chunk newChunk = WorldManager.grid.ChunkFromGridPos(GridPos());
 
         if (newChunk != chunk)
         {
@@ -115,7 +108,7 @@ public class PlayerController : Damageable
             chunk = newChunk;
 
             // Update chunks (disable stale chunks and enable/create active chunks)
-            WorldHandler.Instance.HandleChunks(chunk);
+            WorldManager.Instance.HandleChunks(chunk);
         }
     }
 
@@ -146,4 +139,17 @@ public class PlayerController : Damageable
             nearbyUnits.Remove(unit);
         }
     }
+
+    private void AddFollower(FollowerUnit follower)
+    {
+        followingUnits.Add(follower);
+        follower.StartFollowing(this);
+    }
+
+    private void RemoveFollower(FollowerUnit follower)
+    {
+        followingUnits.Remove(follower);
+        follower.StopFollowing();
+    }
+
 }

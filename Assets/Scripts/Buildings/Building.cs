@@ -6,9 +6,7 @@ public class Building : Damageable
 
     public Vector2Int tilePos;
     public bool autoBuild = false;
-
     public int id;
-
     bool built = false, destroyed = false;
 
     public MeshRenderer mesh;

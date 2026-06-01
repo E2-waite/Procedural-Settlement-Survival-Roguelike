@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 
-public class BuildingHandler : MonoSingleton<BuildingHandler>
+[System.Serializable]
+public class BuildingManager : MonoSingleton<BuildingManager>
 {
-    //public Vector2Int buildSize = new Vector2Int(1, 1);
-
     public TileMarker tileMarker;
     BuildingObject selectedBuilding = null;
-
     public List<BuildingObject> buildings = new List<BuildingObject>();
 
     GridTile currTile = null;
@@ -19,9 +17,9 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
     // Resource stores
     public List<ResourceBuilding>[] resourceStores = new List<ResourceBuilding>[(int)ResourceNode.Type.Max];
 
+
     private void Start()
     {
-        // Add building buttons to building menu
         BuildPanel.Instance.UpdateDisplay(buildings);
     }
 
@@ -48,7 +46,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
         if (gridPos != lastPos)
         {
             lastPos = gridPos;
-            GridTile hitTile = WorldHandler.grid.GetTile(gridPos);
+            GridTile hitTile = WorldManager.grid.GetTile(gridPos);
 
             if (hitTile != null)
             {
@@ -60,7 +58,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
         }
     }
 
-    public void Build()
+    public void CreateBuilding()
     {
         if (CanBuild(gridPos, selectedBuilding.size) && selectedBuilding.CanAfford())
         {
@@ -96,7 +94,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
                 {
                     tilePos.x = x;
                     tilePos.y = y;
-                    GridTile tile = WorldHandler.grid.GetTile(tilePos);
+                    GridTile tile = WorldManager.grid.GetTile(tilePos);
                     tile.Build(building);
                 }
             }
@@ -114,7 +112,7 @@ public class BuildingHandler : MonoSingleton<BuildingHandler>
             {
                 tilePos.x = x;
                 tilePos.y = y;
-                GridTile tile = WorldHandler.grid.GetTile(tilePos);
+                GridTile tile = WorldManager.grid.GetTile(tilePos);
 
                 if (tile == null || !tile.Buildable())
                 {

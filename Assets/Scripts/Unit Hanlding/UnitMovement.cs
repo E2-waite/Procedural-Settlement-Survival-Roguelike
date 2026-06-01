@@ -8,6 +8,8 @@ public class UnitMovement
     public List<Vector2Int> path = new List<Vector2Int>();
     private float reachedThresh = .5f, swarmRadius = .5f;
     protected int pathIndex = 0;
+    protected GridTile targetTile;
+    public GridTile TargetTile => targetTile;
 
     Unit unit;
 
@@ -16,16 +18,19 @@ public class UnitMovement
         this.unit = unit;
     }
 
+    public void SetTargetTile(GridTile tile)
+    {
+        targetTile = tile;
+    }
+
     public void SetPath(List<Vector2Int> path)
     {
         this.path = path;
         pathIndex = 0;
     }
 
-    public bool HasPath()
-    {
-        return !(path == null || path.Count == 0);
-    }
+    public bool TargetReached => pathIndex >= path.Count;
+    public bool HasPath => !(path == null || path.Count == 0);
 
     public void ClearPath()
     {
@@ -42,7 +47,7 @@ public class UnitMovement
 
     public void FollowPath()
     {
-        if (path != null && path.Count > 0)
+        if (path != null && path.Count > 0 && pathIndex < path.Count)
         {
             Vector2Int currentTarget = path[pathIndex];
 
@@ -58,12 +63,6 @@ public class UnitMovement
             if ((unit.transform.position - targetPos).sqrMagnitude < reachedThresh)
             {
                 pathIndex++;
-
-                if (pathIndex >= path.Count)
-                {
-                    path.Clear();
-                    pathIndex = 0;
-                }
             }
         }
     }

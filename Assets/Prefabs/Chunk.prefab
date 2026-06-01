@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5148563707230686413}
   m_Layer: 6
   m_Name: Chunk
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
   heightMultiplier: 5
   heightScale: 0
   size: 0
+  followers: []
+  enemies: []
+  neighbouringChunks: []
 --- !u!23 &5193521335073801713
 MeshRenderer:
   m_ObjectHideFlags: 0

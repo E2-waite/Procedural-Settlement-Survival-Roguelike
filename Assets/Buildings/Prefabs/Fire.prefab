@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 5227135818945454997}
   m_Layer: 0
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,10 +167,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372f480e5914dd843bd43da6f8abe04d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
   tilePos: {x: 0, y: 0}
   autoBuild: 0
   id: 0
   mesh: {fileID: 2646544779832954327}
+  fire:
+    depletionRate: 1
+    level: 0
   fireLight: {fileID: 6981902066292114112}
 --- !u!1 &8875262411121038824
 GameObject:

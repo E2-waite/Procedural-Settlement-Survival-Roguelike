@@ -11,10 +11,8 @@ GameObject:
   - component: {fileID: 1043128713799209120}
   - component: {fileID: 4710643134306229886}
   - component: {fileID: 1314803252080212948}
+  - component: {fileID: 7156977259463953519}
   - component: {fileID: 4833945353354088802}
-  - component: {fileID: 8971146122719184875}
-  - component: {fileID: 9172480445059753431}
-  - component: {fileID: 7976667344765694226}
   - component: {fileID: 2539149676435843786}
   - component: {fileID: 4820027608928115934}
   - component: {fileID: -4518729084076049903}
@@ -52,10 +50,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9dbc06fcdbf0dd45832c9d29d4d6e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  units:
+    fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
+    fighters: []
+    workers: []
   playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   workerPrefab: {fileID: 6264898249333736780, guid: e85cb5ba4ea55ce41a4f9af07fa72748, type: 3}
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
-  player: {fileID: 0}
+  fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
+  enemyPrefab: {fileID: 63626461859941047, guid: 1edab3cc0c8d12b41864e29b157dbf14, type: 3}
 --- !u!114 &1314803252080212948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +77,20 @@ MonoBehaviour:
   chunkDistance: 2
   noiseScale: 0.05
   seedOffset: {x: 0, y: 0}
+--- !u!114 &7156977259463953519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188326325806694745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ca184ab6f37e5448b8f37519cc483a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMarker: {fileID: 0}
+  buildings: []
 --- !u!114 &4833945353354088802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,59 +109,6 @@ MonoBehaviour:
   treeObj: {fileID: 11400000, guid: ada1663e0f5787b4f8d52ad0eca5b545, type: 2}
   stoneObj: {fileID: 11400000, guid: 390567ac189ae9e40be61363badd8fb6, type: 2}
   maxSearchRange: 10
---- !u!114 &8971146122719184875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434c91504eee2414b951a37e67905678, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  buildLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  unitLayerMask:
-    serializedVersion: 2
-    m_Bits: 192
-  state: 1
---- !u!114 &9172480445059753431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ca184ab6f37e5448b8f37519cc483a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileMarker: {fileID: 0}
-  buildings:
-  - {fileID: 11400000, guid: f031a6272e27b5545be70b7858b718b7, type: 2}
-  - {fileID: 11400000, guid: 9cb131e8b882d2f4b8f9ae6052f6314f, type: 2}
---- !u!114 &7976667344765694226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 835c6ec2dcb7fa44590419221b27a8ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fighterPrefab: {fileID: 0}
-  hoveringUnit: {fileID: 0}
-  followingUnits: []
-  fighters: []
-  workers: []
 --- !u!114 &2539149676435843786
 MonoBehaviour:
   m_ObjectHideFlags: 0

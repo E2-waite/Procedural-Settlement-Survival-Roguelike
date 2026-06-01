@@ -2,18 +2,20 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitHandler : MonoSingleton<UnitHandler>
+[System.Serializable]
+public class UnitHandler
 {
     public GameObject fighterPrefab;
 
-    public GridTile hoveringTile = null;
-    public Unit hoveringUnit = null;
-    public List<FollowerUnit> followingUnits = new List<FollowerUnit>();
+    private GridTile hoveringTile = null;
+    private Unit hoveringUnit = null;
+    private Building hoveringBuilding = null;
 
     public List<FighterUnit> fighters = new List<FighterUnit>();
     public List<WorkerUnit> workers = new List<WorkerUnit>();
 
-    public void AddUnit(Unit unit)
+
+    public void Add(Unit unit) // Start tracking unit
     {
         if (unit is FighterUnit)
         {
@@ -31,10 +33,9 @@ public class UnitHandler : MonoSingleton<UnitHandler>
                 workers.Add(worker);
             }
         }
-
     }
 
-    public void RemoveUnit(Unit unit)
+    public void Remove(Unit unit) // Stop tracking unit
     {
         if (unit is FighterUnit)
         {
@@ -55,42 +56,61 @@ public class UnitHandler : MonoSingleton<UnitHandler>
     }
 
 
-    public void Hover(RaycastHit hit)
+    public void HandleHovering(RaycastHit hit) // 
     {
         if (hit.collider == null)
         {
             return;
         }
 
-        // If hovering over tile
-        // Else if hovering over unit
-        if (hit.transform.CompareTag("Unit"))
+        switch(hit.transform.tag)
         {
-            hoveringUnit = hit.transform.GetComponent<Unit>();
-            hoveringTile = null;
-        }
-        else
-        {
-            hoveringTile = WorldHandler.grid.GetTile(hit.point);
-            hoveringUnit = null;
+            case "Unit":
+                SetHovering(hit.transform.GetComponent<Unit>());
+                break;
+            case "Tile":
+                SetHovering(WorldManager.grid.GetTile(hit.point));
+                break;
+            case "Building":
+                SetHovering(hit.transform.GetComponent<Building>());
+                break;
         }
     }
 
-    public void SetFollowing(List<FollowerUnit> following)
+    void SetHovering(GridTile tile)
     {
-        followingUnits = new List<FollowerUnit>(following);
+        hoveringTile = tile;
+        hoveringBuilding = null;
+        hoveringUnit = null;
     }
 
-    public void CommandUnits()
+    void SetHovering(Unit unit)
     {
-        if (hoveringTile != null || hoveringUnit != null)
+        hoveringUnit = unit;
+        hoveringBuilding = null;
+        hoveringTile = null;
+    }
+
+    void SetHovering(Building building)
+    {
+        hoveringBuilding = building;
+        hoveringTile = null;
+        hoveringUnit = null;
+    }
+
+    public void Command()
+    {
+        if (GameManager.Player != null)
         {
-            for (int i = 0; i < followingUnits.Count; i++)
+            List<FollowerUnit> units = GameManager.Player.Followers;
+            foreach (FollowerUnit unit in units)
             {
                 if (hoveringTile != null)
-                    followingUnits[i].Command(hoveringTile);
+                    unit.Command(hoveringTile);
                 else if (hoveringUnit != null)
-                    followingUnits[i].Command(hoveringUnit);
+                    unit.Command(hoveringUnit);
+                //else if (hoveringBuilding != null)
+                //    unit.Command(hoveringBuilding);
             }
         }
     }
