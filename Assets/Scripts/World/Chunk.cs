@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.LightTransport;
-using static GridTile;
 
 public class Chunk : MonoBehaviour
 {

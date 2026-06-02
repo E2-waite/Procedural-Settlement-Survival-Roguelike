@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class UIHandler : MonoSingleton<UIHandler>
 {
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Init()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

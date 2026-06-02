@@ -24,16 +24,23 @@ public class InputManager : MonoSingleton<InputManager>
     public void Init()
     {
         if (initialized) return;
-        initialized = true;
 
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-        controls.Enable();
+
+        initialized = true;
+    }
+
+    public void EnableGameplayInput()
+    {
+        controls.Player.Enable();
     }
 
     private void Update()
     {
+        if (!initialized) return;
+
         mousePos = Mouse.current.position.ReadValue();
 
         CastRay();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static InteractionController;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -12,11 +13,25 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
 
+
     private void Start()
     {
-        WorldManager.Instance.GenerateGrid();
-        
+        ResourceSystem.Instance.Init();
+        UIHandler.Instance.Init();
+        BuildingList.Instance.Init();
 
+        WorldManager.Instance.GenerateGrid();
+
+        SpawnStartingFireAndUnits();
+        InputManager.Instance.Init();
+        InteractionController.Instance.Init();
+        InputManager.Instance.EnableGameplayInput();
+
+        // SetGameState(GameState.Playing);
+    }
+
+    private void SpawnStartingFireAndUnits()
+    {
         GridTile spawnTile = FindSpawnTile();
 
         if (spawnTile != null)
@@ -39,8 +54,6 @@ public class GameManager : MonoSingleton<GameManager>
 
             WorldManager.Instance.HandleChunks(spawnTile.chunk);
         }
-
-        InputManager.Instance.Init();
     }
 
     GridTile FindSpawnTile()

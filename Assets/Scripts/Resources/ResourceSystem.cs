@@ -18,7 +18,7 @@ public class ResourceSystem : MonoSingleton<ResourceSystem>
         new Vector2Int(0, -1)
     };
 
-    private void Start()
+    public void Init()
     {
         storage.Add(ResourceNode.Type.Wood, 25);
         ResourcesPanel.Instance.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));

@@ -16,15 +16,22 @@ public class InteractionController : MonoSingleton<InteractionController>
     private GridTile hoveringTile = null;
     private Unit hoveringUnit = null;
     private Building hoveringBuilding = null;
+    private bool initialized = false;
 
-    void Start()
+
+    public void Init()
     {
-        InputManager.Instance.MouseHoverHit += OnHover;
-        InputManager.Instance.LeftClick += OnLeftClick;
-        InputManager.Instance.RightClick += OnRightClick;
-        InputManager.Instance.EscapePressed += OnEscape;
-        InputManager.Instance.FPressed += OnFKey;
-        InputManager.Instance.Moved += OnMove;
+        if (!initialized)
+        {
+            InputManager.Instance.MouseHoverHit += OnHover;
+            InputManager.Instance.LeftClick += OnLeftClick;
+            InputManager.Instance.RightClick += OnRightClick;
+            InputManager.Instance.EscapePressed += OnEscape;
+            InputManager.Instance.FPressed += OnFKey;
+            InputManager.Instance.Moved += OnMove;
+            initialized = true;
+        }
+
     }
 
     void OnDisable()
@@ -35,6 +42,7 @@ public class InteractionController : MonoSingleton<InteractionController>
         InputManager.Instance.EscapePressed -= OnEscape;
         InputManager.Instance.FPressed -= OnFKey;
         InputManager.Instance.Moved -= OnMove;
+        initialized = false;
     }
 
     // Consumes InputManager's MouseHoverHit action

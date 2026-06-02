@@ -12,7 +12,7 @@ public class BuildingList : MonoSingleton<BuildingList>
     public int NumBuildings => buildings.Count;
     public BuildingObject Selected => selected;
 
-    private void Start()
+    public void Init()
     {
         BuildPanel.Instance.UpdateDisplay(buildings);
     }
