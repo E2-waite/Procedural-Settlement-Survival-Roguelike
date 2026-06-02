@@ -13,7 +13,7 @@ public class BuildingObject : ScriptableObject
     {
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            if (ResourceHandler.Instance.GetResourceCount(i) < cost.Get(i))
+            if (ResourceSystem.Instance.GetResourceCount(i) < cost.Get(i))
                 return false;
         }
 
@@ -24,7 +24,7 @@ public class BuildingObject : ScriptableObject
     {
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            ResourceHandler.Instance.ConsumeResource(i, cost.Get(i));
+            ResourceSystem.Instance.ConsumeResource(i, cost.Get(i));
         }
     }
 }

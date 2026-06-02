@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     public float buildRange = 200f;
 
     Vector3 currentVelocity;
-    PlayerController player;
+    Player player;
     public float minScroll = 10;
     public float maxScroll = 50;
 

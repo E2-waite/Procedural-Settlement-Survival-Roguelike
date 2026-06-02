@@ -39,13 +39,10 @@ public class InputManager : MonoSingleton<InputManager>
         CastRay();
         HandleClick();
         HandleKeys();
-
-        if (moveInput.x != 0 || moveInput.y != 0)
-        {
-            Moved?.Invoke(moveInput);
-        }
+        HandleMove();
     }
 
+    // Casts ray from the mouse position
     void CastRay()
     {
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
@@ -56,6 +53,7 @@ public class InputManager : MonoSingleton<InputManager>
         }
     }
 
+    // Invoke click actions on mouse click
     void HandleClick()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -65,6 +63,7 @@ public class InputManager : MonoSingleton<InputManager>
             RightClick?.Invoke();
     }
 
+    // Invokes keypress actions on key input
     void HandleKeys()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -73,8 +72,12 @@ public class InputManager : MonoSingleton<InputManager>
             FPressed?.Invoke(); 
     }
 
+    // Invokes Moved action on move input (WASD)
     void HandleMove()
     {
-
+        if (moveInput.x != 0 || moveInput.y != 0)
+        {
+            Moved?.Invoke(moveInput);
+        }
     }
 }

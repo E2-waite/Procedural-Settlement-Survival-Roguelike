@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5180229564839595544}
+  - component: {fileID: 6974130561582482505}
   - component: {fileID: 274208105682649808}
-  - component: {fileID: -6213078078361821049}
   - component: {fileID: 4316466795535994981}
   - component: {fileID: 1559498122392465145}
   - component: {fileID: 2642216254434340462}
@@ -37,6 +37,35 @@ Transform:
   - {fileID: 2241823608698530796}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6974130561582482505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971953758240167567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1faa2c82b22854ba2664ff7f7cbe79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
+  fireLight: {fileID: 705921184901987953}
+  sprite:
+    spriteRenderer: {fileID: 0}
+    upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+    downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+  fire:
+    depletionRate: 1
+    level: 0
+  fireLightDist: 2
+  fireCheckInterval: 0.5
+  col: {fileID: 1559498122392465145}
 --- !u!114 &274208105682649808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,44 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa5be38ffd177c44ae677ce207b6089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health:
-    current: 0
-    max: 100
-  deathTime: 0.5
-  sprite:
-    spriteRenderer: {fileID: 4316466795535994981}
-    upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-  fire:
-    depletionRate: 1
-    level: 0
-  fireLightDist: 2
-  fireCheckInterval: 0.5
-  fireLight: {fileID: 705921184901987953}
-  nearbyUnits: []
-  followingUnits: []
-  col: {fileID: 0}
---- !u!114 &-6213078078361821049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3971953758240167567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434c91504eee2414b951a37e67905678, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  unitLayerMask:
-    serializedVersion: 2
-    m_Bits: 192
-  state: 1
+  moveSpeed: 5
 --- !u!212 &4316466795535994981
 SpriteRenderer:
   m_ObjectHideFlags: 0

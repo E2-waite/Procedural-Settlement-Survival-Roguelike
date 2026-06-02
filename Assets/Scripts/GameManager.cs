@@ -3,11 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    //[SerializeField] private UnitHandler units = new UnitHandler();
-    //public UnitHandler Units => units;
-
-    private static PlayerController player = null;
-    public static PlayerController Player => player;
+    private static Player player = null;
+    public static Player Player => player;
 
     public GameObject playerPrefab;
     public GameObject workerPrefab;
@@ -30,7 +27,7 @@ public class GameManager : MonoSingleton<GameManager>
             spawnTile.Build(fireBuilding);
 
             GameObject playerObj = Instantiate(playerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
-            player = playerObj.GetComponent<PlayerController>();
+            player = playerObj.GetComponent<Player>();
 
             Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
 

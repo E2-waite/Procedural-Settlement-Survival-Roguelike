@@ -6,7 +6,7 @@ public class ResourceBuilding : Building
 
     public void Store(int count)
     {
-        ResourceHandler.Instance.StoreResource(type, count);
+        ResourceSystem.Instance.StoreResource(type, count);
     }
 
 }

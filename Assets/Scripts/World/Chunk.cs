@@ -23,7 +23,7 @@ public class Chunk : MonoBehaviour
     ChunkResources resources;
     public Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
-    PlayerController player = null;
+    Player player = null;
     public List<Unit> followers = new List<Unit>();
     public List<Unit> enemies = new List<Unit>();
     public  List<Chunk> neighbouringChunks = new List<Chunk>();
@@ -122,7 +122,7 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    public void AddPlayer(PlayerController player)
+    public void AddPlayer(Player player)
     {
         this.player = player;
     }

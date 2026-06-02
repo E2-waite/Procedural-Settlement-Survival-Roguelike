@@ -10,7 +10,7 @@ using static WorkerUnit;
 public class FollowerUnit : Unit
 {
     public float followDist = 1.5f;
-    PlayerController player;
+    Player player;
 
     public bool Following => state == State.Following;
 
@@ -18,7 +18,7 @@ public class FollowerUnit : Unit
     {
         base.Start();
 
-        UnitSystem.Instance.Storage.Add(this);
+        UnitSystem.Instance.AddUnit(this);
     }
 
     protected override void Update()
@@ -62,7 +62,7 @@ public class FollowerUnit : Unit
     #region Taking Damage
     protected override void OnDeathStart()
     {
-        UnitSystem.Instance.Storage.Remove(this);
+        UnitSystem.Instance.RemoveUnit(this);
     }
 
     #endregion
@@ -95,7 +95,7 @@ public class FollowerUnit : Unit
 
     #region Targeting
     // Set state to following, set target player, and request a path
-    public virtual void StartFollowing(PlayerController thePlayer)
+    public virtual void StartFollowing(Player thePlayer)
     {
         player = thePlayer;
 

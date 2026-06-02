@@ -125,13 +125,13 @@ public class UnitWork
             Store();
 
             // Find closest resource to store
-            ResourceNode nextNode = ResourceHandler.Instance.GetClosestNode(targetStore);
+            ResourceNode nextNode = ResourceSystem.Instance.GetClosestNode(targetStore);
 
             if (nextNode == null && targetResource != null)
             {
                 // If no resources in range of store, find closest node to current target resource
                 if (targetResource.IsEmpty())
-                    nextNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+                    nextNode = ResourceSystem.Instance.GetClosestNeighbour(targetResource);
                 else
                     nextNode = targetResource;
             }
@@ -216,7 +216,7 @@ public class UnitWork
             if (unit.storage.IsEmpty(store.type))
             {
                 // If we don't have resources, just start gathering closest nodes
-                ResourceNode closestResource = ResourceHandler.Instance.GetClosestNode(store);
+                ResourceNode closestResource = ResourceSystem.Instance.GetClosestNode(store);
                 SetTarget(closestResource);
             }
             else
@@ -276,7 +276,7 @@ public class UnitWork
 
             if (targetResource.IsEmpty())
             {
-                ResourceNode neighbuoringNode = ResourceHandler.Instance.GetClosestNeighbour(targetResource);
+                ResourceNode neighbuoringNode = ResourceSystem.Instance.GetClosestNeighbour(targetResource);
 
                 if (neighbuoringNode != null)
                 {

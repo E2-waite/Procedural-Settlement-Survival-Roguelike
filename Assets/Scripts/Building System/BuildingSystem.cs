@@ -4,8 +4,6 @@ using UnityEngine;
 public class BuildingSystem : MonoSingleton<BuildingSystem>
 {
     private BuildingStorage storage = new BuildingStorage();
-    public BuildingStorage Storage => storage;
-
     public TileMarker tileMarker;
     BuildingList buildingList;
     GridTile lastTile = null;
@@ -15,12 +13,13 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         buildingList = BuildingList.Instance;
     }
 
+    // Sets building system's enabled state
     public void SetEnabled(bool enabled)
     {
         tileMarker.gameObject.SetActive(enabled);
     }
 
-
+    // Receives tile hovering triggers
     public void HandleHover(GridTile tile)
     {
         if (tile != lastTile)
@@ -34,6 +33,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         }
     }
 
+    // Try to place the selected building on the passed tile
     public bool TryPlace(GridTile tile)
     {
         BuildingObject selected = buildingList.Selected;
@@ -77,6 +77,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         }
     }
 
+    // Returns true if all tiles in pos to pos + size are buildable
     public bool CanBuild(Vector2Int pos, Vector2Int size)
     {
         Vector2Int tilePos = new Vector2Int();
@@ -96,5 +97,32 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         }
 
         return true;
+    }
+
+    // Get the closest resource building to the passed position
+    public ResourceBuilding GetClosestStore(ResourceNode.Type type, Vector2Int pos)
+    {
+        float lowestDist = float.MaxValue;
+        ResourceBuilding store = null;
+
+        List<ResourceBuilding> storeList = storage.ResourceBuildings(type);
+
+        for (int i = 0; storeList != null && i < storeList.Count; i++)
+        {
+            ResourceBuilding current = storeList[i];
+
+            if (!current.Built()) continue; // Don't include non-built or broken stores
+
+            Vector2Int storePos = new Vector2Int((int)current.transform.position.x, (int)current.transform.position.z);
+
+            float dist = Vector2Int.Distance(storePos, pos);
+            if (dist < lowestDist)
+            {
+                lowestDist = dist;
+                store = current;
+            }
+        }
+
+        return store;
     }
 }

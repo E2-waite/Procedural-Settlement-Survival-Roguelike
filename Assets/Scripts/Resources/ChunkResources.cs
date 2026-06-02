@@ -49,13 +49,13 @@ public class ChunkResources
 
                     if (tile.type == TileType.Forest)
                     {
-                        resource = ResourceHandler.Instance.treeObj;
+                        resource = ResourceSystem.Instance.treeObj;
                     }
                     else if (tile.type == TileType.Grass)
                     {
 
                         if (rand >= 90f)
-                            resource = ResourceHandler.Instance.stoneObj;
+                            resource = ResourceSystem.Instance.stoneObj;
                     }
 
                     if (resource != null)

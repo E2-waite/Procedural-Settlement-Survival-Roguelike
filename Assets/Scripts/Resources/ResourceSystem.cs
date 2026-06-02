@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class ResourceHandler : MonoSingleton<ResourceHandler>
+public class ResourceSystem : MonoSingleton<ResourceSystem>
 {
-    [SerializeField] ResourceStorage storage;
+    [SerializeField] private ResourceStorage storage;
 
     public ResourceObject treeObj;
     public ResourceObject stoneObj;
@@ -26,9 +26,13 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
     public int GetResourceCount(ResourceNode.Type type)
     {
-
-
         return storage.Get(type);
+    }
+
+    public void StoreResource(ResourceNode.Type type, int count)
+    {
+        storage.Add(type, count);
+        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
     }
 
     public void ConsumeResource(ResourceNode.Type type, int count)
@@ -94,11 +98,5 @@ public class ResourceHandler : MonoSingleton<ResourceHandler>
 
         // No resource found
         return null;
-    }
-
-    public void StoreResource(ResourceNode.Type type, int count)
-    {
-        storage.Add(type, count);
-        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
     }
 }
