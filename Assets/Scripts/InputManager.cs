@@ -13,7 +13,24 @@ public class InputManager : MonoSingleton<InputManager>
     public event Action RightClick;
     public event Action EscapePressed;
     public event Action FPressed;
+    public event Action<Vector2> Moved;
     public LayerMask unitLayerMask;
+
+    [HideInInspector] public PlayerController player;
+    private PlayerControls controls;
+    private Vector2 moveInput;
+
+    void OnEnable() => controls.Enable();
+    void OnDisable() => controls.Disable();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        controls = new PlayerControls();
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+    }
+
 
     private void Update()
     {
@@ -22,6 +39,11 @@ public class InputManager : MonoSingleton<InputManager>
         CastRay();
         HandleClick();
         HandleKeys();
+
+        if (moveInput.x != 0 || moveInput.y != 0)
+        {
+            Moved?.Invoke(moveInput);
+        }
     }
 
     void CastRay()
@@ -49,5 +71,10 @@ public class InputManager : MonoSingleton<InputManager>
             EscapePressed?.Invoke();
         if (Keyboard.current.fKey.wasPressedThisFrame)
             FPressed?.Invoke(); 
+    }
+
+    void HandleMove()
+    {
+
     }
 }

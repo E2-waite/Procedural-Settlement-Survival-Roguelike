@@ -26,6 +26,7 @@ public class InteractionController : MonoSingleton<InteractionController>
         InputManager.Instance.RightClick += OnRightClick;
         InputManager.Instance.EscapePressed += OnEscape;
         InputManager.Instance.FPressed += OnFKey;
+        InputManager.Instance.Moved += OnMove;
     }
 
     void OnDisable()
@@ -35,6 +36,7 @@ public class InteractionController : MonoSingleton<InteractionController>
         InputManager.Instance.RightClick -= OnRightClick;
         InputManager.Instance.EscapePressed -= OnEscape;
         InputManager.Instance.FPressed -= OnFKey;
+        InputManager.Instance.Moved -= OnMove;
     }
 
     void OnHover(RaycastHit hit)
@@ -133,6 +135,11 @@ public class InteractionController : MonoSingleton<InteractionController>
         {
             UnitSystem.Instance.StartFollowing();
         }
+    }
+
+    void OnMove(Vector2 move)
+    {
+        GameManager.Player.Move(move);
     }
 
     void SetHovering(GridTile tile)

@@ -6,20 +6,14 @@ public class PlayerController : Damageable
 {
     public override TargetType Type => TargetType.Player;
     [SerializeField] UnitSprite sprite = new UnitSprite();
-    [SerializeField] PlayerMovement movement = new PlayerMovement();
     [SerializeField] Fire fire = new Fire(false);
     public float fireLightDist = 2f, fireCheckInterval = .5f;
+    public float moveSpeed = 5f;
     private float fireCheckTimer = 0f;
     public Light fireLight;
     private Camera cam;
     private Chunk chunk;
-
-
     public SphereCollider col;
-    private void Awake()
-    {
-        movement.Init(this);
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,16 +28,9 @@ public class PlayerController : Damageable
         fire.Init(fireLight);
     }
 
-    void OnEnable() => movement.EnableControls(true);
-    void OnDisable() => movement.EnableControls(false);
-
     void Update()
     {
         UpdateChunk();
-        movement.Update();
-        sprite.SetDirection(movement.moveInput);
-
-        
 
         if (fireCheckTimer <= 0)
         {
@@ -55,6 +42,8 @@ public class PlayerController : Damageable
         }
         fire.Update();
     }
+
+
 
     FireBuilding FindFire()
     {
@@ -114,5 +103,37 @@ public class PlayerController : Damageable
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
         UnitSystem.Instance.Storage.RemoveNearby(unit);
+    }
+
+    public void Move(Vector2 moveInput)
+    {
+        sprite.SetDirection(moveInput);
+
+        Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);
+
+        Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
+
+        GridTile tile = WorldManager.grid.GetTile(targetPos);
+
+        // Only move if tile is walkable
+        if (tile.Walkable())
+        {
+            transform.position = targetPos;
+        }
+    }
+
+    Vector3 CameraRelativeMove(Vector2 input, Transform cam)
+    {
+        Vector3 forward = cam.forward;
+        Vector3 right = cam.right;
+
+        // flatten so camera tilt doesn't affect movement
+        forward.y = 0;
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
+        return forward * input.y + right * input.x;
     }
 }
