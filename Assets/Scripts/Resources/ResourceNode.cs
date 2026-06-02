@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ResourceNode
 {
+    // Lightweight runtime model for one gatherable resource on a grid tile.
     public enum Density
     {
         Sparse = 0,
@@ -28,6 +29,7 @@ public class ResourceNode
 
     public ResourceNode(int i, Vector3 worldPos, Type type, GridTile tile, ResourceObject obj)
     {
+        // Register with the tile so building/pathing/work systems can query occupancy.
         index = i;
         this.tile = tile;
         this.type = type;
@@ -42,6 +44,7 @@ public class ResourceNode
 
     public int Gather(int amount)
     {
+        // Return the amount actually gathered so callers can handle partially depleted nodes.
         int gathered = 0;
         if (amount > remaining)
         {

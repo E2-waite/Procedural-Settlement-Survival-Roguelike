@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 using static GridTile;
 using static UnityEngine.Rendering.DebugUI;
 
-// Handles generation and rendering of resources for a chunk
+// Handles resource node placement and instanced rendering for one chunk.
 public class ChunkResources
 {
     private const int MAX_BATCH = 1023;
@@ -27,6 +27,7 @@ public class ChunkResources
         //return;
         thischunk = chunk;
 
+        // Store matrices once at generation time; Render only batches visible resource instances.
         count = chunk.size * chunk.size;
 
         matrices = new Matrix4x4[count];
@@ -46,7 +47,7 @@ public class ChunkResources
                     ResourceObject resource = null;
                     float rand = Random.Range(0, 100);
 
-
+                    // Resource type is currently derived from tile biome plus a random chance.
                     if (tile.type == TileType.Forest)
                     {
                         resource = ResourceSystem.Instance.treeObj;
@@ -88,6 +89,7 @@ public class ChunkResources
     {
         if (ids.Count == 0) return;
 
+        // Unity's DrawMeshInstanced limit is 1023 matrices per draw call.
         int batchCount = 0;
         ResourceObject lastObj= null;
 

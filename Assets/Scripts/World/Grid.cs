@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Grid
 {
+    // Central lookup for generated chunks and tiles using world grid coordinates.
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
     private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
     private WorldManager world;
@@ -50,6 +51,7 @@ public class Grid
 
     public GridTile GetTile(Vector3 pos)
     {
+        // World positions map to tile cells by flooring X/Z.
         return GetTile(new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.z)));
     }
 
@@ -80,6 +82,7 @@ public class Grid
 
     public Chunk ChunkFromGridPos(Vector2Int pos)
     {
+        // Floor division keeps negative grid coordinates in the correct chunk.
         Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / world.chunkSize), Mathf.FloorToInt((float)pos.y / world.chunkSize));
 
         return GetChunk(chunkPos);

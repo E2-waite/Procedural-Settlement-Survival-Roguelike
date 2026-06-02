@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-// Class for storing building objects and automatically initializing the build panel
+// Stores buildable definitions and keeps the UI selection in sync with interaction mode.
 public class BuildingList : MonoSingleton<BuildingList>
 {
     [SerializeField] private List<BuildingObject> buildings = new List<BuildingObject>();
@@ -14,6 +14,7 @@ public class BuildingList : MonoSingleton<BuildingList>
 
     public void Init()
     {
+        // Building definitions are assigned in the inspector or refreshed in the editor.
         BuildPanel.Instance.UpdateDisplay(buildings);
     }
 
@@ -33,7 +34,7 @@ public class BuildingList : MonoSingleton<BuildingList>
     [ContextMenu("Refresh Building List")]
     public void RefreshBuildings()
     {
-
+        // Editor-only helper: repopulates the inspector list from BuildingObject assets.
         string buildingsPath = "Assets/Buildings/Objects";
 
         buildings.Clear();

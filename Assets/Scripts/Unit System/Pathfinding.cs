@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 public class Pathfinding
 {
+    // Plain-data request so pathfinding can run safely away from Unity's main thread.
     public struct PathRequest
     {
         public int size;
@@ -27,6 +28,7 @@ public class Pathfinding
 
     public List<Vector2Int> FindPath(PathRequest request)
     {
+        // Positions are converted into request-local space so the pathable array can stay small.
         var openSet = new List<Node>();
         var closedSet = new HashSet<Vector2Int>();
 
@@ -46,7 +48,7 @@ public class Pathfinding
         {
             Node current = GetLowestFCost(openSet);
 
-            // Reverse and return the path if we have reached the target
+            // Convert the finished path back into world grid coordinates before returning it.
             if (current.pos == targetLocal)
             {
                 List<Vector2Int> path = RetracePath(current);
@@ -103,6 +105,7 @@ public class Pathfinding
 
     public List<Vector2Int> GetNeighbours(Vector2Int pos)
     {
+        // Diagonal movement is allowed by returning all eight surrounding cells.
         List<Vector2Int> neighbours = new List<Vector2Int>();
 
         for (int x = pos.x - 1; x <= pos.x + 1; x++)
@@ -121,6 +124,7 @@ public class Pathfinding
 
     private List<Vector2Int> RetracePath(Node endNode)
     {
+        // Follow parent links backwards from the target, then reverse into movement order.
         List<Vector2Int> path = new List<Vector2Int>();
         Node current = endNode;
 

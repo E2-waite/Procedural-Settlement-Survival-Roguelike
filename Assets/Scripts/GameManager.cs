@@ -13,16 +13,19 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
 
-
     private void Start()
     {
+        // Startup is coordinated here so systems do not depend on Unity's Start order.
         ResourceSystem.Instance.Init();
         UIHandler.Instance.Init();
         BuildingList.Instance.Init();
 
+        // World data must exist before choosing a valid spawn tile.
         WorldManager.Instance.GenerateGrid();
 
         SpawnStartingFireAndUnits();
+
+        // Input is created, then listeners subscribe, then gameplay input is enabled.
         InputManager.Instance.Init();
         InteractionController.Instance.Init();
         InputManager.Instance.EnableGameplayInput();
@@ -60,6 +63,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         List<GridTile> validTiles = new List<GridTile>();
 
+        // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
         foreach (GridTile tile in WorldManager.grid.Tiles())
         {
             bool valid = true;

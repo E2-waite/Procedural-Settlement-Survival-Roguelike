@@ -20,6 +20,7 @@ public class ResourceSystem : MonoSingleton<ResourceSystem>
 
     public void Init()
     {
+        // Starting resources are initialized explicitly by GameManager during startup.
         storage.Add(ResourceNode.Type.Wood, 25);
         ResourcesPanel.Instance.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));
     }
@@ -60,6 +61,7 @@ public class ResourceSystem : MonoSingleton<ResourceSystem>
 
     ResourceNode ClosestNode(Vector2Int pos, ResourceNode.Type type, bool sameType)
     {
+        // Breadth-first search gives the closest node in grid steps, capped by maxSearchRange.
         Queue<(Vector2Int pos, int distance)> queue = new();
 
         HashSet<Vector2Int> visited = new();

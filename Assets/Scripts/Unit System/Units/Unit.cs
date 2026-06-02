@@ -49,6 +49,7 @@ public class Unit : Damageable
     {
         if (IsDead) return; // Dead
 
+        // Unit subclasses override the state hooks rather than replacing the whole update loop.
         StateHandling();
         UpdateChunk();
 
@@ -67,6 +68,7 @@ public class Unit : Damageable
         {
             chunkTimer = chunkInterval;
 
+            // Chunk membership powers local enemy/friendly queries for combat and swarming.
             Chunk newChunk = WorldManager.grid.ChunkFromGridPos(GridPos());
             if (newChunk != null && newChunk != chunk)
             {
@@ -247,7 +249,7 @@ public class Unit : Damageable
                             start.x - pathRange,
                             start.y - pathRange);
 
-        // Define pathing area
+        // Snapshot walkability around the unit so the worker thread does not read Unity state.
         for (int x = 0; x < size; x++)
         {
             for (int y = 0; y < size; y++)
@@ -273,7 +275,7 @@ public class Unit : Damageable
             pathable = pathable,
             callback = (path) =>
             {
-                // Updates the path on callback
+                // Callback runs on the main thread via PathfindingHandler.Update.
                 movement.SetPath(path);
                 pathRequested = false;
             }

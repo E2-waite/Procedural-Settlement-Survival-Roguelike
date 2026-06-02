@@ -28,6 +28,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
 
             BuildingObject selected = buildingList.Selected;
 
+            // No preview is shown until the player has selected a building type.
             if (selected != null)
             {
                 tileMarker.HighlightTiles(tile.position, selected.size, selected != null && selected.CanAfford());
@@ -43,6 +44,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
 
         if (selected == null || tile == null) return false;
 
+        // Placement, affordability, resource payment, and tile ownership are committed together.
         if (CanBuild(tile.position, selected.size) && selected.CanAfford())
         {
             GameObject buildingObj = Instantiate(selected.prefab, new Vector3(tile.position.x, 0, tile.position.y), Quaternion.identity);

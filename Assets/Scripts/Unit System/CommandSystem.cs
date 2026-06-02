@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CommandSystem : MonoSingleton<CommandSystem>
 {
+    // Units in this list respond to player right-click commands.
     private List<FollowerUnit> following = new List<FollowerUnit>();
      
     public void HandleHover(RaycastHit hit)
@@ -37,7 +38,7 @@ public class CommandSystem : MonoSingleton<CommandSystem>
     // Commands all nearby follower units to start following the player
     public void CommandStartFollowing(List<FollowerUnit> nearbyFollowers)
     {
-        // Tells nearby units to start following
+        // Nearby followers are claimed into the command group before receiving orders.
         foreach (FollowerUnit nearby in nearbyFollowers)
         {
             if (nearby == null) continue;

@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Controller for interpreting inputs
+// Interprets input events according to the current player interaction mode.
 public class InteractionController : MonoSingleton<InteractionController>
 {
     public enum GameState
@@ -23,6 +23,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     {
         if (!initialized)
         {
+            // Subscribe after InputManager creates controls, but before gameplay input is enabled.
             InputManager.Instance.MouseHoverHit += OnHover;
             InputManager.Instance.LeftClick += OnLeftClick;
             InputManager.Instance.RightClick += OnRightClick;
@@ -36,6 +37,7 @@ public class InteractionController : MonoSingleton<InteractionController>
 
     void OnDisable()
     {
+        // Keep subscriptions paired with Init so disabled controllers do not keep handling input.
         InputManager.Instance.MouseHoverHit -= OnHover;
         InputManager.Instance.LeftClick -= OnLeftClick;
         InputManager.Instance.RightClick -= OnRightClick;
@@ -80,6 +82,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     {
         if (newState != state)
         {
+            // Enter/exit hooks for interaction modes live here.
             if (newState == GameState.Build)
             {
                 BuildingSystem.Instance.SetEnabled(true);

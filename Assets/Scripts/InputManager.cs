@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Manager for taking inputs
+// Converts raw Input System state into simple gameplay events for other systems.
 public class InputManager : MonoSingleton<InputManager>
 {
     bool initialized = false;
@@ -25,6 +25,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (initialized) return;
 
+        // PlayerControls creates an InputActionAsset, so it must be created after Unity construction.
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -34,6 +35,7 @@ public class InputManager : MonoSingleton<InputManager>
 
     public void EnableGameplayInput()
     {
+        // Keep enabling separate from Init so listeners can subscribe before input starts firing.
         controls.Player.Enable();
     }
 
@@ -41,6 +43,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (!initialized) return;
 
+        // Polling stays here; interpretation of clicks/hover depends on InteractionController state.
         mousePos = Mouse.current.position.ReadValue();
 
         CastRay();

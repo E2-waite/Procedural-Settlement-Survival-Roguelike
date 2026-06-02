@@ -31,7 +31,8 @@ public class UnitCombat
     public float attackDist = 1f, attackDamage = 10f;
     protected float attackInterval = 0.5f, attackTimer = 0;
     public Damageable currentTarget;
-    List<ThreatCandidate> targetCandidates = new List<ThreatCandidate>(); // List of potential targets to focus on
+    // Potential targets decay over time so units eventually stop caring about distant threats.
+    List<ThreatCandidate> targetCandidates = new List<ThreatCandidate>();
 
     public void SetUnit(Unit unit)
     {
@@ -63,6 +64,7 @@ public class UnitCombat
     {
         if (unit.IsDead) return;
 
+        // Target choice is based on threat first, then distance/range determines the action.
         UpdateThreat();
         CheckTargets();
 
@@ -120,6 +122,7 @@ public class UnitCombat
 
     public void AddTargets(List<Unit> newTarget)
     {
+        // Detection can run repeatedly, so avoid adding duplicate candidates.
         foreach (Unit targetUnit in newTarget)
         {
             if (targetUnit == null) continue;
@@ -153,6 +156,7 @@ public class UnitCombat
 
     private void UpdateThreat()
     {
+        // Iterate backwards so candidates can be removed while scanning.
         for (int i = targetCandidates.Count - 1; i >= 0; i--)
         {
             ThreatCandidate candidate = targetCandidates[i];
@@ -211,7 +215,7 @@ public class UnitCombat
         }
 
 
-        // If no candidate with target exists, set thread and add to candidates list;
+        // If no candidate with target exists, set threat and add to candidates list.
         ThreatCandidate newCandidate = new ThreatCandidate()
         {
             target = target,
@@ -271,6 +275,7 @@ public class UnitCombat
     // Move towards target
     void Chase()
     {
+        // Request a new path only when there is no active path or pending request.
         if (!unit.pathRequested && !unit.movement.HasPath)
         {
             unit.RequestPath(TargetPos(), currentTarget.transform.position);

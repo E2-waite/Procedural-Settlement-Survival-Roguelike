@@ -35,6 +35,7 @@ public class Chunk : MonoBehaviour
     // Generate this chunk's mesh 
     public void Generate(Grid grid, Vector2Int pos, int chunkSize, float noiseScale)
     {
+        // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
         size = chunkSize;
         position = pos;
 
@@ -48,6 +49,7 @@ public class Chunk : MonoBehaviour
 
         heights = new float[chunkSize + 1, chunkSize + 1];
 
+        // Heights need one extra row/column because each tile samples four corner vertices.
         for (int x = 0; x < chunkSize + 1; x++)
         {
             for (int y = 0; y < chunkSize + 1; y++)
@@ -63,6 +65,7 @@ public class Chunk : MonoBehaviour
         {
             for (int y = 0; y < chunkSize; y++)
             {
+                // Tile positions are stored in world grid coordinates, not chunk-local coordinates.
                 Vector2Int tilePos = new Vector2Int(x + position.x * chunkSize, y + position.y * chunkSize);
 
                 GridTile.TileType tileType = GetTileType(x, y);
@@ -130,6 +133,7 @@ public class Chunk : MonoBehaviour
 
     private void Update()
     {
+        // Resources are drawn manually with instancing, so active chunks render them each frame.
         if (resources != null)
             resources.Render();
     }
@@ -200,6 +204,7 @@ public class Chunk : MonoBehaviour
 
     GridTile.TileType GetTileType(int x, int y)
     {
+        // A tile is water only if all four corners are below sea level.
         bool allWater = true;
 
         for (int ix = 0; ix < 2 && allWater; ix++)
@@ -267,6 +272,7 @@ public class Chunk : MonoBehaviour
     {
         if (!includeSurrounding) return enemies;
 
+        // Include neighbouring chunks so units near chunk edges can still detect each other.
         List<Unit> enemyList = new List<Unit>(enemies);
 
         if (includeSurrounding)

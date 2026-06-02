@@ -27,6 +27,7 @@ public class WorldManager : MonoSingleton<WorldManager>
     // Generates the initial chunks
     public void GenerateGrid()
     {
+        // The seed offset keeps terrain deterministic after generation while varying each new run.
         seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
         grid = new Grid(this);
 
@@ -63,6 +64,7 @@ public class WorldManager : MonoSingleton<WorldManager>
     // Updates chunk's neighbours
     void UpdateChunkNeighbours(Chunk chunk)
     {
+        // Neighbour links let unit queries include nearby chunks without scanning the whole world.
         for (int i = 0; i < Consts.ALL_NEIGHBOURS.Length; i++)
         {
             Vector2Int neighbourPos = chunk.position + Consts.ALL_NEIGHBOURS[i];
@@ -85,7 +87,7 @@ public class WorldManager : MonoSingleton<WorldManager>
 
         requiredChunks.Clear();
 
-        // Get the chunk positions we want to be active (5 x 5 grid)
+        // Build the active window around the current chunk.
         for (int x = newChunk.position.x - 2; x <= newChunk.position.x + chunkDistance; x++)
         {
             for (int y = newChunk.position.y - 2; y <= newChunk.position.y + chunkDistance; y++)

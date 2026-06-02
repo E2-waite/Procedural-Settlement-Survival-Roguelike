@@ -2,7 +2,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using static WorkerUnit;
 
-// Class for handling worker unit interactions
+// Handles worker-only jobs such as gathering, storing, building, and converting.
 [System.Serializable]
 public class UnitWork
 {
@@ -86,7 +86,7 @@ public class UnitWork
         this.state = state;
     }
 
-    // Executes the current combat state
+    // Executes the current worker state.
     public void ExecuteState()
     {
         switch (state)
@@ -124,7 +124,7 @@ public class UnitWork
         {
             Store();
 
-            // Find closest resource to store
+            // After storing, immediately look for the next nearby resource to keep the worker busy.
             ResourceNode nextNode = ResourceSystem.Instance.GetClosestNode(targetStore);
 
             if (nextNode == null && targetResource != null)
@@ -203,6 +203,7 @@ public class UnitWork
     {
         if (resource == null) return;
 
+        // Resource targets always put the worker into gather mode and path to the node tile.
         targetResource = resource;
         SetState(WorkState.Gather);
 
@@ -237,6 +238,7 @@ public class UnitWork
     {
         if (building == null) return;
 
+        // Built barracks convert workers; unfinished buildings are construction targets.
         if (building.Built())
         {
             if (building is BarracksBuilding)

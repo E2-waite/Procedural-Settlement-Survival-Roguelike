@@ -17,6 +17,8 @@ public class PathfindingHandler : MonoSingleton<PathfindingHandler>
     protected override void Awake()
     {
         base.Awake();
+
+        // Pathfinding runs on a worker thread; callbacks are marshalled back in Update.
         pathfinding = new Pathfinding();
         workerThread = new Thread(WorkerLoop);
         workerThread.Start();
@@ -24,7 +26,7 @@ public class PathfindingHandler : MonoSingleton<PathfindingHandler>
 
     void Update()
     {
-        // Try to trigger the callback from the result queue (asynchronously)
+        // Execute finished path callbacks on the Unity thread.
         while (resultQueue.TryDequeue(out var action))
         {
             action?.Invoke();
@@ -41,7 +43,7 @@ public class PathfindingHandler : MonoSingleton<PathfindingHandler>
     {
         while (running)
         {
-            // Try to dequeue requests from the queue (if there are any) and find the path asynchronously
+            // Requests contain plain data only, so the worker avoids touching Unity objects.
             if (requestQueue.TryDequeue(out PathRequest request))
             {
                 List<Vector2Int> path = pathfinding.FindPath(request);
