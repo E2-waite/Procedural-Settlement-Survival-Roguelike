@@ -134,7 +134,8 @@ public class Chunk : MonoBehaviour
 
     private void Update()
     {
-        resources.Render();
+        if (resources != null)
+            resources.Render();
     }
 
     float GenerateNoise(float x, float y)

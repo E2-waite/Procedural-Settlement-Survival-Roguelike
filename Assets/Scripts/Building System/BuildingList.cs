@@ -1,6 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 // Class for storing building objects and automatically initializing the build panel
 public class BuildingList : MonoSingleton<BuildingList>
 {

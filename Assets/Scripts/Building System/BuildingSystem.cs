@@ -28,8 +28,11 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
 
             BuildingObject selected = buildingList.Selected;
 
-            tileMarker.HighlightTiles(tile.position, selected.size, selected != null && selected.CanAfford());
-            tileMarker.transform.position = new Vector3(tile.position.x + 1.5f, 0, tile.position.y + 1.5f);
+            if (selected != null)
+            {
+                tileMarker.HighlightTiles(tile.position, selected.size, selected != null && selected.CanAfford());
+                tileMarker.transform.position = new Vector3(tile.position.x + 1.5f, 0, tile.position.y + 1.5f);
+            }
         }
     }
 

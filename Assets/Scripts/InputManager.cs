@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 // Manager for taking inputs
 public class InputManager : MonoSingleton<InputManager>
 {
+    bool initialized = false;
     Vector2 mousePos;
 
     public event Action<RaycastHit> MouseHoverHit;
@@ -20,17 +21,16 @@ public class InputManager : MonoSingleton<InputManager>
     private PlayerControls controls;
     private Vector2 moveInput;
 
-    void OnEnable() => controls.Enable();
-    void OnDisable() => controls.Disable();
-
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
+        if (initialized) return;
+        initialized = true;
+
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+        controls.Enable();
     }
-
 
     private void Update()
     {
@@ -40,6 +40,11 @@ public class InputManager : MonoSingleton<InputManager>
         HandleClick();
         HandleKeys();
         HandleMove();
+    }
+
+    private void OnDestroy()
+    {
+        controls?.Dispose();
     }
 
     // Casts ray from the mouse position

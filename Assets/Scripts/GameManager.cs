@@ -14,10 +14,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        //buildings.Init();
-
         WorldManager.Instance.GenerateGrid();
         
+
         GridTile spawnTile = FindSpawnTile();
 
         if (spawnTile != null)
@@ -40,6 +39,8 @@ public class GameManager : MonoSingleton<GameManager>
 
             WorldManager.Instance.HandleChunks(spawnTile.chunk);
         }
+
+        InputManager.Instance.Init();
     }
 
     GridTile FindSpawnTile()
