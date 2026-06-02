@@ -24,11 +24,8 @@ public class Unit : Damageable
     public float chunkInterval = 1f, chunkTimer = 0f;
     public float swarmRadius = .5f;
     [HideInInspector] public bool pathRequested = false;
-
     private Camera cam;
-
     public Chunk chunk;
-
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
 

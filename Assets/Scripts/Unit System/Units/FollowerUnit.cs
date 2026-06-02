@@ -12,11 +12,13 @@ public class FollowerUnit : Unit
     public float followDist = 1.5f;
     PlayerController player;
 
+    public bool Following => state == State.Following;
+
     protected override void Start()
     {
         base.Start();
 
-        GameManager.Instance.Units.Add(this);
+        UnitSystem.Instance.AddUnit(this);
     }
 
     protected override void Update()
@@ -60,7 +62,7 @@ public class FollowerUnit : Unit
     #region Taking Damage
     protected override void OnDeathStart()
     {
-        GameManager.Instance.Units.Remove(this);
+        UnitSystem.Instance.RemoveUnit(this);
     }
 
     #endregion

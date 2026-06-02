@@ -14,10 +14,8 @@ public class PlayerController : Damageable
     private Camera cam;
     private Chunk chunk;
 
-    private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
-    private List<FollowerUnit> followingUnits = new List<FollowerUnit>();
-    public List<FollowerUnit> Followers => followingUnits;
 
+    public SphereCollider col;
     private void Awake()
     {
         movement.Init(this);
@@ -26,6 +24,7 @@ public class PlayerController : Damageable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        col = GetComponent<SphereCollider>();
         // Face the camera
         Vector3 forward = Camera.main.transform.forward;
         forward.Normalize();
@@ -44,16 +43,7 @@ public class PlayerController : Damageable
         movement.Update();
         sprite.SetDirection(movement.moveInput);
 
-        if (Keyboard.current.fKey.wasReleasedThisFrame)
-        {
-            // Tells nearby units to start following
-            foreach (FollowerUnit nearby in nearbyUnits)
-            {
-                AddFollower(nearby);
-            }
-
-            nearbyUnits.Clear();
-        }
+        
 
         if (fireCheckTimer <= 0)
         {
@@ -112,44 +102,38 @@ public class PlayerController : Damageable
         }
     }
 
-    void LateUpdate()
-    {
-        // Face the camera
-        Vector3 forward = Camera.main.transform.forward;
-        forward.Normalize();
-        transform.rotation = Quaternion.LookRotation(forward);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        if (unit != null && !nearbyUnits.Contains(unit))
-        {
-            nearbyUnits.Add(unit);
-        }
+        UnitSystem.Instance.AddNearby(unit);
     }
 
     private void OnTriggerExit(Collider other)
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        if (unit != null)
-        {
-            nearbyUnits.Remove(unit);
-        }
+        UnitSystem.Instance.RemoveNearby(unit);
     }
 
-    private void AddFollower(FollowerUnit follower)
-    {
-        followingUnits.Add(follower);
-        follower.StartFollowing(this);
-    }
+    // Sets a follower to start following this player
+    //private void StartFollowing(FollowerUnit follower)
+    //{
+    //    followingUnits.Add(follower);
+    //    follower.StartFollowing(this);
+    //}
 
-    private void RemoveFollower(FollowerUnit follower)
-    {
-        followingUnits.Remove(follower);
-        follower.StopFollowing();
-    }
+    // Stops a follower following this player
+    //public void StopFollowing(FollowerUnit follower)
+    //{
+    //    followingUnits.Remove(follower);
+
+    //    if (Vector3.Distance(transform.position, follower.transform.position) <= col.radius)
+    //    {
+    //        nearbyUnits.Add(follower);
+    //    }
+
+    //    follower.StopFollowing();
+    //}
 
 }

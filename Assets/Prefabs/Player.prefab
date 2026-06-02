@@ -65,6 +65,9 @@ MonoBehaviour:
   fireLightDist: 2
   fireCheckInterval: 0.5
   fireLight: {fileID: 705921184901987953}
+  nearbyUnits: []
+  followingUnits: []
+  col: {fileID: 0}
 --- !u!114 &-6213078078361821049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +234,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 0.5001972, b: 0, a: 1}
-  m_Intensity: 10
+  m_Intensity: 57.19
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

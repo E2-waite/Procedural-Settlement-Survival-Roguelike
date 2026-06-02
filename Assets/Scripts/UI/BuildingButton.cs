@@ -15,7 +15,7 @@ public class BuildingButton : MonoBehaviour
 
         button.onClick.AddListener(() =>
         {
-            BuildingManager.Instance.SelectBuilding(index);
+            BuildingList.Instance.SelectBuilding(index);
         });
     }
 }

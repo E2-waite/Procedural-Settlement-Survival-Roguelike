@@ -24,11 +24,11 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            if (InteractionManager.Instance.state == InteractionManager.GameState.Build)
-            {
-                MoveCamera();
-            }
-            else
+            //if (PlayerInteraction.Instance.state == PlayerInteraction.GameState.Build)
+            //{
+            //    MoveCamera();
+            //}
+            //else
             {
                 FollowPlayer();
                 currentVelocity = Vector3.zero;
