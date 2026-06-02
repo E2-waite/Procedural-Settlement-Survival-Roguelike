@@ -106,34 +106,13 @@ public class PlayerController : Damageable
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        UnitSystem.Instance.AddNearby(unit);
+        UnitSystem.Instance.Storage.AddNearby(unit);
     }
 
     private void OnTriggerExit(Collider other)
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        UnitSystem.Instance.RemoveNearby(unit);
+        UnitSystem.Instance.Storage.RemoveNearby(unit);
     }
-
-    // Sets a follower to start following this player
-    //private void StartFollowing(FollowerUnit follower)
-    //{
-    //    followingUnits.Add(follower);
-    //    follower.StartFollowing(this);
-    //}
-
-    // Stops a follower following this player
-    //public void StopFollowing(FollowerUnit follower)
-    //{
-    //    followingUnits.Remove(follower);
-
-    //    if (Vector3.Distance(transform.position, follower.transform.position) <= col.radius)
-    //    {
-    //        nearbyUnits.Add(follower);
-    //    }
-
-    //    follower.StopFollowing();
-    //}
-
 }

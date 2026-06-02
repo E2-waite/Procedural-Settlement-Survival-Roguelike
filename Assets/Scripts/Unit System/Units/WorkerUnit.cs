@@ -96,7 +96,7 @@ public class WorkerUnit : FollowerUnit
         if (storage.AtCapacity())
         {
             // Find closest resource store
-            ResourceBuilding closestStore = BuildingSystem.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
+            ResourceBuilding closestStore = BuildingSystem.Instance.Storage.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
                 SetState(State.Idle);

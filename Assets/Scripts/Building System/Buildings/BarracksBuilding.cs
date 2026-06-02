@@ -25,7 +25,7 @@ public class BarracksBuilding : Building
     IEnumerator ConvertWorker(WorkerUnit worker)
     {
         // Disable worker
-        UnitSystem.Instance.RemoveUnit(worker);
+        UnitSystem.Instance.Storage.Remove(worker);
         worker.gameObject.SetActive(false);
         worker.chunk.RemoveUnit(worker);
         yield return new WaitForSeconds(convertTime);
@@ -45,7 +45,7 @@ public class BarracksBuilding : Building
                 newFighter.Init(worker);
             }
 
-            UnitSystem.Instance.AddUnit(newFighter);
+            UnitSystem.Instance.Storage.Add(newFighter);
             Destroy(worker.gameObject);
             activeConversions--;
         }

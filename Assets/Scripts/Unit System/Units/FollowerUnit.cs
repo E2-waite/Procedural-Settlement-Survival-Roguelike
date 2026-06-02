@@ -18,7 +18,7 @@ public class FollowerUnit : Unit
     {
         base.Start();
 
-        UnitSystem.Instance.AddUnit(this);
+        UnitSystem.Instance.Storage.Add(this);
     }
 
     protected override void Update()
@@ -62,7 +62,7 @@ public class FollowerUnit : Unit
     #region Taking Damage
     protected override void OnDeathStart()
     {
-        UnitSystem.Instance.RemoveUnit(this);
+        UnitSystem.Instance.Storage.Remove(this);
     }
 
     #endregion

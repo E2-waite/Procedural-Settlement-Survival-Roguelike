@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class BuildingSystem : MonoSingleton<BuildingSystem>
 {
+    private BuildingStorage storage = new BuildingStorage();
+    public BuildingStorage Storage => storage;
+
     public TileMarker tileMarker;
     BuildingList buildingList;
-    public List<ResourceBuilding>[] resourceStores = new List<ResourceBuilding>[(int)ResourceNode.Type.Max];
     GridTile lastTile = null;
 
     private void Start()
@@ -52,20 +54,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
 
             selected.ConsumeResources();
 
-            // Setup resource store building
-            if (building is ResourceBuilding)
-            {
-                ResourceBuilding store = (ResourceBuilding)building;
-
-                ResourceNode.Type type = store.type;
-
-                if (resourceStores[(int)type] == null)
-                {
-                    resourceStores[(int)type] = new List<ResourceBuilding>();
-                }
-
-                resourceStores[(int)type].Add(store);
-            }
+            storage.Add(building);
 
             // Assign buildings to appropriate tiles
             for (int x = tile.position.x; x < tile.position.x + selected.size.x; x++)
@@ -107,31 +96,5 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         }
 
         return true;
-    }
-
-    public ResourceBuilding GetClosestStore(ResourceNode.Type type, Vector2Int pos)
-    {
-        float lowestDist = float.MaxValue;
-        ResourceBuilding store = null;
-
-        List<ResourceBuilding> storeList = resourceStores[(int)type];
-
-        for (int i = 0; storeList != null && i < storeList.Count; i++)
-        {
-            ResourceBuilding current = storeList[i];
-
-            if (!current.Built()) continue; // Don't include non-built or broken stores
-
-            Vector2Int storePos = new Vector2Int((int)current.transform.position.x, (int)current.transform.position.z);
-
-            float dist = Vector2Int.Distance(storePos, pos);
-            if (dist < lowestDist)
-            {
-                lowestDist = dist;
-                store = current;
-            }
-        }
-
-        return store;
     }
 }

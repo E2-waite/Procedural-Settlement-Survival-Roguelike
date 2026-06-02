@@ -16,6 +16,7 @@ public class ResourceNode
         Max
     }
 
+    public int TypeInt => (int)type;
     public Type type;
     public Density density;
     public ResourceObject resourceObj;
