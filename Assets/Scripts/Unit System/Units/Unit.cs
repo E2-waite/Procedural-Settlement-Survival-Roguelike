@@ -18,6 +18,8 @@ public class Unit : Damageable
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public UnitMovement movement;
     public override TargetType Type => TargetType.Unit;
+    public SpriteRenderer unitSprite;
+    public SpriteRenderer markerSprite;
     const int pathRange = 50;
 
     public State state, lastState;
@@ -32,12 +34,12 @@ public class Unit : Damageable
     protected virtual void Start()
     {
         movement = new UnitMovement(this);
-
+        sprite.Init(unitSprite);
         // Face the camera
         cam = Camera.main;
         Vector3 forward = cam.transform.forward;
         forward.Normalize();
-        transform.rotation = Quaternion.LookRotation(forward);
+        unitSprite.transform.rotation = Quaternion.LookRotation(forward);
 
         health.Fill();
 

@@ -10,6 +10,11 @@ public class UnitSprite
     public Sprite downRight;
     public Sprite downLeft;
 
+    public void Init(SpriteRenderer spriteRenderer)
+    {
+        this.spriteRenderer = spriteRenderer;
+    }
+
     public void SetDirection(Vector2 dir)
     {
         if (dir == Vector2.zero) return;

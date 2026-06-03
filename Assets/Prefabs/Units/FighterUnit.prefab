@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6490061291952677947, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96,8 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47ac2f1960a1664f864fc138dcce55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
   sprite:
-    spriteRenderer: {fileID: 8557692821436551359}
+    spriteRenderer: {fileID: 0}
     upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
     upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
     downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
@@ -107,10 +115,8 @@ MonoBehaviour:
     pathWeight: 0
     swarmWeight: 0
     path: []
-  combat:
-    attackDist: 1
-    attackDamage: 10
-    target: {fileID: 0}
+  unitSprite: {fileID: 8791788528999512610}
+  markerSprite: {fileID: 5095708431926090062}
   state: 0
   lastState: 0
   chunkInterval: 1
@@ -119,6 +125,13 @@ MonoBehaviour:
   pathRequested: 0
   chunk: {fileID: 0}
   followDist: 1.5
+  marker: {fileID: 0}
+  combat:
+    state: 0
+    lastState: 0
+    attackDist: 1
+    attackDamage: 10
+    currentTarget: {fileID: 0}
 --- !u!95 &-4641106469875735490
 Animator:
   serializedVersion: 7
@@ -141,8 +154,13 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!212 &8557692821436551359 stripped
+--- !u!212 &5095708431926090062 stripped
 SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 6255756112258551462, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7396166917447108439, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 2311438758458990105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8791788528999512610 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6490061291952677947, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
   m_PrefabInstance: {fileID: 2311438758458990105}
   m_PrefabAsset: {fileID: 0}

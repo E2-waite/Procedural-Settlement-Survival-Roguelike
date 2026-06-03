@@ -93,8 +93,9 @@ public class Player : Damageable
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        if (!nearbyUnits.Contains(unit))
+        if (unit != null && !nearbyUnits.Contains(unit))
         {
+            unit.SetNearby();
             nearbyUnits.Add(unit);
         }
     }
@@ -103,8 +104,9 @@ public class Player : Damageable
     {
         FollowerUnit unit = other.GetComponent<FollowerUnit>();
 
-        if (nearbyUnits.Contains(unit))
+        if (unit != null && nearbyUnits.Contains(unit))
         {
+            unit.ClearNearby();
             nearbyUnits.Remove(unit);
         }
     }

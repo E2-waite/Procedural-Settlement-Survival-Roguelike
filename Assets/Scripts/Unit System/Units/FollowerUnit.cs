@@ -11,7 +11,6 @@ public class FollowerUnit : Unit
 {
     public float followDist = 1.5f;
     Player player;
-
     public bool Following => state == State.Following;
 
     protected override void Start()
@@ -94,6 +93,17 @@ public class FollowerUnit : Unit
     }
 
     #region Targeting
+    public void SetNearby()
+    {
+        markerSprite.enabled = true;
+        markerSprite.color = Color.white;
+    }
+
+    public void ClearNearby()
+    {
+        markerSprite.enabled = false;
+    }
+
     // Set state to following, set target player, and request a path
     public virtual void StartFollowing(Player thePlayer)
     {
@@ -102,12 +112,15 @@ public class FollowerUnit : Unit
         SetState(State.Following);
         Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
         RequestPath(playerPos, player.transform.position);
+        markerSprite.enabled = true;
+        markerSprite.color = Color.green;
     }
 
     // Stops following the player
     public virtual void StopFollowing()
     {
         player = null;
+        markerSprite.enabled = false;
     }
 
     #endregion

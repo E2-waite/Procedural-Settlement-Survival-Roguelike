@@ -8,7 +8,10 @@ public class UnitMovement
     public List<Vector2Int> path = new List<Vector2Int>();
     private float reachedThresh = .5f, swarmRadius = .5f;
     protected int pathIndex = 0;
+    private Vector3 posOffset = new Vector3(0, 0.01f, 0);
+
     protected GridTile targetTile;
+
     public GridTile TargetTile => targetTile;
 
     Unit unit;
@@ -59,6 +62,7 @@ public class UnitMovement
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
             unit.transform.position += moveDir * moveSpeed * Time.deltaTime;
+            unit.transform.position += posOffset;
 
             if ((unit.transform.position - targetPos).sqrMagnitude < reachedThresh)
             {
