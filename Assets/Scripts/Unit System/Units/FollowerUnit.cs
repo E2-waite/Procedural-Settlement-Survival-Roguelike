@@ -12,6 +12,8 @@ public class FollowerUnit : Unit
     public float followDist = 1.5f;
     Player player;
     public bool Following => state == State.Following;
+    private bool commanding = false; // This unit is being commanded
+    public bool Commanding => commanding;
 
     protected override void Start()
     {
@@ -95,32 +97,49 @@ public class FollowerUnit : Unit
     #region Targeting
     public void SetNearby()
     {
-        markerSprite.enabled = true;
-        markerSprite.color = Color.white;
+        if (!commanding)
+        {
+            markerSprite.enabled = true;
+            markerSprite.color = Color.white;
+        }
     }
 
     public void ClearNearby()
     {
-        markerSprite.enabled = false;
+        if (!commanding)
+        {
+            markerSprite.enabled = false;
+        }
     }
 
     // Set state to following, set target player, and request a path
-    public virtual void StartFollowing(Player thePlayer)
+    public virtual void StartCommanding(Player thePlayer)
     {
+        commanding = true;
         player = thePlayer;
-
-        SetState(State.Following);
-        Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-        RequestPath(playerPos, player.transform.position);
         markerSprite.enabled = true;
         markerSprite.color = Color.green;
     }
 
     // Stops following the player
-    public virtual void StopFollowing()
+    public virtual void StopCommanding()
     {
+        if (state == State.Following)
+            SetIdle();
+
+        commanding = false;
         player = null;
         markerSprite.enabled = false;
+    }
+
+    public virtual void StartFollowing()
+    {
+        if (player != null)
+        {
+            SetState(State.Following);
+            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
+            RequestPath(playerPos, player.transform.position);
+        }
     }
 
     #endregion

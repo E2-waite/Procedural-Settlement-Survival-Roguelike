@@ -4,7 +4,7 @@ using UnityEngine;
 public class CommandSystem : MonoSingleton<CommandSystem>
 {
     // Units in this list respond to player right-click commands.
-    private List<FollowerUnit> following = new List<FollowerUnit>();
+    private List<FollowerUnit> commanding = new List<FollowerUnit>();
      
     public void HandleHover(RaycastHit hit)
     {
@@ -14,7 +14,7 @@ public class CommandSystem : MonoSingleton<CommandSystem>
     // Commands all following units to interact with hovering tile
     public void Command(GridTile hoveringTile)
     {
-        foreach (FollowerUnit unit in following)
+        foreach (FollowerUnit unit in commanding)
         {
             unit.Command(hoveringTile);
         }
@@ -23,7 +23,7 @@ public class CommandSystem : MonoSingleton<CommandSystem>
     // Commands all following units to interact with hovering unit
     public void Command(Unit hoveringUnit)
     {
-        foreach (FollowerUnit unit in following)
+        foreach (FollowerUnit unit in commanding)
         {
             unit.Command(hoveringUnit);
         }
@@ -36,24 +36,59 @@ public class CommandSystem : MonoSingleton<CommandSystem>
     }
 
     // Commands all nearby follower units to start following the player
-    public void CommandStartFollowing(List<FollowerUnit> nearbyFollowers)
+    public void StartCommanding(List<FollowerUnit> nearbyFollowers)
     {
         // Nearby followers are claimed into the command group before receiving orders.
-        foreach (FollowerUnit nearby in nearbyFollowers)
+        foreach (FollowerUnit unit in nearbyFollowers)
         {
-            if (nearby == null) continue;
+            if (unit == null) continue;
 
-            if (!following.Contains(nearby))
-                following.Add(nearby);
+            if (!commanding.Contains(unit))
+                commanding.Add(unit);
+        }
 
-            nearby.StartFollowing(GameManager.Player);
+        foreach (FollowerUnit unit in commanding)
+        {
+            unit.StartCommanding(GameManager.Player);
         }
     }
 
-    // Commands a unit to stop following the player
-    public void CommandStopFollowing(FollowerUnit unit)
+    public void StartCommanding(FollowerUnit unit)
     {
-        following.Remove(unit);
-        unit.StopFollowing();
+        if (unit == null) return;
+
+        if (!commanding.Contains(unit))
+        {
+            if (!commanding.Contains(unit))
+                commanding.Add(unit);
+
+            unit.StartCommanding(GameManager.Player);
+        }
+    }
+
+    public void StopCommanding(FollowerUnit unit)
+    {
+        if (commanding.Contains(unit))
+        {
+            commanding.Remove(unit);
+        }
+        unit.StopCommanding();
+    }
+
+    // Commands a unit to stop following the player
+    public void StopCommanding()
+    {
+        foreach (FollowerUnit unit in commanding)
+        {
+            unit.StopCommanding();
+        }
+        commanding.Clear();
+    }
+    public void CommandFollow()
+    {
+        foreach (FollowerUnit unit in commanding)
+        {
+            unit.StartFollowing();
+        }
     }
 }

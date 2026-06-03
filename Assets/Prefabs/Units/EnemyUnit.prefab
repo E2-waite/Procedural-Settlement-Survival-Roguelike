@@ -108,9 +108,9 @@ MonoBehaviour:
     downRight: {fileID: -814534063, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
     downLeft: {fileID: -783307016, guid: 7369d6d1e29f1634c9492eaf3fbd5e2b, type: 3}
   movement:
-    moveSpeed: 0
-    pathWeight: 0
-    swarmWeight: 0
+    moveSpeed: 5
+    pathWeight: 2
+    swarmWeight: 0.5
     path: []
   unitSprite: {fileID: 4920229300082155211}
   markerSprite: {fileID: 8718134069493890471}

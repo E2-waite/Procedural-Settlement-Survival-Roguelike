@@ -33,7 +33,7 @@ public class Unit : Damageable
 
     protected virtual void Start()
     {
-        movement = new UnitMovement(this);
+        movement.Init(this);
         sprite.Init(unitSprite);
         // Face the camera
         cam = Camera.main;

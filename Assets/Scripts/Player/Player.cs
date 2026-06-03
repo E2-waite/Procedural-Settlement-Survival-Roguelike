@@ -9,6 +9,7 @@ public class Player : Damageable
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] Fire fire = new Fire(false);
     private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
+    public List<FollowerUnit> NearbyUnits => nearbyUnits;
     public float fireLightDist = 2f, fireCheckInterval = .5f;
     private float fireCheckTimer = 0f;
     private Chunk chunk;
@@ -80,13 +81,6 @@ public class Player : Damageable
             // Update chunks (disable stale chunks and enable/create active chunks)
             WorldManager.Instance.HandleChunks(chunk);
         }
-    }
-
-    // Calls the nearby units to start following
-    public void CallUnits()
-    {
-        CommandSystem.Instance.CommandStartFollowing(nearbyUnits);
-        nearbyUnits.Clear();
     }
 
     private void OnTriggerEnter(Collider other)

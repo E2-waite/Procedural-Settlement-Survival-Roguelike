@@ -5,21 +5,37 @@ using UnityEngine.InputSystem;
 // Converts raw Input System state into simple gameplay events for other systems.
 public class InputManager : MonoSingleton<InputManager>
 {
+    public enum MouseButton : int
+    {
+        Left = 0,
+        Middle,
+        Right,
+        Max
+    }
+
     bool initialized = false;
-    Vector2 mousePos;
+    Vector2 mousePos, lastMousePos;
 
-    public event Action<RaycastHit> MouseHoverHit;
-
+    // TODO: make click events into array (MouseButton enum)
     public event Action LeftClick;
     public event Action RightClick;
+    public event Action<Vector2, float> LeftClickHeld;
+    public event Action<Vector2, float> RightClickHeld;
+    public event Action<Vector2, float> LeftClickReleased;
+    public event Action<Vector2, float> RightClickReleased;
     public event Action EscapePressed;
     public event Action FPressed;
+    public event Action<Vector2, Vector2> MouseMoved;
     public event Action<Vector2> Moved;
     public LayerMask unitLayerMask;
 
     [HideInInspector] public PlayerController player;
     private PlayerControls controls;
     private Vector2 moveInput;
+    private bool[] held = new bool[(int)MouseButton.Max];
+    private Vector2[] clickStartPos = new Vector2[(int)MouseButton.Max];
+    private float[] clickStartTime = new float[(int)MouseButton.Max];
+
 
     public void Init()
     {
@@ -43,10 +59,7 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if (!initialized) return;
 
-        // Polling stays here; interpretation of clicks/hover depends on InteractionController state.
-        mousePos = Mouse.current.position.ReadValue();
-
-        CastRay();
+        HandleMouse();
         HandleClick();
         HandleKeys();
         HandleMove();
@@ -57,25 +70,63 @@ public class InputManager : MonoSingleton<InputManager>
         controls?.Dispose();
     }
 
-    // Casts ray from the mouse position
-    void CastRay()
+    private void HandleMouse()
     {
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Vector2 newPos = Mouse.current.position.ReadValue();
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
+        if (mousePos != newPos)
         {
-            MouseHoverHit?.Invoke(hit);
+            lastMousePos = mousePos;
+            mousePos = newPos;
+            MouseMoved?.Invoke(mousePos, mousePos - lastMousePos);
         }
     }
 
     // Invoke click actions on mouse click
     void HandleClick()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-            LeftClick?.Invoke();
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            held[(int)MouseButton.Left] = false;
+            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Left];
+            LeftClickReleased?.Invoke(posDiff, Time.time - clickStartTime[(int)MouseButton.Left]);
+        }
 
+        if (Mouse.current.rightButton.wasReleasedThisFrame)
+        {
+            held[(int)MouseButton.Right] = false;
+            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Right];
+            RightClickReleased?.Invoke(posDiff, Time.time - clickStartTime[(int)MouseButton.Right]);
+        }
+
+        if (held[(int)MouseButton.Left])
+        {
+            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Right];
+            LeftClickHeld?.Invoke(posDiff, Time.time - clickStartTime[(int)MouseButton.Left]);
+        }
+
+        if (held[(int)MouseButton.Right])
+        {
+            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Right];
+            RightClickHeld?.Invoke(posDiff, Time.time - clickStartTime[(int)MouseButton.Right]);
+        }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Debug.Log("LMB pressed");
+            held[(int)MouseButton.Left] = true;
+            clickStartTime[(int)MouseButton.Left] = Time.time;
+            clickStartPos[(int)MouseButton.Left] = mousePos;
+            LeftClick?.Invoke();
+        }
+            
         if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            held[(int)MouseButton.Right] = true;
+            clickStartTime[(int)MouseButton.Right] = Time.time;
+            clickStartPos[(int)MouseButton.Right] = mousePos;
             RightClick?.Invoke();
+        }
     }
 
     // Invokes keypress actions on key input

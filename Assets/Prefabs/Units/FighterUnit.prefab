@@ -111,9 +111,9 @@ MonoBehaviour:
     downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
     downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
   movement:
-    moveSpeed: 0
-    pathWeight: 0
-    swarmWeight: 0
+    moveSpeed: 5
+    pathWeight: 2
+    swarmWeight: 0.5
     path: []
   unitSprite: {fileID: 8791788528999512610}
   markerSprite: {fileID: 5095708431926090062}
@@ -125,7 +125,6 @@ MonoBehaviour:
   pathRequested: 0
   chunk: {fileID: 0}
   followDist: 1.5
-  marker: {fileID: 0}
   combat:
     state: 0
     lastState: 0
