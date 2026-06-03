@@ -141,6 +141,5 @@ public class FollowerUnit : Unit
             RequestPath(playerPos, player.transform.position);
         }
     }
-
     #endregion
 }

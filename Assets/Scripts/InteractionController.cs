@@ -16,10 +16,8 @@ public class InteractionController : MonoSingleton<InteractionController>
     [SerializeField] public LayerMask commandMask;
 
     public GameState state;
+    private HoverTarget target = new HoverTarget();
     private RaycastHit lastHit;
-    private GridTile hoveringTile = null;
-    private Unit hoveringUnit = null;
-    private Building hoveringBuilding = null;
     private bool initialized = false;
     private float rayInterval = 0.1f, rayTimer = 0f;
     private Vector2 mousePos;
@@ -106,25 +104,13 @@ public class InteractionController : MonoSingleton<InteractionController>
             return;
         }
 
+        // Updates the hover target with the ray hit
+        target.Update(hit);
         lastHit = hit;
 
-        // Gets the hovering object (Unit, tile or building) from the hit transform
-        switch (hit.transform.tag)
+        if (state == GameState.Build && target.IsTile)
         {
-            case "Unit":
-                SetHovering(hit.transform.GetComponent<Unit>());
-                break;
-            case "Tile":
-                SetHovering(WorldManager.grid.GetTile(hit.point));
-                break;
-            case "Building":
-                SetHovering(hit.transform.GetComponent<Building>());
-                break;
-        }
-
-        if (state == GameState.Build && hoveringTile != null)
-        {
-            BuildingSystem.Instance.HandleHover(hoveringTile);
+            BuildingSystem.Instance.HandleHover(target.Tile);
         }
     }
 
@@ -151,8 +137,8 @@ public class InteractionController : MonoSingleton<InteractionController>
     {
         if (state == GameState.Build)
         {
-            if (hoveringTile != null)
-                BuildingSystem.Instance.TryPlace(hoveringTile);
+            if (target.IsTile)
+                BuildingSystem.Instance.TryPlace(target.Tile);
         }
     }
 
@@ -161,9 +147,9 @@ public class InteractionController : MonoSingleton<InteractionController>
         if (state == GameState.Command)
         {
             // Starts commanding hoving unit when LMB held for over .25 seconds
-            if (time >= .25f && hoveringUnit != null && hoveringUnit is FollowerUnit)
+            if (time >= .25f && target.IsFollower)
             {
-                CommandSystem.Instance.StartCommanding((FollowerUnit)hoveringUnit);
+                CommandSystem.Instance.StartCommanding(target.Follower);
             }
         }
     }
@@ -175,18 +161,19 @@ public class InteractionController : MonoSingleton<InteractionController>
         {
             if (state == GameState.Command)
             {
-                if (hoveringUnit == null)
+                if (!target.IsUnit)
                     CommandSystem.Instance.StopCommanding();
                 else
                 {
-                    if (hoveringUnit is FollowerUnit)
+                    if (target.IsFollower)
                     {
-                        FollowerUnit follower = (FollowerUnit)hoveringUnit;
+                        FollowerUnit follower = target.Follower;
 
                         if (follower.Commanding)
                             CommandSystem.Instance.StopCommanding(follower);
                         else
                             CommandSystem.Instance.StartCommanding(follower);
+
                     }
                 }
             }
@@ -227,12 +214,12 @@ public class InteractionController : MonoSingleton<InteractionController>
             {
                 // TODO: command to interact with object at mouse pos when the click started rather than the current position
 
-                if (hoveringTile != null)
-                    CommandSystem.Instance.Command(hoveringTile);
-                else if (hoveringUnit != null)
-                    CommandSystem.Instance.Command(hoveringUnit);
-                else if (hoveringBuilding != null)
-                    CommandSystem.Instance.Command(hoveringBuilding);
+                if (target.IsTile)
+                    CommandSystem.Instance.Command(target.Tile);
+                else if (target.IsUnit)
+                    CommandSystem.Instance.Command(target.Unit);
+                else if (target.IsBuilding)
+                    CommandSystem.Instance.Command(target.Building);
             }
         }
         else if (diff.y < -10)
@@ -244,8 +231,6 @@ public class InteractionController : MonoSingleton<InteractionController>
         }
 
         CommandPanel.Instance.HideWidget();
-
-
     }
 
     // Consumes InputManager's EscapePressed action on Esc key pressed
@@ -270,29 +255,5 @@ public class InteractionController : MonoSingleton<InteractionController>
     void OnMove(Vector2 move)
     {
         GameManager.Player.OnMove(move);
-    }
-
-    // Sets the current hovering tile and clears other hover types
-    void SetHovering(GridTile tile)
-    {
-        hoveringTile = tile;
-        hoveringBuilding = null;
-        hoveringUnit = null;
-    }
-
-    // Sets the current hovering unit and clears other hover types
-    void SetHovering(Unit unit)
-    {
-        hoveringUnit = unit;
-        hoveringBuilding = null;
-        hoveringTile = null;
-    }
-
-    // Sets the current hovering building and clears other hover types
-    void SetHovering(Building building)
-    {
-        hoveringBuilding = building;
-        hoveringTile = null;
-        hoveringUnit = null;
     }
 }

@@ -10,7 +10,7 @@ public class Building : Damageable
     bool built = false, destroyed = false;
 
     public MeshRenderer mesh;
-
+    private bool hovering = false;
     protected virtual void Start()
     {
         if (!Built())
@@ -56,5 +56,15 @@ public class Building : Damageable
     protected virtual void FinishBuilding()
     {
         mesh.material.color = Color.green;
+    }
+
+    public void SetHovering()
+    {
+        hovering = true;
+    }
+
+    public void ClearHovering()
+    {
+        hovering = false;
     }
 }

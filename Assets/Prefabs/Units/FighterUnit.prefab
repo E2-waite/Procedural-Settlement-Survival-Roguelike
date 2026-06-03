@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
       propertyPath: m_Name
       value: FighterUnit
@@ -83,6 +95,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -4641106469875735490}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+--- !u!212 &4334050615722831168 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 2311438758458990105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4515021916246453854 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
@@ -117,6 +134,7 @@ MonoBehaviour:
     path: []
   unitSprite: {fileID: 8791788528999512610}
   markerSprite: {fileID: 5095708431926090062}
+  hoverSprite: {fileID: 4334050615722831168}
   state: 0
   lastState: 0
   chunkInterval: 1

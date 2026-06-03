@@ -19,6 +19,7 @@ public class GridTile
 
     Building building;
     ResourceNode resource = null;
+    private bool hovering = false;
 
     public GridTile(Chunk inChunk, TileType type, Vector2Int pos, Vector3 worldPos)
     {
@@ -58,9 +59,14 @@ public class GridTile
         return building;
     }
 
-    public void Hover(bool active)
+    public void SetHovering()
     {
-       // Grid.Instance.HandleChunks(chunk.position);
+        hovering = true;
+    }
+
+    public void ClearHovering()
+    {
+        hovering = false;
     }
 
     public void Interact()

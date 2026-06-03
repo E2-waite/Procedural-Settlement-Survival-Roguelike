@@ -20,6 +20,7 @@ public class Unit : Damageable
     public override TargetType Type => TargetType.Unit;
     public SpriteRenderer unitSprite;
     public SpriteRenderer markerSprite;
+    public SpriteRenderer hoverSprite;
     const int pathRange = 50;
 
     public State state, lastState;
@@ -30,7 +31,7 @@ public class Unit : Damageable
     public Chunk chunk;
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
-
+    private bool hovering = false; // Is the mouse currently hovering over this unit
     protected virtual void Start()
     {
         movement.Init(this);
@@ -288,4 +289,16 @@ public class Unit : Damageable
     }
 
     public bool WaitingForPath => pathRequested;
+
+    public void SetHovering()
+    {
+        hovering = true;
+        hoverSprite.enabled = true;
+    }
+
+    public void ClearHovering()
+    {
+        hovering = false;
+        hoverSprite.enabled = false;
+    }
 }

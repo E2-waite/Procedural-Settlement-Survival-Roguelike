@@ -114,6 +114,7 @@ MonoBehaviour:
     path: []
   unitSprite: {fileID: 4920229300082155211}
   markerSprite: {fileID: 8718134069493890471}
+  hoverSprite: {fileID: 175424325849696681}
   state: 0
   lastState: 0
   chunkInterval: 1
@@ -129,6 +130,11 @@ MonoBehaviour:
     currentTarget: {fileID: 0}
   fireCheckInterval: 0.5
   fireDetectDist: 30
+--- !u!212 &175424325849696681 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
+  m_PrefabInstance: {fileID: 2186917774960868080}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &4920229300082155211 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 6490061291952677947, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
