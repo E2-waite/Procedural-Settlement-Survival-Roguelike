@@ -82,6 +82,8 @@ public class FollowerUnit : Unit
     {
         // No longer following player
     }
+
+    public virtual void Command(Building building) { }
     #endregion
 
     public override List<Unit> GetNearbyFriendly()

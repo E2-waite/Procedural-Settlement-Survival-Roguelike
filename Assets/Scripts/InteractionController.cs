@@ -19,7 +19,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     private HoverTarget target = new HoverTarget();
     private RaycastHit lastHit;
     private bool initialized = false;
-    private float rayInterval = 0.1f, rayTimer = 0f;
+    private float rayInterval = 0.01f, rayTimer = 0f;
     private Vector2 mousePos;
 
     public void Init()
@@ -121,7 +121,6 @@ public class InteractionController : MonoSingleton<InteractionController>
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, state == GameState.Build ? buildMask : commandMask))
         {
-            Debug.Log("Ray hit " + hit.collider.name);
             OnHover(hit);
         }
     }
@@ -213,13 +212,7 @@ public class InteractionController : MonoSingleton<InteractionController>
             if (state == GameState.Command)
             {
                 // TODO: command to interact with object at mouse pos when the click started rather than the current position
-
-                if (target.IsTile)
-                    CommandSystem.Instance.Command(target.Tile);
-                else if (target.IsUnit)
-                    CommandSystem.Instance.Command(target.Unit);
-                else if (target.IsBuilding)
-                    CommandSystem.Instance.Command(target.Building);
+                CommandSystem.Instance.Command(target);
             }
         }
         else if (diff.y < -10)

@@ -113,7 +113,6 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Debug.Log("LMB pressed");
             held[(int)MouseButton.Left] = true;
             clickStartTime[(int)MouseButton.Left] = Time.time;
             clickStartPos[(int)MouseButton.Left] = mousePos;

@@ -35,34 +35,29 @@ public class WorkerUnit : FollowerUnit
 
         bool handled = false;
 
-        if (tile.HasBuilding())
-        {
-            // Interact with building if tile has one
-            Building building = tile.Building();
-
-            if (!building.Built())
-            {
-                // If building isn't built, repair/build
-                TargetBuilding(building);
-            }
-            else
-            {
-                // If building IS built, interact
-                if (building is ResourceBuilding)
-                {
-                    TargetStore((ResourceBuilding)building);
-                }
-                else if (building is BarracksBuilding)
-                {
-                    TargetBuilding(building);
-                }
-            }
-
-            handled = true;
-        }
-
         if (!handled)
             base.Command(tile);
+    }
+
+    public override void Command(Building building)
+    {
+        if (!building.Built())
+        {
+            // If building isn't built, repair/build
+            TargetBuilding(building);
+        }
+        else
+        {
+            // If building IS built, interact
+            if (building is ResourceBuilding)
+            {
+                TargetStore((ResourceBuilding)building);
+            }
+            else if (building is BarracksBuilding)
+            {
+                TargetBuilding(building);
+            }
+        }
     }
 
     #endregion

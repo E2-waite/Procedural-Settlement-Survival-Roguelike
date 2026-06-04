@@ -12,7 +12,7 @@ public class HoverTarget
 
     public bool IsUnit => hoveringUnit != null;
     public bool IsFollower => hoveringUnit != null && hoveringUnit is FollowerUnit;
-    public bool IsEnemy => hoveringUnit != null && hoveringUnit is FollowerUnit;
+    public bool IsEnemy => hoveringUnit != null && hoveringUnit is EnemyUnit;
     public Unit Unit => hoveringUnit;
     public FollowerUnit Follower => (FollowerUnit)hoveringUnit;
     public EnemyUnit Enemy => (EnemyUnit)hoveringUnit;
@@ -22,18 +22,24 @@ public class HoverTarget
 
     public void Update(RaycastHit hit)
     {
-        switch (hit.transform.tag)
+        if (hit.transform.GetComponentInParent<Unit>() is Unit unit)
         {
-            case "Unit":
-                Set(hit.transform.GetComponent<Unit>());
-                break;
-            case "Tile":
-                Set(WorldManager.grid.GetTile(hit.point));
-                break;
-            case "Building":
-                Set(hit.transform.GetComponent<Building>());
-                break;
+            Set(unit);
         }
+        else if (hit.transform.GetComponentInParent<Building>() is Building building)
+        {
+            Set(building);
+            return;
+        }
+        else
+        {
+            GridTile tile = WorldManager.grid.GetTile(hit.point);
+            if (tile != null)
+            {
+                Set(tile);
+            }
+        }
+            
     }
 
     private void Set(GridTile tile)
@@ -50,6 +56,7 @@ public class HoverTarget
     {
         if (unit != hoveringUnit)
         {
+            Debug.Log("Started hovering over " + unit);
             ClearOld();
             hoveringUnit = unit;
             hoveringUnit.SetHovering();
@@ -60,6 +67,7 @@ public class HoverTarget
     {
         if (building != hoveringBuilding)
         {
+            Debug.Log("Started hovering over " + building);
             ClearOld();
             hoveringBuilding = building;
             hoveringBuilding.SetHovering();

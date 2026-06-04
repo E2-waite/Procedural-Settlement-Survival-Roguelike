@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3701308471754461863}
   - component: {fileID: 6981902066292114112}
   - component: {fileID: 6622723797444694340}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1898022967536050644}
   - component: {fileID: 5227135818945454997}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fire
   m_TagString: Building
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 5868263064479960505}
   - component: {fileID: 2646544779832954327}
   - component: {fileID: 6893303955251073893}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

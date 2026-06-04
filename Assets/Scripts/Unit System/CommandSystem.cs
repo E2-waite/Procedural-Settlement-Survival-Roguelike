@@ -11,29 +11,46 @@ public class CommandSystem : MonoSingleton<CommandSystem>
 
     }
 
-    // Commands all following units to interact with hovering tile
-    public void Command(GridTile hoveringTile)
+    // Commands all following units to interact with the target
+    public void Command(HoverTarget target)
     {
-        foreach (FollowerUnit unit in commanding)
+        if (target.IsTile)
         {
-            unit.Command(hoveringTile);
+            foreach (FollowerUnit unit in commanding)
+            {
+                unit.Command(target.Tile);
+            }
+        }
+        else if (target.IsEnemy)
+        {
+            foreach (FollowerUnit unit in commanding)
+            {
+                unit.Command(target.Enemy);
+            }
+        }
+        else if (target.IsBuilding)
+        {
+            foreach (FollowerUnit unit in commanding)
+            {
+                unit.Command(target.Building);
+            }
         }
     }
     
-    // Commands all following units to interact with hovering unit
-    public void Command(Unit hoveringUnit)
-    {
-        foreach (FollowerUnit unit in commanding)
-        {
-            unit.Command(hoveringUnit);
-        }
-    }
+    //// Commands all following units to interact with hovering unit
+    //public void Command(Unit hoveringUnit)
+    //{
+    //    foreach (FollowerUnit unit in commanding)
+    //    {
+    //        unit.Command(hoveringUnit);
+    //    }
+    //}
 
-    // Commands all followers to interact with hovering building
-    public void Command(Building hoveringBuilding)
-    {
+    //// Commands all followers to interact with hovering building
+    //public void Command(Building hoveringBuilding)
+    //{
 
-    }
+    //}
 
     // Commands all nearby follower units to start following the player
     public void StartCommanding(List<FollowerUnit> nearbyFollowers)

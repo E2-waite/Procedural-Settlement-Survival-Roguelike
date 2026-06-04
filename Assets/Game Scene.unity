@@ -564,7 +564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 622120301581398115, guid: a44b3454a85a34b48bf20ab2dbbc6755, type: 3}
       propertyPath: commandMask.m_Bits
-      value: 192
+      value: 704
       objectReference: {fileID: 0}
     - target: {fileID: 5035914226151185131, guid: a44b3454a85a34b48bf20ab2dbbc6755, type: 3}
       propertyPath: m_LocalPosition.x

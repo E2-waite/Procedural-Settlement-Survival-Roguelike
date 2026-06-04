@@ -20,7 +20,7 @@ public class Unit : Damageable
     public override TargetType Type => TargetType.Unit;
     public SpriteRenderer unitSprite;
     public SpriteRenderer markerSprite;
-    public SpriteRenderer hoverSprite;
+    //public SpriteRenderer hoverSprite;
     const int pathRange = 50;
 
     public State state, lastState;
@@ -290,15 +290,19 @@ public class Unit : Damageable
 
     public bool WaitingForPath => pathRequested;
 
+
     public void SetHovering()
     {
+        Debug.Log("Hovering on " + name);
         hovering = true;
-        hoverSprite.enabled = true;
+        if (unitSprite != null)
+            unitSprite.material.SetFloat("_OutlineThickness", 1f);
     }
 
     public void ClearHovering()
     {
         hovering = false;
-        hoverSprite.enabled = false;
+        if (unitSprite != null)
+            unitSprite.material.SetFloat("_OutlineThickness", 0f);
     }
 }
