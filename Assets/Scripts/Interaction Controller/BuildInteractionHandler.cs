@@ -11,6 +11,7 @@ public class BuildInteractionHandler : IInteractionHandler
     }
     public void Enable()
     {
+        Cursor.visible = false;
         BuildingSystem.Instance.SetEnabled(true);
     }
 

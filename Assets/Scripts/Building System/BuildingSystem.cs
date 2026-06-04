@@ -116,7 +116,7 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
         {
             ResourceBuilding current = storeList[i];
 
-            if (!current.Built()) continue; // Don't include non-built or broken stores
+            if (!current.Built) continue; // Don't include non-built or broken stores
 
             Vector2Int storePos = new Vector2Int((int)current.transform.position.x, (int)current.transform.position.z);
 

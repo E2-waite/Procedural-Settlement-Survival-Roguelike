@@ -41,7 +41,7 @@ public class WorkerUnit : FollowerUnit
 
     public override void Command(Building building)
     {
-        if (!building.Built())
+        if (!building.Built)
         {
             // If building isn't built, repair/build
             TargetBuilding(building);

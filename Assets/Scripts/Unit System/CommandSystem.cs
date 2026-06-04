@@ -3,9 +3,19 @@ using UnityEngine;
 
 public class CommandSystem : MonoSingleton<CommandSystem>
 {
+    public enum CommandType
+    {
+        Move,
+        Build,
+        Attack,
+        Defend,
+        Gather,
+        Max
+    }
+
     // Units in this list respond to player right-click commands.
     private List<FollowerUnit> commanding = new List<FollowerUnit>();
-     
+    public bool IsCommanding => commanding.Count > 0;
     public void HandleHover(RaycastHit hit)
     {
 

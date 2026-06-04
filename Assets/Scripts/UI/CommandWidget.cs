@@ -1,25 +1,45 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static CommandSystem;
 
 public class CommandWidget : MonoBehaviour
 {
-    //[SerializeField] Image commandSlider;
-    //[SerializeField] Image followSlider;
     [SerializeField] Image commandMarker;
     [SerializeField] RectTransform rect;
     public RectTransform Rect => rect;
 
-    public void UpdateSliders(float diff, float max)
+    public float markerSize = 10f, markerSelectSize = 20;
+    public CommandTypeObject[] commandObjects = new CommandTypeObject[(int)CommandType.Max];
+    public Image commandImage;
+
+    public void Enable()
+    {
+
+    }
+
+    public void Disable()
+    {
+
+    }
+
+    public void Show(CommandType commandType)
+    {
+        commandImage.sprite = commandObjects[(int)commandType].icon;
+        commandImage.color = commandObjects[(int)commandType].color;
+    }
+
+    public void UpdateMarker(float diff, float max, bool selected)
     {
         float yPos = Mathf.Clamp(diff, -max, max);
-        float scale = 75;
+        float scale = markerSize;
 
-        if (yPos >= max || yPos <= -max)
+        if (selected)
         {
-            scale = 100;
+            scale = markerSelectSize;
         }
 
         commandMarker.rectTransform.anchoredPosition = new Vector2(0, yPos);
         commandMarker.rectTransform.sizeDelta = new Vector2(scale, scale);
     }
+
 }

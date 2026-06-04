@@ -8,12 +8,12 @@ public class Building : Damageable
     public bool autoBuild = false;
     public int id;
     bool built = false, destroyed = false;
-
+    public bool Built => built && !destroyed;
     public MeshRenderer mesh;
     private bool hovering = false;
     protected virtual void Start()
     {
-        if (!Built())
+        if (!Built)
             mesh.material.color = Color.red;
 
         if (autoBuild)
@@ -27,10 +27,6 @@ public class Building : Damageable
         this.id = id;
     }
 
-    public bool Built()
-    {
-        return built && !destroyed;
-    }
 
     public bool Build(float val)
     {

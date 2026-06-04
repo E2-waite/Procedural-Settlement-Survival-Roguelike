@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static CommandSystem;
+
 public class CommandPanel : MonoSingleton<CommandPanel>
 {
     [SerializeField] private CommandWidget commandWidget;
 
-    public void UpdateWidget(float diff, float max)
+    public void UpdateWidget(float diff, float max, bool selected)
     {
-        commandWidget.UpdateSliders(diff, max);
+        commandWidget.UpdateMarker(diff, max, selected);
     }
 
     public void SetWidgetPos(Vector2 pos)
@@ -20,9 +22,10 @@ public class CommandPanel : MonoSingleton<CommandPanel>
 
     }
 
-    public void ShowWidget()
+    public void ShowWidget(CommandType commandType)
     {
         commandWidget.gameObject.SetActive(true);
-        commandWidget.UpdateSliders(0, 0);
+        commandWidget.UpdateMarker(0, 0, false);
+        commandWidget.Show(commandType);
     }
 }

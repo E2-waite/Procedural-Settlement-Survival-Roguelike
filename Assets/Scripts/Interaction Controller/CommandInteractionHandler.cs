@@ -1,11 +1,14 @@
 using UnityEngine;
 using static InteractionController;
+using static CommandSystem;
+
 
 public class CommandInteractionHandler : IInteractionHandler
 {
     private InteractionController controller;
     float commandDiff = 25f;
     HoverTarget clickTarget;
+    bool commandSelected = false;
 
     public CommandInteractionHandler(InteractionController controller)
     {
@@ -13,11 +16,32 @@ public class CommandInteractionHandler : IInteractionHandler
     }
     public void Enable()
     {
+        Cursor.visible = false;
+
         // Gets the target state when starting commanding
         clickTarget = new HoverTarget(controller.Target);
 
-        CommandPanel.Instance.ShowWidget();
-        CommandPanel.Instance.UpdateWidget(0, commandDiff);
+        CommandType commandType = CommandType.Move;
+
+        if (clickTarget.IsBuilding)
+        {
+            Building building = clickTarget.Building;
+            if (!building.Built)
+            {
+                commandType = CommandType.Build;
+            }
+            else if (building is ResourceBuilding)
+            {
+                commandType = CommandType.Gather;
+            }
+        }
+        else if (clickTarget.IsUnit)
+        {
+            commandType = CommandType.Attack;
+        }
+
+        CommandPanel.Instance.ShowWidget(commandType);
+        CommandPanel.Instance.UpdateWidget(0, commandDiff, commandSelected);
         CommandPanel.Instance.SetWidgetPos(controller.MousePos);
     }
 
@@ -49,9 +73,12 @@ public class CommandInteractionHandler : IInteractionHandler
     }
     public void OnRightHeld(Vector2 diff, float time)
     {
+        commandSelected = diff.y > commandDiff || diff.y < -commandDiff;
+
         if (diff.y != 0 && time > 0.1f)
         {
-            CommandPanel.Instance.UpdateWidget(diff.y, commandDiff);
+            Debug.Log("Command selected = " + commandSelected);
+            CommandPanel.Instance.UpdateWidget(diff.y, commandDiff, commandSelected);
         }
     }
     public void OnRightUp(Vector2 diff, float time)

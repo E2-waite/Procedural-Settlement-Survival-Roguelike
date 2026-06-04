@@ -12,6 +12,7 @@ public class ControlInteractionHandler : IInteractionHandler
 
     public void Enable()
     {
+        Cursor.visible = true;
     }
 
     public void Disable()
@@ -58,7 +59,8 @@ public class ControlInteractionHandler : IInteractionHandler
     }
     public void OnRightDown()
     {
-        controller.SetState(GameState.Command);
+        if (CommandSystem.Instance.IsCommanding)
+            controller.SetState(GameState.Command);
     }
     public void OnRightHeld(Vector2 diff, float time)
     {

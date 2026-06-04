@@ -239,7 +239,7 @@ public class UnitWork
         if (building == null) return;
 
         // Built barracks convert workers; unfinished buildings are construction targets.
-        if (building.Built())
+        if (building.Built)
         {
             if (building is BarracksBuilding)
             {
