@@ -3,29 +3,23 @@ using UnityEngine.UI;
 
 public class CommandWidget : MonoBehaviour
 {
-    [SerializeField] Image commandSlider;
-    [SerializeField] Image followSlider;
+    //[SerializeField] Image commandSlider;
+    //[SerializeField] Image followSlider;
+    [SerializeField] Image commandMarker;
     [SerializeField] RectTransform rect;
     public RectTransform Rect => rect;
 
-    public void UpdateSliders(float diff)
+    public void UpdateSliders(float diff, float max)
     {
-        float barFill = 0;
+        float yPos = Mathf.Clamp(diff, -max, max);
+        float scale = 75;
 
-        if (diff > 0 || diff < 0)
+        if (yPos >= max || yPos <= -max)
         {
-            barFill = Mathf.Clamp01(Mathf.Abs(diff / 10));
+            scale = 100;
         }
 
-        if (diff > 0)
-        {
-            commandSlider.fillAmount = barFill;
-            followSlider.fillAmount = 0;
-        }
-        else if (diff < 0)
-        {
-            followSlider.fillAmount = barFill;
-            commandSlider.fillAmount = 0;
-        }
+        commandMarker.rectTransform.anchoredPosition = new Vector2(0, yPos);
+        commandMarker.rectTransform.sizeDelta = new Vector2(scale, scale);
     }
 }

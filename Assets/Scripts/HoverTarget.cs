@@ -20,6 +20,26 @@ public class HoverTarget
     public bool IsBuilding => hoveringBuilding != null;
     public Building Building => hoveringBuilding;
 
+    public HoverTarget()
+    {
+    }
+
+    public HoverTarget(HoverTarget otherTarget)
+    {
+        if (otherTarget.IsTile)
+        {
+            Set(otherTarget.Tile);
+        }
+        else if (otherTarget.IsUnit)
+        {
+            Set(otherTarget.Unit);
+        }
+        else if (otherTarget.IsBuilding)
+        {
+            Set(otherTarget.Building);
+        }
+    }
+
     public void Update(RaycastHit hit)
     {
         if (hit.transform.GetComponentInParent<Unit>() is Unit unit)

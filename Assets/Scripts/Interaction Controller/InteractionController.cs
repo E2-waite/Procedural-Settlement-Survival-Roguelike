@@ -6,21 +6,27 @@ using static UnityEditor.PlayerSettings;
 // Interprets input events according to the current player interaction mode.
 public class InteractionController : MonoSingleton<InteractionController>
 {
-    public enum GameState
+    public enum GameState : int
     {
+        Control = 0,
         Build,
-        Command
+        Command,
+        Max
     }
 
+    private IInteractionHandler[] handlers = new IInteractionHandler[(int)GameState.Max];
+    private IInteractionHandler currentHandler = null;
     [SerializeField] private LayerMask buildMask;
     [SerializeField] public LayerMask commandMask;
 
-    public GameState state;
+    private GameState currentState = GameState.Control;
     private HoverTarget target = new HoverTarget();
-    private RaycastHit lastHit;
+    public HoverTarget Target => target;
     private bool initialized = false;
     private float rayInterval = 0.01f, rayTimer = 0f;
     private Vector2 mousePos;
+    public Vector2 MousePos => mousePos;
+    private bool commanding = false;
 
     public void Init()
     {
@@ -37,8 +43,10 @@ public class InteractionController : MonoSingleton<InteractionController>
             InputManager.Instance.RightClick += OnRightDown;
             InputManager.Instance.EscapePressed += OnEscape;
             InputManager.Instance.FPressed += OnFKey;
-            InputManager.Instance.Moved += OnMove;
+            InputManager.Instance.Moved += OnMoveInput;
             initialized = true;
+
+            InitHandlers();
         }
 
     }
@@ -55,10 +63,18 @@ public class InteractionController : MonoSingleton<InteractionController>
         InputManager.Instance.RightClickReleased -= OnRightUp;
         InputManager.Instance.EscapePressed -= OnEscape;
         InputManager.Instance.FPressed -= OnFKey;
-        InputManager.Instance.Moved -= OnMove;
+        InputManager.Instance.Moved -= OnMoveInput;
         initialized = false;
     }
+    private void InitHandlers()
+    {
+        handlers[(int)GameState.Build] = new BuildInteractionHandler(this);
+        handlers[(int)GameState.Command] = new CommandInteractionHandler(this);
+        handlers[(int)GameState.Control] = new ControlInteractionHandler(this);
 
+        Debug.Log("Setting handler");
+        currentHandler = handlers[(int)currentState];
+    }
     private void Update()
     {
         if (rayTimer <= 0)
@@ -75,40 +91,28 @@ public class InteractionController : MonoSingleton<InteractionController>
     // Sets the current game state
     public void SetState(GameState newState)
     {
-        if (newState != state)
+        if (newState != currentState)
         {
-            // Enter/exit hooks for interaction modes live here.
-            if (newState == GameState.Build)
-            {
-                BuildingSystem.Instance.SetEnabled(true);
-            }
-            else if (newState == GameState.Command)
-            {
-                
-            }
+            currentHandler.Disable();
+            handlers[(int)newState].Enable();
 
-            if (state == GameState.Build)
-            {
-                BuildingSystem.Instance.SetEnabled(false);
-            }
-
-            state = newState;
+            currentHandler = handlers[(int)newState];
+            currentState = newState;
         }
     }
 
     // Called from mouse raycast
     void OnHover(RaycastHit hit)
     {
-        if (hit.collider == null)
+        if (commanding || hit.collider == null)
         {
             return;
         }
 
         // Updates the hover target with the ray hit
         target.Update(hit);
-        lastHit = hit;
 
-        if (state == GameState.Build && target.IsTile)
+        if (currentState == GameState.Build && target.IsTile)
         {
             BuildingSystem.Instance.HandleHover(target.Tile);
         }
@@ -119,7 +123,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     {
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, state == GameState.Build ? buildMask : commandMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, currentState == GameState.Build ? buildMask : commandMask))
         {
             OnHover(hit);
         }
@@ -134,119 +138,54 @@ public class InteractionController : MonoSingleton<InteractionController>
     // Consumes InputManager's LeftClick action
     void OnLeftDown()
     {
-        if (state == GameState.Build)
-        {
-            if (target.IsTile)
-                BuildingSystem.Instance.TryPlace(target.Tile);
-        }
+        if (currentHandler != null) currentHandler.OnLeftDown();
     }
 
     void OnLeftHeld(Vector2 diff, float time)
     {
-        if (state == GameState.Command)
-        {
-            // Starts commanding hoving unit when LMB held for over .25 seconds
-            if (time >= .25f && target.IsFollower)
-            {
-                CommandSystem.Instance.StartCommanding(target.Follower);
-            }
-        }
+        if (currentHandler != null) currentHandler.OnLeftHeld(diff, time);
     }
 
     void OnLeftUp(Vector2 diff, float time)
     {
-        // Stops commanding units when LMB released and held for less than .25 seconds (tap) and not hovering over unit
-        if (time < .25f)
-        {
-            if (state == GameState.Command)
-            {
-                if (!target.IsUnit)
-                    CommandSystem.Instance.StopCommanding();
-                else
-                {
-                    if (target.IsFollower)
-                    {
-                        FollowerUnit follower = target.Follower;
-
-                        if (follower.Commanding)
-                            CommandSystem.Instance.StopCommanding(follower);
-                        else
-                            CommandSystem.Instance.StartCommanding(follower);
-
-                    }
-                }
-            }
-        }
+        if (currentHandler != null) currentHandler.OnLeftUp(diff, time);
     }
+
+
 
     // Consumes InputManager's RightClick action
     void OnRightDown()
     {
-        if (state == GameState.Build)
-        {
-            SetState(GameState.Command);
-        }
-        if (state == GameState.Command)
-        {
-            CommandPanel.Instance.SetWidgetPos(mousePos);
-        }
+        if (currentHandler != null) currentHandler.OnRightDown();
     }
+
 
     void OnRightHeld(Vector2 diff, float time)
     {
-        if (diff.y > 10 || diff.y < -10)
-        {
-            CommandPanel.Instance.ShowWidget();
-            CommandPanel.Instance.UpdateWidget(diff.y);
-        }
-        else
-        {
-            CommandPanel.Instance.HideWidget();
-        }
+        if (currentHandler != null) currentHandler.OnRightHeld(diff, time);
     }
 
     void OnRightUp(Vector2 diff, float time)
     {
-        if (diff.y > 10)
-        {
-            if (state == GameState.Command)
-            {
-                // TODO: command to interact with object at mouse pos when the click started rather than the current position
-                CommandSystem.Instance.Command(target);
-            }
-        }
-        else if (diff.y < -10)
-        {
-            if (state == GameState.Command)
-            {
-                CommandSystem.Instance.CommandFollow();
-            }
-        }
+        if (currentHandler != null) currentHandler.OnRightUp(diff, time);
 
-        CommandPanel.Instance.HideWidget();
     }
 
     // Consumes InputManager's EscapePressed action on Esc key pressed
     void OnEscape()
     {
-        if (state == GameState.Build)
-        {
-            SetState(GameState.Command);
-        }
+        if (currentHandler != null) currentHandler.OnEscape();
     }
 
     // Consumes InputManager's FKeyPressed action on F key pressed
     void OnFKey()
     {
-        if (state == GameState.Command && GameManager.Player != null)
-        {
-            CommandSystem.Instance.StartCommanding(GameManager.Player.NearbyUnits);
-        }
+        if (currentHandler != null) currentHandler.OnFKey();
     }
 
     // Consumes InputManager's Move action on WASD pressed
-    void OnMove(Vector2 move)
+    void OnMoveInput(Vector2 move)
     {
-        GameManager.Player.OnMove(move);
+        if (currentHandler != null) currentHandler.OnMoveInput(move);
     }
 }
