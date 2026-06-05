@@ -12,6 +12,7 @@ public class Damageable : MonoBehaviour
         Player,
         Max
     }
+
     public virtual TargetType Type => TargetType.Unit;
     [SerializeField] protected Health health = new Health();
     public Health Health => health;
@@ -30,8 +31,8 @@ public class Damageable : MonoBehaviour
     public virtual bool Hit(float damage, Damageable source)
     {
         if (dead) return true; // Already dead
-
-        Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
+        else
+            Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
 
         health.Damage(damage);
 
@@ -42,7 +43,18 @@ public class Damageable : MonoBehaviour
             StartCoroutine(DeathRoutine());
             return true;
         }
+        else
+        {
+            StartCoroutine(HitCoroutine());
+        }
+            
         return false;
+    }
+
+
+    protected virtual IEnumerator HitCoroutine()
+    {
+        yield return null;
     }
 
     // Handle death
@@ -56,11 +68,10 @@ public class Damageable : MonoBehaviour
     }
 
     // Delayed death
-    IEnumerator DeathRoutine()
+    protected virtual IEnumerator DeathRoutine()
     {
         OnDeathStart();
         yield return new WaitForSeconds(deathTime);
         OnDeathFinish();
     }
-
 }

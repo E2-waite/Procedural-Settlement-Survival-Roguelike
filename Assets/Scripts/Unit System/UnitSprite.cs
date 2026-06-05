@@ -4,7 +4,6 @@ using UnityEngine;
 public class UnitSprite
 {
     public SpriteRenderer spriteRenderer;
-
     public Sprite upRight;
     public Sprite upLeft;
     public Sprite downRight;
@@ -40,5 +39,10 @@ public class UnitSprite
         if (up && !right) return upLeft;
         if (!up && right) return downRight;
         return downLeft;
+    }
+
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
     }
 }

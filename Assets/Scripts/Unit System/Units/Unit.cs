@@ -297,4 +297,11 @@ public class Unit : Damageable
         if (unitSprite != null)
             unitSprite.material.SetFloat("_OutlineThickness", highlighted ? 1f : 0f);
     }
+
+    protected override IEnumerator HitCoroutine()
+    {
+        sprite.SetColor(Color.red);
+        yield return new WaitForSeconds(0.1f);
+        sprite.SetColor(Color.white);
+    }
 }
