@@ -9,7 +9,11 @@ public class WorkerUnit : FollowerUnit
     protected override void Start()
     {
         base.Start();
-        work.SetUnit(this);
+    }
+
+    public void Init(ResourceSystem resourceSystem)
+    {
+        work.Init(this, resourceSystem);
     }
 
     protected override void Update()

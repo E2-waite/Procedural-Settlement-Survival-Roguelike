@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceSystem : MonoSingleton<ResourceSystem>
+public class ResourceSystem
 {
     [SerializeField] private ResourceStorage storage;
 
@@ -17,9 +17,15 @@ public class ResourceSystem : MonoSingleton<ResourceSystem>
         new Vector2Int(0, -1)
     };
 
+    public ResourceSystem()
+    {
+        Init();
+    }
+
     public void Init()
     {
         // Starting resources are initialized explicitly by GameManager during startup.
+        storage = new ResourceStorage();
         storage.Add(ResourceNode.Type.Wood, 25);
         ResourcesPanel.Instance.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));
     }

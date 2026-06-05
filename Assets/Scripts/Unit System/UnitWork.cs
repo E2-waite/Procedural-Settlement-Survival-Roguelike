@@ -18,15 +18,19 @@ public class UnitWork
     public float interactDist = 1.5f;
     float interactInterval = 0.5f, interactTimer = 0;
     private bool startedConverting = false;
+    private ResourceSystem resourceSystem;
     WorkerUnit unit;
 
     ResourceNode targetResource;
     public ResourceBuilding targetStore;
     Building targetBuilding;
 
-    public void SetUnit(WorkerUnit unit)
+
+
+    public void Init(WorkerUnit unit, ResourceSystem resourceSystem)
     {
         this.unit = unit;
+        this.resourceSystem = resourceSystem;
     }
 
     public void Update()
@@ -125,13 +129,13 @@ public class UnitWork
             Store();
 
             // After storing, immediately look for the next nearby resource to keep the worker busy.
-            ResourceNode nextNode = ResourceSystem.Instance.GetClosestNode(targetStore);
+            ResourceNode nextNode = resourceSystem.GetClosestNode(targetStore);
 
             if (nextNode == null && targetResource != null)
             {
                 // If no resources in range of store, find closest node to current target resource
                 if (targetResource.IsEmpty())
-                    nextNode = ResourceSystem.Instance.GetClosestNeighbour(targetResource);
+                    nextNode = resourceSystem.GetClosestNeighbour(targetResource);
                 else
                     nextNode = targetResource;
             }
@@ -217,7 +221,7 @@ public class UnitWork
             if (unit.storage.IsEmpty(store.type))
             {
                 // If we don't have resources, just start gathering closest nodes
-                ResourceNode closestResource = ResourceSystem.Instance.GetClosestNode(store);
+                ResourceNode closestResource = resourceSystem.GetClosestNode(store);
                 SetTarget(closestResource);
             }
             else
@@ -278,7 +282,7 @@ public class UnitWork
 
             if (targetResource.IsEmpty())
             {
-                ResourceNode neighbuoringNode = ResourceSystem.Instance.GetClosestNeighbour(targetResource);
+                ResourceNode neighbuoringNode = resourceSystem.GetClosestNeighbour(targetResource);
 
                 if (neighbuoringNode != null)
                 {

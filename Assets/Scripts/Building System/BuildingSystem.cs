@@ -6,29 +6,55 @@ public class BuildingSystem
 {
    // public TileMarker tileMarker;
     //private BuildingList _buildingList;
+
     private BuildingStorage storage = new BuildingStorage();
     private BuildingSpawner _spawner;
-
-    public BuildingSystem(BuildingSpawner spawner, BuildingCatalog buildingList)
+    private ResourceSystem _resourceSystem;
+    private BuildingObject selected;
+    public BuildingObject Selected => selected;
+    public BuildingSystem(BuildingSpawner spawner, ResourceSystem resourceSystem)
     {
         _spawner = spawner;
+        _resourceSystem = resourceSystem;
+    }
+
+    public void Select(BuildingObject selection)
+    {
+        selected = selection;
+    }
+
+    public bool CanAfford()
+    {
+        if (selected != null)
+        {
+            for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
+            {
+                if (_resourceSystem.GetResourceCount(i) < selected.Cost.Get(i))
+                    return false;
+            }
+
+            return true;
+        }
+        return false;
     }
 
     // Try to place the selected building on the passed tile
     public bool TryPlace(GridTile tile, BuildingObject selected)
     {
-        //BuildingObject selected = _buildingList.Selected;
-
         if (selected == null || tile == null) return false;
 
         // Placement, affordability, resource payment, and tile ownership are committed together.
-        if (CanBuild(tile.position, selected.size) && selected.CanAfford())
+        if (CanBuild(tile.position, selected.size) && CanAfford(selected))
         {
             Building building = _spawner.Spawn(selected, tile);
 
-            selected.ConsumeResources();
-
+            ConsumeResources(selected);
             storage.Add(building);
+
+            if (building is ResourceBuilding)
+            {
+                ((ResourceBuilding)building).Init(_resourceSystem);
+            }
 
             // Assign buildings to appropriate tiles
             for (int x = tile.position.x; x < tile.position.x + selected.size.x; x++)
@@ -45,6 +71,25 @@ public class BuildingSystem
         else
         {
             return false;
+        }
+    }
+
+    bool CanAfford(BuildingObject building)
+    {
+        for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
+        {
+            if (_resourceSystem.GetResourceCount(i) < building.Cost.Get(i))
+                return false;
+        }
+
+        return true;
+    }
+
+    void ConsumeResources(BuildingObject building)
+    {
+        for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
+        {
+            _resourceSystem.ConsumeResource(i, building.Cost.Get(i));
         }
     }
 

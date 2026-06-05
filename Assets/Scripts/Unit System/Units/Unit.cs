@@ -32,6 +32,7 @@ public class Unit : Damageable
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
     private bool highlighted = false; // Is the mouse currently hovering over this unit
+
     protected virtual void Start()
     {
         movement.Init(this);

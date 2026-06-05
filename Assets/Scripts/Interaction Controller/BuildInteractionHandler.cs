@@ -5,15 +5,14 @@ using static InteractionController;
 public class BuildInteractionHandler : IInteractionHandler
 {
     private InteractionController _controller;
-    private BuildingSystem _system;
+    private BuildingSystem buildSystem;
     private TileMarker _tileMarker;
     private GridTile _lastTile;
-    private BuildingObject selected;
 
     public BuildInteractionHandler(InteractionController controller, BuildingSystem system, TileMarker tileMarker)
     {
         _controller = controller;
-        _system = system;
+        buildSystem = system;
         _tileMarker = tileMarker;
     }
 
@@ -30,8 +29,7 @@ public class BuildInteractionHandler : IInteractionHandler
 
     public void SetSelection(BuildingObject selected)
     {
-        Debug.Log("Setting selection");
-        this.selected = selected;
+        buildSystem.Select(selected);
     }
 
     public void OnHover(HoverTarget target)
@@ -41,10 +39,9 @@ public class BuildInteractionHandler : IInteractionHandler
             _lastTile = target.Tile;
 
             // No preview is shown until the player has selected a building type.
-            if (selected != null)
+            if (buildSystem.Selected != null)
             {
-                Debug.Log("SHOULD HIGHLIGHT");
-                _tileMarker.HighlightTiles(target.Tile.position, selected.size, selected != null && selected.CanAfford());
+                _tileMarker.HighlightTiles(target.Tile.position, buildSystem.Selected.size, buildSystem.Selected != null && buildSystem.CanAfford());
                 _tileMarker.transform.position = new Vector3(target.Tile.position.x + 1.5f, 0, target.Tile.position.y + 1.5f);
             }
         }
@@ -59,9 +56,9 @@ public class BuildInteractionHandler : IInteractionHandler
     {
         if (_controller.Target.IsTile)
         {
-            if (_system.TryPlace(_controller.Target.Tile, selected))
+            if (buildSystem.TryPlace(_controller.Target.Tile, buildSystem.Selected))
             {
-                _tileMarker.HighlightTiles(_controller.Target.Tile.position, selected.size, selected != null && selected.CanAfford());
+                _tileMarker.HighlightTiles(_controller.Target.Tile.position, buildSystem.Selected.size, buildSystem.Selected != null && buildSystem.CanAfford());
             }
         }
     }

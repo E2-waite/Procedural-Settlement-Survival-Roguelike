@@ -15,6 +15,7 @@ public class GameManager : MonoSingleton<GameManager>
     public UserInterface userInterface;
     public BuildingSpawner buildingSpawner;
     public BuildingCatalog buildingCatalog;
+    public ResourceDefs resourceDefs;
     public TileMarker tileMarker;
     public InteractionController interactionController;
     public LayerMask buildMask;
@@ -22,7 +23,7 @@ public class GameManager : MonoSingleton<GameManager>
     private InputManager inputManager;
     private BuildingSystem _buildingSystem;
     private CommandSystem _commandSystem;
-    private ResourceSystem resourceSystem;
+    private ResourceSystem _resourceSystem;
 
     private void Start()
     {
@@ -35,14 +36,13 @@ public class GameManager : MonoSingleton<GameManager>
         WorldManager.Instance.GenerateGrid();
 
         SpawnStartingFireAndUnits();
-        _buildingSystem = new BuildingSystem(buildingSpawner, buildingCatalog);
+        _resourceSystem = new ResourceSystem();
+        _buildingSystem = new BuildingSystem(buildingSpawner, _resourceSystem);
         _commandSystem = new CommandSystem(_player);
-
         inputManager.Init();
         interactionController.Init(inputManager, _buildingSystem, _commandSystem, tileMarker);
         interactionController.SetLayerMasks(buildMask, commandMask);
         userInterface.Init(interactionController, buildingCatalog);
-
         inputManager.EnableGameplayInput();
     }
 

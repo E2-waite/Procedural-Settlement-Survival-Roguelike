@@ -45,13 +45,13 @@ public class ChunkResources
                     // Resource type is currently derived from tile biome plus a random chance.
                     if (tile.type == TileType.Forest)
                     {
-                        resource = ResourceSystem.Instance.treeObj;
+                        resource = ResourceDefs.Instance.tree;
                     }
                     else if (tile.type == TileType.Grass)
                     {
 
                         if (rand >= 90f)
-                            resource = ResourceSystem.Instance.stoneObj;
+                            resource = ResourceDefs.Instance.stone;
                     }
 
                     if (resource != null)
