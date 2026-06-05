@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static FighterUnit;
-using static UnityEditorInternal.VersionControl.ListControl;
-using static WorkerUnit;
 
 public class EnemyUnit : Unit
 {

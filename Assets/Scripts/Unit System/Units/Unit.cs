@@ -31,7 +31,7 @@ public class Unit : Damageable
     public Chunk chunk;
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
-    private bool hovering = false; // Is the mouse currently hovering over this unit
+    private bool highlighted = false; // Is the mouse currently hovering over this unit
     protected virtual void Start()
     {
         movement.Init(this);
@@ -291,18 +291,10 @@ public class Unit : Damageable
     public bool WaitingForPath => pathRequested;
 
 
-    public void SetHovering()
+    public void Highlight(bool active)
     {
-        Debug.Log("Hovering on " + name);
-        hovering = true;
+        highlighted = active;
         if (unitSprite != null)
-            unitSprite.material.SetFloat("_OutlineThickness", 1f);
-    }
-
-    public void ClearHovering()
-    {
-        hovering = false;
-        if (unitSprite != null)
-            unitSprite.material.SetFloat("_OutlineThickness", 0f);
+            unitSprite.material.SetFloat("_OutlineThickness", highlighted ? 1f : 0f);
     }
 }

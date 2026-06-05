@@ -77,7 +77,6 @@ public class CommandInteractionHandler : IInteractionHandler
 
         if (diff.y != 0 && time > 0.1f)
         {
-            Debug.Log("Command selected = " + commandSelected);
             CommandPanel.Instance.UpdateWidget(diff.y, commandDiff, commandSelected);
         }
     }

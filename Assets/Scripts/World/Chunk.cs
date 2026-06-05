@@ -33,7 +33,7 @@ public class Chunk : MonoBehaviour
     }
 
     // Generate this chunk's mesh 
-    public void Generate(Grid grid, Vector2Int pos, int chunkSize, float noiseScale)
+    public void Generate(WorldGrid grid, Vector2Int pos, int chunkSize, float noiseScale)
     {
         // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
         size = chunkSize;

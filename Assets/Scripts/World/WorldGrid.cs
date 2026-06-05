@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid
+public class WorldGrid
 {
     // Central lookup for generated chunks and tiles using world grid coordinates.
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
     private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
     private WorldManager world;
 
-    public Grid(WorldManager world)
+    public WorldGrid(WorldManager world)
     {
         this.world = world;
     }

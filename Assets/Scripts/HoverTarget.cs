@@ -76,10 +76,9 @@ public class HoverTarget
     {
         if (unit != hoveringUnit)
         {
-            Debug.Log("Started hovering over " + unit);
             ClearOld();
             hoveringUnit = unit;
-            hoveringUnit.SetHovering();
+            hoveringUnit.Highlight(true);
         }
     }
 
@@ -87,7 +86,6 @@ public class HoverTarget
     {
         if (building != hoveringBuilding)
         {
-            Debug.Log("Started hovering over " + building);
             ClearOld();
             hoveringBuilding = building;
             hoveringBuilding.SetHovering();
@@ -98,7 +96,7 @@ public class HoverTarget
     {
         if (hoveringUnit != null)
         {
-            hoveringUnit.ClearHovering();
+            hoveringUnit.Highlight(false);
             hoveringUnit = null;
         }
         else if (hoveringTile != null)

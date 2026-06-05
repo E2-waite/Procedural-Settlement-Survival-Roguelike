@@ -9,7 +9,7 @@ public class WorldManager : MonoSingleton<WorldManager>
     public int chunkDistance = 2;
     public float noiseScale = 0.05f;
     public Vector2 seedOffset;
-    public static Grid grid;
+    public static WorldGrid grid;
     private HashSet<Vector2Int> activeChunks = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
     private Chunk lastChunk;
@@ -29,7 +29,7 @@ public class WorldManager : MonoSingleton<WorldManager>
     {
         // The seed offset keeps terrain deterministic after generation while varying each new run.
         seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
-        grid = new Grid(this);
+        grid = new WorldGrid(this);
 
         // Generate the initial grid
         for (int x = -1; x < 1; x++)

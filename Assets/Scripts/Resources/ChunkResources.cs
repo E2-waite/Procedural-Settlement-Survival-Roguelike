@@ -1,11 +1,6 @@
 using System.Collections.Generic;
-using System.Resources;
-using Mono.Cecil;
-using TreeEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 using static GridTile;
-using static UnityEngine.Rendering.DebugUI;
 
 // Handles resource node placement and instanced rendering for one chunk.
 public class ChunkResources

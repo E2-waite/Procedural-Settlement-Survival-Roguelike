@@ -1,7 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEditor.PlayerSettings;
 
 // Interprets input events according to the current player interaction mode.
 public class InteractionController : MonoSingleton<InteractionController>
@@ -72,7 +69,6 @@ public class InteractionController : MonoSingleton<InteractionController>
         handlers[(int)GameState.Command] = new CommandInteractionHandler(this);
         handlers[(int)GameState.Control] = new ControlInteractionHandler(this);
 
-        Debug.Log("Setting handler");
         currentHandler = handlers[(int)currentState];
     }
     private void Update()

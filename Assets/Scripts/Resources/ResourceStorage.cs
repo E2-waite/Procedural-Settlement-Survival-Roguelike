@@ -1,6 +1,3 @@
-using Mono.Cecil;
-using UnityEngine;
-
 [System.Serializable]
 public class ResourceStorage
 {
