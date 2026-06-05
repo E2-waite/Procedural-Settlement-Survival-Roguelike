@@ -15,7 +15,7 @@ public class EnemyUnit : Unit
         base.Start();
         combat.SetUnit(this);
 
-        EnemyHandler.Instance.AddEnemy(this);
+        EnemySystem.Instance.AddEnemy(this);
     }
 
     protected override void Update()
@@ -75,7 +75,7 @@ public class EnemyUnit : Unit
 
     protected override void OnDeathStart()
     {
-        EnemyHandler.Instance.RemoveEnemy(this);
+        EnemySystem.Instance.RemoveEnemy(this);
     }
     #endregion
 

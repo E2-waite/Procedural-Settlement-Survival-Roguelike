@@ -5,21 +5,24 @@ using static CommandSystem;
 
 public class CommandInteractionHandler : IInteractionHandler
 {
-    private InteractionController controller;
+    private InteractionController _controller;
+    private CommandSystem _commandSystem;
     float commandDiff = 25f;
     HoverTarget clickTarget;
     bool commandSelected = false;
 
-    public CommandInteractionHandler(InteractionController controller)
+    public CommandInteractionHandler(InteractionController controller, CommandSystem commandSystem)
     {
-        this.controller = controller;
+        _controller = controller;
+        _commandSystem = commandSystem;
     }
+
     public void Enable()
     {
         Cursor.visible = false;
 
         // Gets the target state when starting commanding
-        clickTarget = new HoverTarget(controller.Target);
+        clickTarget = new HoverTarget(_controller.Target);
 
         CommandType commandType = CommandType.Move;
 
@@ -42,13 +45,19 @@ public class CommandInteractionHandler : IInteractionHandler
 
         CommandPanel.Instance.ShowWidget(commandType);
         CommandPanel.Instance.UpdateWidget(0, commandDiff, commandSelected);
-        CommandPanel.Instance.SetWidgetPos(controller.MousePos);
+        CommandPanel.Instance.SetWidgetPos(_controller.MousePos);
     }
 
     public void Disable()
     {
         CommandPanel.Instance.HideWidget();
     }
+
+    public void OnHover(HoverTarget target)
+    {
+
+    }
+
     public void OnMouseMoved(Vector2 pos, Vector2 diff)
     {
 
@@ -85,14 +94,14 @@ public class CommandInteractionHandler : IInteractionHandler
         if (diff.y > commandDiff)
         {
             // TODO: command to interact with object at mouse pos when the click started rather than the current position
-            CommandSystem.Instance.Command(clickTarget);
+            _commandSystem.Command(clickTarget);
         }
         else if (diff.y < -commandDiff)
         {
-            CommandSystem.Instance.CommandFollow();
+            _commandSystem.CommandFollow();
         }
 
-        controller.SetState(GameState.Control);
+        _controller.SetState(GameState.Control);
     }
     public void OnEscape()
     {

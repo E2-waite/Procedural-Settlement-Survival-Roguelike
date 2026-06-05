@@ -11,6 +11,7 @@ public class InteractionController : MonoSingleton<InteractionController>
         Max
     }
 
+    public TileMarker tileMarker;
     private IInteractionHandler[] handlers = new IInteractionHandler[(int)GameState.Max];
     private IInteractionHandler currentHandler = null;
     [SerializeField] private LayerMask buildMask;
@@ -25,7 +26,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
 
-    public void Init()
+    public void Init(BuildingSystem buildingSystem, CommandSystem commandSystem)
     {
         if (!initialized)
         {
@@ -42,6 +43,11 @@ public class InteractionController : MonoSingleton<InteractionController>
             InputManager.Instance.FPressed += OnFKey;
             InputManager.Instance.Moved += OnMoveInput;
             initialized = true;
+
+            handlers[(int)GameState.Build] = new BuildInteractionHandler(this, buildingSystem, tileMarker);
+            handlers[(int)GameState.Command] = new CommandInteractionHandler(this, commandSystem);
+            handlers[(int)GameState.Control] = new ControlInteractionHandler(this, commandSystem);
+            currentHandler = handlers[(int)currentState];
 
             InitHandlers();
         }
@@ -65,11 +71,7 @@ public class InteractionController : MonoSingleton<InteractionController>
     }
     private void InitHandlers()
     {
-        handlers[(int)GameState.Build] = new BuildInteractionHandler(this);
-        handlers[(int)GameState.Command] = new CommandInteractionHandler(this);
-        handlers[(int)GameState.Control] = new ControlInteractionHandler(this);
 
-        currentHandler = handlers[(int)currentState];
     }
     private void Update()
     {
@@ -108,10 +110,7 @@ public class InteractionController : MonoSingleton<InteractionController>
         // Updates the hover target with the ray hit
         target.Update(hit);
 
-        if (currentState == GameState.Build && target.IsTile)
-        {
-            BuildingSystem.Instance.HandleHover(target.Tile);
-        }
+        if (currentHandler != null) currentHandler.OnHover(target);
     }
 
     // Casts ray from the mouse position

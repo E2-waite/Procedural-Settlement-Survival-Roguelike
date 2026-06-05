@@ -1,61 +1,36 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
-public class BuildingSystem : MonoSingleton<BuildingSystem>
+public class BuildingSystem
 {
+   // public TileMarker tileMarker;
+    private BuildingList _buildingList;
     private BuildingStorage storage = new BuildingStorage();
-    public TileMarker tileMarker;
-    BuildingList buildingList;
-    GridTile lastTile = null;
+    private BuildingSpawner _spawner;
 
-    private void Start()
+    public BuildingSystem(BuildingSpawner spawner, BuildingList buildingList)
     {
-        buildingList = BuildingList.Instance;
+        _spawner = spawner;
+        _buildingList = buildingList;
     }
 
-    // Sets building system's enabled state
-    public void SetEnabled(bool enabled)
+    public BuildingObject SelectedBuilding()
     {
-        tileMarker.gameObject.SetActive(enabled);
-    }
-
-    // Receives tile hovering triggers
-    public void HandleHover(GridTile tile)
-    {
-        if (tile != lastTile)
-        {
-            lastTile = tile;
-
-            BuildingObject selected = buildingList.Selected;
-
-            // No preview is shown until the player has selected a building type.
-            if (selected != null)
-            {
-                tileMarker.HighlightTiles(tile.position, selected.size, selected != null && selected.CanAfford());
-                tileMarker.transform.position = new Vector3(tile.position.x + 1.5f, 0, tile.position.y + 1.5f);
-            }
-        }
+        return _buildingList.Selected;
     }
 
     // Try to place the selected building on the passed tile
     public bool TryPlace(GridTile tile)
     {
-        BuildingObject selected = buildingList.Selected;
+        BuildingObject selected = _buildingList.Selected;
 
         if (selected == null || tile == null) return false;
 
         // Placement, affordability, resource payment, and tile ownership are committed together.
         if (CanBuild(tile.position, selected.size) && selected.CanAfford())
         {
-            GameObject buildingObj = Instantiate(selected.prefab, new Vector3(tile.position.x, 0, tile.position.y), Quaternion.identity);
-            buildingObj.transform.localScale = new Vector3(selected.size.x, 1, selected.size.y);
-            Building building = buildingObj.GetComponent<Building>();
-
-            if (building == null)
-            {
-                Destroy(buildingObj);
-                return false;
-            }
+            Building building = _spawner.Spawn(selected, tile);
 
             selected.ConsumeResources();
 
@@ -70,9 +45,6 @@ public class BuildingSystem : MonoSingleton<BuildingSystem>
                     buildTile.Build(building);
                 }
             }
-
-            tileMarker.HighlightTiles(tile.position, selected.size, selected != null && selected.CanAfford());
-
 
             return true;
         }

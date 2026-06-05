@@ -4,10 +4,12 @@ using static InteractionController;
 public class ControlInteractionHandler : IInteractionHandler
 {
     private InteractionController controller;
+    private CommandSystem _commandSystem;
 
-    public ControlInteractionHandler(InteractionController controller)
+    public ControlInteractionHandler(InteractionController controller, CommandSystem commandSystem)
     {
         this.controller = controller;
+        _commandSystem = commandSystem;
     }
 
     public void Enable()
@@ -18,7 +20,10 @@ public class ControlInteractionHandler : IInteractionHandler
     public void Disable()
     {
     }
+    public void OnHover(HoverTarget target)
+    {
 
+    }
     public void OnMouseMoved(Vector2 pos, Vector2 diff)
     {
     }
@@ -32,7 +37,7 @@ public class ControlInteractionHandler : IInteractionHandler
         // Starts commanding hoving unit when LMB held for over .25 seconds
         if (time >= .25f && controller.Target.IsFollower)
         {
-            CommandSystem.Instance.StartCommanding(controller.Target.Follower);
+            _commandSystem.StartCommanding(controller.Target.Follower);
         }
     }
     public void OnLeftUp(Vector2 diff, float time)
@@ -41,7 +46,7 @@ public class ControlInteractionHandler : IInteractionHandler
         if (time < .25f)
         {
             if (!controller.Target.IsUnit)
-                CommandSystem.Instance.StopCommanding();
+                _commandSystem.StopCommanding();
             else
             {
                 if (controller.Target.IsFollower)
@@ -49,9 +54,9 @@ public class ControlInteractionHandler : IInteractionHandler
                     FollowerUnit follower = controller.Target.Follower;
 
                     if (follower.Commanding)
-                        CommandSystem.Instance.StopCommanding(follower);
+                        _commandSystem.StopCommanding(follower);
                     else
-                        CommandSystem.Instance.StartCommanding(follower);
+                        _commandSystem.StartCommanding(follower);
 
                 }
             }
@@ -59,7 +64,7 @@ public class ControlInteractionHandler : IInteractionHandler
     }
     public void OnRightDown()
     {
-        if (CommandSystem.Instance.IsCommanding)
+        if (_commandSystem.IsCommanding)
             controller.SetState(GameState.Command);
     }
     public void OnRightHeld(Vector2 diff, float time)

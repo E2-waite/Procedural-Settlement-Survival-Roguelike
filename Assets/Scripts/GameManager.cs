@@ -4,14 +4,19 @@ using static InteractionController;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    private static Player player = null;
-    public static Player Player => player;
+    private static Player _player = null;
+    public static Player Player => _player;
 
     public GameObject playerPrefab;
     public GameObject workerPrefab;
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
+    public BuildingSpawner buildingSpawner;
+    public BuildingList buildingList;
+    private BuildingSystem _buildingSystem;
+    private CommandSystem _commandSystem;
+   // public CommandSystem CommandSystem => commandSystem;
 
     private void Start()
     {
@@ -24,12 +29,13 @@ public class GameManager : MonoSingleton<GameManager>
         WorldManager.Instance.GenerateGrid();
 
         SpawnStartingFireAndUnits();
+        _buildingSystem = new BuildingSystem(buildingSpawner, buildingList);
+        _commandSystem = new CommandSystem(_player);
 
         // Input is created, then listeners subscribe, then gameplay input is enabled.
         InputManager.Instance.Init();
-        InteractionController.Instance.Init();
+        InteractionController.Instance.Init(_buildingSystem, _commandSystem);
         InputManager.Instance.EnableGameplayInput();
-
         // SetGameState(GameState.Playing);
     }
 
@@ -44,9 +50,10 @@ public class GameManager : MonoSingleton<GameManager>
             spawnTile.Build(fireBuilding);
 
             GameObject playerObj = Instantiate(playerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
-            player = playerObj.GetComponent<Player>();
+            _player = playerObj.GetComponent<Player>();
 
-            Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+            GameObject workerObj = Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+
 
             Instantiate(fighterPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
             Instantiate(enemyPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);

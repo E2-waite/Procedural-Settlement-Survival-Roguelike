@@ -35,7 +35,7 @@ public class BuildingList : MonoSingleton<BuildingList>
     public void RefreshBuildings()
     {
         // Editor-only helper: repopulates the inspector list from BuildingObject assets.
-        string buildingsPath = "Assets/Buildings/Objects";
+        string buildingsPath = "Assets/ScriptableObjects/Buildings";
 
         buildings.Clear();
         string[] guids = AssetDatabase.FindAssets("t:BuildingObject", new[] { buildingsPath });

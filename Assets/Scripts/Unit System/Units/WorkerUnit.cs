@@ -5,7 +5,7 @@ public class WorkerUnit : FollowerUnit
 {
     [SerializeField] public ResourceStorage storage = new ResourceStorage();
     [SerializeField] UnitWork work = new UnitWork();
-
+    BuildingSystem _buildingSystem;
     protected override void Start()
     {
         base.Start();
@@ -16,6 +16,11 @@ public class WorkerUnit : FollowerUnit
     {
         base.Update();
         work.Update();
+    }
+
+    public void Init(BuildingSystem buildingSystem)
+    {
+        _buildingSystem = buildingSystem;
     }
 
     #region States
@@ -91,7 +96,7 @@ public class WorkerUnit : FollowerUnit
         if (storage.AtCapacity())
         {
             // Find closest resource store
-            ResourceBuilding closestStore = BuildingSystem.Instance.GetClosestStore(ResourceNode.Type.Wood, GridPos());
+            ResourceBuilding closestStore = _buildingSystem.GetClosestStore(ResourceNode.Type.Wood, GridPos());
             if (closestStore == null)
             {
                 SetState(State.Idle);
