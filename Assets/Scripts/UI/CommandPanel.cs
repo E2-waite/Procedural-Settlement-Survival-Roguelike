@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using static CommandSystem;
 
-public class CommandPanel : MonoSingleton<CommandPanel>
+public class CommandPanel : MonoBehaviour
 {
     [SerializeField] private CommandWidget commandWidget;
+
+    public void Init(GameContext context)
+    {
+        
+    }
 
     public void UpdateWidget(float diff, float max, bool selected)
     {

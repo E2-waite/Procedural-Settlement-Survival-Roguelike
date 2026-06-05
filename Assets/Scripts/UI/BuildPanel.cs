@@ -18,11 +18,11 @@ public class BuildPanel : MonoSingleton<BuildPanel>
         rect = GetComponent<RectTransform>();
     }
 
-    public void Init(InteractionController interaction, BuildingCatalog buildingCatalog)
+    public void Init(GameContext context)
     {
-        for (int i = 0; i < buildingCatalog.buildings.Count; i++)
+        for (int i = 0; i < context.buildingCatalog.buildings.Count; i++)
         {
-            BuildingObject building = buildingCatalog.buildings[i];
+            BuildingObject building = context.buildingCatalog.buildings[i];
 
             GameObject buttonObj = Instantiate(buttonPrefab, contentTransform);
 
@@ -30,7 +30,7 @@ public class BuildPanel : MonoSingleton<BuildPanel>
 
             buildingButtons.Add(button);
 
-            button.Setup(interaction, building);
+            button.Setup(context.interactionController, building);
         }
     }
 

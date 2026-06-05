@@ -25,27 +25,26 @@ public class InteractionController : MonoBehaviour
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
 
-    public void Init(InputManager inputManager, BuildingSystem buildingSystem, CommandSystem commandSystem, TileMarker tileMarker)
+    public void Init(GameContext context)
     {
         if (!initialized)
         {
-            // Subscribe after InputManager creates controls, but before gameplay input is enabled.
-            inputManager.MouseMoved += OnMouseMoved;
-            inputManager.LeftClick += OnLeftDown;
-            inputManager.RightClick += OnRightDown;
-            inputManager.LeftClickHeld += OnLeftHeld;
-            inputManager.RightClickHeld += OnRightHeld;
-            inputManager.LeftClickReleased += OnLeftUp;
-            inputManager.RightClickReleased += OnRightUp;
-            inputManager.RightClick += OnRightDown;
-            inputManager.EscapePressed += OnEscape;
-            inputManager.FPressed += OnFKey;
-            inputManager.Moved += OnMoveInput;
+            // Subscribe after context.inputManager creates controls, but before gameplay input is enabled.
+            context.inputManager.MouseMoved         += OnMouseMoved;
+            context.inputManager.LeftClick          += OnLeftDown;
+            context.inputManager.RightClick         += OnRightDown;
+            context.inputManager.LeftClickHeld      += OnLeftHeld;
+            context.inputManager.RightClickHeld     += OnRightHeld;
+            context.inputManager.LeftClickReleased  += OnLeftUp;
+            context.inputManager.RightClickReleased += OnRightUp;
+            context.inputManager.EscapePressed      += OnEscape;
+            context.inputManager.FPressed           += OnFKey;
+            context.inputManager.Moved              += OnMoveInput;
             initialized = true;
 
-            handlers[(int)GameState.Build] = new BuildInteractionHandler(this, buildingSystem, tileMarker);
-            handlers[(int)GameState.Command] = new CommandInteractionHandler(this, commandSystem);
-            handlers[(int)GameState.Control] = new ControlInteractionHandler(this, commandSystem);
+            handlers[(int)GameState.Build] = new BuildInteractionHandler(context);
+            handlers[(int)GameState.Command] = new CommandInteractionHandler(context);
+            handlers[(int)GameState.Control] = new ControlInteractionHandler(context);
             currentHandler = handlers[(int)currentState];
 
             InitHandlers();
@@ -62,16 +61,16 @@ public class InteractionController : MonoBehaviour
     void OnDisable()
     {
         // Keep subscriptions paired with Init so disabled controllers do not keep handling input.
-        //inputManager.MouseMoved -= OnMouseMoved;
-        //inputManager.LeftClick -= OnLeftDown;
-        //inputManager.RightClick -= OnRightDown;
-        //inputManager.LeftClickHeld -= OnLeftHeld;
-        //inputManager.RightClickHeld -= OnRightHeld;
-        //inputManager.LeftClickReleased -= OnLeftUp;
-        //inputManager.RightClickReleased -= OnRightUp;
-        //inputManager.EscapePressed -= OnEscape;
-        //inputManager.FPressed -= OnFKey;
-        //inputManager.Moved -= OnMoveInput;
+        //context.inputManager.MouseMoved -= OnMouseMoved;
+        //context.inputManager.LeftClick -= OnLeftDown;
+        //context.inputManager.RightClick -= OnRightDown;
+        //context.inputManager.LeftClickHeld -= OnLeftHeld;
+        //context.inputManager.RightClickHeld -= OnRightHeld;
+        //context.inputManager.LeftClickReleased -= OnLeftUp;
+        //context.inputManager.RightClickReleased -= OnRightUp;
+        //context.inputManager.EscapePressed -= OnEscape;
+        //context.inputManager.FPressed -= OnFKey;
+        //context.inputManager.Moved -= OnMoveInput;
         initialized = false;
     }
     private void InitHandlers()
@@ -146,7 +145,7 @@ public class InteractionController : MonoBehaviour
         mousePos = pos;
     }
 
-    // Consumes InputManager's LeftClick action
+    // Consumes context.inputManager's LeftClick action
     void OnLeftDown()
     {
         if (currentHandler != null) currentHandler.OnLeftDown();
@@ -164,7 +163,7 @@ public class InteractionController : MonoBehaviour
 
 
 
-    // Consumes InputManager's RightClick action
+    // Consumes context.inputManager's RightClick action
     void OnRightDown()
     {
         if (currentHandler != null) currentHandler.OnRightDown();
@@ -182,19 +181,19 @@ public class InteractionController : MonoBehaviour
 
     }
 
-    // Consumes InputManager's EscapePressed action on Esc key pressed
+    // Consumes context.inputManager's EscapePressed action on Esc key pressed
     void OnEscape()
     {
         if (currentHandler != null) currentHandler.OnEscape();
     }
 
-    // Consumes InputManager's FKeyPressed action on F key pressed
+    // Consumes context.inputManager's FKeyPressed action on F key pressed
     void OnFKey()
     {
         if (currentHandler != null) currentHandler.OnFKey();
     }
 
-    // Consumes InputManager's Move action on WASD pressed
+    // Consumes context.inputManager's Move action on WASD pressed
     void OnMoveInput(Vector2 move)
     {
         if (currentHandler != null) currentHandler.OnMoveInput(move);

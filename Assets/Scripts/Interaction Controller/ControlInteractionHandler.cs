@@ -4,12 +4,14 @@ using static InteractionController;
 public class ControlInteractionHandler : IInteractionHandler
 {
     private InteractionController controller;
-    private CommandSystem _commandSystem;
+    private CommandSystem commandSystem;
+    private Player player;
 
-    public ControlInteractionHandler(InteractionController controller, CommandSystem commandSystem)
+    public ControlInteractionHandler(GameContext context)
     {
-        this.controller = controller;
-        _commandSystem = commandSystem;
+        controller = context.interactionController;
+        commandSystem = context.commandSystem;
+        player = context.player;
     }
 
     public void Enable()
@@ -37,7 +39,7 @@ public class ControlInteractionHandler : IInteractionHandler
         // Starts commanding hoving unit when LMB held for over .25 seconds
         if (time >= .25f && controller.Target.IsFollower)
         {
-            _commandSystem.StartCommanding(controller.Target.Follower);
+            commandSystem.StartCommanding(controller.Target.Follower);
         }
     }
     public void OnLeftUp(Vector2 diff, float time)
@@ -46,7 +48,7 @@ public class ControlInteractionHandler : IInteractionHandler
         if (time < .25f)
         {
             if (!controller.Target.IsUnit)
-                _commandSystem.StopCommanding();
+                commandSystem.StopCommanding();
             else
             {
                 if (controller.Target.IsFollower)
@@ -54,9 +56,9 @@ public class ControlInteractionHandler : IInteractionHandler
                     FollowerUnit follower = controller.Target.Follower;
 
                     if (follower.Commanding)
-                        _commandSystem.StopCommanding(follower);
+                        commandSystem.StopCommanding(follower);
                     else
-                        _commandSystem.StartCommanding(follower);
+                        commandSystem.StartCommanding(follower);
 
                 }
             }
@@ -64,7 +66,7 @@ public class ControlInteractionHandler : IInteractionHandler
     }
     public void OnRightDown()
     {
-        if (_commandSystem.IsCommanding)
+        if (commandSystem.IsCommanding)
             controller.SetState(GameState.Command);
     }
     public void OnRightHeld(Vector2 diff, float time)
@@ -81,6 +83,6 @@ public class ControlInteractionHandler : IInteractionHandler
     }
     public void OnMoveInput(Vector2 move)
     {
-        GameManager.Player.OnMove(move);
+        player.OnMove(move);
     }
 }

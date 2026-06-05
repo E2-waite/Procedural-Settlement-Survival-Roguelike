@@ -13,33 +13,6 @@ public class TileMarker : MonoBehaviour
     private Vector2Int maxSize = new Vector2Int(0, 0);
     private Vector2Int ma;
 
-    //void UpdateHighlight(Vector2Int selectSize)
-    //{
-    //    for (int x = 0; x < maxSize.x; x++)
-    //    {
-    //        for (int y = 0; y < maxSize.y; y++)
-    //        {
-    //            int i = GetVertexIndex(x, y);
-
-    //            bool inside =
-    //                x < selectSize.x &&
-    //                y < selectSize.y;
-
-    //            if (!inside)
-    //            {
-    //                SetColor(i, transparent);
-    //                continue;
-    //            }
-
-    //            var tile = Grid.Instance.getTile(new Vector2Int(x, y));
-
-    //            SetColor(i, tile.Buildable() ? validColour : invalidColour);
-    //        }
-    //    }
-
-    //    mesh.colors = colors;
-    //}
-
     public void HighlightTiles(Vector2Int highlightPos, Vector2Int selectSize, bool canAfford)
     {
         if (selectSize.x > maxSize.x) maxSize.x = selectSize.x;

@@ -19,7 +19,6 @@ public class ResourceSystem
 
     public ResourceSystem()
     {
-        Init();
     }
 
     public void Init()
@@ -81,7 +80,11 @@ public class ResourceSystem
             // Skip nodes outside of range
             if (distance > maxSearchRange) continue;
 
-            ResourceNode currentNode = WorldManager.grid.GetTile(currentPos).Resource();
+            GridTile currentTile = WorldManager.grid.GetTile(currentPos);
+
+            if (currentTile == null) continue;
+
+            ResourceNode currentNode = currentTile.Resource();
             if (distance > 0 && currentNode != null && !currentNode.IsEmpty() &&
                 ((sameType && currentNode.type == type) || !sameType))
             {

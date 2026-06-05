@@ -12,10 +12,10 @@ public class BuildingSystem
     private ResourceSystem _resourceSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
-    public BuildingSystem(BuildingSpawner spawner, ResourceSystem resourceSystem)
+    public BuildingSystem(GameContext context)
     {
-        _spawner = spawner;
-        _resourceSystem = resourceSystem;
+        _spawner = context.buildingSpawner;
+        _resourceSystem = context.resourceSystem;
     }
 
     public void Select(BuildingObject selection)

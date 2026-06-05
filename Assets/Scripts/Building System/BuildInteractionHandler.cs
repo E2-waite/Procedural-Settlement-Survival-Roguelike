@@ -4,16 +4,16 @@ using static InteractionController;
 
 public class BuildInteractionHandler : IInteractionHandler
 {
-    private InteractionController _controller;
-    private BuildingSystem buildSystem;
-    private TileMarker _tileMarker;
-    private GridTile _lastTile;
+    readonly private InteractionController   _controller;
+    readonly private BuildingSystem          _buildSystem;
+    readonly private TileMarker              _tileMarker;
+    private GridTile                _lastTile;
 
-    public BuildInteractionHandler(InteractionController controller, BuildingSystem system, TileMarker tileMarker)
+    public BuildInteractionHandler(GameContext context)
     {
-        _controller = controller;
-        buildSystem = system;
-        _tileMarker = tileMarker;
+        _controller = context.interactionController;
+        _buildSystem = context.buildingSystem;
+        _tileMarker = context.tileMarker;
     }
 
     public void Enable()
@@ -29,7 +29,7 @@ public class BuildInteractionHandler : IInteractionHandler
 
     public void SetSelection(BuildingObject selected)
     {
-        buildSystem.Select(selected);
+        _buildSystem.Select(selected);
     }
 
     public void OnHover(HoverTarget target)
@@ -39,9 +39,9 @@ public class BuildInteractionHandler : IInteractionHandler
             _lastTile = target.Tile;
 
             // No preview is shown until the player has selected a building type.
-            if (buildSystem.Selected != null)
+            if (_buildSystem.Selected != null)
             {
-                _tileMarker.HighlightTiles(target.Tile.position, buildSystem.Selected.size, buildSystem.Selected != null && buildSystem.CanAfford());
+                _tileMarker.HighlightTiles(target.Tile.position, _buildSystem.Selected.size, _buildSystem.Selected != null && _buildSystem.CanAfford());
                 _tileMarker.transform.position = new Vector3(target.Tile.position.x + 1.5f, 0, target.Tile.position.y + 1.5f);
             }
         }
@@ -56,9 +56,9 @@ public class BuildInteractionHandler : IInteractionHandler
     {
         if (_controller.Target.IsTile)
         {
-            if (buildSystem.TryPlace(_controller.Target.Tile, buildSystem.Selected))
+            if (_buildSystem.TryPlace(_controller.Target.Tile, _buildSystem.Selected))
             {
-                _tileMarker.HighlightTiles(_controller.Target.Tile.position, buildSystem.Selected.size, buildSystem.Selected != null && buildSystem.CanAfford());
+                _tileMarker.HighlightTiles(_controller.Target.Tile.position, _buildSystem.Selected.size, _buildSystem.Selected != null && _buildSystem.CanAfford());
             }
         }
     }

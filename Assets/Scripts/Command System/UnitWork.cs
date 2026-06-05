@@ -27,10 +27,10 @@ public class UnitWork
 
 
 
-    public void Init(WorkerUnit unit, ResourceSystem resourceSystem)
+    public void Init(WorkerUnit unit, GameContext context)
     {
         this.unit = unit;
-        this.resourceSystem = resourceSystem;
+        resourceSystem = context.resourceSystem;
     }
 
     public void Update()

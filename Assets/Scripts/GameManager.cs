@@ -4,73 +4,62 @@ using static InteractionController;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    private static Player _player = null;
-    public static Player Player => _player;
-
     public GameObject playerPrefab;
     public GameObject workerPrefab;
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
-    public UserInterface userInterface;
-    public BuildingSpawner buildingSpawner;
-    public BuildingCatalog buildingCatalog;
-    public ResourceDefs resourceDefs;
-    public TileMarker tileMarker;
-    public InteractionController interactionController;
+    public GameContext context = new GameContext();
     public LayerMask buildMask;
     public LayerMask commandMask;
-    private InputManager inputManager;
-    private BuildingSystem _buildingSystem;
-    private CommandSystem _commandSystem;
-    private ResourceSystem _resourceSystem;
+
 
     private void Start()
     {
-        // Startup is coordinated here so systems do not depend on Unity's Start order.
-        //BuildingCatalog.Instance.Init();
-
-        inputManager = GetComponent<InputManager>();
-
-        // World data must exist before choosing a valid spawn tile.
         WorldManager.Instance.GenerateGrid();
-
-        SpawnStartingFireAndUnits();
-        _resourceSystem = new ResourceSystem();
-        _buildingSystem = new BuildingSystem(buildingSpawner, _resourceSystem);
-        _commandSystem = new CommandSystem(_player);
-        inputManager.Init();
-        interactionController.Init(inputManager, _buildingSystem, _commandSystem, tileMarker);
-        interactionController.SetLayerMasks(buildMask, commandMask);
-        userInterface.Init(interactionController, buildingCatalog);
-        inputManager.EnableGameplayInput();
-    }
-
-    private void SpawnStartingFireAndUnits()
-    {
         GridTile spawnTile = FindSpawnTile();
 
-        if (spawnTile != null)
-        {
-            GameObject fireObj = Instantiate(firePrefab, spawnTile.worldPosition, Quaternion.identity);
-            FireBuilding fireBuilding = fireObj.GetComponent<FireBuilding>();
-            spawnTile.Build(fireBuilding);
+        SpawnPlayer(spawnTile);
+        context.resourceSystem = new ResourceSystem();
+        context.resourceSystem.Init();
+        context.buildingSystem = new BuildingSystem(context);
+        context.commandSystem = new CommandSystem(context.player);
+        context.inputManager.Init();
+        context.interactionController.Init(context);
+        context.interactionController.SetLayerMasks(buildMask, commandMask);
+        context.userInterface.Init(context);
+        context.inputManager.EnableGameplayInput();
+        context.cameraController.Init(context);
+        SpawnFire(spawnTile);
+        SpawnWorker(spawnTile);
+        SpawnFighter(spawnTile);
+        WorldManager.Instance.HandleChunks(spawnTile.chunk);
+    }
 
-            GameObject playerObj = Instantiate(playerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
-            _player = playerObj.GetComponent<Player>();
+    private void SpawnFire(GridTile tile)
+    {
+        GameObject fireObj = Instantiate(firePrefab, tile.worldPosition, Quaternion.identity);
+        FireBuilding fireBuilding = fireObj.GetComponent<FireBuilding>();
+        tile.Build(fireBuilding);
+    }
 
-            GameObject workerObj = Instantiate(workerPrefab, spawnTile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+    private void SpawnPlayer(GridTile tile)
+    {
+        GameObject playerObj = Instantiate(playerPrefab, tile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
+        context.player = playerObj.GetComponent<Player>();
+    }
 
+    private void SpawnWorker(GridTile tile)
+    {
+        GameObject workerObj = Instantiate(workerPrefab, tile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+        WorkerUnit worker = workerObj.GetComponent<WorkerUnit>();
+        worker.Init(context);
+    }
 
-            Instantiate(fighterPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
-            Instantiate(enemyPrefab, spawnTile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
-
-            //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, 1.5f), Quaternion.identity);
-            //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
-            //Instantiate(workerPrefab, spawnTile.worldPosition + new Vector3(-.5f, 0.5f, -.5f), Quaternion.identity);
-
-            WorldManager.Instance.HandleChunks(spawnTile.chunk);
-        }
+    private void SpawnFighter(GridTile tile)
+    {
+        Instantiate(fighterPrefab, tile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
+        Instantiate(enemyPrefab,  tile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
     }
 
     GridTile FindSpawnTile()

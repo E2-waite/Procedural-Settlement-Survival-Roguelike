@@ -5,16 +5,18 @@ using static CommandSystem;
 
 public class CommandInteractionHandler : IInteractionHandler
 {
-    private InteractionController _controller;
-    private CommandSystem _commandSystem;
+    private InteractionController controller;
+    private CommandSystem commandSystem;
+    private CommandPanel commandPanel;
     float commandDiff = 25f;
     HoverTarget clickTarget;
     bool commandSelected = false;
 
-    public CommandInteractionHandler(InteractionController controller, CommandSystem commandSystem)
+    public CommandInteractionHandler(GameContext context)
     {
-        _controller = controller;
-        _commandSystem = commandSystem;
+        controller = context.interactionController;
+        commandSystem = context.commandSystem;
+        commandPanel = context.commandPanel;
     }
 
     public void Enable()
@@ -22,7 +24,7 @@ public class CommandInteractionHandler : IInteractionHandler
         Cursor.visible = false;
 
         // Gets the target state when starting commanding
-        clickTarget = new HoverTarget(_controller.Target);
+        clickTarget = new HoverTarget(controller.Target);
 
         CommandType commandType = CommandType.Move;
 
@@ -43,14 +45,14 @@ public class CommandInteractionHandler : IInteractionHandler
             commandType = CommandType.Attack;
         }
 
-        CommandPanel.Instance.ShowWidget(commandType);
-        CommandPanel.Instance.UpdateWidget(0, commandDiff, commandSelected);
-        CommandPanel.Instance.SetWidgetPos(_controller.MousePos);
+        commandPanel.ShowWidget(commandType);
+        commandPanel.UpdateWidget(0, commandDiff, commandSelected);
+        commandPanel.SetWidgetPos(controller.MousePos);
     }
 
     public void Disable()
     {
-        CommandPanel.Instance.HideWidget();
+        commandPanel.HideWidget();
     }
 
     public void OnHover(HoverTarget target)
@@ -86,7 +88,7 @@ public class CommandInteractionHandler : IInteractionHandler
 
         if (diff.y != 0 && time > 0.1f)
         {
-            CommandPanel.Instance.UpdateWidget(diff.y, commandDiff, commandSelected);
+            commandPanel.UpdateWidget(diff.y, commandDiff, commandSelected);
         }
     }
     public void OnRightUp(Vector2 diff, float time)
@@ -94,14 +96,14 @@ public class CommandInteractionHandler : IInteractionHandler
         if (diff.y > commandDiff)
         {
             // TODO: command to interact with object at mouse pos when the click started rather than the current position
-            _commandSystem.Command(clickTarget);
+            commandSystem.Command(clickTarget);
         }
         else if (diff.y < -commandDiff)
         {
-            _commandSystem.CommandFollow();
+            commandSystem.CommandFollow();
         }
 
-        _controller.SetState(GameState.Control);
+        controller.SetState(GameState.Control);
     }
     public void OnEscape()
     {

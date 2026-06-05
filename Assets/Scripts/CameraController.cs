@@ -14,25 +14,22 @@ public class CameraController : MonoBehaviour
     public float maxScroll = 50;
 
     private Vector3 followOffset = new Vector3(-10, 10, -10);
+    public void Init(GameContext context)
+    {
+        player = context.player;
+    }
+
 
     void Update()
     {
         if (player == null)
         {
-            player = GameManager.Player;
             InitCamera();
         }
         else
         {
-            //if (PlayerInteraction.Instance.state == PlayerInteraction.GameState.Build)
-            //{
-            //    MoveCamera();
-            //}
-            //else
-            {
-                FollowPlayer();
-                currentVelocity = Vector3.zero;
-            }
+            FollowPlayer();
+            currentVelocity = Vector3.zero;
         }
     }
 

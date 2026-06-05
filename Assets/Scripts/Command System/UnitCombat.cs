@@ -144,7 +144,6 @@ public class UnitCombat
                     threat = 100
                 };
 
-                Debug.Log("Adding target cadidate " + newCandidate.target.name + " (" + newCandidate.threat + " threat)");
                 targetCandidates.Add(newCandidate);
             }
         }

@@ -11,21 +11,19 @@ public class WorkerUnit : FollowerUnit
         base.Start();
     }
 
-    public void Init(ResourceSystem resourceSystem)
+    public void Init(GameContext context)
     {
-        work.Init(this, resourceSystem);
+        work.Init(this, context);
+        _buildingSystem = context.buildingSystem;
     }
-
+ 
     protected override void Update()
     {
         base.Update();
         work.Update();
     }
 
-    public void Init(BuildingSystem buildingSystem)
-    {
-        _buildingSystem = buildingSystem;
-    }
+
 
     #region States
 

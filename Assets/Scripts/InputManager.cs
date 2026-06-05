@@ -36,11 +36,6 @@ public class InputManager : MonoBehaviour
     private Vector2[] clickStartPos = new Vector2[(int)MouseButton.Max];
     private float[] clickStartTime = new float[(int)MouseButton.Max];
 
-    public InputManager()
-    {
-        Init();
-    }
-
     public void Init()
     {
         if (initialized) return;

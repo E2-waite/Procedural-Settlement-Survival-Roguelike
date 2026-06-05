@@ -5,9 +5,9 @@ public class UserInterface : MonoBehaviour
     public BuildPanel buildPanel;
     public CommandPanel commandPanel;
     public ResourcesPanel resourcesPanel;
-    public void Init(InteractionController interaction, BuildingCatalog buildingCatalog)
+    public void Init(GameContext context)
     {
-        buildPanel.Init(interaction, buildingCatalog);
+        buildPanel.Init(context);
     }
 
 }
