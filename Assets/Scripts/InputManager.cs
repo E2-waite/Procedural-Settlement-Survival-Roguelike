@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Converts raw Input System state into simple gameplay events for other systems.
-public class InputManager : MonoSingleton<InputManager>
+public class InputManager : MonoBehaviour
 {
     public enum MouseButton : int
     {
@@ -36,6 +36,10 @@ public class InputManager : MonoSingleton<InputManager>
     private Vector2[] clickStartPos = new Vector2[(int)MouseButton.Max];
     private float[] clickStartTime = new float[(int)MouseButton.Max];
 
+    public InputManager()
+    {
+        Init();
+    }
 
     public void Init()
     {

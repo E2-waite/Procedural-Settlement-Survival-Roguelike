@@ -8,6 +8,8 @@ public class BuildInteractionHandler : IInteractionHandler
     private BuildingSystem _system;
     private TileMarker _tileMarker;
     private GridTile _lastTile;
+    private BuildingObject selected;
+
     public BuildInteractionHandler(InteractionController controller, BuildingSystem system, TileMarker tileMarker)
     {
         _controller = controller;
@@ -26,17 +28,22 @@ public class BuildInteractionHandler : IInteractionHandler
         _tileMarker.gameObject.SetActive(false);
     }
 
+    public void SetSelection(BuildingObject selected)
+    {
+        Debug.Log("Setting selection");
+        this.selected = selected;
+    }
+
     public void OnHover(HoverTarget target)
     {
         if (target.IsTile && target.Tile != _lastTile)
         {
             _lastTile = target.Tile;
 
-            BuildingObject selected = _system.SelectedBuilding();
-
             // No preview is shown until the player has selected a building type.
             if (selected != null)
             {
+                Debug.Log("SHOULD HIGHLIGHT");
                 _tileMarker.HighlightTiles(target.Tile.position, selected.size, selected != null && selected.CanAfford());
                 _tileMarker.transform.position = new Vector3(target.Tile.position.x + 1.5f, 0, target.Tile.position.y + 1.5f);
             }
@@ -52,9 +59,8 @@ public class BuildInteractionHandler : IInteractionHandler
     {
         if (_controller.Target.IsTile)
         {
-            if (_system.TryPlace(_controller.Target.Tile))
+            if (_system.TryPlace(_controller.Target.Tile, selected))
             {
-                BuildingObject selected = _system.SelectedBuilding();
                 _tileMarker.HighlightTiles(_controller.Target.Tile.position, selected.size, selected != null && selected.CanAfford());
             }
         }

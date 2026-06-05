@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Interprets input events according to the current player interaction mode.
-public class InteractionController : MonoSingleton<InteractionController>
+public class InteractionController : MonoBehaviour
 {
     public enum GameState : int
     {
@@ -11,12 +11,11 @@ public class InteractionController : MonoSingleton<InteractionController>
         Max
     }
 
-    public TileMarker tileMarker;
     private IInteractionHandler[] handlers = new IInteractionHandler[(int)GameState.Max];
     private IInteractionHandler currentHandler = null;
-    [SerializeField] private LayerMask buildMask;
-    [SerializeField] public LayerMask commandMask;
 
+    public LayerMask buildMask;
+    public LayerMask commandMask;
     private GameState currentState = GameState.Control;
     private HoverTarget target = new HoverTarget();
     public HoverTarget Target => target;
@@ -26,22 +25,22 @@ public class InteractionController : MonoSingleton<InteractionController>
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
 
-    public void Init(BuildingSystem buildingSystem, CommandSystem commandSystem)
+    public void Init(InputManager inputManager, BuildingSystem buildingSystem, CommandSystem commandSystem, TileMarker tileMarker)
     {
         if (!initialized)
         {
             // Subscribe after InputManager creates controls, but before gameplay input is enabled.
-            InputManager.Instance.MouseMoved += OnMouseMoved;
-            InputManager.Instance.LeftClick += OnLeftDown;
-            InputManager.Instance.RightClick += OnRightDown;
-            InputManager.Instance.LeftClickHeld += OnLeftHeld;
-            InputManager.Instance.RightClickHeld += OnRightHeld;
-            InputManager.Instance.LeftClickReleased += OnLeftUp;
-            InputManager.Instance.RightClickReleased += OnRightUp;
-            InputManager.Instance.RightClick += OnRightDown;
-            InputManager.Instance.EscapePressed += OnEscape;
-            InputManager.Instance.FPressed += OnFKey;
-            InputManager.Instance.Moved += OnMoveInput;
+            inputManager.MouseMoved += OnMouseMoved;
+            inputManager.LeftClick += OnLeftDown;
+            inputManager.RightClick += OnRightDown;
+            inputManager.LeftClickHeld += OnLeftHeld;
+            inputManager.RightClickHeld += OnRightHeld;
+            inputManager.LeftClickReleased += OnLeftUp;
+            inputManager.RightClickReleased += OnRightUp;
+            inputManager.RightClick += OnRightDown;
+            inputManager.EscapePressed += OnEscape;
+            inputManager.FPressed += OnFKey;
+            inputManager.Moved += OnMoveInput;
             initialized = true;
 
             handlers[(int)GameState.Build] = new BuildInteractionHandler(this, buildingSystem, tileMarker);
@@ -54,19 +53,25 @@ public class InteractionController : MonoSingleton<InteractionController>
 
     }
 
+    public void SetLayerMasks(LayerMask buildMask, LayerMask commandMask)
+    {
+        this.buildMask = buildMask;
+        this.commandMask = commandMask;
+    }
+
     void OnDisable()
     {
         // Keep subscriptions paired with Init so disabled controllers do not keep handling input.
-        InputManager.Instance.MouseMoved -= OnMouseMoved;
-        InputManager.Instance.LeftClick -= OnLeftDown;
-        InputManager.Instance.RightClick -= OnRightDown;
-        InputManager.Instance.LeftClickHeld -= OnLeftHeld;
-        InputManager.Instance.RightClickHeld -= OnRightHeld;
-        InputManager.Instance.LeftClickReleased -= OnLeftUp;
-        InputManager.Instance.RightClickReleased -= OnRightUp;
-        InputManager.Instance.EscapePressed -= OnEscape;
-        InputManager.Instance.FPressed -= OnFKey;
-        InputManager.Instance.Moved -= OnMoveInput;
+        //inputManager.MouseMoved -= OnMouseMoved;
+        //inputManager.LeftClick -= OnLeftDown;
+        //inputManager.RightClick -= OnRightDown;
+        //inputManager.LeftClickHeld -= OnLeftHeld;
+        //inputManager.RightClickHeld -= OnRightHeld;
+        //inputManager.LeftClickReleased -= OnLeftUp;
+        //inputManager.RightClickReleased -= OnRightUp;
+        //inputManager.EscapePressed -= OnEscape;
+        //inputManager.FPressed -= OnFKey;
+        //inputManager.Moved -= OnMoveInput;
         initialized = false;
     }
     private void InitHandlers()
@@ -84,6 +89,15 @@ public class InteractionController : MonoSingleton<InteractionController>
         {
             rayTimer -= Time.deltaTime;
         }
+    }
+
+    public void EnterBuildState(BuildingObject building)
+    {
+        SetState(GameState.Build);
+
+        // TODO: clean this up
+        BuildInteractionHandler handler = (BuildInteractionHandler)handlers[(int)GameState.Build];
+        handler.SetSelection(building);
     }
 
     // Sets the current game state
@@ -106,6 +120,8 @@ public class InteractionController : MonoSingleton<InteractionController>
         {
             return;
         }
+
+        Debug.Log("HOVERING OVER " + hit.transform.name);
 
         // Updates the hover target with the ray hit
         target.Update(hit);

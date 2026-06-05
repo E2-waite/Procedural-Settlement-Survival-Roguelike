@@ -6,7 +6,7 @@ public class BuildingButton : MonoBehaviour
 {
     public Button button;
     public TMP_Text text;
-    public void Setup(BuildingObject building, int index)
+    public void Setup(InteractionController interaction, BuildingObject building)
     {
         // Setup icons, etc.
         text.text = building.name;
@@ -15,7 +15,7 @@ public class BuildingButton : MonoBehaviour
 
         button.onClick.AddListener(() =>
         {
-            BuildingList.Instance.SelectBuilding(index);
+            interaction.EnterBuildState(building);
         });
     }
 }

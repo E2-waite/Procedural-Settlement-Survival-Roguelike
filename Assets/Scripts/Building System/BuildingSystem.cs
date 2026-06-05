@@ -5,25 +5,19 @@ using UnityEngine;
 public class BuildingSystem
 {
    // public TileMarker tileMarker;
-    private BuildingList _buildingList;
+    //private BuildingList _buildingList;
     private BuildingStorage storage = new BuildingStorage();
     private BuildingSpawner _spawner;
 
-    public BuildingSystem(BuildingSpawner spawner, BuildingList buildingList)
+    public BuildingSystem(BuildingSpawner spawner, BuildingCatalog buildingList)
     {
         _spawner = spawner;
-        _buildingList = buildingList;
-    }
-
-    public BuildingObject SelectedBuilding()
-    {
-        return _buildingList.Selected;
     }
 
     // Try to place the selected building on the passed tile
-    public bool TryPlace(GridTile tile)
+    public bool TryPlace(GridTile tile, BuildingObject selected)
     {
-        BuildingObject selected = _buildingList.Selected;
+        //BuildingObject selected = _buildingList.Selected;
 
         if (selected == null || tile == null) return false;
 

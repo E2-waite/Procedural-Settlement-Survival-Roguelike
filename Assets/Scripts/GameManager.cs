@@ -12,31 +12,38 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
+    public UserInterface userInterface;
     public BuildingSpawner buildingSpawner;
-    public BuildingList buildingList;
+    public BuildingCatalog buildingCatalog;
+    public TileMarker tileMarker;
+    public InteractionController interactionController;
+    public LayerMask buildMask;
+    public LayerMask commandMask;
+    private InputManager inputManager;
     private BuildingSystem _buildingSystem;
     private CommandSystem _commandSystem;
-   // public CommandSystem CommandSystem => commandSystem;
+    private ResourceSystem resourceSystem;
 
     private void Start()
     {
         // Startup is coordinated here so systems do not depend on Unity's Start order.
-        ResourceSystem.Instance.Init();
-        UIHandler.Instance.Init();
-        BuildingList.Instance.Init();
+        //BuildingCatalog.Instance.Init();
+
+        inputManager = GetComponent<InputManager>();
 
         // World data must exist before choosing a valid spawn tile.
         WorldManager.Instance.GenerateGrid();
 
         SpawnStartingFireAndUnits();
-        _buildingSystem = new BuildingSystem(buildingSpawner, buildingList);
+        _buildingSystem = new BuildingSystem(buildingSpawner, buildingCatalog);
         _commandSystem = new CommandSystem(_player);
 
-        // Input is created, then listeners subscribe, then gameplay input is enabled.
-        InputManager.Instance.Init();
-        InteractionController.Instance.Init(_buildingSystem, _commandSystem);
-        InputManager.Instance.EnableGameplayInput();
-        // SetGameState(GameState.Playing);
+        inputManager.Init();
+        interactionController.Init(inputManager, _buildingSystem, _commandSystem, tileMarker);
+        interactionController.SetLayerMasks(buildMask, commandMask);
+        userInterface.Init(interactionController, buildingCatalog);
+
+        inputManager.EnableGameplayInput();
     }
 
     private void SpawnStartingFireAndUnits()
