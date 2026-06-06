@@ -5,7 +5,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu]
-public class ResourceDefs : MonoSingleton<ResourceDefs>
+public class ResourceCatalog : ScriptableObject
 {
     public ResourceObject tree;
     public ResourceObject stone;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UnitSystem : MonoSingleton<UnitSystem>
+public class FollowerSystem
 {
     [SerializeField] private UnitStorage storage = new UnitStorage();
 

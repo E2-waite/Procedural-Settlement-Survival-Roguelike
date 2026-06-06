@@ -7,6 +7,7 @@ public class WorldContext
     public GameObject chunkPrefab;
 
     [Header("Params")]
+    public ResourceCatalog resourceCatalog;
     public Vector2Int startSize;
     public int chunkSize = 100;
     public int chunkDistance = 2;

@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 
-public class PathfindingHandler : MonoSingleton<PathfindingHandler>
+public class PathfindingHandler : MonoBehaviour
 {
     Pathfinding pathfinding;
     private Thread workerThread;
@@ -14,10 +14,8 @@ public class PathfindingHandler : MonoSingleton<PathfindingHandler>
     private ConcurrentQueue<PathRequest> requestQueue = new ConcurrentQueue<PathRequest>();
     private ConcurrentQueue<System.Action> resultQueue = new ConcurrentQueue<System.Action>();
 
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
-
         // Pathfinding runs on a worker thread; callbacks are marshalled back in Update.
         pathfinding = new Pathfinding();
         workerThread = new Thread(WorkerLoop);

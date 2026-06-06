@@ -9,7 +9,7 @@ public class World : MonoBehaviour
     private HashSet<Vector2Int> activeChunks = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
     private Chunk lastChunk;
-
+    private ResourceCatalog resourceCatalog;
     Vector2 GenerateSeedOffset(int seed)
     {
         System.Random rand = new System.Random(seed);
@@ -35,8 +35,7 @@ public class World : MonoBehaviour
                 Vector2Int chunkPos = new Vector2Int(x, y);
                 GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(chunkPos.x * context.chunkSize, 0, chunkPos.y * context.chunkSize), Quaternion.identity);
                 Chunk chunk = chunkObj.GetComponent<Chunk>();
-                chunk.Init(context);
-                chunk.Generate(context, chunkPos);
+                chunk.Init(this, chunkPos);
                 chunkObj.transform.parent = transform;
                 chunk.name = "Chunk: " + chunkPos.ToString();
             }
@@ -135,8 +134,7 @@ public class World : MonoBehaviour
         GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(pos.x * context.chunkSize, 0, pos.y * context.chunkSize), Quaternion.identity);
         chunkObj.transform.parent = transform;
         Chunk chunk = chunkObj.GetComponent<Chunk>();
-        chunk.Init(context);
-        chunk.Generate(context, pos);
+        chunk.Init(this, pos);
         chunk.name = "Chunk: " + pos.ToString();
         context.grid.SetChunk(chunk, pos);
         UpdateChunkNeighbours(chunk);

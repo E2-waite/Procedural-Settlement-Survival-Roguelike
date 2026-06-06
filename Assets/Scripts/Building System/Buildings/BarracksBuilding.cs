@@ -10,6 +10,12 @@ public class BarracksBuilding : Building
     [SerializeField] private int maxCapacity = 3;
 
     private int activeConversions = 0;
+    private FollowerSystem followerSystem;
+    public void Init(FollowerSystem followerSystem)
+    {
+        this.followerSystem = followerSystem;
+    }
+
     public bool Convert(WorkerUnit worker)
     {
         if (activeConversions < maxCapacity)
@@ -25,7 +31,7 @@ public class BarracksBuilding : Building
     IEnumerator ConvertWorker(WorkerUnit worker)
     {
         // Disable worker
-        UnitSystem.Instance.RemoveUnit(worker);
+        followerSystem.RemoveUnit(worker);
         worker.gameObject.SetActive(false);
         worker.chunk.RemoveUnit(worker);
         yield return new WaitForSeconds(convertTime);
@@ -45,7 +51,7 @@ public class BarracksBuilding : Building
                 newFighter.Init(worker);
             }
 
-            UnitSystem.Instance.AddUnit(newFighter);
+            followerSystem.AddUnit(newFighter);
             Destroy(worker.gameObject);
             activeConversions--;
         }

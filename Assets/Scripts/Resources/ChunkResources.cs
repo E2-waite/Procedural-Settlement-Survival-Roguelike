@@ -18,14 +18,16 @@ public class ChunkResources
     public Vector2 seedOffset;
     private Chunk chunk;
     private int count;
+    private ResourceCatalog resourceCatalog;
 
-
-    public ChunkResources(WorldContext context, Chunk chunk)
+    public ChunkResources(World world, Chunk chunk)
     {
         this.chunk = chunk;
-        chunkSize = context.chunkSize;
-        seedOffset = context.seedOffset;
-        grid = context.grid;
+        this.resourceCatalog = world.Context.resourceCatalog;
+
+        chunkSize = world.Context.chunkSize;
+        seedOffset = world.Context.seedOffset;
+        grid = world.Context.grid;
 
         // Store matrices once at generation time; Render only batches visible resource instances.
         count = chunkSize * chunkSize;
@@ -54,13 +56,12 @@ public class ChunkResources
                     // Resource type is currently derived from tile biome plus a random chance.
                     if (tile.type == TileType.Forest)
                     {
-                        resource = ResourceDefs.Instance.tree;
+                        resource = resourceCatalog.tree;
                     }
                     else if (tile.type == TileType.Grass)
                     {
-
                         if (rand >= 90f)
-                            resource = ResourceDefs.Instance.stone;
+                            resource = resourceCatalog.stone;
                     }
 
                     if (resource != null)

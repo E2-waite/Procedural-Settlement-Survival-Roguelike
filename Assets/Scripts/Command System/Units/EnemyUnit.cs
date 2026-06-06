@@ -9,13 +9,12 @@ public class EnemyUnit : Unit
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
     FireBuilding targetFire;
-
-    protected override void Start()
+    EnemySystem enemySystem;
+    public override void Init(GameContext context)
     {
-        base.Start();
-        combat.SetUnit(this);
-
-        EnemySystem.Instance.AddEnemy(this);
+        base.Init(context);
+        enemySystem = context.enemySystem;
+        enemySystem.AddEnemy(this);
     }
 
     protected override void Update()
@@ -76,7 +75,7 @@ public class EnemyUnit : Unit
     {
         base.OnDeathStart();
 
-        EnemySystem.Instance.RemoveEnemy(this);
+        enemySystem.RemoveEnemy(this);
     }
     #endregion
 

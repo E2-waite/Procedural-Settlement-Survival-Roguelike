@@ -34,27 +34,31 @@ public class Unit : Damageable
     private bool highlighted = false; // Is the mouse currently hovering over this unit
     private WorldGrid grid;
     protected FireSystem fireSystem;
+    protected PathfindingHandler pathfinding;
     public virtual void Init(GameContext context)
     {
         World world = context.world;
         grid = world.Context.grid;
         fireSystem = context.fireSystem;
-    }
+        pathfinding = context.pathfinding;
 
-    protected virtual void Start()
-    {
         movement.Init(this);
         sprite.Init(unitSprite);
-        // Face the camera
-        cam = Camera.main;
-        Vector3 forward = cam.transform.forward;
-        forward.Normalize();
-        unitSprite.transform.rotation = Quaternion.LookRotation(forward);
+        if (Combat != null) Combat.Init(this);
 
         health.Fill();
 
         state = State.Idle;
         lastState = State.Idle;
+    }
+
+    protected virtual void Start()
+    {
+        // Face the camera
+        cam = Camera.main;
+        Vector3 forward = cam.transform.forward;
+        forward.Normalize();
+        unitSprite.transform.rotation = Quaternion.LookRotation(forward);
     }
 
     protected virtual void Update()
@@ -294,7 +298,7 @@ public class Unit : Damageable
         };
 
         // Send pathfinding request
-        PathfindingHandler.Instance.RequestPath(request);
+        pathfinding.RequestPath(request);
     }
 
     public bool WaitingForPath => pathRequested;

@@ -6,10 +6,6 @@ public class WorkerUnit : FollowerUnit
     [SerializeField] public ResourceStorage storage = new ResourceStorage();
     [SerializeField] UnitWork work = new UnitWork();
     BuildingSystem buildingSystem;
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     public override void Init(GameContext context)
     {

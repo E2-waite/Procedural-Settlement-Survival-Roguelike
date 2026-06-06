@@ -5,7 +5,6 @@ public class Chunk : MonoBehaviour
 {
     public GameObject tilePrefab;
     public Vector2Int position;
-    WorldContext worldContext;
     World world;
     Mesh mesh;
     List<Vector3> vertices;
@@ -25,7 +24,6 @@ public class Chunk : MonoBehaviour
     public List<Unit> followers = new List<Unit>();
     public List<Unit> enemies = new List<Unit>();
     public  List<Chunk> neighbouringChunks = new List<Chunk>();
-
     public void AddNeighbour(Chunk chunk)
     {
         if (!neighbouringChunks.Contains(chunk))
@@ -34,17 +32,13 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    public void Init(WorldContext worldContext)
+    public void Init(World world, Vector2Int pos)
     {
-        this.worldContext = worldContext;
-    }
+        this.world = world;
 
-    // Generate this chunk's mesh 
-    public void Generate(WorldContext context, Vector2Int pos)
-    {
         // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
-        int size = context.chunkSize;
-        WorldGrid grid = context.grid;
+        int size = world.Context.chunkSize;
+        WorldGrid grid = world.Context.grid;
 
         position = pos;
 
@@ -63,7 +57,7 @@ public class Chunk : MonoBehaviour
         {
             for (int y = 0; y < size + 1; y++)
             {
-                heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, context.noiseScale) - seaLevel;
+                heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, world.Context.noiseScale) - seaLevel;
                 if (heights[x, y] > 0) heights[x, y] *= heightMultiplier;
                 heights[x, y] = Mathf.Clamp01(heights[x, y]);
 
@@ -95,7 +89,7 @@ public class Chunk : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
-        resources = new ChunkResources(worldContext, this);
+        resources = new ChunkResources(world, this);
 
         grid.SetChunk(this, pos);
     }
@@ -173,7 +167,7 @@ public class Chunk : MonoBehaviour
 
     float GetHeight(float x, float y, float noiseScale)
     {
-        float height = GenerateNoise((x + worldContext.seedOffset.x) * noiseScale, (y + worldContext.seedOffset.y) * noiseScale);
+        float height = GenerateNoise((x + world.Context.seedOffset.x) * noiseScale, (y + world.Context.seedOffset.y) * noiseScale);
 
         height = Mathf.Clamp01(height);
         height = Mathf.Pow(height, 1.2f);

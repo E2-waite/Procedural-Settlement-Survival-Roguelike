@@ -24,7 +24,6 @@ public class Building : Damageable
 
     public void Init(int id)
     {
-        this.id = id;
     }
 
 

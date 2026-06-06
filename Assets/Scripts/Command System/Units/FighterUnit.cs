@@ -6,17 +6,6 @@ public class FighterUnit : FollowerUnit
     [SerializeField] public UnitCombat combat = new UnitCombat();
     public override UnitCombat Combat => combat;
 
-    protected override void Start()
-    {
-        base.Start();
-        combat.SetUnit(this);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     void SearchForHostile()
     {
         // Find hostile units

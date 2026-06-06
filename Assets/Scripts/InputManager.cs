@@ -27,7 +27,6 @@ public class InputManager : MonoBehaviour
     public event Action FPressed;
     public event Action<Vector2, Vector2> MouseMoved;
     public event Action<Vector2> Moved;
-    public LayerMask unitLayerMask;
 
     [HideInInspector] public PlayerController player;
     private PlayerControls controls;

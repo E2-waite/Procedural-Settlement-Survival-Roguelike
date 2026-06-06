@@ -12,12 +12,14 @@ public class BuildingSystem
     private BuildingSpawner spawner;
     private ResourceSystem resourceSystem;
     private FireSystem fireSystem;
+    private FollowerSystem followerSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
     public BuildingSystem(GameContext context)
     {
         spawner = context.buildingSpawner;
         resourceSystem = context.resourceSystem;
+        followerSystem = context.followerSystem;
         fireSystem = context.fireSystem;
         World world = context.world;
         grid = world.Context.grid;
@@ -63,6 +65,10 @@ public class BuildingSystem
             else if (building is FireBuilding)
             {
                 ((FireBuilding)building).Init(fireSystem);
+            }
+            else if (building is BarracksBuilding)
+            {
+                ((BarracksBuilding)building).Init(followerSystem);
             }
 
             // Assign buildings to appropriate tiles

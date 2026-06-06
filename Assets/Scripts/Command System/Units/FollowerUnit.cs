@@ -14,17 +14,13 @@ public class FollowerUnit : Unit
     public bool Following => state == State.Following;
     private bool commanding = false; // This unit is being commanded
     public bool Commanding => commanding;
+    private FollowerSystem followerSystem;
 
-    protected override void Start()
+    public override void Init(GameContext context)
     {
-        base.Start();
-
-        UnitSystem.Instance.AddUnit(this);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
+        base.Init(context);
+        followerSystem = context.followerSystem;
+        followerSystem.AddUnit(this);
     }
 
     #region States
@@ -64,7 +60,7 @@ public class FollowerUnit : Unit
     protected override void OnDeathStart()
     {
         base.OnDeathStart();
-        UnitSystem.Instance.RemoveUnit(this);
+        followerSystem.RemoveUnit(this);
     }
 
     #endregion

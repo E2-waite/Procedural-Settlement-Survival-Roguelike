@@ -19,7 +19,10 @@ public class GameManager : MonoSingleton<GameManager>
         context.fireSystem = new FireSystem();
 
         SpawnPlayer(spawnTile);
+        context.pathfinding.Init();
         context.tileMarker.Init(context);
+        context.followerSystem = new FollowerSystem();
+        context.enemySystem = new EnemySystem();
         context.resourceSystem = new ResourceSystem();
         context.resourceSystem.Init(context);
         context.buildingSystem = new BuildingSystem(context);

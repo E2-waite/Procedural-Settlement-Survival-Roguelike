@@ -30,7 +30,7 @@ public class UnitCombat
     // Potential targets decay over time so units eventually stop caring about distant threats.
     List<ThreatCandidate> targetCandidates = new List<ThreatCandidate>();
 
-    public void SetUnit(Unit unit)
+    public void Init(Unit unit)
     {
         this.unit = unit;
     }

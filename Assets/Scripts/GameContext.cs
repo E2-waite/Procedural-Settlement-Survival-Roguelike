@@ -8,15 +8,17 @@ public class GameContext
     public InteractionController interactionController;
     public CameraController cameraController;
     public UserInterface userInterface;
+    public PathfindingHandler pathfinding;
     public BuildingSpawner buildingSpawner;
     public BuildingCatalog buildingCatalog;
-    public ResourceDefs resourceDefs;
     public TileMarker tileMarker;
     public ResourcesPanel resourcePanel;
     public CommandPanel commandPanel;
     public BuildingSystem buildingSystem;
     public CommandSystem commandSystem;
     public ResourceSystem resourceSystem;
+    public FollowerSystem followerSystem;
+    public EnemySystem enemySystem;
     public FireSystem fireSystem;
     public InputManager inputManager;
 

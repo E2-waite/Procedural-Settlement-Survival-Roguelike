@@ -10,11 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1043128713799209120}
   - component: {fileID: 4710643134306229886}
-  - component: {fileID: 4185488873400193997}
-  - component: {fileID: 2735292783505724910}
-  - component: {fileID: 5310451893114659100}
-  - component: {fileID: 6136650397440663403}
-  - component: {fileID: 4018351691882853623}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -57,91 +52,19 @@ MonoBehaviour:
   context:
     player: {fileID: 0}
     world: {fileID: 0}
-    interactionController: {fileID: 2735292783505724910}
+    interactionController: {fileID: 0}
     cameraController: {fileID: 0}
     userInterface: {fileID: 0}
-    buildingSpawner: {fileID: 5310451893114659100}
+    pathfinding: {fileID: 0}
+    buildingSpawner: {fileID: 0}
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
-    resourceDefs: {fileID: 4018351691882853623}
     tileMarker: {fileID: 0}
+    resourcePanel: {fileID: 0}
     commandPanel: {fileID: 0}
-    inputManager: {fileID: 4185488873400193997}
+    inputManager: {fileID: 0}
     buildMask:
       serializedVersion: 2
       m_Bits: 64
     commandMask:
       serializedVersion: 2
       m_Bits: 704
---- !u!114 &4185488873400193997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6de403c07321c3742bae1cc2e41e44d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  player: {fileID: 0}
---- !u!114 &2735292783505724910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f762640a5923643a1a802cb3adc145, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildMask:
-    serializedVersion: 2
-    m_Bits: 0
-  commandMask:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &5310451893114659100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d9aca8a47d53444b00195612e53071, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6136650397440663403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096a5d6a379e81c4c815dd0e99b8031a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireBuildings: []
---- !u!114 &4018351691882853623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2188326325806694745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e987925b906fb244b46986608ff041c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: ada1663e0f5787b4f8d52ad0eca5b545, type: 2}
-  stone: {fileID: 11400000, guid: 390567ac189ae9e40be61363badd8fb6, type: 2}

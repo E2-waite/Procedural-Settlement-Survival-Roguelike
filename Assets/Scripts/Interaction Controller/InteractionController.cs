@@ -14,8 +14,8 @@ public class InteractionController : MonoBehaviour
     private IInteractionHandler[] handlers = new IInteractionHandler[(int)GameState.Max];
     private IInteractionHandler currentHandler = null;
 
-    public LayerMask buildMask;
-    public LayerMask commandMask;
+    private LayerMask buildMask;
+    private LayerMask commandMask;
     private GameState currentState = GameState.Control;
     private HoverTarget target = new HoverTarget();
     public HoverTarget Target => target;
