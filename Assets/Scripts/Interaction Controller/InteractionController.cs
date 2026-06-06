@@ -24,11 +24,18 @@ public class InteractionController : MonoBehaviour
     private Vector2 mousePos;
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
+    private WorldGrid grid;
 
     public void Init(GameContext context)
     {
         if (!initialized)
         {
+            World world = context.world;
+            grid = world.Context.grid;
+
+            buildMask = context.buildMask;
+            commandMask = context.commandMask;
+
             // Subscribe after context.inputManager creates controls, but before gameplay input is enabled.
             context.inputManager.MouseMoved         += OnMouseMoved;
             context.inputManager.LeftClick          += OnLeftDown;
@@ -50,12 +57,6 @@ public class InteractionController : MonoBehaviour
             InitHandlers();
         }
 
-    }
-
-    public void SetLayerMasks(LayerMask buildMask, LayerMask commandMask)
-    {
-        this.buildMask = buildMask;
-        this.commandMask = commandMask;
     }
 
     void OnDisable()
@@ -120,10 +121,8 @@ public class InteractionController : MonoBehaviour
             return;
         }
 
-        Debug.Log("HOVERING OVER " + hit.transform.name);
-
         // Updates the hover target with the ray hit
-        target.Update(hit);
+        target.Update(hit, grid);
 
         if (currentHandler != null) currentHandler.OnHover(target);
     }

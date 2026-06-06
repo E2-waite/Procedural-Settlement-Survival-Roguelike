@@ -7,6 +7,12 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     private Camera cam;
+    private WorldGrid grid;
+
+    public void Init(GameContext context)
+    {
+        grid = context.world.Context.grid;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-        GridTile tile = WorldManager.grid.GetTile(targetPos);
+        GridTile tile = grid.GetTile(targetPos);
 
         // Only move if tile is walkable
         if (tile.Walkable())

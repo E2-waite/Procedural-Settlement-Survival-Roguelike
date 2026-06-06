@@ -16,11 +16,11 @@ public class CommandSystem
     // Units in this list respond to player right-click commands.
     private List<FollowerUnit> commanding = new List<FollowerUnit>();
     public bool IsCommanding => commanding.Count > 0;
-    private Player _player;
+    private Player player;
 
-    public CommandSystem(Player player)
+    public CommandSystem(GameContext context)
     {
-        _player = player;
+        player = context.player;
     }
 
     // Commands all following units to interact with the target
@@ -52,7 +52,7 @@ public class CommandSystem
     // Commands all nearby follower units to start following the player
     public void StartCommanding(List<FollowerUnit> nearbyFollowers)
     {
-        if (_player == null) return;
+        if (player == null) return;
 
         // Nearby followers are claimed into the command group before receiving orders.
         foreach (FollowerUnit unit in nearbyFollowers)
@@ -65,7 +65,7 @@ public class CommandSystem
 
         foreach (FollowerUnit unit in commanding)
         {
-            unit.StartCommanding(_player);
+            unit.StartCommanding(player);
         }
     }
 
@@ -78,7 +78,7 @@ public class CommandSystem
             if (!commanding.Contains(unit))
                 commanding.Add(unit);
 
-            unit.StartCommanding(_player);
+            unit.StartCommanding(player);
         }
     }
 

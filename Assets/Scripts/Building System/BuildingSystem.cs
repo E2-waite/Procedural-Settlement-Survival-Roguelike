@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class BuildingSystem
 {
-   // public TileMarker tileMarker;
+    // public TileMarker tileMarker;
     //private BuildingList _buildingList;
+    private WorldGrid grid;
 
     private BuildingStorage storage = new BuildingStorage();
     private BuildingSpawner _spawner;
     private ResourceSystem _resourceSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
-    public BuildingSystem(GameContext context)
+    public BuildingSystem(GameContext gameContext)
     {
-        _spawner = context.buildingSpawner;
-        _resourceSystem = context.resourceSystem;
+        _spawner = gameContext.buildingSpawner;
+        _resourceSystem = gameContext.resourceSystem;
+
+        World world = gameContext.world;
+        grid = world.Context.grid;
     }
 
     public void Select(BuildingObject selection)
@@ -61,7 +65,7 @@ public class BuildingSystem
             {
                 for (int y = tile.position.y; y < tile.position.y + selected.size.y; y++)
                 {
-                    GridTile buildTile = WorldManager.grid.GetTile(new Vector2Int(x, y));
+                    GridTile buildTile = grid.GetTile(new Vector2Int(x, y));
                     buildTile.Build(building);
                 }
             }
@@ -103,7 +107,7 @@ public class BuildingSystem
             {
                 tilePos.x = x;
                 tilePos.y = y;
-                GridTile tile = WorldManager.grid.GetTile(tilePos);
+                GridTile tile = grid.GetTile(tilePos);
 
                 if (tile == null || !tile.Buildable())
                 {

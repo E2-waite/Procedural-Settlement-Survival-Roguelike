@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameContext
 {
     [HideInInspector] public Player player;
+    public World world;
     public InteractionController interactionController;
     public CameraController cameraController;
     public UserInterface userInterface;
@@ -16,4 +17,8 @@ public class GameContext
     public CommandSystem commandSystem;
     public ResourceSystem resourceSystem;
     public InputManager inputManager;
+
+    public LayerMask buildMask;
+    public LayerMask commandMask;
+
 }

@@ -5,6 +5,8 @@ public class Chunk : MonoBehaviour
 {
     public GameObject tilePrefab;
     public Vector2Int position;
+    WorldContext worldContext;
+    World world;
     Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles;
@@ -14,7 +16,7 @@ public class Chunk : MonoBehaviour
 
     float[,] heights;
     public float heightMultiplier = 2.5f, heightScale = 1f;
-    public int size;
+    //public int size;
 
     ChunkResources resources;
     public Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
@@ -32,11 +34,18 @@ public class Chunk : MonoBehaviour
         }
     }
 
+    public void Init(WorldContext worldContext)
+    {
+        this.worldContext = worldContext;
+    }
+
     // Generate this chunk's mesh 
-    public void Generate(WorldGrid grid, Vector2Int pos, int chunkSize, float noiseScale)
+    public void Generate(WorldContext context, Vector2Int pos)
     {
         // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
-        size = chunkSize;
+        int size = context.chunkSize;
+        WorldGrid grid = context.grid;
+
         position = pos;
 
         mesh = new Mesh();
@@ -47,31 +56,31 @@ public class Chunk : MonoBehaviour
 
         int vertexIndex = 0;
 
-        heights = new float[chunkSize + 1, chunkSize + 1];
+        heights = new float[size + 1, size + 1];
 
         // Heights need one extra row/column because each tile samples four corner vertices.
-        for (int x = 0; x < chunkSize + 1; x++)
+        for (int x = 0; x < size + 1; x++)
         {
-            for (int y = 0; y < chunkSize + 1; y++)
+            for (int y = 0; y < size + 1; y++)
             {
-                heights[x, y] = GetHeight(x + position.x * chunkSize, y + position.y * chunkSize, noiseScale) - seaLevel;
+                heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, context.noiseScale) - seaLevel;
                 if (heights[x, y] > 0) heights[x, y] *= heightMultiplier;
                 heights[x, y] = Mathf.Clamp01(heights[x, y]);
 
             }
         }
 
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < size; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < size; y++)
             {
                 // Tile positions are stored in world grid coordinates, not chunk-local coordinates.
-                Vector2Int tilePos = new Vector2Int(x + position.x * chunkSize, y + position.y * chunkSize);
+                Vector2Int tilePos = new Vector2Int(x + position.x * size, y + position.y * size);
 
                 GridTile.TileType tileType = GetTileType(x, y);
                 GridTile tile = new GridTile(this, tileType, tilePos, new Vector3(tilePos.x, 0, tilePos.y));
 
-                grid.SetTile(tilePos, tile);
+                grid.SetTile(tile, tilePos);
                 tiles[new Vector2Int(x, y)] = tile;
                 AddTile(x, y, tile, ref vertexIndex);
             }
@@ -86,7 +95,9 @@ public class Chunk : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
-        resources = new ChunkResources(this);
+        resources = new ChunkResources(worldContext, this);
+
+        grid.SetChunk(this, pos);
     }
 
     public void AddUnit(Unit unit)
@@ -162,7 +173,7 @@ public class Chunk : MonoBehaviour
 
     float GetHeight(float x, float y, float noiseScale)
     {
-        float height = GenerateNoise((x + WorldManager.Instance.seedOffset.x) * noiseScale, (y + WorldManager.Instance.seedOffset.y) * noiseScale);
+        float height = GenerateNoise((x + worldContext.seedOffset.x) * noiseScale, (y + worldContext.seedOffset.y) * noiseScale);
 
         height = Mathf.Clamp01(height);
         height = Mathf.Pow(height, 1.2f);

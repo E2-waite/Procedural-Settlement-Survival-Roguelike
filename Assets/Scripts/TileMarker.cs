@@ -11,7 +11,13 @@ public class TileMarker : MonoBehaviour
 
     private Dictionary<Vector2Int, MeshRenderer> markers = new Dictionary<Vector2Int, MeshRenderer>();
     private Vector2Int maxSize = new Vector2Int(0, 0);
-    private Vector2Int ma;
+    WorldGrid grid;
+
+    public void Init(GameContext context)
+    {
+        World world = context.world;
+        grid = world.Context.grid;
+    }
 
     public void HighlightTiles(Vector2Int highlightPos, Vector2Int selectSize, bool canAfford)
     {
@@ -32,7 +38,7 @@ public class TileMarker : MonoBehaviour
             {
                 tilePos.x = x; 
                 tilePos.y = y;
-                GridTile tile = WorldManager.grid.GetTile(tilePos);
+                GridTile tile = grid.GetTile(tilePos);
 
                 Vector2Int markerPos = new Vector2Int(x - highlightPos.x, y - highlightPos.y);
                 MeshRenderer marker = null;
@@ -71,7 +77,7 @@ public class TileMarker : MonoBehaviour
             {
                 tilePos.x = x;
                 tilePos.y = y;
-                GridTile tile = WorldManager.grid.GetTile(tilePos);
+                GridTile tile = grid.GetTile(tilePos);
 
                 MeshRenderer marker = null;
                 Vector2Int markerPos = new Vector2Int(x - highlightPos.x, y - highlightPos.y);

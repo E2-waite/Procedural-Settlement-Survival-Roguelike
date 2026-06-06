@@ -40,7 +40,7 @@ public class HoverTarget
         }
     }
 
-    public void Update(RaycastHit hit)
+    public void Update(RaycastHit hit, WorldGrid grid)
     {
         if (hit.transform.GetComponentInParent<Unit>() is Unit unit)
         {
@@ -53,13 +53,12 @@ public class HoverTarget
         }
         else
         {
-            GridTile tile = WorldManager.grid.GetTile(hit.point);
+            GridTile tile = grid.GetTile(hit.point);
             if (tile != null)
             {
                 Set(tile);
             }
         }
-            
     }
 
     private void Set(GridTile tile)

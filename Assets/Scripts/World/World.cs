@@ -1,15 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldManager : MonoSingleton<WorldManager>
+public class World : MonoBehaviour
 {
-    public GameObject chunkPrefab;
-    public Vector2Int size;
-    public int chunkSize = 100;
-    public int chunkDistance = 2;
-    public float noiseScale = 0.05f;
-    public Vector2 seedOffset;
-    public static WorldGrid grid;
+    [SerializeField] WorldContext context = new();
+    public WorldContext Context => context;
+
     private HashSet<Vector2Int> activeChunks = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
     private Chunk lastChunk;
@@ -28,8 +24,8 @@ public class WorldManager : MonoSingleton<WorldManager>
     public void GenerateGrid()
     {
         // The seed offset keeps terrain deterministic after generation while varying each new run.
-        seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
-        grid = new WorldGrid(this);
+        context.seedOffset = GenerateSeedOffset(System.DateTime.Now.Ticks.GetHashCode());
+        context.grid = new WorldGrid(context);
 
         // Generate the initial grid
         for (int x = -1; x < 1; x++)
@@ -37,11 +33,11 @@ public class WorldManager : MonoSingleton<WorldManager>
             for (int y = -1; y < 1; y++)
             {
                 Vector2Int chunkPos = new Vector2Int(x, y);
-                GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(chunkPos.x * chunkSize, 0, chunkPos.y * chunkSize), Quaternion.identity);
+                GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(chunkPos.x * context.chunkSize, 0, chunkPos.y * context.chunkSize), Quaternion.identity);
                 Chunk chunk = chunkObj.GetComponent<Chunk>();
-                chunk.Generate(grid, chunkPos, chunkSize, noiseScale);
+                chunk.Init(context);
+                chunk.Generate(context, chunkPos);
                 chunkObj.transform.parent = transform;
-                grid.SetChunk(chunkPos, chunk);
                 chunk.name = "Chunk: " + chunkPos.ToString();
             }
         }
@@ -52,9 +48,9 @@ public class WorldManager : MonoSingleton<WorldManager>
             for (int y = -1; y < 1; y++)
             {
                 Vector2Int chunkPos = new Vector2Int(x, y);
-                if (grid.HasChunk(chunkPos))
+                if (context.grid.HasChunk(chunkPos))
                 {
-                    Chunk chunk = grid.GetChunk(chunkPos);
+                    Chunk chunk = context.grid.GetChunk(chunkPos);
                     UpdateChunkNeighbours(chunk);
                 }
             }
@@ -69,9 +65,9 @@ public class WorldManager : MonoSingleton<WorldManager>
         {
             Vector2Int neighbourPos = chunk.position + Consts.ALL_NEIGHBOURS[i];
 
-            if (grid.HasChunk(neighbourPos))
+            if (context.grid.HasChunk(neighbourPos))
             {
-                Chunk neighbour = grid.GetChunk(neighbourPos);
+                Chunk neighbour = context.grid.GetChunk(neighbourPos);
                 neighbour.AddNeighbour(chunk);
                 chunk.AddNeighbour(neighbour);
             }
@@ -88,9 +84,9 @@ public class WorldManager : MonoSingleton<WorldManager>
         requiredChunks.Clear();
 
         // Build the active window around the current chunk.
-        for (int x = newChunk.position.x - 2; x <= newChunk.position.x + chunkDistance; x++)
+        for (int x = newChunk.position.x - 2; x <= newChunk.position.x + context.chunkDistance; x++)
         {
-            for (int y = newChunk.position.y - 2; y <= newChunk.position.y + chunkDistance; y++)
+            for (int y = newChunk.position.y - 2; y <= newChunk.position.y + context.chunkDistance; y++)
             {
                 requiredChunks.Add(new Vector2Int(x, y));
             }
@@ -99,9 +95,9 @@ public class WorldManager : MonoSingleton<WorldManager>
         // Activate/create required chunks
         foreach (Vector2Int chunkPos in requiredChunks)
         {
-            if (grid.HasChunk(chunkPos))
+            if (context.grid.HasChunk(chunkPos))
             {
-                ActivateChunk(true, grid.GetChunk(chunkPos));
+                ActivateChunk(true, context.grid.GetChunk(chunkPos));
             }
             else
             {
@@ -114,9 +110,9 @@ public class WorldManager : MonoSingleton<WorldManager>
         {
             if (!requiredChunks.Contains(chunkPos))
             {
-                if (grid.HasChunk(chunkPos))
+                if (context.grid.HasChunk(chunkPos))
                 {
-                    ActivateChunk(false, grid.GetChunk(chunkPos));
+                    ActivateChunk(false, context.grid.GetChunk(chunkPos));
                 }
             }
         }
@@ -136,12 +132,13 @@ public class WorldManager : MonoSingleton<WorldManager>
     void CreateChunk(Vector2Int pos)
     {
         // Create a new chunk if there isn't one
-        GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(pos.x * chunkSize, 0, pos.y * chunkSize), Quaternion.identity);
+        GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(pos.x * context.chunkSize, 0, pos.y * context.chunkSize), Quaternion.identity);
         chunkObj.transform.parent = transform;
         Chunk chunk = chunkObj.GetComponent<Chunk>();
-        chunk.Generate(grid, pos, chunkSize, noiseScale);
+        chunk.Init(context);
+        chunk.Generate(context, pos);
         chunk.name = "Chunk: " + pos.ToString();
-        grid.SetChunk(pos, chunk);
+        context.grid.SetChunk(chunk, pos);
         UpdateChunkNeighbours(chunk);
     }
 

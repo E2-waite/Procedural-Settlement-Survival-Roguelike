@@ -6,14 +6,14 @@ public class WorldGrid
     // Central lookup for generated chunks and tiles using world grid coordinates.
     private Dictionary<Vector2Int, Chunk> chunkGrid = new Dictionary<Vector2Int, Chunk>();
     private Dictionary<Vector2Int, GridTile> tileGrid = new Dictionary<Vector2Int, GridTile>();
-    private WorldManager world;
+    private int chunkSize;
 
-    public WorldGrid(WorldManager world)
+    public WorldGrid(WorldContext context)
     {
-        this.world = world;
+        chunkSize = context.chunkSize;
     }
 
-    public void SetChunk(Vector2Int pos, Chunk chunk)
+    public void SetChunk(Chunk chunk, Vector2Int pos)
     {
         chunkGrid[pos] = chunk;
     }
@@ -31,7 +31,7 @@ public class WorldGrid
         return chunk;
     }
 
-    public void SetTile(Vector2Int pos, GridTile tile)
+    public void SetTile(GridTile tile, Vector2Int pos)
     {
         tileGrid[pos] = tile;
     }
@@ -83,7 +83,7 @@ public class WorldGrid
     public Chunk ChunkFromGridPos(Vector2Int pos)
     {
         // Floor division keeps negative grid coordinates in the correct chunk.
-        Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / world.chunkSize), Mathf.FloorToInt((float)pos.y / world.chunkSize));
+        Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt((float)pos.x / chunkSize), Mathf.FloorToInt((float)pos.y / chunkSize));
 
         return GetChunk(chunkPos);
     }

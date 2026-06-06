@@ -22,4 +22,9 @@ public class EnemySystem : MonoSingleton<EnemySystem>
             enemies.Remove(enemy);
         }
     }
+
+    void SpawnEnemy()
+    {
+
+    }
 }

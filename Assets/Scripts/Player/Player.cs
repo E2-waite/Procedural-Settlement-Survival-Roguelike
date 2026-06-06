@@ -14,10 +14,17 @@ public class Player : Damageable
     private float fireCheckTimer = 0f;
     private Chunk chunk;
     public SphereCollider col;
+    private World world;
+    private WorldGrid grid;
 
-    private void Start()
+    public void Init(GameContext context)
     {
+        world = context.world;
+        grid = world.Context.grid;
+
         controller = GetComponent<PlayerController>();
+        controller.Init(context);
+
         fire.Init(fireLight);
         health.Fill();
     }
@@ -70,7 +77,7 @@ public class Player : Damageable
 
     void UpdateChunk()
     {
-        Chunk newChunk = WorldManager.grid.ChunkFromGridPos(GridPos());
+        Chunk newChunk = grid.ChunkFromGridPos(GridPos());
 
         if (newChunk != chunk)
         {
@@ -79,7 +86,7 @@ public class Player : Damageable
             chunk = newChunk;
 
             // Update chunks (disable stale chunks and enable/create active chunks)
-            WorldManager.Instance.HandleChunks(chunk);
+            world.HandleChunks(chunk);
         }
     }
 

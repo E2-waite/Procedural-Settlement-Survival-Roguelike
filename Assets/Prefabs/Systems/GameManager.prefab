@@ -54,18 +54,24 @@ MonoBehaviour:
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
   fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
   enemyPrefab: {fileID: 63626461859941047, guid: 1edab3cc0c8d12b41864e29b157dbf14, type: 3}
-  userInterface: {fileID: 0}
-  buildingSpawner: {fileID: 5310451893114659100}
-  buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
-  resourceDefs: {fileID: 0}
-  tileMarker: {fileID: 0}
-  interactionController: {fileID: 2735292783505724910}
-  buildMask:
-    serializedVersion: 2
-    m_Bits: 64
-  commandMask:
-    serializedVersion: 2
-    m_Bits: 704
+  context:
+    player: {fileID: 0}
+    world: {fileID: 0}
+    interactionController: {fileID: 2735292783505724910}
+    cameraController: {fileID: 0}
+    userInterface: {fileID: 0}
+    buildingSpawner: {fileID: 5310451893114659100}
+    buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
+    resourceDefs: {fileID: 4018351691882853623}
+    tileMarker: {fileID: 0}
+    commandPanel: {fileID: 0}
+    inputManager: {fileID: 4185488873400193997}
+    buildMask:
+      serializedVersion: 2
+      m_Bits: 64
+    commandMask:
+      serializedVersion: 2
+      m_Bits: 704
 --- !u!114 &4185488873400193997
 MonoBehaviour:
   m_ObjectHideFlags: 0

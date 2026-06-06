@@ -32,6 +32,13 @@ public class Unit : Damageable
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected List<Unit> nearbyUnits;
     private bool highlighted = false; // Is the mouse currently hovering over this unit
+    private WorldGrid grid;
+
+    public virtual void Init(GameContext context)
+    {
+        World world = context.world;
+        grid = world.Context.grid;
+    }
 
     protected virtual void Start()
     {
@@ -73,7 +80,7 @@ public class Unit : Damageable
             chunkTimer = chunkInterval;
 
             // Chunk membership powers local enemy/friendly queries for combat and swarming.
-            Chunk newChunk = WorldManager.grid.ChunkFromGridPos(GridPos());
+            Chunk newChunk = grid.ChunkFromGridPos(GridPos());
             if (newChunk != null && newChunk != chunk)
             {
                 if (chunk != null) chunk.RemoveUnit(this);
@@ -260,7 +267,7 @@ public class Unit : Damageable
             {
                 Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
-                GridTile tile = WorldManager.grid.GetTile(tilePos);
+                GridTile tile = grid.GetTile(tilePos);
 
                 if (tile != null && tile.Walkable())
                     pathable[x, y] = true;

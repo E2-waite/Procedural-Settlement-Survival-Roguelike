@@ -75,6 +75,8 @@ public class EnemyUnit : Unit
 
     protected override void OnDeathStart()
     {
+        base.OnDeathStart();
+
         EnemySystem.Instance.RemoveEnemy(this);
     }
     #endregion

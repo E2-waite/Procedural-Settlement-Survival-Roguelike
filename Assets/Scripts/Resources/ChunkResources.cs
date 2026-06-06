@@ -6,38 +6,47 @@ using static GridTile;
 public class ChunkResources
 {
     private const int MAX_BATCH = 1023;
-
     public List<int> ids = new List<int>();
 
     private ResourceNode[] resources;
     private Matrix4x4[] matrices;
     private Matrix4x4[] batchBuffer = new Matrix4x4[MAX_BATCH];
 
-    private Chunk thischunk;
+    private int chunkSize;
+    private WorldGrid grid;
+
+    public Vector2 seedOffset;
+    private Chunk chunk;
     private int count;
 
 
-    public ChunkResources(Chunk chunk)
+    public ChunkResources(WorldContext context, Chunk chunk)
     {
-        //return;
-        thischunk = chunk;
+        this.chunk = chunk;
+        chunkSize = context.chunkSize;
+        seedOffset = context.seedOffset;
+        grid = context.grid;
 
         // Store matrices once at generation time; Render only batches visible resource instances.
-        count = chunk.size * chunk.size;
+        count = chunkSize * chunkSize;
 
         matrices = new Matrix4x4[count];
         resources = new ResourceNode[count];
         int index = 0;
 
-        for (int x = 0; x < chunk.size; x++)
+        for (int x = 0; x < chunkSize; x++)
         {
-            for (int y = 0; y < chunk.size; y++)
+            for (int y = 0; y < chunkSize; y++)
             {
-                Vector3 worldPos = new Vector3(chunk.position.x * chunk.size + x, 0, chunk.position.y * chunk.size + y);
-                float noise = Mathf.PerlinNoise((worldPos.x + WorldManager.Instance.seedOffset.x + 1000) * 0.05f, (worldPos.z + WorldManager.Instance.seedOffset.y + 1000) * 0.05f);
+                Vector3 worldPos = new Vector3(chunk.position.x * chunkSize + x, 0, chunk.position.y * chunkSize + y);
+                
+                float noise = Mathf.PerlinNoise(
+                    (worldPos.x + seedOffset.x + 1000) * 0.05f, 
+                    (worldPos.z + seedOffset.y + 1000) * 0.05f);
+
                 //if (noise > 0.5f)
                 {
-                    GridTile tile = WorldManager.grid.GetTile(worldPos);
+                    GridTile tile = grid.GetTile(worldPos);
 
                     ResourceObject resource = null;
                     float rand = Random.Range(0, 100);
@@ -98,9 +107,6 @@ public class ChunkResources
             {
                 continue;
             }
-
-            //if (lastObj == null)
-            //    lastObj = resource.resourceObj;
 
             if (lastObj != null && (resource.type != lastObj.type || batchCount == MAX_BATCH))
             {

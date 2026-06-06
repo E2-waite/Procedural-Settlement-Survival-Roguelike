@@ -63,6 +63,7 @@ public class FollowerUnit : Unit
     #region Taking Damage
     protected override void OnDeathStart()
     {
+        base.OnDeathStart();
         UnitSystem.Instance.RemoveUnit(this);
     }
 

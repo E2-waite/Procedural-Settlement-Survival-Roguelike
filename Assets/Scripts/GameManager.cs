@@ -9,31 +9,30 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
-    public GameContext context = new GameContext();
-    public LayerMask buildMask;
-    public LayerMask commandMask;
+    [SerializeField] private GameContext context = new GameContext();
 
 
     private void Start()
     {
-        WorldManager.Instance.GenerateGrid();
+        context.world.GenerateGrid();
         GridTile spawnTile = FindSpawnTile();
 
         SpawnPlayer(spawnTile);
+        context.tileMarker.Init(context);
         context.resourceSystem = new ResourceSystem();
-        context.resourceSystem.Init();
+        context.resourceSystem.Init(context);
         context.buildingSystem = new BuildingSystem(context);
-        context.commandSystem = new CommandSystem(context.player);
+        context.commandSystem = new CommandSystem(context);
         context.inputManager.Init();
         context.interactionController.Init(context);
-        context.interactionController.SetLayerMasks(buildMask, commandMask);
         context.userInterface.Init(context);
         context.inputManager.EnableGameplayInput();
         context.cameraController.Init(context);
         SpawnFire(spawnTile);
         SpawnWorker(spawnTile);
         SpawnFighter(spawnTile);
-        WorldManager.Instance.HandleChunks(spawnTile.chunk);
+        SpawnEnemy(spawnTile);
+        context.world.HandleChunks(spawnTile.chunk);
     }
 
     private void SpawnFire(GridTile tile)
@@ -47,6 +46,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         GameObject playerObj = Instantiate(playerPrefab, tile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
         context.player = playerObj.GetComponent<Player>();
+        context.player.Init(context);
     }
 
     private void SpawnWorker(GridTile tile)
@@ -58,16 +58,26 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void SpawnFighter(GridTile tile)
     {
-        Instantiate(fighterPrefab, tile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
-        Instantiate(enemyPrefab,  tile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+        GameObject fighterObj = Instantiate(fighterPrefab, tile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
+        FighterUnit fighter = fighterObj.GetComponent<FighterUnit>();
+        fighter.Init(context);
+    }
+
+    private void SpawnEnemy(GridTile tile)
+    {
+        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+        EnemyUnit enemy = enemyObj.GetComponent<EnemyUnit>();
+        enemy.Init(context);
     }
 
     GridTile FindSpawnTile()
     {
         List<GridTile> validTiles = new List<GridTile>();
+        World world = context.world;
+        WorldGrid grid = world.Context.grid;
 
         // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
-        foreach (GridTile tile in WorldManager.grid.Tiles())
+        foreach (GridTile tile in grid.Tiles())
         {
             bool valid = true;
 
@@ -77,7 +87,7 @@ public class GameManager : MonoSingleton<GameManager>
 
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {
-                GridTile neighbourTile = WorldManager.grid.GetTile(tile.position + neighbourPos);
+                GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
                 if (neighbourTile == null || !neighbourTile.IsEmpty())
                 {
                     valid = false;

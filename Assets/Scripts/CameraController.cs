@@ -14,31 +14,26 @@ public class CameraController : MonoBehaviour
     public float maxScroll = 50;
 
     private Vector3 followOffset = new Vector3(-10, 10, -10);
+    private bool initialized = false;
+
     public void Init(GameContext context)
     {
         player = context.player;
-    }
 
+        Vector3 targetPos = player.transform.position + followOffset;
+        targetPos.y = transform.position.y;
+        transform.position = targetPos;
+
+        initialized = true;
+    }
 
     void Update()
     {
-        if (player == null)
-        {
-            InitCamera();
-        }
-        else
+        if (initialized)
         {
             FollowPlayer();
             currentVelocity = Vector3.zero;
         }
-    }
-
-    void InitCamera()
-    {
-        Vector3 targetPos = player.transform.position + followOffset;
-
-        targetPos.y = transform.position.y;
-        transform.position = targetPos;
     }
 
     void FollowPlayer()

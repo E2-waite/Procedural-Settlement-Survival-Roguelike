@@ -9,6 +9,8 @@ public class ResourceSystem
     public ResourceObject stoneObj;
     public int maxSearchRange = 10;
 
+    private WorldGrid grid;
+
     private static readonly Vector2Int[] Directions =
     {
         new Vector2Int(1, 0),
@@ -21,8 +23,11 @@ public class ResourceSystem
     {
     }
 
-    public void Init()
+    public void Init(GameContext context)
     {
+        World world = context.world;
+        grid = world.Context.grid;
+
         // Starting resources are initialized explicitly by GameManager during startup.
         storage = new ResourceStorage();
         storage.Add(ResourceNode.Type.Wood, 25);
@@ -80,7 +85,7 @@ public class ResourceSystem
             // Skip nodes outside of range
             if (distance > maxSearchRange) continue;
 
-            GridTile currentTile = WorldManager.grid.GetTile(currentPos);
+            GridTile currentTile = grid.GetTile(currentPos);
 
             if (currentTile == null) continue;
 

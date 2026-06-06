@@ -430,6 +430,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05142328ded2f644a9db5e4912d2d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1015048885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7265013926243679063, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+  m_PrefabInstance: {fileID: 8997166019633783113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e4e120204046645852e7cf21a3da34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1030624925
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +676,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1784860377}
     - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
+      propertyPath: context.world
+      value: 
+      objectReference: {fileID: 1015048885}
+    - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
       propertyPath: userInterface
       value: 
       objectReference: {fileID: 783607366}
@@ -697,9 +712,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 49959721}
     - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
+      propertyPath: context.buildMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
       propertyPath: context.cameraController
       value: 
       objectReference: {fileID: 1368042803}
+    - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
+      propertyPath: context.commandMask.m_Bits
+      value: 704
+      objectReference: {fileID: 0}
     - target: {fileID: 4710643134306229886, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
       propertyPath: context.interactionController
       value: 
@@ -846,6 +869,18 @@ PrefabInstance:
     - target: {fileID: 3775687841741434220, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: m_Name
       value: World
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265013926243679063, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.chunkPrefab
+      value: 
+      objectReference: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
+    - target: {fileID: 7265013926243679063, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.startSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265013926243679063, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.startSize.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8347044527720904991, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: m_LocalPosition.x

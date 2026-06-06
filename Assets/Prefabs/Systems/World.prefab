@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e4e120204046645852e7cf21a3da34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
-  size: {x: 3, y: 3}
-  chunkSize: 100
-  chunkDistance: 2
-  noiseScale: 0.05
-  seedOffset: {x: 0, y: 0}
+  context:
+    chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
+    startSize: {x: 3, y: 3}
+    chunkSize: 100
+    chunkDistance: 2
+    noiseScale: 0.05
+    seedOffset: {x: 0, y: 0}
