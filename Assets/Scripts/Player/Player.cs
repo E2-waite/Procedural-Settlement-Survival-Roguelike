@@ -14,13 +14,14 @@ public class Player : Damageable
     private float fireCheckTimer = 0f;
     private Chunk chunk;
     public SphereCollider col;
-    private World world;
     private WorldGrid grid;
+    private ChunkStreaming chunkStreaming;
     private FireSystem fireSystem;
 
     public void Init(GameContext context)
     {
-        world = context.world;
+        chunkStreaming = context.chunkStreaming;
+        World world = context.world;
         grid = world.Context.grid;
         fireSystem = context.fireSystem;
 
@@ -87,7 +88,7 @@ public class Player : Damageable
             chunk = newChunk;
 
             // Update chunks (disable stale chunks and enable/create active chunks)
-            world.HandleChunks(chunk);
+            chunkStreaming.UpdateChunks(chunk);
         }
     }
 

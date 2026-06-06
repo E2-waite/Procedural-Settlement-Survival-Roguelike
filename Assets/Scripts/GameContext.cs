@@ -21,6 +21,7 @@ public class GameContext
     public EnemySystem enemySystem;
     public FireSystem fireSystem;
     public InputManager inputManager;
+    public ChunkStreaming chunkStreaming;
 
     public LayerMask buildMask;
     public LayerMask commandMask;

@@ -14,7 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        context.world.GenerateGrid();
+        context.world.Generate(context);
         GridTile spawnTile = FindSpawnTile();
         context.fireSystem = new FireSystem();
 
@@ -36,7 +36,8 @@ public class GameManager : MonoSingleton<GameManager>
         SpawnWorker(spawnTile);
         SpawnFighter(spawnTile);
         SpawnEnemy(spawnTile);
-        context.world.HandleChunks(spawnTile.chunk);
+        context.chunkStreaming.Init(context.world);
+        context.world.InitStartChunks();
     }
 
     private void SpawnFire(GridTile tile)

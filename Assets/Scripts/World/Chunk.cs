@@ -36,8 +36,9 @@ public class Chunk : MonoBehaviour
     {
         this.world = world;
 
-        // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
         int size = world.Context.chunkSize;
+
+        // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
         WorldGrid grid = world.Context.grid;
 
         position = pos;
