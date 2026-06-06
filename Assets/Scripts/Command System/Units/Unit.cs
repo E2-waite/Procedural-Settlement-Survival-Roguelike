@@ -33,11 +33,12 @@ public class Unit : Damageable
     protected List<Unit> nearbyUnits;
     private bool highlighted = false; // Is the mouse currently hovering over this unit
     private WorldGrid grid;
-
+    protected FireSystem fireSystem;
     public virtual void Init(GameContext context)
     {
         World world = context.world;
         grid = world.Context.grid;
+        fireSystem = context.fireSystem;
     }
 
     protected virtual void Start()

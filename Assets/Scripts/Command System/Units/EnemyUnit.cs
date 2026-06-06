@@ -41,11 +41,10 @@ public class EnemyUnit : Unit
     {
         fireCheckTimer = fireCheckInterval;
 
-        List<FireBuilding> fires = FireHandler.Instance.fireBuildings;
         FireBuilding closest = null;
         float closestDist = float.MaxValue;
 
-        foreach (FireBuilding fire in fires)
+        foreach (FireBuilding fire in fireSystem.Buildings)
         {
             float dist = Vector3.Distance(transform.position, fire.transform.position);
             if (dist < closestDist && dist < fireDetectDist)

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireHandler : MonoSingleton<FireHandler>
+public class FireSystem
 {
-    public List<FireBuilding> fireBuildings = new List<FireBuilding>();
+    private List<FireBuilding> fireBuildings = new List<FireBuilding>();
+    public List<FireBuilding> Buildings => fireBuildings;
 
     public void Add(FireBuilding building)
     {

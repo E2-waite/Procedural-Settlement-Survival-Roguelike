@@ -9,16 +9,17 @@ public class BuildingSystem
     private WorldGrid grid;
 
     private BuildingStorage storage = new BuildingStorage();
-    private BuildingSpawner _spawner;
-    private ResourceSystem _resourceSystem;
+    private BuildingSpawner spawner;
+    private ResourceSystem resourceSystem;
+    private FireSystem fireSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
-    public BuildingSystem(GameContext gameContext)
+    public BuildingSystem(GameContext context)
     {
-        _spawner = gameContext.buildingSpawner;
-        _resourceSystem = gameContext.resourceSystem;
-
-        World world = gameContext.world;
+        spawner = context.buildingSpawner;
+        resourceSystem = context.resourceSystem;
+        fireSystem = context.fireSystem;
+        World world = context.world;
         grid = world.Context.grid;
     }
 
@@ -33,7 +34,7 @@ public class BuildingSystem
         {
             for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
             {
-                if (_resourceSystem.GetResourceCount(i) < selected.Cost.Get(i))
+                if (resourceSystem.GetResourceCount(i) < selected.Cost.Get(i))
                     return false;
             }
 
@@ -50,14 +51,18 @@ public class BuildingSystem
         // Placement, affordability, resource payment, and tile ownership are committed together.
         if (CanBuild(tile.position, selected.size) && CanAfford(selected))
         {
-            Building building = _spawner.Spawn(selected, tile);
+            Building building = spawner.Spawn(selected, tile);
 
             ConsumeResources(selected);
             storage.Add(building);
 
             if (building is ResourceBuilding)
             {
-                ((ResourceBuilding)building).Init(_resourceSystem);
+                ((ResourceBuilding)building).Init(resourceSystem);
+            }
+            else if (building is FireBuilding)
+            {
+                ((FireBuilding)building).Init(fireSystem);
             }
 
             // Assign buildings to appropriate tiles
@@ -82,7 +87,7 @@ public class BuildingSystem
     {
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            if (_resourceSystem.GetResourceCount(i) < building.Cost.Get(i))
+            if (resourceSystem.GetResourceCount(i) < building.Cost.Get(i))
                 return false;
         }
 
@@ -93,7 +98,7 @@ public class BuildingSystem
     {
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
-            _resourceSystem.ConsumeResource(i, building.Cost.Get(i));
+            resourceSystem.ConsumeResource(i, building.Cost.Get(i));
         }
     }
 

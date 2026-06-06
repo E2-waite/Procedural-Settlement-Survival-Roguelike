@@ -16,11 +16,13 @@ public class Player : Damageable
     public SphereCollider col;
     private World world;
     private WorldGrid grid;
+    private FireSystem fireSystem;
 
     public void Init(GameContext context)
     {
         world = context.world;
         grid = world.Context.grid;
+        fireSystem = context.fireSystem;
 
         controller = GetComponent<PlayerController>();
         controller.Init(context);
@@ -48,11 +50,10 @@ public class Player : Damageable
     {
         fireCheckTimer = fireCheckInterval;
 
-        List<FireBuilding> fires = FireHandler.Instance.fireBuildings;
         FireBuilding closest = null;
         float closestDist = float.MaxValue;
 
-        foreach (FireBuilding fire in fires)
+        foreach (FireBuilding fire in fireSystem.Buildings)
         {
             float dist = Vector3.Distance(transform.position, fire.transform.position);
             if (dist < closestDist && dist < fireLightDist)

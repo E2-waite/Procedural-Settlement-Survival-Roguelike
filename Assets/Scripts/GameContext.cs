@@ -12,10 +12,12 @@ public class GameContext
     public BuildingCatalog buildingCatalog;
     public ResourceDefs resourceDefs;
     public TileMarker tileMarker;
+    public ResourcesPanel resourcePanel;
     public CommandPanel commandPanel;
     public BuildingSystem buildingSystem;
     public CommandSystem commandSystem;
     public ResourceSystem resourceSystem;
+    public FireSystem fireSystem;
     public InputManager inputManager;
 
     public LayerMask buildMask;

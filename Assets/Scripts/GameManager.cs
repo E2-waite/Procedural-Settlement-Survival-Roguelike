@@ -16,6 +16,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         context.world.GenerateGrid();
         GridTile spawnTile = FindSpawnTile();
+        context.fireSystem = new FireSystem();
 
         SpawnPlayer(spawnTile);
         context.tileMarker.Init(context);
@@ -39,6 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         GameObject fireObj = Instantiate(firePrefab, tile.worldPosition, Quaternion.identity);
         FireBuilding fireBuilding = fireObj.GetComponent<FireBuilding>();
+        fireBuilding.Init(context.fireSystem);
         tile.Build(fireBuilding);
     }
 

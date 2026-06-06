@@ -8,7 +8,7 @@ public class ResourceSystem
     public ResourceObject treeObj;
     public ResourceObject stoneObj;
     public int maxSearchRange = 10;
-
+    private ResourcesPanel panel;
     private WorldGrid grid;
 
     private static readonly Vector2Int[] Directions =
@@ -19,19 +19,16 @@ public class ResourceSystem
         new Vector2Int(0, -1)
     };
 
-    public ResourceSystem()
-    {
-    }
-
     public void Init(GameContext context)
     {
         World world = context.world;
         grid = world.Context.grid;
+        panel = context.resourcePanel;
 
         // Starting resources are initialized explicitly by GameManager during startup.
         storage = new ResourceStorage();
         storage.Add(ResourceNode.Type.Wood, 25);
-        ResourcesPanel.Instance.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));
+        panel.UpdateCount(0, storage.Get(ResourceNode.Type.Wood));
     }
 
     public int GetResourceCount(ResourceNode.Type type)
@@ -42,14 +39,14 @@ public class ResourceSystem
     public void StoreResource(ResourceNode.Type type, int count)
     {
         storage.Add(type, count);
-        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
+        panel.UpdateCount(type, storage.Get(type));
     }
 
     public void ConsumeResource(ResourceNode.Type type, int count)
     {
         storage.Remove(type, count);
 
-        ResourcesPanel.Instance.UpdateCount(type, storage.Get(type));
+        panel.UpdateCount(type, storage.Get(type));
     }
 
     // Searches for the closest neighbouring resource node

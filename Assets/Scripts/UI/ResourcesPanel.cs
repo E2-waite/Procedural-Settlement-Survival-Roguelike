@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class ResourcesPanel : MonoSingleton<ResourcesPanel>
+public class ResourcesPanel : MonoBehaviour
 {
     public TMP_Text[] resourceCounts = new TextMeshPro[(int)ResourceNode.Type.Max];
 
