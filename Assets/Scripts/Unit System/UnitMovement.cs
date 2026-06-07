@@ -13,6 +13,7 @@ public class UnitMovement
     protected GridTile targetTile;
 
     public GridTile TargetTile => targetTile;
+    public bool ReachedTarget => pathIndex >= path.Count;
 
     Unit unit;
 
@@ -75,6 +76,8 @@ public class UnitMovement
     protected Vector3 SwarmDirection()
     {
         List<Unit> friendlyUnits = unit.GetNearbyFriendly();
+
+        if (friendlyUnits == null) return Vector3.zero;
 
         Vector3 separation = Vector3.zero;
         foreach (Unit nearby in friendlyUnits)

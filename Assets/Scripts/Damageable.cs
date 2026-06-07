@@ -20,12 +20,7 @@ public class Damageable : MonoBehaviour
     public float deathTime = 0.5f;
     private bool dead = false;
     public bool IsDead => dead;
-
-    // Converts world position to grid position
-    public Vector2Int GridPos()
-    {
-        return new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
-    }
+    public Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
     // Handles receiving hits from units. Returns true if target is dead
     public virtual bool Hit(float damage, Damageable source)

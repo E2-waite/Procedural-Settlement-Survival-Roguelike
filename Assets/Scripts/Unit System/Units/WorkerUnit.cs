@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorkerUnit : FollowerUnit
@@ -95,7 +94,7 @@ public class WorkerUnit : FollowerUnit
         if (storage.AtCapacity())
         {
             // Find closest resource store
-            ResourceBuilding closestStore = buildingSystem.GetClosestStore(ResourceNode.Type.Wood, GridPos());
+            ResourceBuilding closestStore = buildingSystem.GetClosestStore(ResourceNode.Type.Wood, GridPos);
             if (closestStore == null)
             {
                 SetState(State.Idle);

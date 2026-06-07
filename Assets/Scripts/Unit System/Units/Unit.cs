@@ -17,6 +17,7 @@ public class Unit : Damageable
 
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public UnitMovement movement;
+    public UnitMovement Movement => movement;
     public override TargetType Type => TargetType.Unit;
     public SpriteRenderer unitSprite;
     public SpriteRenderer markerSprite;
@@ -85,7 +86,7 @@ public class Unit : Damageable
             chunkTimer = chunkInterval;
 
             // Chunk membership powers local enemy/friendly queries for combat and swarming.
-            Chunk newChunk = grid.ChunkFromGridPos(GridPos());
+            Chunk newChunk = grid.ChunkFromGridPos(GridPos);
             if (newChunk != null && newChunk != chunk)
             {
                 if (chunk != null) chunk.RemoveUnit(this);
@@ -217,8 +218,6 @@ public class Unit : Damageable
 
             SetState(State.Combat);
 
-            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(unit.transform.position.x), Mathf.FloorToInt(unit.transform.position.z));
-
             RequestPath(Combat.TargetPos(), unit.transform.position);
         }
     }
@@ -253,7 +252,7 @@ public class Unit : Damageable
     {
         movement.ClearPath();
 
-        Vector2Int start = GridPos();
+        Vector2Int start = GridPos;
         Vector3 targetPos = worldPos;
 
         pathRequested = true;

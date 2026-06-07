@@ -1,8 +1,6 @@
-using UnityEngine;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 public class Pathfinding
 {
     // Plain-data request so pathfinding can run safely away from Unity's main thread.

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
@@ -38,6 +37,8 @@ public class CameraController : MonoBehaviour
 
     void FollowPlayer()
     {
+        if (player == null) return;
+
         Vector3 targetPos =
             player.transform.position + followOffset;
 

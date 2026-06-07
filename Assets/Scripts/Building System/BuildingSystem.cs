@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class BuildingSystem
@@ -54,6 +53,8 @@ public class BuildingSystem
         if (CanBuild(tile.position, selected.size) && CanAfford(selected))
         {
             Building building = spawner.Spawn(selected, tile);
+
+            if (building == null) return false;
 
             ConsumeResources(selected);
             storage.Add(building);

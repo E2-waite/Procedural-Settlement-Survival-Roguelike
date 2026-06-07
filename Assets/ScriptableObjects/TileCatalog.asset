@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1cd9b4ac250424a9758e97bbeeac83, type: 3}
   m_Name: TileCatalog
   m_EditorClassIdentifier: 
-  water: {fileID: 0}
-  sand: {fileID: 0}
-  grass: {fileID: 0}
-  forest: {fileID: 0}
+  water: {fileID: 11400000, guid: d3f3fd787aee6ea458514724e086b30c, type: 2}
+  sand: {fileID: 11400000, guid: 667bb9e1cd81f2944b8028a1741cb45e, type: 2}
+  grass: {fileID: 11400000, guid: ed8e4a6d583f521449de6327b5cac33c, type: 2}
+  forest: {fileID: 11400000, guid: 3efbb5557b3290d44a3c60859b310eac, type: 2}

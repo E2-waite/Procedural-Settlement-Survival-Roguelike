@@ -118,6 +118,8 @@ public class UnitCombat
 
     public void AddTargets(List<Unit> newTarget)
     {
+        if (newTarget == null) return;
+
         // Detection can run repeatedly, so avoid adding duplicate candidates.
         foreach (Unit targetUnit in newTarget)
         {
@@ -228,7 +230,7 @@ public class UnitCombat
     // Returns the target's grid position
     public Vector2Int TargetPos()
     {
-        return currentTarget.GridPos();
+        return currentTarget.GridPos;
     }
 
     // Returns true if we have a target
@@ -271,7 +273,7 @@ public class UnitCombat
     void Chase()
     {
         // Request a new path only when there is no active path or pending request.
-        if (!unit.pathRequested && !unit.movement.HasPath)
+        if (!unit.pathRequested && unit.Movement.TargetReached)
         {
             unit.RequestPath(TargetPos(), currentTarget.transform.position);
         }

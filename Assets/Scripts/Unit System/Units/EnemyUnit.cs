@@ -8,6 +8,7 @@ public class EnemyUnit : Unit
 
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
+    Player player;
     FireBuilding targetFire;
     EnemySystem enemySystem;
     public override void Init(GameContext context)
@@ -15,6 +16,9 @@ public class EnemyUnit : Unit
         base.Init(context);
         enemySystem = context.enemySystem;
         enemySystem.AddEnemy(this);
+        player = context.player;
+        TargetPlayer();
+
     }
 
     protected override void Update()
@@ -54,6 +58,20 @@ public class EnemyUnit : Unit
         }
 
         return closest;
+    }
+
+    private void TargetPlayer()
+    {
+        if (player == null) return;
+        if (Combat != null && player != null)
+        {
+            Combat.Target(player);
+
+            SetState(State.Combat);
+
+            RequestPath(Combat.TargetPos(), player.transform.position);
+        }
+
     }
 
     #region Taking Damage

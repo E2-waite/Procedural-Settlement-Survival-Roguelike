@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
 
 [System.Serializable]
 public class ChunkSaveData

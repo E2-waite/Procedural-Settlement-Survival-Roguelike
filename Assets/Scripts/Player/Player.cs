@@ -79,7 +79,7 @@ public class Player : Damageable
 
     void UpdateChunk()
     {
-        Chunk newChunk = grid.ChunkFromGridPos(GridPos());
+        Chunk newChunk = grid.ChunkFromGridPos(GridPos);
 
         if (newChunk != chunk)
         {

@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2c3581688a831448daa8d7b7bfbde1, type: 3}
-  m_Name: Water
+  m_Script: {fileID: 11500000, guid: c1d916f64e11c654e8d7f12957a10861, type: 3}
+  m_Name: EnemyCatalog
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0.42249727, b: 0.4716981, a: 1}
-  material: {fileID: 0}
+  testEnemy: {fileID: 11400000, guid: f078745f4d5ef0a49ba706bf8c8f82d1, type: 2}
