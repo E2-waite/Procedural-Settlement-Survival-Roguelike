@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GridTile;
 
 public class Chunk : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Chunk : MonoBehaviour
     public List<Unit> followers = new List<Unit>();
     public List<Unit> enemies = new List<Unit>();
     public  List<Chunk> neighbouringChunks = new List<Chunk>();
+    private TileCatalog tileCatalog;
+
     public void AddNeighbour(Chunk chunk)
     {
         if (!neighbouringChunks.Contains(chunk))
@@ -35,7 +38,7 @@ public class Chunk : MonoBehaviour
     public void Init(World world, Vector2Int pos)
     {
         this.world = world;
-
+        tileCatalog = world.Context.tileCatalog;
         int size = world.Context.chunkSize;
 
         // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
@@ -72,7 +75,7 @@ public class Chunk : MonoBehaviour
                 // Tile positions are stored in world grid coordinates, not chunk-local coordinates.
                 Vector2Int tilePos = new Vector2Int(x + position.x * size, y + position.y * size);
 
-                GridTile.TileType tileType = GetTileType(x, y);
+                TileType tileType = GetTileType(x, y);
                 GridTile tile = new GridTile(this, tileType, tilePos, new Vector3(tilePos.x, 0, tilePos.y));
 
                 grid.SetTile(tile, tilePos);
@@ -208,7 +211,7 @@ public class Chunk : MonoBehaviour
         index += 4;
     }
 
-    GridTile.TileType GetTileType(int x, int y)
+    TileType GetTileType(int x, int y)
     {
         // A tile is water only if all four corners are below sea level.
         bool allWater = true;
@@ -226,7 +229,7 @@ public class Chunk : MonoBehaviour
 
         if (allWater)
         {
-            return GridTile.TileType.Water;
+            return TileType.Water;
         }
         else
         {
@@ -238,37 +241,37 @@ public class Chunk : MonoBehaviour
 
             if (height < .25f)
             {
-                return GridTile.TileType.Sand;
+                return TileType.Sand;
             }
             else if (height < .5f)
             {
-                return GridTile.TileType.Grass;
+                return TileType.Grass;
             }
             else
             {
-                return GridTile.TileType.Forest;
+                return TileType.Forest;
             }
         }
     }
 
 
-    Color ColorFromType(GridTile.TileType tileType)
+    Color ColorFromType(TileType tileType)
     {
-        if (tileType == GridTile.TileType.Water)
+        if (tileType == TileType.Water)
         {
-            return Color.blue;
+            return tileCatalog.water.color;
         }
-        else if (tileType == GridTile.TileType.Sand)
+        else if (tileType == TileType.Sand)
         {
-            return Color.yellow;
+            return tileCatalog.sand.color;
         }
-        else if (tileType == GridTile.TileType.Grass)
+        else if (tileType == TileType.Grass)
         {
-            return Color.forestGreen;
+            return tileCatalog.grass.color;
         }
         else
         {
-            return Color.darkGreen;
+            return tileCatalog.forest.color;
         }
     }
 

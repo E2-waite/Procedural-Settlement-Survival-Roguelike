@@ -904,6 +904,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 7265013926243679063, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.tileCatalog
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cc7e6027d3651c4aabc99d538ae6a42, type: 2}
     - target: {fileID: 8347044527720904991, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.23301
