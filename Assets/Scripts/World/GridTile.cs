@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
+[System.Serializable]
 public class GridTile
 {
     public enum TileType
@@ -83,8 +84,8 @@ public class GridTile
     public bool Walkable()
     {
         //return true;
-        return type != TileType.Water;
-        //return tileType != TileType.Water && building == null && resource == null;
+        //return type != TileType.Water && resource == ;
+        return type != TileType.Water && building == null && resource == null;
     }
  
     public bool Buildable()

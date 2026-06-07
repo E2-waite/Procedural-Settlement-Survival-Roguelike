@@ -11,13 +11,15 @@ public class EnemyUnit : Unit
     Player player;
     FireBuilding targetFire;
     EnemySystem enemySystem;
+    MainFireBuilding mainFire;
     public override void Init(GameContext context)
     {
         base.Init(context);
         enemySystem = context.enemySystem;
         enemySystem.AddEnemy(this);
         player = context.player;
-        TargetPlayer();
+        mainFire = context.mainFireBuilding;
+        TargetFire();
 
     }
 
@@ -60,18 +62,17 @@ public class EnemyUnit : Unit
         return closest;
     }
 
-    private void TargetPlayer()
+    private void TargetFire()
     {
         if (player == null) return;
-        if (Combat != null && player != null)
+        if (Combat != null && mainFire != null)
         {
-            Combat.Target(player);
+            Combat.Target(mainFire);
 
             SetState(State.Combat);
 
-            RequestPath(Combat.TargetPos(), player.transform.position);
+            RequestPath(Combat.TargetPos(), mainFire.transform.position);
         }
-
     }
 
     #region Taking Damage

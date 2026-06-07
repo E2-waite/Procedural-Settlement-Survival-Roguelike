@@ -5,20 +5,20 @@ public class FighterUnit : FollowerUnit
 {
     [SerializeField] public UnitCombat combat = new UnitCombat();
     public override UnitCombat Combat => combat;
+    public float searchDist = 10f; // Only target enemies within this distance when scanning
 
     void SearchForHostile()
     {
         // Find hostile units
         List<Unit> hostile = GetNearbyHostile();
 
-        // Add nearby hostile targets to target candidates
-        Combat.AddTargets(hostile);
-
-        // Set to combat state if targets exist
-        if (Combat.HasTargets)
+        foreach (Unit hostileUnit in hostile)
         {
-            SetState(State.Combat);
+            Combat.AddTarget(hostileUnit, 10f);
         }
+
+        // Add nearby hostile targets to target candidates
+        //Combat.AddTargets(hostile);
     }
 
     public void Init(WorkerUnit unit)
@@ -48,7 +48,10 @@ public class FighterUnit : FollowerUnit
     public override void Command(GridTile tile)
     {
         if (tile == null) return;
-        bool handled = false;
+
+        bool handled = true;
+        SetState(State.Combat);
+        Combat.DefendTile(tile);
 
         if (!handled)
             base.Command(tile);

@@ -11,6 +11,7 @@ public class GameContext
     public PathfindingHandler pathfinding;
 
     public TileMarker tileMarker;
+    public MainFireBuilding mainFireBuilding;
     public ResourcesPanel resourcePanel;
     public CommandPanel commandPanel;
     public CommandSystem commandSystem;

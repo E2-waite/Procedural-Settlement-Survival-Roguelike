@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health:
     current: 0
-    max: 100
+    max: 1000
   deathTime: 0.5
   fireLight: {fileID: 705921184901987953}
   sprite:

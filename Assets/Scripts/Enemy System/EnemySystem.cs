@@ -9,7 +9,7 @@ public class EnemySystem
     private EnemySpawner spawner;
     private EnemyCatalog catalog;
     private GameContext gameContext;
-    private float spawnTimer = 0, spawnInterval = 5f;
+    private float spawnTimer = 0, spawnInterval = 15;
     int minDist = 10, maxDist = 25;
 
     public void Init(GameContext context)

@@ -89,17 +89,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 3092913945188860916}
     - targetCorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4641106469875735490}
   m_SourcePrefab: {fileID: 100100000, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
---- !u!212 &4334050615722831168 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2032888558724608857, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
-  m_PrefabInstance: {fileID: 2311438758458990105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4515021916246453854 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
@@ -119,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health:
     current: 0
-    max: 100
+    max: 1000
   deathTime: 0.5
   sprite:
     spriteRenderer: {fileID: 0}
@@ -134,7 +129,6 @@ MonoBehaviour:
     path: []
   unitSprite: {fileID: 8791788528999512610}
   markerSprite: {fileID: 5095708431926090062}
-  hoverSprite: {fileID: 4334050615722831168}
   state: 0
   lastState: 0
   chunkInterval: 1
@@ -147,7 +141,7 @@ MonoBehaviour:
     state: 0
     lastState: 0
     attackDist: 1
-    attackDamage: 10
+    attackDamage: 25
     currentTarget: {fileID: 0}
 --- !u!95 &-4641106469875735490
 Animator:

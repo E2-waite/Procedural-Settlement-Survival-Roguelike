@@ -42,7 +42,7 @@ public class GameBootstrapper : MonoBehaviour
         SpawnFire(spawnTile);
         SpawnWorker(spawnTile);
         SpawnFighter(spawnTile);
-        SpawnEnemy(spawnTile);
+        //SpawnEnemy(spawnTile);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
         Manager.Init(context);
@@ -65,9 +65,10 @@ public class GameBootstrapper : MonoBehaviour
     private void SpawnFire(GridTile tile)
     {
         GameObject fireObj = Instantiate(firePrefab, tile.worldPosition, Quaternion.identity);
-        FireBuilding fireBuilding = fireObj.GetComponent<FireBuilding>();
+        MainFireBuilding fireBuilding = fireObj.GetComponent<MainFireBuilding>();
         fireBuilding.Init(context.fireSystem);
         tile.Build(fireBuilding);
+        context.mainFireBuilding = fireBuilding;
     }
 
     // Spawns the player

@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class UnitMovement
 {
-    [SerializeField] public float moveSpeed = 10f, pathWeight = 2f, swarmWeight = 1f;
+    [SerializeField] public float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
     public List<Vector2Int> path = new List<Vector2Int>();
     private float reachedThresh = .25f, swarmRadius = .5f;
     protected int pathIndex = 0;

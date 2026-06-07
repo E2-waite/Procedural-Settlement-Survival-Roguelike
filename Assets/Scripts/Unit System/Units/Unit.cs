@@ -200,7 +200,7 @@ public class Unit : Damageable
 
         if (!died && Combat != null)
         {
-            Combat.AddThreat(source, 5);
+            Combat.AddTarget(source, 5);
         }
 
         return died;

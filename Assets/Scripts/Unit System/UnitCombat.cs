@@ -13,7 +13,7 @@ public class UnitCombat
         Fleeing
     }
 
-    public class ThreatCandidate
+    public class TargetCandidate
     {
         public Damageable target;
         public float threat;
@@ -28,7 +28,8 @@ public class UnitCombat
     protected float attackInterval = 0.5f, attackTimer = 0;
     public Damageable currentTarget;
     // Potential targets decay over time so units eventually stop caring about distant threats.
-    List<ThreatCandidate> targetCandidates = new List<ThreatCandidate>();
+    List<TargetCandidate> targetCandidates = new List<TargetCandidate>();
+    [SerializeField] private GridTile defendingTile = null;
 
     public void Init(Unit unit)
     {
@@ -41,6 +42,11 @@ public class UnitCombat
         {
             lastState = this.state;
             this.state = state;
+
+            if (state == CombatState.Defending && defendingTile != null)
+            {
+                unit.RequestPath(defendingTile.position, defendingTile.worldPosition);
+            }
         }
     }
 
@@ -97,66 +103,62 @@ public class UnitCombat
         }
     }
 
+    public void DefendTile(GridTile tile)
+    {
+        defendingTile = tile;
+        SetState(CombatState.Defending);
+        unit.RequestPath(defendingTile.position, defendingTile.worldPosition);
+    }
+
     public bool HasTargets => targetCandidates.Count > 0;
 
     // Gets the candidate with the highest threat and targets it
     private void CheckTargets()
     {
-        ThreatCandidate highestThreat = HighestThreat();
+        TargetCandidate highestThreat = HighestThreat();
 
         if (highestThreat != null && highestThreat.target != currentTarget)
         {
             // TODO: have a threshold to ensure it doesn't continuously switch targets when threat is close
             Target(highestThreat.target);
         }
-        else if (highestThreat == null && currentTarget == null)
-        {
-            // No target
-            SetState(CombatState.None);
-        }
     }
 
-    public void AddTargets(List<Unit> newTarget)
-    {
-        if (newTarget == null) return;
+    //public void AddTargets(List<Unit> newTarget)
+    //{
+    //    if (newTarget == null) return;
 
-        // Detection can run repeatedly, so avoid adding duplicate candidates.
-        foreach (Unit targetUnit in newTarget)
-        {
-            if (targetUnit == null) continue;
+    //    // Detection can run repeatedly, so avoid adding duplicate candidates.
+    //    foreach (Unit targetUnit in newTarget)
+    //    {
+    //        if (targetUnit == null) continue;
 
-            bool exists = false;
+    //        bool exists = false;
 
-            // Check if we already have this target
-            foreach (ThreatCandidate existing in targetCandidates)
-            {
-                if (existing.target == targetUnit)
-                {
-                    exists = true;
-                    break;
-                }
-            }
 
-            if (!exists)
-            {
-                // Adds target to candidates list if it doesn't exist
-                ThreatCandidate newCandidate = new ThreatCandidate()
-                {
-                    target = targetUnit,
-                    threat = 100
-                };
 
-                targetCandidates.Add(newCandidate);
-            }
-        }
-    }
+    //        if (!TargetExists(targetUnit))
+    //        {
+    //            // Adds target to candidates list if it doesn't exist
+    //            TargetCandidate newCandidate = new TargetCandidate()
+    //            {
+    //                target = targetUnit,
+    //                threat = 100
+    //            };
+
+    //            targetCandidates.Add(newCandidate);
+    //        }
+    //    }
+    //}
+
+
 
     private void UpdateThreat()
     {
         // Iterate backwards so candidates can be removed while scanning.
         for (int i = targetCandidates.Count - 1; i >= 0; i--)
         {
-            ThreatCandidate candidate = targetCandidates[i];
+            TargetCandidate candidate = targetCandidates[i];
             if (candidate == null || candidate.target == null) // Remove null (dead) candidates
             {
                 targetCandidates.RemoveAt(i);
@@ -178,13 +180,13 @@ public class UnitCombat
     }
 
     // Returns the threat candidate that currently has the highest threat
-    ThreatCandidate HighestThreat()
+    TargetCandidate HighestThreat()
     {
         float highestVal = 0;
-        ThreatCandidate highestThreat = null;
+        TargetCandidate highestThreat = null;
         for (int i = targetCandidates.Count - 1; i >= 0; i--)
         {
-            ThreatCandidate candidate = targetCandidates[i];
+            TargetCandidate candidate = targetCandidates[i];
             if (candidate.threat > highestVal)
             {
                 highestVal = candidate.threat;
@@ -195,31 +197,56 @@ public class UnitCombat
         return highestThreat;
     }
 
+    private TargetCandidate GetCandidate(Damageable target)
+    {
+        // Check if we already have this target
+        foreach (TargetCandidate existing in targetCandidates)
+        {
+            if (existing.target == target)
+            {
+                return existing;
+            }
+        }
+        return null;
+    }
+
     // Add threat to the threat candidate associated with the target
-    public void AddThreat(Damageable target, float threat)
+    public void AddTarget(Damageable target, float threat)
     {
         if (target == null) return;
 
-        for (int i = targetCandidates.Count - 1; i >= 0; i--)
+        TargetCandidate targetCandidate = GetCandidate(target);
+        if (targetCandidate == null)
         {
-            ThreatCandidate candidate = targetCandidates[i];
-            if (candidate != null && candidate.target == target)
+            // If no candidate with target exists, set threat and add to candidates list.
+            TargetCandidate newCandidate = new TargetCandidate()
             {
-                // If candidate with target exists, add threat and return
-                candidate.threat += threat;
-                return;
-            }
+                target = target,
+                threat = threat
+            };
+
+            targetCandidates.Add(newCandidate);
         }
+    }
 
-
-        // If no candidate with target exists, set threat and add to candidates list.
-        ThreatCandidate newCandidate = new ThreatCandidate()
+    public void AddThreat(Damageable target, float threat)
+    {
+        TargetCandidate targetCandidate = GetCandidate(target);
+        if (targetCandidate == null)
         {
-            target = target,
-            threat = threat
-        };
+            // If no candidate with target exists, set threat and add to candidates list.
+            TargetCandidate newCandidate = new TargetCandidate()
+            {
+                target = target,
+                threat = threat
+            };
 
-        targetCandidates.Add(newCandidate);
+            targetCandidates.Add(newCandidate);
+        }
+        else
+        {
+            targetCandidate.threat += threat;
+        }
     }
 
     public void Target(Damageable target)
@@ -242,8 +269,6 @@ public class UnitCombat
     // Returns true if in range of the target
     public bool InRange()
     {
-
-
         float dist = Vector3.Distance(unit.transform.position, currentTarget.transform.position);
 
         return dist < attackDist;
@@ -266,14 +291,29 @@ public class UnitCombat
     // Should return to defending pos
     void Defend()
     {
-        
-    }
+        if (targetCandidates.Count > 0) // Target new threat if one exists
+        {
+            SetState(CombatState.Attacking);
+        }
+        else // Move back to defending tile
+        {
+            // Request a new path only when there is no active path or pending request.
+            if (!unit.pathRequested && (!unit.movement.HasPath))
+            {
+            }
+
+            // Move towards defending tile
+            unit.movement.FollowPath();
+        }
+}
 
     // Move towards target
     void Chase()
     {
+       // if ()
+
         // Request a new path only when there is no active path or pending request.
-        if (!unit.pathRequested && unit.Movement.TargetReached)
+        if (!unit.pathRequested && (!unit.movement.HasPath || unit.Movement.TargetReached))
         {
             unit.RequestPath(TargetPos(), currentTarget.transform.position);
         }
