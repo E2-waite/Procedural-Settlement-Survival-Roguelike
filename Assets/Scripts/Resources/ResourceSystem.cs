@@ -86,7 +86,7 @@ public class ResourceSystem
 
             if (currentTile == null) continue;
 
-            ResourceNode currentNode = currentTile.Resource();
+            ResourceNode currentNode = currentTile.Resource;
             if (distance > 0 && currentNode != null && !currentNode.IsEmpty() &&
                 ((sameType && currentNode.type == type) || !sameType))
             {

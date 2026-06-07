@@ -77,7 +77,7 @@ public class EnemySystem
 
             spawnTile = grid.GetTile(spawnPos);
 
-            if (spawnTile != null && spawnTile.Walkable()) valid = true;
+            if (spawnTile != null && spawnTile.IsEmpty) valid = true;
         }
 
         return spawnTile;

@@ -31,8 +31,8 @@ public class TileSaveData
         type = (int)tile.type;
         position = new SaveVector2Int(tile.position);
         worldPosition = new SaveVector3(tile.worldPosition);
-        resource = new ResourceSaveData(tile.Resource());
-        building = new BuildingSaveData(tile.Building());
+        resource = new ResourceSaveData(tile.Resource);
+        building = new BuildingSaveData(tile.Building);
     }
 }
 

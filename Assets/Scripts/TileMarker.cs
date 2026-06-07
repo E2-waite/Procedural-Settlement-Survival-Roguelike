@@ -63,7 +63,7 @@ public class TileMarker : MonoBehaviour
                 {
                     marker.gameObject.SetActive(true);
 
-                    if (tile == null || !tile.Buildable())
+                    if (tile == null || !tile.Buildable)
                     {
                         valid = false;
                     }

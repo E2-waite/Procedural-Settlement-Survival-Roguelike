@@ -74,7 +74,7 @@ public class GameBootstrapper : MonoBehaviour
     // Spawns the player
     private void SpawnPlayer(GridTile tile)
     {
-        GameObject playerObj = Instantiate(playerPrefab, tile.Center() + new Vector3(1f, 0.5f, 0), Quaternion.identity);
+        GameObject playerObj = Instantiate(playerPrefab, tile.Center + new Vector3(1f, 0.5f, 0), Quaternion.identity);
         context.player = playerObj.GetComponent<Player>();
         context.player.Init(context);
     }
@@ -82,7 +82,7 @@ public class GameBootstrapper : MonoBehaviour
     // Spawns the initial worker
     private void SpawnWorker(GridTile tile)
     {
-        GameObject workerObj = Instantiate(workerPrefab, tile.Center() + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+        GameObject workerObj = Instantiate(workerPrefab, tile.Center + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
         WorkerUnit worker = workerObj.GetComponent<WorkerUnit>();
         worker.Init(context);
     }
@@ -90,7 +90,7 @@ public class GameBootstrapper : MonoBehaviour
     // Spawns the initial fighter
     private void SpawnFighter(GridTile tile)
     {
-        GameObject fighterObj = Instantiate(fighterPrefab, tile.Center() + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
+        GameObject fighterObj = Instantiate(fighterPrefab, tile.Center + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
         FighterUnit fighter = fighterObj.GetComponent<FighterUnit>();
         fighter.Init(context);
     }
@@ -98,7 +98,7 @@ public class GameBootstrapper : MonoBehaviour
     // Spawns the initial enemy
     private void SpawnEnemy(GridTile tile)
     {
-        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center() + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
         EnemyUnit enemy = enemyObj.GetComponent<EnemyUnit>();
         enemy.Init(context);
     }
@@ -123,7 +123,7 @@ public class GameBootstrapper : MonoBehaviour
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {
                 GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
-                if (neighbourTile == null || !neighbourTile.IsEmpty())
+                if (neighbourTile == null || !neighbourTile.IsEmpty)
                 {
                     valid = false;
                     break;

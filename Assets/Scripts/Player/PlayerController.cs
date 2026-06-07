@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         GridTile tile = grid.GetTile(targetPos);
 
         // Only move if tile is walkable
-        if (tile != null && tile.Walkable())
+        if (tile != null && tile.IsEmpty)
         {
             transform.position = targetPos;
         }

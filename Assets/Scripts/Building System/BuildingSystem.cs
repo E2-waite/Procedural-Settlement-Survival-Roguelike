@@ -121,7 +121,7 @@ public class BuildingSystem
                 tilePos.y = y;
                 GridTile tile = grid.GetTile(tilePos);
 
-                if (tile == null || !tile.Buildable())
+                if (tile == null || !tile.Buildable)
                 {
                     return false;
                 }

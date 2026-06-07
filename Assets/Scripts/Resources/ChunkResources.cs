@@ -84,7 +84,7 @@ public class ChunkResources
 
         matrices[id] =
             Matrix4x4.TRS(
-                resources[id].tile.Center(),
+                resources[id].tile.Center,
                 Quaternion.identity,
                 Vector3.one * scale
             );

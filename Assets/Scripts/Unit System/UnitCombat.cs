@@ -50,7 +50,7 @@ public class UnitCombat
         }
     }
 
-    public void Update()
+    public void Tick()
     {
         if (!unit.IsDead)
         {
@@ -123,35 +123,6 @@ public class UnitCombat
             Target(highestThreat.target);
         }
     }
-
-    //public void AddTargets(List<Unit> newTarget)
-    //{
-    //    if (newTarget == null) return;
-
-    //    // Detection can run repeatedly, so avoid adding duplicate candidates.
-    //    foreach (Unit targetUnit in newTarget)
-    //    {
-    //        if (targetUnit == null) continue;
-
-    //        bool exists = false;
-
-
-
-    //        if (!TargetExists(targetUnit))
-    //        {
-    //            // Adds target to candidates list if it doesn't exist
-    //            TargetCandidate newCandidate = new TargetCandidate()
-    //            {
-    //                target = targetUnit,
-    //                threat = 100
-    //            };
-
-    //            targetCandidates.Add(newCandidate);
-    //        }
-    //    }
-    //}
-
-
 
     private void UpdateThreat()
     {
@@ -297,11 +268,6 @@ public class UnitCombat
         }
         else // Move back to defending tile
         {
-            // Request a new path only when there is no active path or pending request.
-            if (!unit.pathRequested && (!unit.movement.HasPath))
-            {
-            }
-
             // Move towards defending tile
             unit.movement.FollowPath();
         }

@@ -74,7 +74,7 @@ public class Unit : Damageable
 
         if (Combat != null)
         {
-            Combat.Update();
+            Combat.Tick();
         }
     }
 
@@ -248,12 +248,11 @@ public class Unit : Damageable
     }
 
     // Request a path to the position
-    public void RequestPath(Vector2Int target, Vector3 worldPos)
+    public void RequestPath(Vector2Int gridPos, Vector3 worldPos, bool includeResources = false)
     {
         movement.ClearPath();
 
         Vector2Int start = GridPos;
-        Vector3 targetPos = worldPos;
 
         pathRequested = true;
         int size = pathRange * 2;
@@ -272,11 +271,10 @@ public class Unit : Damageable
                 Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
                 GridTile tile = grid.GetTile(tilePos);
-
-                if (tile != null && tile.Walkable())
-                    pathable[x, y] = true;
-                else
+                if (tile == null || !tile.IsEmpty)
                     pathable[x, y] = false;
+                else
+                    pathable[x, y] = true;
             }
         }
 
@@ -285,7 +283,7 @@ public class Unit : Damageable
         {
             size = size,
             start = start,
-            target = target,
+            target = gridPos,
             origin = origin,
             pathable = pathable,
             callback = (path) =>

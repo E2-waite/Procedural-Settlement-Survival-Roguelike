@@ -128,6 +128,8 @@ public class UnitWork
         {
             Store();
 
+            // TODO: get closest PATHABLE instead of closest
+
             // After storing, immediately look for the next nearby resource to keep the worker busy.
             ResourceNode nextNode = resourceSystem.GetClosestNode(targetStore);
 
@@ -211,7 +213,7 @@ public class UnitWork
         targetResource = resource;
         SetState(WorkState.Gather);
 
-        unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition);
+        unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition, true);
     }
 
     public void SetTarget(ResourceBuilding store)

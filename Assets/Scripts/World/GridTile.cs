@@ -29,35 +29,17 @@ public class GridTile
         position = pos;
         worldPosition = worldPos;
     }
+    public Vector3 Center => worldPosition + new Vector3(.5f, 0, .5f);
+    public bool HasResource => resource != null && !resource.IsEmpty();
+    public ResourceNode Resource => resource;
 
-    public Vector3 Center()
-    {
-        return worldPosition + new Vector3(.5f, 0, .5f);
-    }
-
+    public bool HasBuilding => building != null;
+    public Building Building => building;
+    public bool IsEmpty => type != TileType.Water && building == null && !HasResource;
+    public bool Buildable => type != TileType.Water && building == null && resource == null;
     public void SetResource(ResourceNode node)
     {
         resource = node;
-    }
-
-    public ResourceNode Resource()
-    {
-        return resource;
-    }
-
-    public bool HasResource()
-    {
-        return resource != null;
-    }
-
-    public bool HasBuilding()
-    {
-        return building != null;
-    }
-
-    public Building Building()
-    {
-        return building;
     }
 
     public void SetHovering()
@@ -75,23 +57,7 @@ public class GridTile
         Debug.Log("Interacted with: " + type.ToString());
     }
 
-    public bool IsEmpty()
-    {
-        return type != TileType.Water && building == null && resource == null;
-    }
-
     // Check if this tile can be used in pathing
-    public bool Walkable()
-    {
-        //return true;
-        //return type != TileType.Water && resource == ;
-        return type != TileType.Water && building == null && resource == null;
-    }
- 
-    public bool Buildable()
-    {
-        return type != TileType.Water && building == null && resource == null;
-    }
 
     // Assign building/structure
     public void Build(Building build)
