@@ -16,7 +16,6 @@ public class InputManager : MonoBehaviour
     bool initialized = false;
     Vector2 mousePos, lastMousePos;
 
-    // TODO: make click events into array (MouseButton enum)
     public event Action LeftClick;
     public event Action RightClick;
     public event Action<Vector2, float> LeftClickHeld;

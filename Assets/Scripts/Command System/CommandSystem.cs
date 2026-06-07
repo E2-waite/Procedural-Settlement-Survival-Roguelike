@@ -3,6 +3,14 @@ using UnityEngine;
 
 public class CommandSystem
 {
+    public enum CommandState
+    {
+        None,
+        Worker,
+        Fighter
+    }
+
+    // Currently just for the command widget 
     public enum CommandType
     {
         Move,
@@ -13,6 +21,8 @@ public class CommandSystem
         Max
     }
 
+    private CommandState commandState = CommandState.None;
+    public CommandState State => commandState;
     // Units in this list respond to player right-click commands.
     private List<FollowerUnit> commanding = new List<FollowerUnit>();
     public bool IsCommanding => commanding.Count > 0;
@@ -21,6 +31,15 @@ public class CommandSystem
     public CommandSystem(GameContext context)
     {
         player = context.player;
+
+    }
+
+    private void SetState(CommandState state)
+    {
+        if (state != commandState)
+        {
+            commandState = state;
+        }
     }
 
     // Commands all following units to interact with the target
@@ -73,6 +92,9 @@ public class CommandSystem
     {
         if (unit == null) return;
 
+        if (unit is WorkerUnit) SetState(CommandState.Worker);
+        else if (unit is FighterUnit) SetState(CommandState.Fighter);
+
         if (!commanding.Contains(unit))
         {
             if (!commanding.Contains(unit))
@@ -82,6 +104,7 @@ public class CommandSystem
         }
     }
 
+    // Stops commanding a specific unit
     public void StopCommanding(FollowerUnit unit)
     {
         if (commanding.Contains(unit))
@@ -89,9 +112,11 @@ public class CommandSystem
             commanding.Remove(unit);
         }
         unit.StopCommanding();
+
+        if (commanding.Count == 0) SetState(CommandState.None);
     }
 
-    // Commands a unit to stop following the player
+    // Stops commanding all units
     public void StopCommanding()
     {
         foreach (FollowerUnit unit in commanding)
@@ -99,6 +124,7 @@ public class CommandSystem
             unit.StopCommanding();
         }
         commanding.Clear();
+        SetState(CommandState.None);
     }
     public void CommandFollow()
     {

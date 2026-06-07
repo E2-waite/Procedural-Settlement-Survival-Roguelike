@@ -70,11 +70,7 @@ public class EnemySystem
             x = Random.Range(0, 1) == 1 ? -x : x;
             y = Random.Range(0, 1) == 1 ? -y : y;
 
-
-
             Vector2Int spawnPos = new Vector2Int(player.GridPos.x + x, player.GridPos.y + y);
-            Debug.Log("Enemy spawn pos: " + spawnPos.ToString() + "(dist = " + Vector2Int.Distance(spawnPos, player.GridPos) + ")");
-
             spawnTile = grid.GetTile(spawnPos);
 
             if (spawnTile != null && spawnTile.IsEmpty) valid = true;

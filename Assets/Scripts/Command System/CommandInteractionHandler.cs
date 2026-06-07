@@ -21,12 +21,15 @@ public class CommandInteractionHandler : IInteractionHandler
 
     public void Enable()
     {
+        if (commandSystem.State == CommandState.None) return;
+
         Cursor.visible = false;
 
         // Gets the target state when starting commanding
         clickTarget = new HoverTarget(controller.Target);
 
         CommandType commandType = CommandType.Move;
+        if (commandSystem.State == CommandState.Fighter) commandType = CommandType.Defend;
 
         if (clickTarget.IsBuilding)
         {

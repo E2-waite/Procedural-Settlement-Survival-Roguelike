@@ -136,17 +136,17 @@ public class UnitCombat
                 continue;
             }
 
-            float dist = Vector3.Distance(unit.transform.position, candidate.target.transform.position);
-            dist = Mathf.Clamp(dist - 10, 0, float.MaxValue);
+            //float dist = Vector3.Distance(unit.transform.position, candidate.target.transform.position);
+            //dist = Mathf.Clamp(dist - 10, 0, float.MaxValue);
 
-            // Remove threat if above 10 dist
-            candidate.threat -= dist * Time.deltaTime;
+            //// Remove threat if above 10 dist
+            //candidate.threat -= dist * Time.deltaTime;
 
-            // Remove candidate if it has no threat
-            if (candidate.threat <= 0)
-            {
-                targetCandidates.RemoveAt(i);
-            }
+            //// Remove candidate if it has no threat
+            //if (candidate.threat <= 0)
+            //{
+            //    targetCandidates.RemoveAt(i);
+            //}
         }
     }
 
