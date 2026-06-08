@@ -19,6 +19,8 @@ public class GameBootstrapper : MonoBehaviour
     TileMarker TileMarker => context.tileMarker;
     ResourceSystem ResourceSystem => context.resourceSystem;
     EnemySystem EnemySystem => context.enemySystem;
+    DayNightSystem DayNightSystem => context.dayNightSystem;
+
     GameManager Manager => context.gameManager;
     private void Start()
     {
@@ -47,6 +49,7 @@ public class GameBootstrapper : MonoBehaviour
         World.InitStartChunks();
         Manager.Init(context);
         EnemySystem.Init(context);
+        DayNightSystem.Init(context);
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }
@@ -59,6 +62,7 @@ public class GameBootstrapper : MonoBehaviour
         context.resourceSystem = new ResourceSystem();
         context.buildingSystem = new BuildingSystem(context);
         context.commandSystem = new CommandSystem(context);
+        context.dayNightSystem = new DayNightSystem();
     }
 
     // Spawns the initial fire

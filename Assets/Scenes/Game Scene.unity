@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.5
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.38771772, g: 0, b: 1, a: 1}
+  m_SubtractiveShadowColor: {r: 1, g: 0.7156989, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -498,6 +498,7 @@ MonoBehaviour:
     inputManager: {fileID: 1466086424}
     chunkStreaming: {fileID: 8997166019633783115}
     gameManager: {fileID: 1000224187}
+    dayNightHandler: {fileID: 8997166019633783119}
     buildingSpawner: {fileID: 8997166019633783114}
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
     enemySpawner: {fileID: 1000224189}
@@ -2513,6 +2514,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3775687841741434220, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       insertIndex: 2
       addedObject: {fileID: 8997166019633783115}
+    - targetCorrespondingSourceObject: {fileID: 3775687841741434220, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8997166019633783119}
   m_SourcePrefab: {fileID: 100100000, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
 --- !u!114 &8997166019633783114 stripped
 MonoBehaviour:
@@ -2558,6 +2562,21 @@ MonoBehaviour:
     chunkDistance: 2
     chunkSize: 100
     seedOffset: {x: 0, y: 0}
+--- !u!114 &8997166019633783119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015048884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d0ee0f7dec3ba4fba2ebbbc67e58d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldLight: {fileID: 144633817}
+  dayDuration: 30
+  nightDuration: 30
 --- !u!114 &9122868625147557072
 MonoBehaviour:
   m_ObjectHideFlags: 0

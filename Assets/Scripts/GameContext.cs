@@ -22,6 +22,9 @@ public class GameContext
     public ChunkStreaming chunkStreaming;
     public GameManager gameManager;
 
+    public DayNightSystem dayNightSystem;
+    public DayNightHandler dayNightHandler;
+
     [Header("Building System")]
     public BuildingSystem buildingSystem;
     public BuildingSpawner buildingSpawner;
