@@ -14,6 +14,7 @@ public class Unit : Damageable
     }
 
     public virtual UnitCombat Combat => null;
+    public virtual Targetting Targetting => null;
 
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] public UnitMovement movement;
@@ -45,6 +46,7 @@ public class Unit : Damageable
 
         movement.Init(this);
         sprite.Init(unitSprite);
+        if (Targetting != null) Targetting.Init(this);
         if (Combat != null) Combat.Init(this);
 
         health.Fill();
@@ -72,10 +74,8 @@ public class Unit : Damageable
 
         sprite.SetDirection(movement.MoveDir());
 
-        if (Combat != null)
-        {
-            Combat.Tick();
-        }
+        if (Targetting != null) Targetting.Tick();
+        if (Combat != null) Combat.Tick();
     }
 
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
@@ -203,7 +203,7 @@ public class Unit : Damageable
 
         if (!died && Combat != null)
         {
-            Combat.AddTarget(source, 5);
+            Targetting.AddTarget(source, 5);
         }
 
         return died;
@@ -217,11 +217,11 @@ public class Unit : Damageable
     {
         if (Combat != null && unit != null)
         {
-            Combat.Target(unit);
+            Targetting.Target(unit);
 
             SetState(State.Combat);
 
-            RequestPath(Combat.TargetPos(), unit.transform.position);
+            RequestPath(Targetting.TargetPos(), unit.transform.position);
         }
     }
     #endregion

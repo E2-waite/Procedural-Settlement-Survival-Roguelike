@@ -6,6 +6,8 @@ public class FighterUnit : FollowerUnit
     [SerializeField] public UnitCombat combat = new UnitCombat();
     public override UnitCombat Combat => combat;
     public float searchDist = 10f; // Only target enemies within this distance when scanning
+    private FighterTargetting targetting = new FighterTargetting();
+    public override Targetting Targetting => (Targetting)targetting;
 
     void SearchForHostile()
     {
@@ -14,7 +16,7 @@ public class FighterUnit : FollowerUnit
 
         foreach (Unit hostileUnit in hostile)
         {
-            Combat.AddTarget(hostileUnit, 10f);
+            Targetting.AddTarget(hostileUnit, 10f);
         }
 
         // Add nearby hostile targets to target candidates
