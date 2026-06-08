@@ -6,10 +6,10 @@ public class DayNightHandler : MonoBehaviour
 {
     public Light worldLight;
 
-    public float dayDuration = 30f, nightDuration = 30f;
+    public float dayDuration = 30f, nightDuration = 30f, thresh = 5f;
+    public Color dayColor = Color.white, nightColor = Color.blue;
     bool running = false;
     DayNightSystem dayNightSystem;
-
     public void Init(DayNightSystem dayNightSystem)
     {
         this.dayNightSystem = dayNightSystem;
@@ -29,11 +29,16 @@ public class DayNightHandler : MonoBehaviour
     IEnumerator DayRoutine()
     {
         dayNightSystem.SetPhase(Phase.Day);
-        worldLight.intensity = .5f;
-        RenderSettings.ambientIntensity = 0.3f;
         for (float time = dayDuration; time > 0; time -= Time.deltaTime)
         {
-            Debug.Log("Day left: " + time);
+            if (time <= thresh)
+            {
+                float t = Mathf.Clamp01(time / thresh);
+                t = Mathf.SmoothStep(1f, 0f, t);
+                worldLight.intensity = Mathf.Lerp(0.5f, 0.0f, t);
+                worldLight.color = Color.Lerp(dayColor, nightColor, t);
+                RenderSettings.ambientIntensity = Mathf.Lerp(0.3f, 0.0f, t);
+            }
             yield return null;
         }
     }
@@ -41,12 +46,15 @@ public class DayNightHandler : MonoBehaviour
     IEnumerator NightRoutine()
     {
         dayNightSystem.SetPhase(Phase.Night);
-        worldLight.intensity = .0f;
-        RenderSettings.ambientIntensity = 0;
         for (float time = nightDuration; time > 0; time -= Time.deltaTime)
         {
-            Debug.Log("Night left: " + time);
-
+            if (time <= thresh)
+            {
+                float t = Mathf.Clamp01(time / thresh);
+                t = Mathf.SmoothStep(0f, 1f, t);
+                worldLight.color = Color.Lerp(dayColor, nightColor, t);
+                RenderSettings.ambientIntensity = Mathf.Lerp(0.3f, 0.0f, t);
+            }
             yield return null;
         }
     }
