@@ -22,7 +22,7 @@ public class Unit : Damageable
     public SpriteRenderer unitSprite;
     public SpriteRenderer markerSprite;
     //public SpriteRenderer hoverSprite;
-    const int pathRange = 50;
+    //const int pathRange = 50;
 
     public State state, lastState;
     public float chunkInterval = 1f, chunkTimer = 0f;
@@ -151,14 +151,17 @@ public class Unit : Damageable
         // Do nothing
     }
 
+    // Moves to target position
     protected virtual void MoveState()
     {
-        //// Becomes idle if unit reaches target tile
-        //if (targetTile == null || Vector3.Distance(transform.position, targetTile.worldPosition) < .25f)
-        //{
-        //    SetIdle();
-        //}
+        movement.FollowPath();
+
+        if (movement.HasPath && movement.TargetReached)
+        {
+            TargetTileReached();
+        }
     }
+    protected virtual void TargetTileReached() { }
 
     protected virtual void FollowState()
     {
@@ -253,9 +256,9 @@ public class Unit : Damageable
         movement.ClearPath();
 
         Vector2Int start = GridPos;
-
+        int pathRange = Mathf.RoundToInt(Vector2Int.Distance(GridPos, gridPos));
         pathRequested = true;
-        int size = pathRange * 2;
+        int size = pathRange * 4;
 
         bool[,] pathable = new bool[size, size];
 

@@ -78,6 +78,7 @@ public class BuildingSystem
                 for (int y = tile.position.y; y < tile.position.y + selected.size.y; y++)
                 {
                     GridTile buildTile = grid.GetTile(new Vector2Int(x, y));
+                    building.AddTile(buildTile);
                     buildTile.Build(building);
                 }
             }

@@ -12,34 +12,49 @@ public class EnemyUnit : Unit
     FireBuilding targetFire;
     EnemySystem enemySystem;
     MainFireBuilding mainFire;
-    public override void Init(GameContext context)
+    DayNightSystem dayNightSystem;
+    public EnemySettlement settlement;
+    private GridTile spawnTile;
+    private bool returning = false, targetting = false;
+    public void Init(GameContext context, EnemySettlement settlement, GridTile spawnTile)
     {
-        base.Init(context);
+        Init(context);
         enemySystem = context.enemySystem;
         enemySystem.AddEnemy(this);
         player = context.player;
         mainFire = context.mainFireBuilding;
-        TargetFire();
-
+        dayNightSystem = context.dayNightSystem;
+        this.settlement = settlement;
+        this.spawnTile = spawnTile;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if ((targetFire == null || targetFire.IsDead) && fireCheckTimer <= 0)
+        if (dayNightSystem.Phase == DayNightSystem.DayPhase.Night && !targetting)
         {
-            targetFire = FindFire();
-            if (targetFire != null)
-            {
-                //SetState(State.Combat);
-                //combat.Target(targetFire);
-            }
+            // Target fire
+            TargetFire();
         }
-        else
+        else if (dayNightSystem.Phase == DayNightSystem.DayPhase.Day && !returning)
         {
-            fireCheckTimer -= Time.deltaTime;
-        }
+            ReturnToSpawn();
+        }    
+
+        //if ((targetFire == null || targetFire.IsDead) && fireCheckTimer <= 0)
+        //{
+        //    targetFire = FindFire();
+        //    if (targetFire != null)
+        //    {
+        //        //SetState(State.Combat);
+        //        //combat.Target(targetFire);
+        //    }
+        //}
+        //else
+        //{
+        //    fireCheckTimer -= Time.deltaTime;
+        //}
     }
 
     FireBuilding FindFire()
@@ -62,11 +77,24 @@ public class EnemyUnit : Unit
         return closest;
     }
 
+    private void ReturnToSpawn()
+    {
+        Debug.Log(name + " returning to spawn");
+        RequestPath(spawnTile);
+        SetState(State.Moving);
+        returning = true;
+        targetting = false;
+    }
+
     private void TargetFire()
     {
         if (player == null) return;
         if (Combat != null && mainFire != null)
         {
+            Debug.Log(name + " targetting fire");
+
+            targetting = true;
+            returning = false;
             Combat.Target(mainFire);
 
             SetState(State.Combat);

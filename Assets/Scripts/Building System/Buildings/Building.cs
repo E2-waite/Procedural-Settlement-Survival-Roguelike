@@ -1,16 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : Damageable
 {
     public override TargetType Type => TargetType.Building;
 
-    public Vector2Int tilePos;
     public bool autoBuild = false;
     public int id;
     bool built = false, destroyed = false;
     public bool Built => built && !destroyed;
     public MeshRenderer mesh;
     private bool hovering = false;
+    private List<GridTile> tiles = new List<GridTile>();
     protected virtual void Start()
     {
         if (!Built)
@@ -62,4 +63,11 @@ public class Building : Damageable
     {
         hovering = false;
     }
+
+    public void AddTile(GridTile tile)
+    {
+        tiles.Add(tile);
+    }
+
+    public GridTile Tile => tiles[0];
 }

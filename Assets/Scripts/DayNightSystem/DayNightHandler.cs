@@ -28,7 +28,7 @@ public class DayNightHandler : MonoBehaviour
 
     IEnumerator DayRoutine()
     {
-        dayNightSystem.SetPhase(Phase.Day);
+        dayNightSystem.SetPhase(DayPhase.Day);
         for (float time = dayDuration; time > 0; time -= Time.deltaTime)
         {
             if (time <= thresh)
@@ -45,13 +45,14 @@ public class DayNightHandler : MonoBehaviour
 
     IEnumerator NightRoutine()
     {
-        dayNightSystem.SetPhase(Phase.Night);
+        dayNightSystem.SetPhase(DayPhase.Night);
         for (float time = nightDuration; time > 0; time -= Time.deltaTime)
         {
             if (time <= thresh)
             {
                 float t = Mathf.Clamp01(time / thresh);
                 t = Mathf.SmoothStep(0f, 1f, t);
+                worldLight.intensity = Mathf.Lerp(0.5f, 0.0f, t);
                 worldLight.color = Color.Lerp(dayColor, nightColor, t);
                 RenderSettings.ambientIntensity = Mathf.Lerp(0.3f, 0.0f, t);
             }

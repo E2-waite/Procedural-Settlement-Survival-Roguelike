@@ -8,9 +8,8 @@ public class EnemySystem
     private WorldGrid grid;
     private EnemySpawner spawner;
     private EnemyCatalog catalog;
+    private DayNightSystem dayNightSystem;
     private GameContext gameContext;
-    private float spawnTimer = 0, spawnInterval = 6000;
-    int minDist = 10, maxDist = 25;
 
     public void Init(GameContext context)
     {
@@ -20,7 +19,7 @@ public class EnemySystem
         grid = world.Context.grid;
         spawner = context.enemySpawner;
         catalog = context.enemyCatalog;
-        spawnTimer = spawnInterval;
+        dayNightSystem = context.dayNightSystem;
     }
 
     public void AddEnemy(EnemyUnit enemy)
@@ -41,41 +40,10 @@ public class EnemySystem
 
     public void Tick()
     {
-        if (spawnTimer > 0) spawnTimer -= Time.deltaTime;
-        else
-        {
-            spawnTimer = spawnInterval;
-
-            GridTile spawnTile = FindSpawnTile();
-
-            if (spawnTile != null)
-            {
-                EnemyUnit enemy = spawner.SpawnEnemy(catalog.testEnemy, spawnTile);
-                enemy.Init(gameContext);
-            }
-        }
+        
 
 
     }
 
-    private GridTile FindSpawnTile()
-    {
-        bool valid = false;
-        GridTile spawnTile = null;
-        while (!valid)
-        {
-            int x = Random.Range(minDist, maxDist);
-            int y = Random.Range(minDist, maxDist);
-
-            x = Random.Range(0, 1) == 1 ? -x : x;
-            y = Random.Range(0, 1) == 1 ? -y : y;
-
-            Vector2Int spawnPos = new Vector2Int(player.GridPos.x + x, player.GridPos.y + y);
-            spawnTile = grid.GetTile(spawnPos);
-
-            if (spawnTile != null && spawnTile.IsEmpty) valid = true;
-        }
-
-        return spawnTile;
-    }
+    
 }

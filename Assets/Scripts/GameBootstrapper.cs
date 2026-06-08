@@ -8,6 +8,7 @@ public class GameBootstrapper : MonoBehaviour
     public GameObject firePrefab;
     public GameObject fighterPrefab;
     public GameObject enemyPrefab;
+    public GameObject enemySettlementPrefab;
     [SerializeField] private GameContext context = new GameContext();
     World World => context.world;
     PathfindingHandler Pathfinding => context.pathfinding;
@@ -22,16 +23,17 @@ public class GameBootstrapper : MonoBehaviour
     DayNightSystem DayNightSystem => context.dayNightSystem;
 
     GameManager Manager => context.gameManager;
+
     private void Start()
     {
         World.Generate(context);
-        GridTile spawnTile = FindSpawnTile();
+        context.spawnTile = FindSpawnTile();
 
-        if (spawnTile == null) Debug.LogWarning("No valid spawn tile could be found");
+        if (context.spawnTile == null) Debug.LogWarning("No valid spawn tile could be found");
 
         context.fireSystem = new FireSystem();
 
-        SpawnPlayer(spawnTile);
+        SpawnPlayer(context.spawnTile);
         Pathfinding.Init();
         TileMarker.Init(context);
         CreateSystems();
@@ -41,15 +43,15 @@ public class GameBootstrapper : MonoBehaviour
         UserInterface.Init(context);
         InputManager.EnableGameplayInput();
         CameraController.Init(context);
-        SpawnFire(spawnTile);
-        SpawnWorker(spawnTile);
-        SpawnFighter(spawnTile);
-        //SpawnEnemy(spawnTile);
+        SpawnFire(context.spawnTile);
+        SpawnWorker(context.spawnTile);
+        SpawnFighter(context.spawnTile);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
         Manager.Init(context);
         EnemySystem.Init(context);
         DayNightSystem.Init(context);
+        SpawnEnemySettlement(FindSettlementTile());
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }
@@ -72,6 +74,7 @@ public class GameBootstrapper : MonoBehaviour
         MainFireBuilding fireBuilding = fireObj.GetComponent<MainFireBuilding>();
         fireBuilding.Init(context.fireSystem);
         tile.Build(fireBuilding);
+        fireBuilding.AddTile(tile);
         context.mainFireBuilding = fireBuilding;
     }
 
@@ -107,6 +110,15 @@ public class GameBootstrapper : MonoBehaviour
         enemy.Init(context);
     }
 
+    private void SpawnEnemySettlement(GridTile tile)
+    {
+        GameObject settlementObj = Instantiate(enemySettlementPrefab, tile.worldPosition, Quaternion.identity);
+        EnemySettlement settlement = settlementObj.GetComponent<EnemySettlement>();
+        settlement.Init(context);
+        settlement.AddTile(tile);
+        tile.Build(settlement);
+    }
+
     // Finds an appropriate start tile
     GridTile FindSpawnTile()
     {
@@ -119,6 +131,43 @@ public class GameBootstrapper : MonoBehaviour
         foreach (GridTile tile in grid.Tiles())
         {
             bool valid = true;
+
+            List<GridTile> neighbourTiles = new List<GridTile>();
+
+            neighbourTiles.Add(tile);
+
+            foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
+            {
+                GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
+                if (neighbourTile == null || !neighbourTile.IsEmpty)
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) validTiles.Add(tile);
+        }
+
+        if (validTiles.Count == 0) return null;
+
+        return validTiles[Random.Range(0, validTiles.Count)];
+    }
+
+    GridTile FindSettlementTile()
+    {
+        // TODO: handle edge-case situation where no spawn tile was found
+        List<GridTile> validTiles = new List<GridTile>();
+        World world = context.world;
+        WorldGrid grid = world.Context.grid;
+
+        // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
+        foreach (GridTile tile in grid.Tiles())
+        {
+            bool valid = true;
+
+            float dist = Vector2Int.Distance(tile.position, context.spawnTile.position);
+            if (dist < 25 || dist > 60) continue;
 
             List<GridTile> neighbourTiles = new List<GridTile>();
 

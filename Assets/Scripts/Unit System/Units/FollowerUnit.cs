@@ -19,18 +19,8 @@ public class FollowerUnit : Unit
 
     #region States
 
-    // Moves to target position
-    protected override void MoveState()
-    {
-        movement.FollowPath();
 
-        if (movement.HasPath && movement.TargetReached)
-        {
-            TargetTileReached();
-        }
-    }
 
-    protected virtual void TargetTileReached() { }
 
     // Follow player
     protected override void FollowState()

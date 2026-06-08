@@ -484,6 +484,7 @@ MonoBehaviour:
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
   fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
   enemyPrefab: {fileID: 63626461859941047, guid: 1edab3cc0c8d12b41864e29b157dbf14, type: 3}
+  enemySettlementPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
   context:
     player: {fileID: 0}
     world: {fileID: 8997166019633783117}
@@ -499,6 +500,11 @@ MonoBehaviour:
     chunkStreaming: {fileID: 8997166019633783115}
     gameManager: {fileID: 1000224187}
     dayNightHandler: {fileID: 8997166019633783119}
+    spawnTile:
+      type: 0
+      chunk: {fileID: 0}
+      position: {x: 0, y: 0}
+      worldPosition: {x: 0, y: 0, z: 0}
     buildingSpawner: {fileID: 8997166019633783114}
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
     enemySpawner: {fileID: 1000224189}
@@ -2575,13 +2581,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldLight: {fileID: 144633817}
-  dayDuration: 10
-  nightDuration: 10
+  dayDuration: 25
+  nightDuration: 25
   thresh: 5
   dayColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   nightColor: {r: 0, g: 0, b: 1, a: 1}
-  treeMaterial: {fileID: 2100000, guid: 6b8607a37f78da949bacc45e9c0a09e1, type: 2}
-  stoneMaterial: {fileID: 2100000, guid: 1fd6da1524a803c43b589fff54b07bf2, type: 2}
 --- !u!114 &9122868625147557072
 MonoBehaviour:
   m_ObjectHideFlags: 0
