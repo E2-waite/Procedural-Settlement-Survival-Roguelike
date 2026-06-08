@@ -48,9 +48,9 @@ public class BuildPanel : MonoSingleton<BuildPanel>
     {
         Vector2 target;
         if (show)
-            target = new Vector2(0, 0);
+            target = new Vector2(-rect.sizeDelta.x, 0);
         else
-            target = new Vector2(rect.sizeDelta.x, 0);
+            target = new Vector2(0, 0);
 
         while (rect.anchoredPosition != target)
         {

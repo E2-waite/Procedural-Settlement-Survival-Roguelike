@@ -8,7 +8,7 @@ public class CommandInteractionHandler : IInteractionHandler
     private InteractionController controller;
     private CommandSystem commandSystem;
     private CommandPanel commandPanel;
-    float commandDiff = 25f;
+    float commandDiff = 60f;
     HoverTarget clickTarget;
     bool commandSelected = false;
 
