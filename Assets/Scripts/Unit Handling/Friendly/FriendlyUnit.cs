@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowerUnit : Unit
+public class FriendlyUnit : Unit
 {
     public float followDist = 1.5f;
     Player player;

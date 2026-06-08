@@ -100,9 +100,9 @@ public class Chunk : MonoBehaviour
 
     public void AddUnit(Unit unit)
     {
-        if (unit is FollowerUnit)
+        if (unit is FriendlyUnit)
         {
-            FollowerUnit follower = (FollowerUnit)unit;
+            FriendlyUnit follower = (FriendlyUnit)unit;
             if (!followers.Contains(follower))
                 followers.Add(follower);
         }
@@ -116,9 +116,9 @@ public class Chunk : MonoBehaviour
 
     public void RemoveUnit(Unit unit)
     {
-        if (unit is FollowerUnit)
+        if (unit is FriendlyUnit)
         {
-            FollowerUnit follower = (FollowerUnit)unit;
+            FriendlyUnit follower = (FriendlyUnit)unit;
             if (followers.Contains(follower))
                 followers.Remove(follower);
         }

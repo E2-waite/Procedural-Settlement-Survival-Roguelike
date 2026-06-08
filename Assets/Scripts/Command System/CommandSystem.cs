@@ -24,7 +24,7 @@ public class CommandSystem
     private CommandState commandState = CommandState.None;
     public CommandState State => commandState;
     // Units in this list respond to player right-click commands.
-    private List<FollowerUnit> commanding = new List<FollowerUnit>();
+    private List<FriendlyUnit> commanding = new List<FriendlyUnit>();
     public bool IsCommanding => commanding.Count > 0;
     private Player player;
 
@@ -47,21 +47,21 @@ public class CommandSystem
     {
         if (target.IsTile)
         {
-            foreach (FollowerUnit unit in commanding)
+            foreach (FriendlyUnit unit in commanding)
             {
                 unit.Command(target.Tile);
             }
         }
         else if (target.IsEnemy)
         {
-            foreach (FollowerUnit unit in commanding)
+            foreach (FriendlyUnit unit in commanding)
             {
                 unit.Command(target.Enemy);
             }
         }
         else if (target.IsBuilding)
         {
-            foreach (FollowerUnit unit in commanding)
+            foreach (FriendlyUnit unit in commanding)
             {
                 unit.Command(target.Building);
             }
@@ -69,12 +69,12 @@ public class CommandSystem
     }
     
     // Commands all nearby follower units to start following the player
-    public void StartCommanding(List<FollowerUnit> nearbyFollowers)
+    public void StartCommanding(List<FriendlyUnit> nearbyFollowers)
     {
         if (player == null) return;
 
         // Nearby followers are claimed into the command group before receiving orders.
-        foreach (FollowerUnit unit in nearbyFollowers)
+        foreach (FriendlyUnit unit in nearbyFollowers)
         {
             if (unit == null) continue;
 
@@ -82,13 +82,13 @@ public class CommandSystem
                 commanding.Add(unit);
         }
 
-        foreach (FollowerUnit unit in commanding)
+        foreach (FriendlyUnit unit in commanding)
         {
             unit.StartCommanding(player);
         }
     }
 
-    public void StartCommanding(FollowerUnit unit)
+    public void StartCommanding(FriendlyUnit unit)
     {
         if (unit == null) return;
 
@@ -105,7 +105,7 @@ public class CommandSystem
     }
 
     // Stops commanding a specific unit
-    public void StopCommanding(FollowerUnit unit)
+    public void StopCommanding(FriendlyUnit unit)
     {
         if (commanding.Contains(unit))
         {
@@ -119,7 +119,7 @@ public class CommandSystem
     // Stops commanding all units
     public void StopCommanding()
     {
-        foreach (FollowerUnit unit in commanding)
+        foreach (FriendlyUnit unit in commanding)
         {
             unit.StopCommanding();
         }
@@ -128,7 +128,7 @@ public class CommandSystem
     }
     public void CommandFollow()
     {
-        foreach (FollowerUnit unit in commanding)
+        foreach (FriendlyUnit unit in commanding)
         {
             unit.StartFollowing();
         }

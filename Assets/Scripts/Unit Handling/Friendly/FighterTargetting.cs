@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static ITargetting;
 
-public class WorkerTargetting : Targetting
+public class FighterTargetting : Targetting
 {
+
     public void Tick()
     {
 

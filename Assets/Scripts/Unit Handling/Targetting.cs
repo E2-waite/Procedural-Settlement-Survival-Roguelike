@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Targetting : ITargetting
+public class Targetting
 {
     List<TargetCandidate> targetCandidates = new List<TargetCandidate>();
     public List<TargetCandidate> Candidates => targetCandidates;

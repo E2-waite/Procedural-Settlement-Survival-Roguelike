@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FighterUnit : FollowerUnit
+public class FighterUnit : FriendlyUnit
 {
     [SerializeField] public UnitCombat combat = new UnitCombat();
     public override UnitCombat Combat => combat;

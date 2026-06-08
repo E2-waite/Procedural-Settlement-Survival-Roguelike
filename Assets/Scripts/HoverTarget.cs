@@ -11,10 +11,10 @@ public class HoverTarget
     public GridTile Tile => hoveringTile;
 
     public bool IsUnit => hoveringUnit != null;
-    public bool IsFollower => hoveringUnit != null && hoveringUnit is FollowerUnit;
+    public bool IsFollower => hoveringUnit != null && hoveringUnit is FriendlyUnit;
     public bool IsEnemy => hoveringUnit != null && hoveringUnit is EnemyUnit;
     public Unit Unit => hoveringUnit;
-    public FollowerUnit Follower => (FollowerUnit)hoveringUnit;
+    public FriendlyUnit Follower => (FriendlyUnit)hoveringUnit;
     public EnemyUnit Enemy => (EnemyUnit)hoveringUnit;
 
     public bool IsBuilding => hoveringBuilding != null;

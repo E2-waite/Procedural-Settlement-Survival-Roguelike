@@ -53,10 +53,10 @@ public class ControlInteractionHandler : IInteractionHandler
             {
                 if (controller.Target.IsFollower)
                 {
-                    FollowerUnit follower = controller.Target.Follower;
+                    FriendlyUnit follower = controller.Target.Follower;
 
                     // Stop commanding current units if selecting different unit type
-                    if (follower is FollowerUnit && commandSystem.State == CommandState.Fighter ||
+                    if (follower is FriendlyUnit && commandSystem.State == CommandState.Fighter ||
                         follower is FighterUnit && commandSystem.State == CommandState.Worker)
                     {
                         commandSystem.StopCommanding();

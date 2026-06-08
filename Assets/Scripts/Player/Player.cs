@@ -8,8 +8,8 @@ public class Player : Damageable
     public override TargetType Type => TargetType.Player;
     [SerializeField] UnitSprite sprite = new UnitSprite();
     [SerializeField] Fire fire = new Fire(false);
-    private List<FollowerUnit> nearbyUnits = new List<FollowerUnit>();
-    public List<FollowerUnit> NearbyUnits => nearbyUnits;
+    private List<FriendlyUnit> nearbyUnits = new List<FriendlyUnit>();
+    public List<FriendlyUnit> NearbyUnits => nearbyUnits;
     public float fireLightDist = 2f, fireCheckInterval = .5f;
     private float fireCheckTimer = 0f;
     private Chunk chunk;
@@ -94,7 +94,7 @@ public class Player : Damageable
 
     private void OnTriggerEnter(Collider other)
     {
-        FollowerUnit unit = other.GetComponent<FollowerUnit>();
+        FriendlyUnit unit = other.GetComponent<FriendlyUnit>();
 
         if (unit != null && !nearbyUnits.Contains(unit))
         {
@@ -105,7 +105,7 @@ public class Player : Damageable
 
     private void OnTriggerExit(Collider other)
     {
-        FollowerUnit unit = other.GetComponent<FollowerUnit>();
+        FriendlyUnit unit = other.GetComponent<FriendlyUnit>();
 
         if (unit != null && nearbyUnits.Contains(unit))
         {

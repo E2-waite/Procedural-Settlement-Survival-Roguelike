@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WorkerUnit : FollowerUnit
+public class WorkerUnit : FriendlyUnit
 {
     [SerializeField] public ResourceStorage storage = new ResourceStorage();
     [SerializeField] UnitWork work = new UnitWork();
