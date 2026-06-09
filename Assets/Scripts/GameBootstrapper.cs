@@ -7,7 +7,7 @@ public class GameBootstrapper : MonoBehaviour
     public GameObject unitPrefab;
     public GameObject firePrefab;
     //public GameObject fighterPrefab;
-    //public GameObject enemyPrefab;
+    public GameObject enemyPrefab;
     public GameObject enemySettlementPrefab;
     [SerializeField] private GameContext context = new GameContext();
     World World => context.world;
@@ -45,6 +45,7 @@ public class GameBootstrapper : MonoBehaviour
         CameraController.Init(context);
         SpawnFire(context.spawnTile);
         SpawnUnit(context.spawnTile);
+        SpawnEnemy(context.spawnTile);
         //SpawnFighter(context.spawnTile);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
@@ -95,12 +96,12 @@ public class GameBootstrapper : MonoBehaviour
     }
 
     // Spawns the initial enemy
-    //private void SpawnEnemy(GridTile tile)
-    //{
-    //    GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
-    //    Enemy enemy = enemyObj.GetComponent<Enemy>();
-    //    enemy.Init(context);
-    //}
+    private void SpawnEnemy(GridTile tile)
+    {
+        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+        Enemy enemy = enemyObj.GetComponent<Enemy>();
+        enemy.Init(context, null, tile);
+    }
 
     //private void SpawnEnemySettlement(GridTile tile)
     //{

@@ -8,6 +8,10 @@ public interface IUnitRole
 
     void HandleStates();
 
+    void OnReachedTarget();
+
+    void OnHit(float damage, Destructable source);
+
     #region Commanding
 
     bool Command(GridTile tile);

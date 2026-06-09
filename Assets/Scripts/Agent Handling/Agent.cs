@@ -8,7 +8,7 @@ public class Agent : Destructable
     public PathfindingHandler Pathfinding => pathfinding;
     [SerializeField] public AgentMovement movement;
     public AgentMovement Movement => movement;
-    public virtual AgentTargetting Targetting => null;
+
 
     [HideInInspector] public bool pathRequested = false;
     private WorldGrid grid;
@@ -17,15 +17,12 @@ public class Agent : Destructable
     private bool highlighted = false; // Is the mouse currently hovering over this agent
     [SerializeField] AgentSprite sprite = new AgentSprite();
     public SpriteRenderer spriteRend;
-    public virtual AgentCombat Combat => null;
 
     public bool WaitingForPath => pathRequested;
 
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
-        Targetting?.Init(this);
-        Combat?.Init(this);
 
         World world = context.world;
         grid = world.Context.grid;
@@ -42,8 +39,6 @@ public class Agent : Destructable
         UpdateChunk();
         sprite.SetDirection(movement.MoveDir());
         HandleStates();
-        if (Targetting != null) Targetting.Tick();
-        if (Combat != null) Combat.Tick();
     }
 
     // Request a path to a position and set target tile

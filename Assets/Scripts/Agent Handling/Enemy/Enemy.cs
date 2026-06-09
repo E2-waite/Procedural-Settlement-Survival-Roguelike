@@ -12,10 +12,10 @@ public class Enemy : Agent
     private State state = State.Idle;
 
     [SerializeField] public AgentCombat combat = new AgentCombat();
-    public override AgentCombat Combat => combat;
+    public AgentCombat Combat => combat;
 
     private EnemyTargetting targetting = new EnemyTargetting();
-    public override AgentTargetting Targetting => targetting;
+    public EnemyTargetting Targetting => targetting;
 
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
@@ -41,8 +41,13 @@ public class Enemy : Agent
 
     protected override void Update()
     {
+        return;
+
         if (IsDead) return;
         base.Update();
+
+        Targetting?.Tick();
+        Combat?.Tick();
     }
 
     public void SetState(State state)
@@ -100,7 +105,7 @@ public class Enemy : Agent
     {
         if (base.Hit(damage, source)) return true;
 
-        if (source is FighterUnit)
+        if (source is Unit)
         {
             // Targets the unit that hit this enemy
             Targetting.AddTarget(source, 10);

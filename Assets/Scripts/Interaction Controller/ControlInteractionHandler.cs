@@ -39,7 +39,7 @@ public class ControlInteractionHandler : IInteractionHandler
         // Starts commanding hoving unit when LMB held for over .25 seconds
         if (time >= .25f && controller.Target.IsUnit)
         {
-            commandSystem.StartCommanding(controller.Target.Follower);
+            commandSystem.StartCommanding(controller.Target.Unit);
         }
     }
     public void OnLeftUp(Vector2 diff, float time)
@@ -53,19 +53,19 @@ public class ControlInteractionHandler : IInteractionHandler
             {
                 if (controller.Target.IsUnit)
                 {
-                    Unit follower = controller.Target.Follower;
+                    Unit unit = controller.Target.Unit;
 
                     // Stop commanding current units if selecting different unit type
-                    if (follower is Unit && commandSystem.State == CommandState.Fighter ||
-                        follower is FighterUnit && commandSystem.State == CommandState.Worker)
+                    if (unit.Role is WorkerRole && commandSystem.State == CommandState.Fighter ||
+                        unit.Role is FighterRole && commandSystem.State == CommandState.Worker)
                     {
                         commandSystem.StopCommanding();
                     }
 
-                    if (follower.Commanding)
-                        commandSystem.StopCommanding(follower);
+                    if (unit.Commanding)
+                        commandSystem.StopCommanding(unit);
                     else
-                        commandSystem.StartCommanding(follower);
+                        commandSystem.StartCommanding(unit);
 
                 }
             }

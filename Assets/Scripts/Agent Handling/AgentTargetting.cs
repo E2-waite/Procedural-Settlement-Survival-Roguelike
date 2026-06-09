@@ -53,14 +53,14 @@ public class AgentTargetting
                 threat = threat
             };
 
-            agent.Targetting.Candidates.Add(newCandidate);
+            Candidates.Add(newCandidate);
         }
     }
 
     public TargetCandidate GetCandidate(Destructable target)
     {
         // Check if we already have this target
-        foreach (TargetCandidate existing in agent.Targetting.Candidates)
+        foreach (TargetCandidate existing in Candidates)
         {
             if (existing.target == target)
             {
@@ -77,22 +77,22 @@ public class AgentTargetting
 
         TargetCandidate highestThreat = HighestThreat();
 
-        if (highestThreat != null && highestThreat.target != agent.Targetting.Current)
+        if (highestThreat != null && highestThreat.target != Current)
         {
             // TODO: have a threshold to ensure it doesn't continuously switch targets when threat is close
-            agent.Targetting.Target(highestThreat.target);
+            Target(highestThreat.target);
         }
     }
 
     private void UpdateThreat()
     {
         // Iterate backwards so candidates can be removed while scanning.
-        for (int i = agent.Targetting.Candidates.Count - 1; i >= 0; i--)
+        for (int i = Candidates.Count - 1; i >= 0; i--)
         {
-            TargetCandidate candidate = agent.Targetting.Candidates[i];
+            TargetCandidate candidate = Candidates[i];
             if (candidate == null || candidate.target == null) // Remove null (dead) candidates
             {
-                agent.Targetting.Candidates.RemoveAt(i);
+                Candidates.RemoveAt(i);
                 continue;
             }
         }
@@ -103,9 +103,9 @@ public class AgentTargetting
     {
         float highestVal = 0;
         TargetCandidate highestThreat = null;
-        for (int i = agent.Targetting.Candidates.Count - 1; i >= 0; i--)
+        for (int i = Candidates.Count - 1; i >= 0; i--)
         {
-            TargetCandidate candidate = agent.Targetting.Candidates[i];
+            TargetCandidate candidate = Candidates[i];
             if (candidate.threat > highestVal)
             {
                 highestVal = candidate.threat;
@@ -118,7 +118,7 @@ public class AgentTargetting
 
     public void AddThreat(Destructable target, float threat)
     {
-        TargetCandidate targetCandidate = agent.Targetting.GetCandidate(target);
+        TargetCandidate targetCandidate = GetCandidate(target);
         if (targetCandidate == null)
         {
             // If no candidate with target exists, set threat and add to candidates list.
@@ -128,7 +128,7 @@ public class AgentTargetting
                 threat = threat
             };
 
-            agent.Targetting.Candidates.Add(newCandidate);
+            Candidates.Add(newCandidate);
         }
         else
         {

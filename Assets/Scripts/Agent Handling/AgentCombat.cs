@@ -16,26 +16,37 @@ public class AgentCombat
     [SerializeField] CombatState state, lastState;
 
     private Agent agent;
+    private AgentTargetting targetting;
 
     public float attackDist = 1f, attackDamage = 10f;
     protected float attackInterval = 0.5f, attackTimer = 0;
     // Potential targets decay over time so units eventually stop caring about distant threats.
     [SerializeField] private GridTile defendingTile = null;
+    bool initialized = false;
 
-    public void Init(Agent agent)
+    public void Init(Agent agent, AgentTargetting targetting)
     {
         this.agent = agent;
+        this.targetting = targetting;
+        initialized = true;
     }
 
     public void Tick()
     {
-        if (!agent.IsDead)
+        if (!initialized || agent.IsDead) return;
+
+        if (attackTimer > 0)
         {
-            if (attackTimer > 0)
-            {
-                attackTimer -= Time.deltaTime;
-            }
+            attackTimer -= Time.deltaTime;
         }
+
+        UpdateState();
+        ExecuteState();
+    }
+
+    public void StartDefending()
+    {
+        SetState(CombatState.Defending);
     }
 
     public void SetState(CombatState state)
@@ -47,7 +58,7 @@ public class AgentCombat
 
             if (state == CombatState.Defending && defendingTile != null)
             {
-                agent.RequestPath(defendingTile.position, defendingTile.worldPosition);
+                agent?.RequestPath(defendingTile.position, defendingTile.worldPosition);
             }
         }
     }
@@ -58,7 +69,7 @@ public class AgentCombat
         if (agent.IsDead) return;
 
         // Target choice is based on threat first, then distance/range determines the action.
-        if (agent.Targetting.Current == null && agent.Targetting.Candidates.Count == 0)
+        if (targetting.Current == null && targetting.Candidates.Count == 0)
         {
             SetState(CombatState.Defending);
         }
@@ -95,7 +106,7 @@ public class AgentCombat
     {
         defendingTile = tile;
         SetState(CombatState.Defending);
-        agent.RequestPath(defendingTile.position, defendingTile.worldPosition);
+        agent?.RequestPath(defendingTile.position, defendingTile.worldPosition);
     }
 
     //public bool HasTargets => targetCandidates.Count > 0;
@@ -103,9 +114,9 @@ public class AgentCombat
     // Returns true if in range of the target
     public bool InRange()
     {
-        if (agent.Targetting?.Current == null) return false;
+        if (targetting?.Current == null) return false;
 
-        float dist = Vector3.Distance(agent.transform.position, agent.Targetting.Current.transform.position);
+        float dist = Vector3.Distance(agent.transform.position, targetting.Current.transform.position);
 
         return dist < attackDist;
     }
@@ -113,10 +124,10 @@ public class AgentCombat
     #region Actions
     public bool Attack()
     {
-        if (agent.Targetting.Current == null || attackTimer > 0) return false;
+        if (targetting.Current == null || attackTimer > 0) return false;
 
         attackTimer = attackInterval;
-        if (agent.Targetting.Current.Hit(attackDamage, agent))
+        if (targetting.Current.Hit(attackDamage, agent))
         {
 
         }
@@ -127,14 +138,14 @@ public class AgentCombat
     // Should return to defending pos
     void Defend()
     {
-        if (agent.Targetting.Candidates.Count > 0) // Target new threat if one exists
+        if (targetting.Candidates.Count > 0) // Target new threat if one exists
         {
             SetState(CombatState.Attacking);
         }
         else // Move back to defending tile
         {
             // Move towards defending tile
-            agent.movement.FollowPath();
+            agent?.movement.FollowPath();
         }
 }
 
@@ -144,12 +155,12 @@ public class AgentCombat
        // if ()
 
         // Request a new path only when there is no active path or pending request.
-        if (!agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))
+        if (agent != null & !agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))
         {
-            agent.RequestPath(agent.Targetting.TargetPos(), agent.Targetting.Current.transform.position);
+            agent.RequestPath(targetting.TargetPos(), targetting.Current.transform.position);
         }
 
-        agent.movement.FollowPath();
+        agent?.movement.FollowPath();
     }
 
     // Move away from target

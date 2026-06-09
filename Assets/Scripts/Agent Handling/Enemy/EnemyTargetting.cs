@@ -13,7 +13,7 @@ public class EnemyTargetting : AgentTargetting
         base.Init(enemy);
 
         dayNightSystem = context.dayNightSystem;
-        mainFire = context.mainFireBuilding;
+        //mainFire = context.mainFireBuilding;
     }
 
     public override void Tick()

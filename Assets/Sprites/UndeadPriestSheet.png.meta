@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 529ed7a040f8c994ea2b968ec80d023c
+guid: 42a19cd58c38c4241983bfbfd9f144cf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 16
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -70,8 +70,8 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
+    resizeAlgorithm: 1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -110,51 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SoldierSheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 16
-        height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: abfb260eb3e0a894ca663d6dce994211
-      internalID: 1226821801
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SoldierSheet_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 605861c26240f3e4a9c37e8666294199
-      internalID: -471734580
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SoldierSheet_2
+      name: UndeadPriestSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -169,14 +125,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 404fd62ee0265bc408229efb5dbffa5a
-      internalID: -1375187937
+      spriteID: a604ab3473181294e95e7235fcd22eb3
+      internalID: -839128500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoldierSheet_3
+      name: UndeadPriestSheet_1
       rect:
         serializedVersion: 2
         x: 16
@@ -191,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 879307929f73dc047b17f62f05942744
-      internalID: -1413524030
+      spriteID: e087eca8b3209d646b2ff381967ceada
+      internalID: -1769376646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoldierSheet_4
+      name: UndeadPriestSheet_2
       rect:
         serializedVersion: 2
         x: 0
@@ -213,8 +169,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93d81de71dd1a914b8567445690c067b
-      internalID: -105742859
+      spriteID: 97b76f26fa85f334b9af4005b74a6d27
+      internalID: 1875351998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UndeadPriestSheet_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b7c8be762eb27242a05d76190af5d05
+      internalID: 1752385551
       vertices: []
       indices: 
       edges: []
@@ -223,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 23d3fac9520167d4595378dd808c68fc
+    spriteID: 95b6534dfda4af44eb9d1e5ce0326fe6
     internalID: 0
     vertices: []
     indices: 
@@ -233,13 +211,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":3.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":2.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      SoldierSheet_0: 1226821801
-      SoldierSheet_1: -471734580
-      SoldierSheet_2: -1375187937
-      SoldierSheet_3: -1413524030
-      SoldierSheet_4: -105742859
+      UndeadPriestSheet_0: -839128500
+      UndeadPriestSheet_1: -1769376646
+      UndeadPriestSheet_2: 1875351998
+      UndeadPriestSheet_3: 1752385551
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

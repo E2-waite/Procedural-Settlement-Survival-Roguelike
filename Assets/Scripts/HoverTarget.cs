@@ -14,7 +14,7 @@ public class HoverTarget
     public bool IsUnit => hoveringAgent != null && hoveringAgent is Unit;
     public bool IsEnemy => hoveringAgent != null && hoveringAgent is Enemy;
     public Agent Agent => hoveringAgent;
-    public Unit Follower => (Unit)hoveringAgent;
+    public Unit Unit => (Unit)hoveringAgent;
     public Enemy Enemy => (Enemy)hoveringAgent;
 
     public bool IsBuilding => hoveringBuilding != null;

@@ -514,6 +514,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   unitPrefab: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
+  enemyPrefab: {fileID: 2214493174657560647, guid: 0fc622740e27f1847b43814cad75bcc6, type: 3}
   enemySettlementPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
   context:
     player: {fileID: 0}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 529ed7a040f8c994ea2b968ec80d023c
+guid: 22b98615a25a05e428cab211b5459620
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 16
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -70,8 +70,8 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
+    resizeAlgorithm: 1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -110,7 +110,51 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SoldierSheet_0
+      name: PriestSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26158b182344f2748966e70db2771932
+      internalID: 260171739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PriestSheet_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac813b5dd45c91944bb93dcdd11aa3de
+      internalID: -1452589546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PriestSheet_2
       rect:
         serializedVersion: 2
         x: 0
@@ -125,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abfb260eb3e0a894ca663d6dce994211
-      internalID: 1226821801
+      spriteID: 5b5e29149b303d2418fcf5bd69bc1449
+      internalID: 1144499651
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoldierSheet_1
+      name: PriestSheet_3
       rect:
         serializedVersion: 2
         x: 16
@@ -147,14 +191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 605861c26240f3e4a9c37e8666294199
-      internalID: -471734580
+      spriteID: 873db7700fbeeec478b07c79e2150fb0
+      internalID: 1579341229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoldierSheet_2
+      name: PriestSheet_4
       rect:
         serializedVersion: 2
         x: 0
@@ -169,36 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 404fd62ee0265bc408229efb5dbffa5a
-      internalID: -1375187937
+      spriteID: 5af2af186105a9d40a32e5f2ad0c4405
+      internalID: 426798069
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoldierSheet_3
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 879307929f73dc047b17f62f05942744
-      internalID: -1413524030
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SoldierSheet_4
+      name: PriestSheet_5
       rect:
         serializedVersion: 2
         x: 0
@@ -213,8 +235,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93d81de71dd1a914b8567445690c067b
-      internalID: -105742859
+      spriteID: bee7a083d9e79ec4cb919de90cd2930d
+      internalID: 481931966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PriestSheet_6
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d5e6506e1cbd3d48abe92d8ffe4faea
+      internalID: -2043378035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PriestSheet_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea2159808a729774088dfae3eb1ceb78
+      internalID: 140390928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PriestSheet_8
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a5820e9c34829a48abcc4149b01c4be
+      internalID: -1290628178
       vertices: []
       indices: 
       edges: []
@@ -223,7 +311,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 23d3fac9520167d4595378dd808c68fc
+    spriteID: 675f8a6daf8970d40aa2a00b99ad7f1a
     internalID: 0
     vertices: []
     indices: 
@@ -233,13 +321,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":3.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":4.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      SoldierSheet_0: 1226821801
-      SoldierSheet_1: -471734580
-      SoldierSheet_2: -1375187937
-      SoldierSheet_3: -1413524030
-      SoldierSheet_4: -105742859
+      PriestSheet_0: 260171739
+      PriestSheet_1: -1452589546
+      PriestSheet_2: 1144499651
+      PriestSheet_3: 1579341229
+      PriestSheet_4: 426798069
+      PriestSheet_5: 481931966
+      PriestSheet_6: -2043378035
+      PriestSheet_7: 140390928
+      PriestSheet_8: -1290628178
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

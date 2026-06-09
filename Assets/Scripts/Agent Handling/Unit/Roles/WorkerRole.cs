@@ -1,9 +1,10 @@
+using System.Security.Cryptography;
 using UnityEngine;
 public class WorkerRole : IUnitRole
 {
     public enum State
     {
-        None,
+        Idle,
         Gather,
         Store,
         Build,
@@ -64,6 +65,16 @@ public class WorkerRole : IUnitRole
         }
 
         return pos;
+    }
+
+    public void OnHit(float damage, Destructable source)
+    {
+        // Maybe flee?
+    }
+
+    public void OnReachedTarget()
+    {
+        SetState(State.Idle);
     }
 
     #region States
@@ -132,8 +143,7 @@ public class WorkerRole : IUnitRole
             }
             else
             {
-                SetState(State.None);
-                unit.SetIdle();
+                SetState(State.Idle);
                 targetResource = null;
             }
         }
@@ -152,8 +162,7 @@ public class WorkerRole : IUnitRole
                 if (Build())
                 {
                     // Finished building
-                    SetState(State.None);
-                    unit.SetIdle();
+                    SetState(State.Idle);
                 }
             }
 
