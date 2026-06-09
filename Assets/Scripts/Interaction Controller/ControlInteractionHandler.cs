@@ -56,7 +56,7 @@ public class ControlInteractionHandler : IInteractionHandler
                     Unit unit = controller.Target.Unit;
 
                     // Stop commanding current units if selecting different unit type
-                    if (unit.Role == null && commandSystem.State != CommandState.None ||
+                    if (unit.Role == null && commandSystem.State != CommandState.Unit ||
                         unit.Role is WorkerRole && commandSystem.State != CommandState.Worker ||
                         unit.Role is FighterRole && commandSystem.State != CommandState.Fighter)
                     {

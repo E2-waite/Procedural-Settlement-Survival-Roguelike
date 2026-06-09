@@ -10,17 +10,14 @@ public class BuildingSystem
     private BuildingStorage storage = new BuildingStorage();
     private BuildingSpawner spawner;
     private ResourceSystem resourceSystem;
-    private FireSystem fireSystem;
-    private UnitSystem followerSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
     private GameContext gameContext;
+
     public BuildingSystem(GameContext context)
     {
         spawner = context.buildingSpawner;
         resourceSystem = context.resourceSystem;
-        followerSystem = context.unitSystem;
-        fireSystem = context.fireSystem;
         World world = context.world;
         grid = world.Context.grid;
         gameContext = context;
@@ -64,11 +61,11 @@ public class BuildingSystem
 
             if (building is ResourceBuilding)
             {
-                ((ResourceBuilding)building).Init(resourceSystem);
+                ((ResourceBuilding)building).Init(gameContext);
             }
             else if (building is FireBuilding)
             {
-                ((FireBuilding)building).Init(fireSystem);
+                ((FireBuilding)building).Init(gameContext);
             }
 
             // Assign buildings to appropriate tiles

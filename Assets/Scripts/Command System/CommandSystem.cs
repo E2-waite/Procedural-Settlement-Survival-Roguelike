@@ -6,23 +6,23 @@ public class CommandSystem
     public enum CommandState
     {
         None,
+        Unit,
         Worker,
         Fighter
     }
 
     // Currently just for the command widget 
-    public enum CommandType
+    public enum InteractType
     {
         Move,
         Build,
         Attack,
         Defend,
         Gather,
-        Convert,
-        Max
+        Convert
     }
 
-    public CommandState commandState = CommandState.None;
+    public CommandState commandState = CommandState.Unit;
     public CommandState State => commandState;
     // Units in this list respond to player right-click commands.
     private List<Unit> commanding = new List<Unit>();
@@ -93,7 +93,7 @@ public class CommandSystem
     {
         if (unit == null) return;
 
-        if (unit.Role == null) SetState(CommandState.None);
+        if (unit.Role == null) SetState(CommandState.Unit);
         else if (unit.Role is WorkerRole) SetState(CommandState.Worker);
         else if (unit.Role is FighterRole) SetState(CommandState.Fighter);
 

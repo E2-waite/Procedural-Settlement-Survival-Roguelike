@@ -9,7 +9,6 @@ public class CommandWidget : MonoBehaviour
     public RectTransform Rect => rect;
 
     public float markerSize = 10f, markerSelectSize = 20;
-    public CommandTypeObject[] commandObjects = new CommandTypeObject[(int)CommandType.Max];
     public Image commandImage;
 
     public void Enable()

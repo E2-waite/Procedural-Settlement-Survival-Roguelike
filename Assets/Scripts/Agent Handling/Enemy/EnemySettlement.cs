@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using static GlobalDefs;
 public class EnemySettlement : Building
 {
     private EnemySystem enemySystem;
@@ -11,8 +11,9 @@ public class EnemySettlement : Building
     private bool initialized = false;
     private float spawnTimer = 0, spawnInterval = 10;
     int minDist = 1, maxDist = 10;
+    public override Faction Owner => Faction.Enemy;
 
-    public void Init(GameContext context)
+    public override void Init(GameContext context)
     {
         gameContext = context;
         enemySystem = context.enemySystem;

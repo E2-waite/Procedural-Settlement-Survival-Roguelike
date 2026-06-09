@@ -7,9 +7,9 @@ public class FireBuilding : Building
     [SerializeField] protected Fire fire = new Fire(false);
     public Light fireLight;
     private FireSystem fireSystem;
-    public void Init(FireSystem fireSystem)
+    public override void Init(GameContext context)
     {
-        this.fireSystem = fireSystem;
+        fireSystem = context.fireSystem;
     }
 
     protected override void Start()

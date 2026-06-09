@@ -74,7 +74,7 @@ public class GameBootstrapper : MonoBehaviour
     {
         GameObject fireObj = Instantiate(firePrefab, tile.worldPosition, Quaternion.identity);
         MainFireBuilding fireBuilding = fireObj.GetComponent<MainFireBuilding>();
-        fireBuilding.Init(context.fireSystem);
+        fireBuilding.Init(context);
         tile.Build(fireBuilding);
         fireBuilding.AddTile(tile);
         context.mainFireBuilding = fireBuilding;

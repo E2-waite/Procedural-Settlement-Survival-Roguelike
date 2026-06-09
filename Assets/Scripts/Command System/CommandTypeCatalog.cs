@@ -11,25 +11,25 @@ public class CommandTypeCatalog : ScriptableObject
     public CommandTypeObject Gather;
     public CommandTypeObject Convert;
 
-    public CommandTypeObject GetObject(CommandType type)
+    public CommandTypeObject GetObject(InteractType type)
     {
         CommandTypeObject commandType = Move;
 
         switch (type)
         {
-            case CommandType.Attack:
+            case InteractType.Attack:
                 commandType = Attack;
                 break;
-            case CommandType.Defend:
+            case InteractType.Defend:
                 commandType = Defend;
                 break;
-            case CommandType.Build:
+            case InteractType.Build:
                 commandType = Build;
                 break;
-            case CommandType.Gather:
+            case InteractType.Gather:
                 commandType = Gather;
                 break;
-            case CommandType.Convert:
+            case InteractType.Convert:
                 commandType = Convert;
                 break;
         }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using static InteractionController;
 using static CommandSystem;
-
+using static GlobalDefs;
+using System.Data;
 
 public class CommandInteractionHandler : IInteractionHandler
 {
@@ -26,49 +27,66 @@ public class CommandInteractionHandler : IInteractionHandler
         // Gets the target state when starting commanding
         clickTarget = new HoverTarget(controller.Target);
 
-        CommandType commandType = CommandType.Move;
-        if (commandSystem.State == CommandState.Fighter) commandType = CommandType.Defend;
+        InteractType commandType = InteractType.Move;
 
         switch (commandSystem.State)
         {
-            case CommandState.None:
-                if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
-                {
-                    commandType = CommandType.Convert;
-                }
+            case CommandState.Unit:
+                commandType = UnitInteractType();
                 break;
             case CommandState.Worker:
-                if (clickTarget.IsBuilding)
-                {
-                    if (!clickTarget.Building.Built)
-                    {
-                        commandType = CommandType.Build;
-                    }
-                    else if (clickTarget.Building is ResourceBuilding)
-                    {
-                        commandType = CommandType.Gather;
-                    }
-                    else if (clickTarget.Building is ConvertBuilding)
-                    {
-                        commandType = CommandType.Convert;
-                    }
-                }
+                commandType = WorkerInteractType();
                 break;
             case CommandState.Fighter:
-                if (clickTarget.IsEnemy)
-                {
-                    commandType = CommandType.Attack;
-                }
-                else if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
-                {
-                    commandType = CommandType.Convert;
-                }
+                commandType = FighterInteractType();
                 break;
         }
 
         commandPanel.ShowWidget(commandType);
         commandPanel.UpdateWidget(0, commandDiff, commandSelected);
         commandPanel.SetWidgetPos(controller.MousePos);
+    }
+
+    InteractType UnitInteractType()
+    {
+        if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
+        {
+            return InteractType.Convert;
+        }
+        return InteractType.Move;
+    }
+
+    InteractType WorkerInteractType()
+    {
+        if (clickTarget.IsBuilding && clickTarget.Building.Owner == Faction.Unit)
+        {
+            if (!clickTarget.Building.Built)
+            {
+                return InteractType.Build;
+            }
+            else if (clickTarget.Building is ResourceBuilding)
+            {
+                return InteractType.Gather;
+            }
+            else if (clickTarget.Building is ConvertBuilding)
+            {
+                return InteractType.Convert;
+            }
+        }
+        return InteractType.Move;
+    }
+
+    InteractType FighterInteractType()
+    {
+        if (clickTarget.IsEnemy)
+        {
+            return InteractType.Attack;
+        }
+        else if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
+        {
+            return  InteractType.Convert;
+        }
+        return InteractType.Defend;
     }
 
     public void Disable()

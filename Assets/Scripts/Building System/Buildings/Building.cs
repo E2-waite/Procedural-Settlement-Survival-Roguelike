@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GlobalDefs;
 public class Building : Destructable
 {
+    protected Faction owner;
+    public virtual Faction Owner => Faction.Unit;
     public override TargetType Type => TargetType.Building;
 
-    public bool autoBuild = false;
+    [SerializeField] bool prebuild = false;
     public int id;
     bool built = false, destroyed = false;
     public bool Built => built && !destroyed;
@@ -20,7 +22,7 @@ public class Building : Destructable
         if (!Built)
             mesh.material.color = Color.red;
 
-        if (autoBuild)
+        if (prebuild)
         {
             FinishBuilding();
         }

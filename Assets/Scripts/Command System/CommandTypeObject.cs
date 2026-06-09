@@ -6,5 +6,5 @@ public class CommandTypeObject : ScriptableObject
 {
     public Sprite icon;
     public Color color;
-    public CommandType type;
+    public InteractType type;
 }

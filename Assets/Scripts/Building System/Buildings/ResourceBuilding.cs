@@ -3,16 +3,16 @@ using UnityEngine;
 public class ResourceBuilding : Building
 {
     public ResourceNode.Type type;
-    ResourceSystem _resourceSystem;
+    ResourceSystem resourceSystem;
 
-    public void Init(ResourceSystem resourceSystem)
+    public override void Init(GameContext context)
     {
-        _resourceSystem = resourceSystem;
+        resourceSystem = context.resourceSystem;
     }
 
     public void Store(int count)
     {
-        _resourceSystem.StoreResource(type, count);
+        resourceSystem.StoreResource(type, count);
     }
 
 }

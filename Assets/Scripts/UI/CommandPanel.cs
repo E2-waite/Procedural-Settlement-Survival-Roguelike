@@ -27,7 +27,7 @@ public class CommandPanel : MonoBehaviour
 
     }
 
-    public void ShowWidget(CommandType type)
+    public void ShowWidget(InteractType type)
     {
         commandWidget.gameObject.SetActive(true);
         commandWidget.UpdateMarker(0, 0, false);
