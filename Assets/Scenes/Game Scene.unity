@@ -506,7 +506,7 @@ MonoBehaviour:
       worldPosition: {x: 0, y: 0, z: 0}
     agentCatalog: {fileID: 11400000, guid: 80d39e1366709e84cb8ff1ac53247f14, type: 2}
     buildingSpawner: {fileID: 8997166019633783114}
-    buildingCatalog: {fileID: 0}
+    buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
     enemySpawner: {fileID: 1000224189}
     enemyCatalog: {fileID: 11400000, guid: 125b9e4f6945f9244a0b59b79e36ca4b, type: 2}
     buildMask:

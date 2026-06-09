@@ -42,10 +42,9 @@ public class Enemy : Agent
 
     protected override void Update()
     {
-        return;
-
         if (IsDead) return;
         base.Update();
+        return;
 
         Targetting?.Tick();
         Combat?.Tick();

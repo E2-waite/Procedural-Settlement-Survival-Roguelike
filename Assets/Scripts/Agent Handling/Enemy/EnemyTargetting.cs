@@ -18,6 +18,7 @@ public class EnemyTargetting : AgentTargetting
 
     public override void Tick()
     {
+        base.Tick();
         if (dayNightSystem.Phase == DayNightSystem.DayPhase.Night && !targetting)
         {
             // Target fire

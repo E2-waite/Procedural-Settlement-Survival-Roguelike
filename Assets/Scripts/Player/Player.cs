@@ -98,7 +98,6 @@ public class Player : Destructable
 
         if (unit != null && !nearbyUnits.Contains(unit))
         {
-            unit.SetNearby();
             nearbyUnits.Add(unit);
         }
     }
@@ -109,7 +108,6 @@ public class Player : Destructable
 
         if (unit != null && nearbyUnits.Contains(unit))
         {
-            unit.ClearNearby();
             nearbyUnits.Remove(unit);
         }
     }

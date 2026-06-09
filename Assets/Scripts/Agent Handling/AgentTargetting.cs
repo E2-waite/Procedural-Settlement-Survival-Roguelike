@@ -9,11 +9,10 @@ public class AgentTargetting
     public Destructable currentTarget;
     public Destructable Current => currentTarget;
 
-    private Agent agent;
+    protected Agent agent;
 
     // Returns true if we have a target
-    public bool HasTarget() => currentTarget != null;
-
+    public bool HasTarget => currentTarget != null;
 
     public void Init(Agent agent)
     {

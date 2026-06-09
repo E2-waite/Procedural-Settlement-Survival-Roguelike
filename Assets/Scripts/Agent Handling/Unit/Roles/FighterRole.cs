@@ -27,14 +27,13 @@ public class FighterRole : IUnitRole
 
     public void Tick()
     {
-        SearchForEnemies();
-
         Targetting?.Tick();
         Combat?.Tick();
     }
 
     public void OnHit(float damage, Destructable source)
     {
+        // Target hit source
         Targetting.AddTarget(source, damage);
     }
 
@@ -45,18 +44,19 @@ public class FighterRole : IUnitRole
 
     public void OnReachedTarget()
     {
-        Combat.StartDefending();
+        // Start defending if target reached when in moving state
+        //Combat.StartDefending();
     }
 
     #region Commanding
-    // Commands to move to tile
+    // Commands fighter to defend a tile (doesn't consume command)
     public bool Command(GridTile tile)
     {
-        if (tile == null) return false;
         Combat.DefendTile(tile);
         return false;
     }
 
+    // Commands fighter to target agent
     public bool Command(Agent agent)
     {
         if (agent is Enemy)
@@ -75,25 +75,6 @@ public class FighterRole : IUnitRole
     }
     #endregion
     #region Targetting
-    private void Target(Enemy enemy)
-    {
 
-    }
-
-    void SearchForEnemies()
-    {
-        // Find hostile units
-        List<Agent> enemies = unit.GetNearbyHostile();
-
-        foreach (Agent enemy in enemies)
-        {
-            Targetting.AddTarget(enemy, 10f);
-        }
-
-        // Add nearby hostile targets to target candidates
-        //Combat.AddTargets(hostile);
-    }
     #endregion
-
-
 }

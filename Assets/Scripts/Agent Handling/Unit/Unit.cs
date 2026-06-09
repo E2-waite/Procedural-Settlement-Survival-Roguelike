@@ -7,7 +7,8 @@ public class Unit : Agent
 {
     public enum State
     {
-        None,
+        Idle,
+        Working,
         Moving,
         Following,
         Converting
@@ -31,6 +32,7 @@ public class Unit : Agent
     public IUnitRole Role => role;
     private ConvertBuilding convertBuilding = null;
     private GameContext gameContext;
+
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -38,8 +40,8 @@ public class Unit : Agent
         fireSystem = context.fireSystem;
         health.Fill();
 
-        state = State.None;
-        lastState = State.None;
+        state = State.Idle;
+        lastState = State.Idle;
 
         unitSystem = context.unitSystem;
         unitSystem.AddUnit(this);
@@ -54,22 +56,22 @@ public class Unit : Agent
         if (IsDead) return; // Dead
 
         base.Update();
-
-        role?.Tick();
-        if (state == State.None) role?.HandleStates();
     }
 
+    #region Roles
+    // Update and init the current role on convert
     public void SetRole(IUnitRole newRole)
     {
         role = newRole;
         role.Init(gameContext, this);
     }
 
+    // Updates the agent object on convert or init
     public void UpdateObject(AgentObject agentObject)
     {
         Sprite.Init(spriteRend, agentObject);
     }
-
+    #endregion
     #region States
     // Generic SetState function for setting units' state to generic state (Working, moving, following and attacking)
     public virtual void SetState(State newState)
@@ -81,27 +83,16 @@ public class Unit : Agent
         }
     }
 
-    // Generic GetState function for getting units' state as an int
-    protected virtual State GetState()
-    {
-        return state;
-    }
-
     public void SetWorking()
     {
-        SetState(State.None);
-    }
-
-    public void StartCombat()
-    {
-        //SetState(State.Combat);
+        SetState(State.Working);
     }
 
     protected override void HandleStates()
     {
         switch(state)
         {
-            case State.None:
+            case State.Working:
                 WorkingState(); break;
 
             case State.Moving:
@@ -122,12 +113,18 @@ public class Unit : Agent
 
         if (movement.HasPath && movement.TargetReached)
         {
-            SetState(State.None);
-            role?.OnReachedTarget();
+            if (role == null)
+            {
+                SetState(State.Idle);
+            }
+            else
+            {
+                SetState(State.Working);
+            }
         }
     }
 
-    // Follow player
+    // Continuously follows the player
     protected virtual void FollowState()
     {
         // Continuously update path
@@ -144,11 +141,15 @@ public class Unit : Agent
         movement.FollowPath();
     }
 
+    // Update role
     protected virtual void WorkingState()
     {
-
+        role?.Tick();
+        role?.HandleStates();
     }
 
+
+    // Moves towards convert building and convert unit role when in range
     protected virtual void ConvertState()
     {
         movement.FollowPath();
@@ -163,12 +164,11 @@ public class Unit : Agent
         }
     }
     #endregion
-
     #region Taking Damage
     protected override void OnDeathStart()
     {
         base.OnDeathStart();
-        unitSystem.RemoveUnit(this);
+        unitSystem.RemoveUnit(this); // Removes this unit on death
     }
 
     // Handles receiving hits from another agent. Returns true if target is dead
@@ -178,17 +178,16 @@ public class Unit : Agent
 
         if (!died)
         {
-            role?.OnHit(damage, source);
+            role?.OnHit(damage, source); // Trigger hit event in current role
         }
 
         return died;
     }
 
     #endregion
-
     #region Commanding
 
-    // Set state to following, set target player, and request a path
+    // Start commanding this unit
     public virtual void StartCommanding(Player thePlayer)
     {
         commanding = true;
@@ -197,7 +196,7 @@ public class Unit : Agent
         markerSprite.color = Color.green;
     }
 
-    // Stops following the player
+    // Stops commanding this unit
     public virtual void StopCommanding()
     {
         if (state == State.Following)
@@ -208,52 +207,50 @@ public class Unit : Agent
         markerSprite.enabled = false;
     }
 
-    // Commands to move to tile
+    // Commands unit to move to the passed tile
     public virtual void Command(GridTile tile)
     {
-        if (role != null && role.Command(tile))
-        {
-            SetState(State.None);
-        }
-        else
-        {
-            // Move to tile if empty
-            RequestPath(tile);
-            SetState(State.Moving);
-        }
+        role?.Command(tile);
 
+        // Move to tile if empty and role didn't consume command
+        RequestPath(tile);
+        SetState(State.Moving);
     }
 
+    // Commands unit to interact with an agent
     public virtual void Command(Agent agent)
     {
         if (role != null && role.Command(agent))
         {
-            SetState(State.None);
+            SetState(State.Working);
         }
     }
 
+    // Commands unit to interact with a building
     public virtual void Command(Building building) 
     {
         if (building is ConvertBuilding)
         {
             ConvertBuilding convertBuilding = (ConvertBuilding)building;
 
-            if (!convertBuilding.SameType(role))
+            if (!convertBuilding.SameType(role)) // Only convert if building is not of the same role type
                 StartConverting((ConvertBuilding)building);
         }
         else if (role != null && role.Command(building))
         {
-            SetState(State.None);
+            SetState(State.Working);
         }
     }
 
+    // Sets convert state and requests path
     private void StartConverting(ConvertBuilding building)
     {
         SetState(State.Converting);
-        convertBuilding = (ConvertBuilding)building;
+        convertBuilding = building;
         RequestPath(building.Tile);
     }
 
+    // Sets follow state and requests path
     public virtual void StartFollowing()
     {
         if (player != null)
@@ -265,8 +262,6 @@ public class Unit : Agent
     }
 
     #endregion
-
-
     #region Agent Detection
     public override List<Agent> GetNearbyFriendly()
     {
@@ -289,23 +284,4 @@ public class Unit : Agent
     }
     // TODO: get nearby when the chunk's units change, rather than continuously every second
     #endregion
-
-
-
-    public void SetNearby()
-    {
-        if (!commanding)
-        {
-            markerSprite.enabled = true;
-            markerSprite.color = Color.white;
-        }
-    }
-
-    public void ClearNearby()
-    {
-        if (!commanding)
-        {
-            markerSprite.enabled = false;
-        }
-    }
 }

@@ -44,11 +44,6 @@ public class AgentCombat
         ExecuteState();
     }
 
-    public void StartDefending()
-    {
-        SetState(CombatState.Defending);
-    }
-
     public void SetState(CombatState state)
     {
         if (state != this.state)
@@ -56,6 +51,7 @@ public class AgentCombat
             lastState = this.state;
             this.state = state;
 
+            // If defending, path to the defending tile
             if (state == CombatState.Defending && defendingTile != null)
             {
                 agent?.RequestPath(defendingTile.position, defendingTile.worldPosition);
@@ -68,17 +64,22 @@ public class AgentCombat
     {
         if (agent.IsDead) return;
 
-        // Target choice is based on threat first, then distance/range determines the action.
         if (targetting.Current == null && targetting.Candidates.Count == 0)
         {
-            SetState(CombatState.Defending);
+            // Defend if defending tile is available else set to none
+            if (defendingTile == null)
+                SetState(CombatState.None);
+            else
+                SetState(CombatState.Defending);
         }
         else if (InRange())
         {
+            // Start attacking if we have targets and in range
             SetState(CombatState.Attacking);
         }
         else
         {
+            // Start chasing if we have targets but not in range
             SetState(CombatState.Chasing);
         }
     }
@@ -102,26 +103,22 @@ public class AgentCombat
         }
     }
 
+    // Start defending a tile and requests path
     public void DefendTile(GridTile tile)
     {
         defendingTile = tile;
-        SetState(CombatState.Defending);
-        agent?.RequestPath(defendingTile.position, defendingTile.worldPosition);
     }
-
-    //public bool HasTargets => targetCandidates.Count > 0;
 
     // Returns true if in range of the target
     public bool InRange()
     {
         if (targetting?.Current == null) return false;
-
         float dist = Vector3.Distance(agent.transform.position, targetting.Current.transform.position);
-
         return dist < attackDist;
     }
 
     #region Actions
+    // Attack (hit) the current target
     public bool Attack()
     {
         if (targetting.Current == null || attackTimer > 0) return false;
@@ -135,27 +132,19 @@ public class AgentCombat
         return true;
     }
 
-    // Should return to defending pos
+    // Returns to defending tile
     void Defend()
     {
-        if (targetting.Candidates.Count > 0) // Target new threat if one exists
-        {
-            SetState(CombatState.Attacking);
-        }
-        else // Move back to defending tile
-        {
-            // Move towards defending tile
-            agent?.movement.FollowPath();
-        }
-}
+        agent?.movement.FollowPath();
+    }
 
     // Move towards target
     void Chase()
     {
-       // if ()
+        if (!targetting.HasTarget) return;
 
         // Request a new path only when there is no active path or pending request.
-        if (agent != null & !agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))
+        if (agent != null && !agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))
         {
             agent.RequestPath(targetting.TargetPos(), targetting.Current.transform.position);
         }

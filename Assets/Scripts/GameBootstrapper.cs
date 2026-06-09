@@ -53,6 +53,7 @@ public class GameBootstrapper : MonoBehaviour
         EnemySystem.Init(context);
         DayNightSystem.Init(context);
         //SpawnEnemySettlement(FindSettlementTile());
+
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }

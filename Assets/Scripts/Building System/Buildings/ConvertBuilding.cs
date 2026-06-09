@@ -40,7 +40,7 @@ public class ConvertBuilding : Building
         yield return new WaitForSeconds(convertTime);
         unit.SetRole(Role.New());
         unit.gameObject.SetActive(true);
-        unit.SetState(Unit.State.None);
+        unit.SetState(Unit.State.Idle);
         activeConversions--;
     }
 }

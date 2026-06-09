@@ -45,6 +45,8 @@ public class WorkerRole : IUnitRole
     }
 
     public bool InRange => Vector3.Distance(unit.transform.position, TargetPos()) < interactDist;
+
+    // Returns the position of the current work target
     Vector3 TargetPos()
     {
         Vector3 pos = unit.transform.position;
@@ -79,23 +81,24 @@ public class WorkerRole : IUnitRole
         // Maybe flee?
     }
 
+    // Called when unit reaches target position when in moving state
     public void OnReachedTarget()
     {
         SetState(State.Idle);
     }
 
     #region States
+    // Sets the current work state
     void SetState(State state)
     {
         if (this.state != state)
         {
             lastState = this.state;
             this.state = state;
-            Debug.Log("Entering " + state.ToString());
         }
-
     }
 
+    // Handles state execution
     public void HandleStates()
     {
         switch (state)
@@ -111,6 +114,7 @@ public class WorkerRole : IUnitRole
         }
     }
 
+    // GatherState: Gather resources when in range
     void GatherState()
     {
         if (InRange)
@@ -124,17 +128,15 @@ public class WorkerRole : IUnitRole
         }
     }
 
+    // StoreState : Stores resources when in range and find the next available resource
     void StoreState()
     {
         if (InRange)
         {
             Store();
 
-            // TODO: get closest PATHABLE instead of closest
-
             // After storing, immediately look for the next nearby resource to keep the worker busy.
             ResourceNode nextNode = resourceSystem.GetClosestNode(targetStore);
-
             if (nextNode == null && targetResource != null)
             {
                 // If no resources in range of store, find closest node to current target resource
@@ -160,6 +162,7 @@ public class WorkerRole : IUnitRole
         }
     }
 
+    // Build buildings when in range
     void BuildState()
     {
         if (InRange)
@@ -181,7 +184,7 @@ public class WorkerRole : IUnitRole
     }
     #endregion
     #region Commanding
-    // Commands to move to tile
+
     public bool Command(GridTile tile)
     {
         return false;
@@ -208,11 +211,6 @@ public class WorkerRole : IUnitRole
                 Target((ResourceBuilding)building);
                 return true;
             }
-            else if (building is BarracksBuilding)
-            {
-                Target(building);
-                return true;
-            }
         }
         return false;
     }
@@ -229,6 +227,7 @@ public class WorkerRole : IUnitRole
         unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition, true);
     }
 
+    // Target the passed resource building
     public void Target(ResourceBuilding store)
     {
         if (store != null)
@@ -253,33 +252,14 @@ public class WorkerRole : IUnitRole
         }
     }
 
+    // Target building to start building state
     public void Target(Building building)
     {
         if (building == null) return;
 
-        // Built barracks convert workers; unfinished buildings are construction targets.
-        if (building.Built)
-        {
-            if (building is BarracksBuilding)
-            {
-                targetBuilding = building;
-                SetState(State.Convert);
-
-                Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
-
-                unit.RequestPath(buildingPos, building.transform.position);
-
-            }
-        }
-        else
-        {
-            targetBuilding = building;
-            SetState(State.Build);
-
-            Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
-
-            unit.RequestPath(buildingPos, building.transform.position);
-        }
+        targetBuilding = building;
+        SetState(State.Build);
+        unit.RequestPath(building.GridPos, building.transform.position);
     }
     #endregion
     #region Actions

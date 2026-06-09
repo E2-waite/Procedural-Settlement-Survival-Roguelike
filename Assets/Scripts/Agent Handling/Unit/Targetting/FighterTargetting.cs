@@ -3,9 +3,19 @@ using UnityEngine;
 
 public class FighterTargetting : AgentTargetting
 {
-
-    public void Tick()
+    public override void Tick()
     {
+        base.Tick();
+        SearchForEnemies();
+    }
 
+    void SearchForEnemies()
+    {
+        List<Agent> enemies = agent.GetNearbyHostile();
+
+        foreach (Agent enemy in enemies)
+        {
+            AddTarget(enemy, 10f);
+        }
     }
 }
