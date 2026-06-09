@@ -5,7 +5,7 @@ using static CommandSystem;
 public class CommandPanel : MonoBehaviour
 {
     [SerializeField] private CommandWidget commandWidget;
-
+    public CommandTypeCatalog commandCatalog;
     public void Init(GameContext context)
     {
         
@@ -27,10 +27,10 @@ public class CommandPanel : MonoBehaviour
 
     }
 
-    public void ShowWidget(CommandType commandType)
+    public void ShowWidget(CommandType type)
     {
         commandWidget.gameObject.SetActive(true);
         commandWidget.UpdateMarker(0, 0, false);
-        commandWidget.Show(commandType);
+        commandWidget.Show(commandCatalog.GetObject(type));
     }
 }

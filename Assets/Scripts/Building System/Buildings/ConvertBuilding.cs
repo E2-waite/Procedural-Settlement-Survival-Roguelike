@@ -6,9 +6,14 @@ public class ConvertBuilding : Building
     [SerializeField] public float convertTime = 5f; // Seconds
     [SerializeField] private int maxCapacity = 3;
     protected int activeConversions = 0;
-
+    private CommandSystem commandSystem;
     protected virtual IUnitRole Role => null;
     public virtual bool SameType(IUnitRole unitRole) => false;
+
+    public override void Init(GameContext context) 
+    {
+        commandSystem = context.commandSystem;
+    }
 
     public virtual void Convert(Unit unit)
     {
@@ -30,6 +35,7 @@ public class ConvertBuilding : Building
         }
 
         // Disable worker
+        commandSystem.StopCommanding(unit);
         unit.gameObject.SetActive(false);
         yield return new WaitForSeconds(convertTime);
         unit.SetRole(Role.New());

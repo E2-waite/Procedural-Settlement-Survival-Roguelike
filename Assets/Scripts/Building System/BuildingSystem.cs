@@ -14,6 +14,7 @@ public class BuildingSystem
     private UnitSystem followerSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
+    private GameContext gameContext;
     public BuildingSystem(GameContext context)
     {
         spawner = context.buildingSpawner;
@@ -22,6 +23,7 @@ public class BuildingSystem
         fireSystem = context.fireSystem;
         World world = context.world;
         grid = world.Context.grid;
+        gameContext = context;
     }
 
     public void Select(BuildingObject selection)
@@ -53,6 +55,7 @@ public class BuildingSystem
         if (CanBuild(tile.position, selected.size) && CanAfford(selected))
         {
             Building building = spawner.Spawn(selected, tile);
+            building.Init(gameContext);
 
             if (building == null) return false;
 

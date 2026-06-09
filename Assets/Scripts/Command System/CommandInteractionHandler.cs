@@ -29,21 +29,41 @@ public class CommandInteractionHandler : IInteractionHandler
         CommandType commandType = CommandType.Move;
         if (commandSystem.State == CommandState.Fighter) commandType = CommandType.Defend;
 
-        if (clickTarget.IsBuilding)
+        switch (commandSystem.State)
         {
-            Building building = clickTarget.Building;
-            if (!building.Built)
-            {
-                commandType = CommandType.Build;
-            }
-            else if (building is ResourceBuilding)
-            {
-                commandType = CommandType.Gather;
-            }
-        }
-        else if (clickTarget.IsAgent)
-        {
-            commandType = CommandType.Attack;
+            case CommandState.None:
+                if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
+                {
+                    commandType = CommandType.Convert;
+                }
+                break;
+            case CommandState.Worker:
+                if (clickTarget.IsBuilding)
+                {
+                    if (!clickTarget.Building.Built)
+                    {
+                        commandType = CommandType.Build;
+                    }
+                    else if (clickTarget.Building is ResourceBuilding)
+                    {
+                        commandType = CommandType.Gather;
+                    }
+                    else if (clickTarget.Building is ConvertBuilding)
+                    {
+                        commandType = CommandType.Convert;
+                    }
+                }
+                break;
+            case CommandState.Fighter:
+                if (clickTarget.IsEnemy)
+                {
+                    commandType = CommandType.Attack;
+                }
+                else if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
+                {
+                    commandType = CommandType.Convert;
+                }
+                break;
         }
 
         commandPanel.ShowWidget(commandType);

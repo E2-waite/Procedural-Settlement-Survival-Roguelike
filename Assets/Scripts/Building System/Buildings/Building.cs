@@ -12,6 +12,9 @@ public class Building : Destructable
     public MeshRenderer mesh;
     private bool hovering = false;
     private List<GridTile> tiles = new List<GridTile>();
+
+    public virtual void Init(GameContext context) { }
+
     protected virtual void Start()
     {
         if (!Built)
@@ -21,10 +24,6 @@ public class Building : Destructable
         {
             FinishBuilding();
         }
-    }
-
-    public void Init(int id)
-    {
     }
 
 
@@ -52,6 +51,7 @@ public class Building : Destructable
     protected virtual void FinishBuilding()
     {
         mesh.material.color = Color.green;
+        built = true;
     }
 
     public void SetHovering()

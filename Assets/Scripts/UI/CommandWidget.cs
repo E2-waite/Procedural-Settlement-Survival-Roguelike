@@ -22,10 +22,10 @@ public class CommandWidget : MonoBehaviour
 
     }
 
-    public void Show(CommandType commandType)
+    public void Show(CommandTypeObject commandObj)
     {
-        commandImage.sprite = commandObjects[(int)commandType].icon;
-        commandImage.color = commandObjects[(int)commandType].color;
+        commandImage.sprite = commandObj.icon;
+        commandImage.color = commandObj.color;
     }
 
     public void UpdateMarker(float diff, float max, bool selected)

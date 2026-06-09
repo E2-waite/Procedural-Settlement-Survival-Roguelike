@@ -49,7 +49,7 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
-  autoBuild: 0
+  autoBuild: 1
   id: 0
   mesh: {fileID: 2646544779832954327}
   convertTime: 5

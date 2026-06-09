@@ -18,6 +18,7 @@ public class CommandSystem
         Attack,
         Defend,
         Gather,
+        Convert,
         Max
     }
 

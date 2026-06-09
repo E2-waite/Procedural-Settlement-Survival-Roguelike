@@ -49,11 +49,9 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
-  tilePos: {x: 0, y: 0}
-  autoBuild: 0
+  autoBuild: 1
   id: 0
   mesh: {fileID: 2646544779832954327}
-  fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
   convertTime: 5
   maxCapacity: 3
 --- !u!1 &8875262411121038824
