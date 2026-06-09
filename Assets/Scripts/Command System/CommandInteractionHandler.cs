@@ -21,8 +21,6 @@ public class CommandInteractionHandler : IInteractionHandler
 
     public void Enable()
     {
-        if (commandSystem.State == CommandState.None) return;
-
         Cursor.visible = false;
 
         // Gets the target state when starting commanding

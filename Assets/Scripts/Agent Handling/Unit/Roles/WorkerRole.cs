@@ -24,12 +24,18 @@ public class WorkerRole : IUnitRole
     public float interactDist = 1.5f;
 
     private int maxCapacity = 10;
+    public IUnitRole New()
+    {
+        return new WorkerRole();
+    }
+
     public void Init(GameContext context, Unit unit)
     {
         this.unit = unit;
         resourceSystem = context.resourceSystem;
         buildingSystem = context.buildingSystem;
         storage.max = maxCapacity;
+        Debug.Log("Init worker");
     }
 
     public void Tick()

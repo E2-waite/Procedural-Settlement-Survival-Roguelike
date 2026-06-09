@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IUnitRole
 {
+    IUnitRole New();
     void Init(GameContext context, Unit unit);
 
     void Tick();

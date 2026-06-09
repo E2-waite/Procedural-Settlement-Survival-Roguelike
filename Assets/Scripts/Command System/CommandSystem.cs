@@ -21,7 +21,7 @@ public class CommandSystem
         Max
     }
 
-    private CommandState commandState = CommandState.None;
+    public CommandState commandState = CommandState.None;
     public CommandState State => commandState;
     // Units in this list respond to player right-click commands.
     private List<Unit> commanding = new List<Unit>();

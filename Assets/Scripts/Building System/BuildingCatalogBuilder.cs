@@ -9,7 +9,7 @@ public static class BuildingCatalogBuilder
     {
         string path = "Assets/ScriptableObjects/Buildings";
 
-        var catalog = AssetDatabase.LoadAssetAtPath<BuildingCatalog>("Assets/BuildingCatalog.asset");
+        var catalog = AssetDatabase.LoadAssetAtPath<BuildingCatalog>("Assets/ScriptableObjects/BuildingCatalog.asset");
         catalog.buildings.Clear();
 
         string[] guids = AssetDatabase.FindAssets("t:BuildingObject", new[] { path });

@@ -10,11 +10,16 @@ public class FighterRole : IUnitRole
     public FighterTargetting Targetting => targetting;
 
     private Unit unit;
+    public IUnitRole New()
+    {
+        return new FighterRole();
+    }
     public void Init(GameContext context, Unit unit)
     {
         this.unit = unit;
         Targetting?.Init(unit);
         Combat?.Init(unit, Targetting);
+        Debug.Log("Init Fighter");
     }
 
     public void Tick()

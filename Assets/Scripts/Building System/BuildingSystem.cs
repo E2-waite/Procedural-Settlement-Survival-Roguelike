@@ -67,10 +67,6 @@ public class BuildingSystem
             {
                 ((FireBuilding)building).Init(fireSystem);
             }
-            else if (building is BarracksBuilding)
-            {
-                ((BarracksBuilding)building).Init(followerSystem);
-            }
 
             // Assign buildings to appropriate tiles
             for (int x = tile.position.x; x < tile.position.x + selected.size.x; x++)

@@ -9,7 +9,8 @@ public class Unit : Agent
     {
         None,
         Moving,
-        Following
+        Following,
+        Converting
     }
 
     public float followDist = 1.5f;
@@ -26,9 +27,10 @@ public class Unit : Agent
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected FireSystem fireSystem;
 
-    private IUnitRole role = new FighterRole();
+    private IUnitRole role;
     public IUnitRole Role => role;
-
+    private ConvertBuilding convertBuilding = null;
+    private GameContext gameContext;
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -43,6 +45,7 @@ public class Unit : Agent
         unitSystem.AddUnit(this);
 
         role?.Init(context, this);
+        gameContext = context;
     }
 
     protected override void Update()
@@ -53,6 +56,12 @@ public class Unit : Agent
 
         role?.Tick();
         if (state == State.None) role?.HandleStates();
+    }
+
+    public void SetRole(IUnitRole newRole)
+    {
+        role = newRole;
+        role.Init(gameContext, this);
     }
 
     #region States
@@ -94,6 +103,9 @@ public class Unit : Agent
 
             case State.Following:
                 FollowState(); break;
+
+            case State.Converting:
+                ConvertState(); break;
         }
     }
 
@@ -126,14 +138,23 @@ public class Unit : Agent
         movement.FollowPath();
     }
 
-    protected virtual void CombatState()
+    protected virtual void WorkingState()
     {
 
     }
 
-    protected virtual void WorkingState()
+    protected virtual void ConvertState()
     {
+        movement.FollowPath();
 
+        if (movement.HasPath && movement.TargetReached)
+        {
+            if (convertBuilding != null)
+            {
+                convertBuilding.Convert(this);
+                convertBuilding = null;
+            }
+        }
     }
     #endregion
 
@@ -207,10 +228,24 @@ public class Unit : Agent
 
     public virtual void Command(Building building) 
     {
-        if (role != null && role.Command(building))
+        if (building is ConvertBuilding)
+        {
+            ConvertBuilding convertBuilding = (ConvertBuilding)building;
+
+            if (!convertBuilding.SameType(role))
+                StartConverting((ConvertBuilding)building);
+        }
+        else if (role != null && role.Command(building))
         {
             SetState(State.None);
         }
+    }
+
+    private void StartConverting(ConvertBuilding building)
+    {
+        SetState(State.Converting);
+        convertBuilding = (ConvertBuilding)building;
+        RequestPath(building.Tile);
     }
 
     public virtual void StartFollowing()
