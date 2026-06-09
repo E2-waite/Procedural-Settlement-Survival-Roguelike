@@ -22,16 +22,11 @@ public class FighterUnit : Unit
         //Combat.AddTargets(hostile);
     }
 
-    public void Init(WorkerUnit unit)
-    {
-        health = unit.Health;
-    }
-
     // Called when unit reaches target tile when in move state
     protected override void TargetTileReached()
     {
         // Starts defending if reached target position
-        SetState(State.Combat);
+        //SetState(State.Combat);
         Combat.SetState(AgentCombat.CombatState.Defending);
     }
 
@@ -51,7 +46,7 @@ public class FighterUnit : Unit
         if (tile == null) return;
 
         bool handled = true;
-        SetState(State.Combat);
+        //SetState(State.Combat);
         Combat.DefendTile(tile);
 
         if (!handled)

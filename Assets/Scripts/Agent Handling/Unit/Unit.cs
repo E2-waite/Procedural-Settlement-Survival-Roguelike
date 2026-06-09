@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Unit : Agent
 {
@@ -9,9 +10,9 @@ public class Unit : Agent
         Idle,
         Moving,
         Following,
-        Combat,
-        Work
+        Working
     }
+
     [SerializeField] public AgentCombat combat = new AgentCombat();
 
     public override AgentCombat Combat => combat;
@@ -28,15 +29,15 @@ public class Unit : Agent
     private Camera cam;
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected FireSystem fireSystem;
-    protected PathfindingHandler pathfinding;
+
+    private IUnitRole role = new WorkerRole();
+    public IUnitRole Role => role;
 
     public override void Init(GameContext context)
     {
         base.Init(context);
         World world = context.world;
         fireSystem = context.fireSystem;
-        pathfinding = context.pathfinding;
-
         health.Fill();
 
         state = State.Idle;
@@ -44,6 +45,8 @@ public class Unit : Agent
 
         unitSystem = context.unitSystem;
         unitSystem.AddUnit(this);
+
+        role?.Init(context, this);
     }
 
     protected virtual void Start()
@@ -55,7 +58,11 @@ public class Unit : Agent
     protected override void Update()
     {
         if (IsDead) return; // Dead
+
         base.Update();
+
+        role?.Tick();
+        if (state == State.Working) role?.HandleStates();
     }
 
     #region States
@@ -82,7 +89,7 @@ public class Unit : Agent
 
     public void StartCombat()
     {
-        SetState(State.Combat);
+        //SetState(State.Combat);
     }
 
     protected override void HandleStates()
@@ -98,10 +105,10 @@ public class Unit : Agent
             case State.Following:
                 FollowState(); break;
 
-            case State.Combat:
-                CombatState(); break;
+            //case State.Combat:
+            //    CombatState(); break;
 
-            case State.Work:
+            case State.Working:
                 WorkingState(); break;
         }
     }
@@ -181,17 +188,34 @@ public class Unit : Agent
     // Commands to move to tile
     public virtual void Command(GridTile tile)
     {
-        // Move to tile if empty
-        RequestPath(tile);
-        SetState(State.Moving);
+        if (role != null && role.Command(tile))
+        {
+            SetState(State.Working);
+        }
+        else
+        {
+            // Move to tile if empty
+            RequestPath(tile);
+            SetState(State.Moving);
+        }
+
     }
 
     public virtual void Command(Agent agent)
     {
-        // No longer following player
+        if (role != null && role.Command(agent))
+        {
+            SetState(State.Working);
+        }
     }
 
-    public virtual void Command(Building building) { }
+    public virtual void Command(Building building) 
+    {
+        if (role != null && role.Command(building))
+        {
+            SetState(State.Working);
+        }
+    }
     #endregion
 
     #region Targeting
@@ -202,7 +226,7 @@ public class Unit : Agent
         {
             Targetting.Target(agent);
 
-            SetState(State.Combat);
+            //SetState(State.Combat);
 
             RequestPath(Targetting.TargetPos(), agent.transform.position);
         }

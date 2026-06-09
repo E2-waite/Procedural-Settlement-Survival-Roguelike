@@ -512,10 +512,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
-  workerPrefab: {fileID: 6264898249333736780, guid: e85cb5ba4ea55ce41a4f9af07fa72748, type: 3}
+  unitPrefab: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
-  fighterPrefab: {fileID: 4515021916246453854, guid: abd8e03dde36c8b49bd0bd36d9c79c20, type: 3}
-  enemyPrefab: {fileID: 63626461859941047, guid: 1edab3cc0c8d12b41864e29b157dbf14, type: 3}
   enemySettlementPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
   context:
     player: {fileID: 0}
@@ -7446,7 +7444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldLight: {fileID: 144633817}
-  dayDuration: 25
+  dayDuration: 600
   nightDuration: 25
   thresh: 5
   dayColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}

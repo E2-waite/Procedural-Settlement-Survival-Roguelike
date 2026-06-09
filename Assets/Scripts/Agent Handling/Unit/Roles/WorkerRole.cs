@@ -1,12 +1,7 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static WorkerUnit;
-
-// Handles worker-only jobs such as gathering, storing, building, and converting.
-[System.Serializable]
-public class UnitWork
+public class WorkerRole : IUnitRole
 {
-    public enum WorkState
+    public enum State
     {
         None,
         Gather,
@@ -14,56 +9,54 @@ public class UnitWork
         Build,
         Convert
     }
-    public WorkState state, lastState;
-    public float interactDist = 1.5f;
-    float interactInterval = 0.5f, interactTimer = 0;
-    private bool startedConverting = false;
-    private ResourceSystem resourceSystem;
-    WorkerUnit unit;
+    public State state, lastState;
+    Unit unit;
+    private ResourceSystem resourceSystem; 
+    private BuildingSystem buildingSystem;
 
     ResourceNode targetResource;
     public ResourceBuilding targetStore;
     Building targetBuilding;
+    float interactInterval = 0.5f, interactTimer = 0;
+    [SerializeField] public ResourceStorage storage = new ResourceStorage();
 
+    public float interactDist = 1.5f;
 
-
-    public void Init(WorkerUnit unit, GameContext context)
+    private int maxCapacity = 10;
+    public void Init(GameContext context, Unit unit)
     {
         this.unit = unit;
         resourceSystem = context.resourceSystem;
+        buildingSystem = context.buildingSystem;
+        storage.max = maxCapacity;
     }
 
-    public void Update()
+    public void Tick()
     {
         if (interactTimer > 0) interactTimer -= Time.deltaTime;
     }
 
+    public bool InRange => Vector3.Distance(unit.transform.position, TargetPos()) < interactDist;
     Vector3 TargetPos()
     {
         Vector3 pos = unit.transform.position;
 
         switch (state)
         {
-            case WorkState.Gather:
+            case State.Gather:
                 if (targetResource != null)
                 {
                     pos = targetResource.tile.worldPosition;
                 }
                 break;
-            case WorkState.Store:
+            case State.Store:
                 if (targetStore != null)
                 {
                     pos = targetStore.transform.position;
                 }
                 break;
-            case WorkState.Build:
+            case State.Build:
                 if (targetBuilding != null)
-                {
-                    pos = targetBuilding.transform.position;
-                }
-                break;
-            case WorkState.Convert:
-                if (targetBuilding != null && targetBuilding is BarracksBuilding)
                 {
                     pos = targetBuilding.transform.position;
                 }
@@ -73,45 +66,36 @@ public class UnitWork
         return pos;
     }
 
-    public bool InRange()
-    {
-        return Vector3.Distance(unit.transform.position, TargetPos()) < interactDist;
-    }
-
-    void MoveToTarget()
-    {
-
-    }
-
     #region States
-    void SetState(WorkState state)
+    void SetState(State state)
     {
-        lastState = this.state;
-        this.state = state;
+        if (this.state != state)
+        {
+            lastState = this.state;
+            this.state = state;
+            Debug.Log("Entering " + state.ToString());
+        }
+
     }
 
-    // Executes the current worker state.
-    public void ExecuteState()
+    public void HandleStates()
     {
         switch (state)
         {
-            case WorkState.Gather:
+            case State.Gather:
                 GatherState(); break;
 
-            case WorkState.Store:
+            case State.Store:
                 StoreState(); break;
 
-            case WorkState.Build:
+            case State.Build:
                 BuildState(); break;
-
-            case WorkState.Convert:
-                ConvertState(); break;
         }
     }
 
     void GatherState()
     {
-        if (InRange())
+        if (InRange)
         {
             if (interactTimer <= 0)
                 Gather();
@@ -124,7 +108,7 @@ public class UnitWork
 
     void StoreState()
     {
-        if (InRange())
+        if (InRange)
         {
             Store();
 
@@ -144,11 +128,11 @@ public class UnitWork
 
             if (nextNode != null)
             {
-                SetTarget(nextNode);
+                Target(nextNode);
             }
             else
             {
-                SetState(WorkState.None);
+                SetState(State.None);
                 unit.SetIdle();
                 targetResource = null;
             }
@@ -161,76 +145,89 @@ public class UnitWork
 
     void BuildState()
     {
-        if (InRange())
+        if (InRange)
         {
             if (interactTimer <= 0)
             {
                 if (Build())
                 {
                     // Finished building
-                    SetState(WorkState.None);
+                    SetState(State.None);
                     unit.SetIdle();
                 }
             }
-                
+
         }
         else
         {
             unit.Movement.FollowPath();
         }
     }
-
-    void ConvertState()
+    #endregion
+    #region Commanding
+    // Commands to move to tile
+    public bool Command(GridTile tile)
     {
-        if (!startedConverting && InRange())
-        {
-            if (targetBuilding is BarracksBuilding)
-            {
-                BarracksBuilding barracks = (BarracksBuilding)targetBuilding;
+        return false;
+    }
 
-                if (barracks != null)
-                {
-                    startedConverting = true;
-                    //barracks.Convert(unit);
-                    SetState(WorkState.None);
-                    unit.SetIdle();
-                }
-            }    
+    public bool Command(Agent agent)
+    {
+        return false;
+    }
+
+    public bool Command(Building building) 
+    {
+        if (!building.Built)
+        {
+            // If building isn't built, repair/build
+            Target(building);
+            return true;
         }
         else
         {
-            unit.movement.FollowPath();
+            // If building IS built, interact
+            if (building is ResourceBuilding)
+            {
+                Target((ResourceBuilding)building);
+                return true;
+            }
+            else if (building is BarracksBuilding)
+            {
+                Target(building);
+                return true;
+            }
         }
+        return false;
     }
-
     #endregion
-    #region Targeting
-    public void SetTarget(ResourceNode resource)
+    #region Targetting
+    public void Target(ResourceNode resource)
     {
         if (resource == null) return;
 
         // Resource targets always put the worker into gather mode and path to the node tile.
         targetResource = resource;
-        SetState(WorkState.Gather);
+        SetState(State.Gather);
 
         unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition, true);
     }
 
-    public void SetTarget(ResourceBuilding store)
+    public void Target(ResourceBuilding store)
     {
         if (store != null)
         {
-            if (unit.storage.IsEmpty(store.type))
+            if (storage.IsEmpty(store.type))
             {
                 // If we don't have resources, just start gathering closest nodes
                 ResourceNode closestResource = resourceSystem.GetClosestNode(store);
-                SetTarget(closestResource);
+                Target(closestResource);
             }
             else
             {
                 // Store resources if have some
                 targetStore = store;
-                SetState(WorkState.Store);
+                SetState(State.Store);
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
@@ -240,7 +237,7 @@ public class UnitWork
         }
     }
 
-    public void SetTarget(Building building)
+    public void Target(Building building)
     {
         if (building == null) return;
 
@@ -250,7 +247,7 @@ public class UnitWork
             if (building is BarracksBuilding)
             {
                 targetBuilding = building;
-                SetState(WorkState.Convert);
+                SetState(State.Convert);
 
                 Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
@@ -261,25 +258,42 @@ public class UnitWork
         else
         {
             targetBuilding = building;
-            SetState(WorkState.Build);
+            SetState(State.Build);
 
             Vector2Int buildingPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.z);
 
             unit.RequestPath(buildingPos, building.transform.position);
         }
-
-
     }
     #endregion
-
     #region Actions
+    // Checks if resources are at capacity and switch to storing if so
+    public bool CheckCapacity()
+    {
+        if (storage.AtCapacity())
+        {
+            // Find closest resource store
+            ResourceBuilding closestStore = buildingSystem.GetClosestStore(ResourceNode.Type.Wood, unit.GridPos);
+            if (closestStore == null)
+            {
+                //SetState(State.Idle);
+            }
+            if (closestStore != null)
+            {
+                Target(closestStore);
+            }
+
+            return true;
+        }
+        return false;
+    }
     public void Gather()
     {
-        if (!unit.CheckCapacity())
+        if (!CheckCapacity())
         {
             Debug.Log("Gathering " + targetResource.type.ToString());
 
-            unit.storage.Add(targetResource.type, targetResource.Gather(5));
+            storage.Add(targetResource.type, targetResource.Gather(5));
             interactTimer = interactInterval;
 
             if (targetResource.IsEmpty())
@@ -288,7 +302,7 @@ public class UnitWork
 
                 if (neighbuoringNode != null)
                 {
-                    SetTarget(neighbuoringNode);
+                    Target(neighbuoringNode);
                 }
                 else
                 {
@@ -296,7 +310,7 @@ public class UnitWork
                 }
             }
 
-            unit.CheckCapacity();
+            CheckCapacity();
         }
     }
 
@@ -304,8 +318,8 @@ public class UnitWork
     {
         if (targetStore != null)
         {
-            targetStore.Store(unit.storage.Get(targetStore.type));
-            unit.storage.Clear(targetStore.type);
+            targetStore.Store(storage.Get(targetStore.type));
+            storage.Clear(targetStore.type);
 
             // Find next node
             return true;

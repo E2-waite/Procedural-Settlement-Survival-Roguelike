@@ -4,10 +4,10 @@ using UnityEngine;
 public class GameBootstrapper : MonoBehaviour
 {
     public GameObject playerPrefab;
-    public GameObject workerPrefab;
+    public GameObject unitPrefab;
     public GameObject firePrefab;
-    public GameObject fighterPrefab;
-    public GameObject enemyPrefab;
+    //public GameObject fighterPrefab;
+    //public GameObject enemyPrefab;
     public GameObject enemySettlementPrefab;
     [SerializeField] private GameContext context = new GameContext();
     World World => context.world;
@@ -44,14 +44,14 @@ public class GameBootstrapper : MonoBehaviour
         InputManager.EnableGameplayInput();
         CameraController.Init(context);
         SpawnFire(context.spawnTile);
-        SpawnWorker(context.spawnTile);
-        SpawnFighter(context.spawnTile);
+        SpawnUnit(context.spawnTile);
+        //SpawnFighter(context.spawnTile);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
         Manager.Init(context);
         EnemySystem.Init(context);
         DayNightSystem.Init(context);
-        SpawnEnemySettlement(FindSettlementTile());
+        //SpawnEnemySettlement(FindSettlementTile());
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }
@@ -86,38 +86,30 @@ public class GameBootstrapper : MonoBehaviour
         context.player.Init(context);
     }
 
-    // Spawns the initial worker
-    private void SpawnWorker(GridTile tile)
+    // Spawns the initial unit
+    private void SpawnUnit(GridTile tile)
     {
-        GameObject workerObj = Instantiate(workerPrefab, tile.Center + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
-        WorkerUnit worker = workerObj.GetComponent<WorkerUnit>();
-        worker.Init(context);
-    }
-
-    // Spawns the initial fighter
-    private void SpawnFighter(GridTile tile)
-    {
-        GameObject fighterObj = Instantiate(fighterPrefab, tile.Center + new Vector3(-1f, 0.5f, -1f), Quaternion.identity);
-        FighterUnit fighter = fighterObj.GetComponent<FighterUnit>();
-        fighter.Init(context);
+        GameObject unitObj = Instantiate(unitPrefab, tile.Center + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
+        Unit unit = unitObj.GetComponent<Unit>();
+        unit.Init(context);
     }
 
     // Spawns the initial enemy
-    private void SpawnEnemy(GridTile tile)
-    {
-        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
-        Enemy enemy = enemyObj.GetComponent<Enemy>();
-        enemy.Init(context);
-    }
+    //private void SpawnEnemy(GridTile tile)
+    //{
+    //    GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
+    //    Enemy enemy = enemyObj.GetComponent<Enemy>();
+    //    enemy.Init(context);
+    //}
 
-    private void SpawnEnemySettlement(GridTile tile)
-    {
-        GameObject settlementObj = Instantiate(enemySettlementPrefab, tile.worldPosition, Quaternion.identity);
-        EnemySettlement settlement = settlementObj.GetComponent<EnemySettlement>();
-        settlement.Init(context);
-        settlement.AddTile(tile);
-        tile.Build(settlement);
-    }
+    //private void SpawnEnemySettlement(GridTile tile)
+    //{
+    //    GameObject settlementObj = Instantiate(enemySettlementPrefab, tile.worldPosition, Quaternion.identity);
+    //    EnemySettlement settlement = settlementObj.GetComponent<EnemySettlement>();
+    //    settlement.Init(context);
+    //    settlement.AddTile(tile);
+    //    tile.Build(settlement);
+    //}
 
     // Finds an appropriate start tile
     GridTile FindSpawnTile()

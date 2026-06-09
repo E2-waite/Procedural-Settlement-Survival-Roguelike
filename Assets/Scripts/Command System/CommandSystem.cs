@@ -92,7 +92,8 @@ public class CommandSystem
     {
         if (unit == null) return;
 
-        if (unit is WorkerUnit) SetState(CommandState.Worker);
+        if (unit.Role == null) SetState(CommandState.None);
+        else if (unit.Role is WorkerRole) SetState(CommandState.Worker);
         else if (unit is FighterUnit) SetState(CommandState.Fighter);
 
         if (!commanding.Contains(unit))
