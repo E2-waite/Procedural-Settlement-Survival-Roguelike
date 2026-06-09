@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class WorkerUnit : FriendlyUnit
+public class WorkerUnit : Unit
 {
     [SerializeField] public ResourceStorage storage = new ResourceStorage();
     [SerializeField] UnitWork work = new UnitWork();
     BuildingSystem buildingSystem;
     private WorkerTargetting targetting = new WorkerTargetting();
-    public override Targetting Targetting => (Targetting)targetting;
+    public override AgentTargetting Targetting => targetting;
 
     public override void Init(GameContext context)
     {

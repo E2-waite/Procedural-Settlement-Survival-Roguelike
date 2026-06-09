@@ -40,7 +40,7 @@ public class EnemySettlement : Building
 
                 if (spawnTile != null)
                 {
-                    EnemyUnit enemy = spawner.SpawnEnemy(catalog.testEnemy, spawnTile);
+                    Enemy enemy = spawner.SpawnEnemy(catalog.testEnemy, spawnTile);
                     enemy.Init(gameContext, this, spawnTile);
                 }
             }

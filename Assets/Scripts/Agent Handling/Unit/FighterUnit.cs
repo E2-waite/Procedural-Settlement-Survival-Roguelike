@@ -1,22 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FighterUnit : FriendlyUnit
+public class FighterUnit : Unit
 {
-    [SerializeField] public UnitCombat combat = new UnitCombat();
-    public override UnitCombat Combat => combat;
+    public override AgentCombat Combat => combat;
     public float searchDist = 10f; // Only target enemies within this distance when scanning
     private FighterTargetting targetting = new FighterTargetting();
-    public override Targetting Targetting => (Targetting)targetting;
+    public override AgentTargetting Targetting => targetting;
 
-    void SearchForHostile()
+    void SearchForEnemies()
     {
         // Find hostile units
-        List<Unit> hostile = GetNearbyHostile();
+        List<Agent> enemies = GetNearbyHostile();
 
-        foreach (Unit hostileUnit in hostile)
+        foreach (Agent enemy in enemies)
         {
-            Targetting.AddTarget(hostileUnit, 10f);
+            Targetting.AddTarget(enemy, 10f);
         }
 
         // Add nearby hostile targets to target candidates
@@ -33,7 +32,7 @@ public class FighterUnit : FriendlyUnit
     {
         // Starts defending if reached target position
         SetState(State.Combat);
-        Combat.SetState(UnitCombat.CombatState.Defending);
+        Combat.SetState(AgentCombat.CombatState.Defending);
     }
 
     protected override void CombatState()
@@ -41,7 +40,7 @@ public class FighterUnit : FriendlyUnit
         base.CombatState();
 
         // Search for hostile
-        SearchForHostile();
+        SearchForEnemies();
     }
 
     #region Commanding
@@ -60,13 +59,13 @@ public class FighterUnit : FriendlyUnit
     }
 
     // Command to interact with unit
-    public override void Command(Unit unit)
+    public virtual void Command(Enemy enemy)
     {
-        if (unit == null || unit == this) return;
+        if (enemy == null || enemy == this) return;
 
-        if (unit is EnemyUnit)
+        if (enemy is Enemy)
         {
-            TargetUnit(unit);
+            targetting.Target(enemy);
         }
     }
 
@@ -74,7 +73,7 @@ public class FighterUnit : FriendlyUnit
 
     #region Detecting Units
     // Gets nearby follower units for targetting
-    public override List<Unit> GetNearbyHostile()
+    public override List<Agent> GetNearbyHostile()
     {
         if (chunk != null)
         {

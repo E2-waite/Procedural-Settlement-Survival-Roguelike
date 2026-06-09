@@ -59,7 +59,7 @@ public class GameBootstrapper : MonoBehaviour
     // Creates the game systems
     private void CreateSystems()
     {
-        context.followerSystem = new FollowerSystem();
+        context.unitSystem = new UnitSystem();
         context.enemySystem = new EnemySystem();
         context.resourceSystem = new ResourceSystem();
         context.buildingSystem = new BuildingSystem(context);
@@ -106,7 +106,7 @@ public class GameBootstrapper : MonoBehaviour
     private void SpawnEnemy(GridTile tile)
     {
         GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
-        EnemyUnit enemy = enemyObj.GetComponent<EnemyUnit>();
+        Enemy enemy = enemyObj.GetComponent<Enemy>();
         enemy.Init(context);
     }
 

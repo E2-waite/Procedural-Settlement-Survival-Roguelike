@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Damageable
+public class Player : Destructable
 {
     PlayerController controller;
     public Light fireLight;
     public override TargetType Type => TargetType.Player;
-    [SerializeField] UnitSprite sprite = new UnitSprite();
+    [SerializeField] AgentSprite sprite = new AgentSprite();
     [SerializeField] Fire fire = new Fire(false);
-    private List<FriendlyUnit> nearbyUnits = new List<FriendlyUnit>();
-    public List<FriendlyUnit> NearbyUnits => nearbyUnits;
+    private List<Unit> nearbyUnits = new List<Unit>();
+    public List<Unit> NearbyUnits => nearbyUnits;
     public float fireLightDist = 2f, fireCheckInterval = .5f;
     private float fireCheckTimer = 0f;
     private Chunk chunk;
@@ -94,7 +94,7 @@ public class Player : Damageable
 
     private void OnTriggerEnter(Collider other)
     {
-        FriendlyUnit unit = other.GetComponent<FriendlyUnit>();
+        Unit unit = other.GetComponent<Unit>();
 
         if (unit != null && !nearbyUnits.Contains(unit))
         {
@@ -105,7 +105,7 @@ public class Player : Damageable
 
     private void OnTriggerExit(Collider other)
     {
-        FriendlyUnit unit = other.GetComponent<FriendlyUnit>();
+        Unit unit = other.GetComponent<Unit>();
 
         if (unit != null && nearbyUnits.Contains(unit))
         {

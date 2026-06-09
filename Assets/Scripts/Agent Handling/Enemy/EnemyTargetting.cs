@@ -1,15 +1,17 @@
 using UnityEngine;
-using static Unit;
-public class EnemyTargetting : Targetting
+using static Enemy;
+public class EnemyTargetting : AgentTargetting
 {
     private DayNightSystem dayNightSystem;
-    private EnemyUnit unit;
+    private Enemy enemy;
     private MainFireBuilding mainFire;
     bool targetting = false, returning = false;
 
-    public void Init(GameContext context, EnemyUnit unit)
+    public void Init(GameContext context, Enemy enemy)
     {
-        this.unit = unit;
+        this.enemy = enemy;
+        base.Init(enemy);
+
         dayNightSystem = context.dayNightSystem;
         mainFire = context.mainFireBuilding;
     }
@@ -29,9 +31,9 @@ public class EnemyTargetting : Targetting
 
     private void ReturnToSpawn()
     {
-        Debug.Log(unit.name + " returning to spawn");
-        unit.RequestPath(unit.SpawnTile);
-        unit.SetState(State.Moving);
+        Debug.Log(enemy.name + " returning to spawn");
+        enemy.RequestPath(enemy.SpawnTile);
+        enemy.SetState(State.Moving);
         returning = true;
         targetting = false;
     }
@@ -40,15 +42,15 @@ public class EnemyTargetting : Targetting
     {
         if (mainFire != null)
         {
-            Debug.Log(unit.name + " targetting fire");
+            Debug.Log(enemy.name + " targetting fire");
 
             targetting = true;
             returning = false;
             Target(mainFire);
 
-            unit.SetState(State.Combat);
+            enemy.SetState(State.Combat);
 
-            unit.RequestPath(TargetPos(), mainFire.transform.position);
+            enemy.RequestPath(TargetPos(), mainFire.transform.position);
         }
     }
 }

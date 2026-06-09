@@ -4,18 +4,18 @@ using UnityEngine.UIElements;
 public class HoverTarget
 {
     private GridTile hoveringTile = null;
-    private Unit hoveringUnit = null;
+    private Agent hoveringAgent = null;
     private Building hoveringBuilding = null;
 
     public bool IsTile => hoveringTile != null;
     public GridTile Tile => hoveringTile;
 
-    public bool IsUnit => hoveringUnit != null;
-    public bool IsFollower => hoveringUnit != null && hoveringUnit is FriendlyUnit;
-    public bool IsEnemy => hoveringUnit != null && hoveringUnit is EnemyUnit;
-    public Unit Unit => hoveringUnit;
-    public FriendlyUnit Follower => (FriendlyUnit)hoveringUnit;
-    public EnemyUnit Enemy => (EnemyUnit)hoveringUnit;
+    public bool IsAgent => hoveringAgent != null;
+    public bool IsUnit => hoveringAgent != null && hoveringAgent is Unit;
+    public bool IsEnemy => hoveringAgent != null && hoveringAgent is Enemy;
+    public Agent Agent => hoveringAgent;
+    public Unit Follower => (Unit)hoveringAgent;
+    public Enemy Enemy => (Enemy)hoveringAgent;
 
     public bool IsBuilding => hoveringBuilding != null;
     public Building Building => hoveringBuilding;
@@ -30,9 +30,9 @@ public class HoverTarget
         {
             Set(otherTarget.Tile);
         }
-        else if (otherTarget.IsUnit)
+        else if (otherTarget.IsAgent)
         {
-            Set(otherTarget.Unit);
+            Set(otherTarget.Agent);
         }
         else if (otherTarget.IsBuilding)
         {
@@ -42,9 +42,9 @@ public class HoverTarget
 
     public void Update(RaycastHit hit, WorldGrid grid)
     {
-        if (hit.transform.GetComponentInParent<Unit>() is Unit unit)
+        if (hit.transform.GetComponentInParent<Agent>() is Agent agent)
         {
-            Set(unit);
+            Set(agent);
         }
         else if (hit.transform.GetComponentInParent<Building>() is Building building)
         {
@@ -71,13 +71,13 @@ public class HoverTarget
         }
     }
 
-    private void Set(Unit unit)
+    private void Set(Agent agent)
     {
-        if (unit != hoveringUnit)
+        if (agent != hoveringAgent)
         {
             ClearOld();
-            hoveringUnit = unit;
-            hoveringUnit.Highlight(true);
+            hoveringAgent = agent;
+            hoveringAgent.Highlight(true);
         }
     }
 
@@ -93,10 +93,10 @@ public class HoverTarget
 
     private void ClearOld()
     {
-        if (hoveringUnit != null)
+        if (hoveringAgent != null)
         {
-            hoveringUnit.Highlight(false);
-            hoveringUnit = null;
+            hoveringAgent.Highlight(false);
+            hoveringAgent = null;
         }
         else if (hoveringTile != null)
         {

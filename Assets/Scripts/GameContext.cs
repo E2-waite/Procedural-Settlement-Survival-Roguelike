@@ -16,7 +16,7 @@ public class GameContext
     public CommandPanel commandPanel;
     public CommandSystem commandSystem;
     public ResourceSystem resourceSystem;
-    public FollowerSystem followerSystem;
+    public UnitSystem unitSystem;
     public FireSystem fireSystem;
     public InputManager inputManager;
     public ChunkStreaming chunkStreaming;

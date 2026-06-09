@@ -1,13 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyUnit : Unit
+public class Enemy : Agent
 {
-    [SerializeField] public UnitCombat combat = new UnitCombat();
-    public override UnitCombat Combat => combat;
+    public enum State
+    {
+        Idle,
+        Moving,
+        Combat
+    }
+    private State state = State.Idle;
+
+    [SerializeField] public AgentCombat combat = new AgentCombat();
+    public override AgentCombat Combat => combat;
 
     private EnemyTargetting targetting = new EnemyTargetting();
-    public override Targetting Targetting => (Targetting)targetting;
+    public override AgentTargetting Targetting => targetting;
 
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
@@ -33,20 +41,69 @@ public class EnemyUnit : Unit
 
     protected override void Update()
     {
+        if (IsDead) return;
         base.Update();
-
-        targetting.Tick();
     }
+
+    public void SetState(State state)
+    {
+        if (this.state != state)
+        {
+            this.state = state;
+        }
+    }
+
+    protected override void HandleStates()
+    {
+        switch (state)
+        {
+            case State.Idle:
+                IdleState(); break;
+
+            case State.Moving:
+                MovingState(); break;
+
+            case State.Combat:
+                CombatState(); break;
+        }
+    }
+
+    protected virtual void IdleState()
+    {
+        // Do nothing
+    }
+
+    // Moves to target position
+    protected virtual void MovingState()
+    {
+        movement.FollowPath();
+
+        if (movement.HasPath && movement.TargetReached)
+        {
+            TargetTileReached();
+        }
+    }
+
+    protected virtual void CombatState()
+    {
+        if (Combat != null)
+        {
+            Combat.UpdateState();
+            Combat.ExecuteState();
+        }
+    }
+
+
     #region Taking Damage
 
-    public override bool Hit(float damage, Damageable source)
+    public override bool Hit(float damage, Destructable source)
     {
         if (base.Hit(damage, source)) return true;
 
         if (source is FighterUnit)
         {
             // Targets the unit that hit this enemy
-            TargetUnit((FighterUnit)source);
+            Targetting.AddTarget(source, 10);
         }
 
         return false;
@@ -62,18 +119,18 @@ public class EnemyUnit : Unit
 
     #region Detecting Units
     // Gets nearby follower units for targetting
-    public override List<Unit> GetNearbyHostile()
+    public override List<Agent> GetNearbyHostile()
     {
         if (chunk != null)
         {
-            return chunk.GetFollowers();
+            return chunk.GetUnits();
         }
 
         return null;
     }
 
     // Gets nearby enemies units for swarming
-    public override List<Unit> GetNearbyFriendly()
+    public override List<Agent> GetNearbyFriendly()
     {
         if (chunk != null)
         {

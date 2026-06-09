@@ -37,7 +37,7 @@ public class ControlInteractionHandler : IInteractionHandler
     public void OnLeftHeld(Vector2 diff, float time)
     {
         // Starts commanding hoving unit when LMB held for over .25 seconds
-        if (time >= .25f && controller.Target.IsFollower)
+        if (time >= .25f && controller.Target.IsUnit)
         {
             commandSystem.StartCommanding(controller.Target.Follower);
         }
@@ -47,16 +47,16 @@ public class ControlInteractionHandler : IInteractionHandler
         // Stops commanding units when LMB released and held for less than .25 seconds (tap) and not hovering over unit
         if (time < .25f)
         {
-            if (!controller.Target.IsUnit)
+            if (!controller.Target.IsAgent)
                 commandSystem.StopCommanding();
             else
             {
-                if (controller.Target.IsFollower)
+                if (controller.Target.IsUnit)
                 {
-                    FriendlyUnit follower = controller.Target.Follower;
+                    Unit follower = controller.Target.Follower;
 
                     // Stop commanding current units if selecting different unit type
-                    if (follower is FriendlyUnit && commandSystem.State == CommandState.Fighter ||
+                    if (follower is Unit && commandSystem.State == CommandState.Fighter ||
                         follower is FighterUnit && commandSystem.State == CommandState.Worker)
                     {
                         commandSystem.StopCommanding();

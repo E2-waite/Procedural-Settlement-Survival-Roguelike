@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class UnitSprite
+public class AgentSprite
 {
     public SpriteRenderer spriteRenderer;
     public Sprite upRight;

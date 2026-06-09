@@ -1,33 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Targetting
+public class AgentTargetting
 {
     List<TargetCandidate> targetCandidates = new List<TargetCandidate>();
     public List<TargetCandidate> Candidates => targetCandidates;
 
-    public Damageable currentTarget;
-    public Damageable Current => currentTarget;
+    public Destructable currentTarget;
+    public Destructable Current => currentTarget;
 
-    private Unit unit;
+    private Agent agent;
 
     // Returns true if we have a target
     public bool HasTarget() => currentTarget != null;
 
 
-    public void Init(Unit unit)
+    public void Init(Agent agent)
     {
-        this.unit = unit;
+        this.agent = agent;
     }
 
     public virtual void Tick()
     {
-        if (unit.IsDead) return;
+        if (agent.IsDead) return;
 
         CheckTargets();
     }
 
-    public void Target(Damageable target)
+    public void Target(Destructable target)
     {
         currentTarget = target;
     }
@@ -39,7 +39,7 @@ public class Targetting
     }
 
     // Add threat to the threat candidate associated with the target
-    public void AddTarget(Damageable target, float threat)
+    public void AddTarget(Destructable target, float threat)
     {
         if (target == null) return;
 
@@ -53,14 +53,14 @@ public class Targetting
                 threat = threat
             };
 
-            unit.Targetting.Candidates.Add(newCandidate);
+            agent.Targetting.Candidates.Add(newCandidate);
         }
     }
 
-    public TargetCandidate GetCandidate(Damageable target)
+    public TargetCandidate GetCandidate(Destructable target)
     {
         // Check if we already have this target
-        foreach (TargetCandidate existing in unit.Targetting.Candidates)
+        foreach (TargetCandidate existing in agent.Targetting.Candidates)
         {
             if (existing.target == target)
             {
@@ -77,22 +77,22 @@ public class Targetting
 
         TargetCandidate highestThreat = HighestThreat();
 
-        if (highestThreat != null && highestThreat.target != unit.Targetting.Current)
+        if (highestThreat != null && highestThreat.target != agent.Targetting.Current)
         {
             // TODO: have a threshold to ensure it doesn't continuously switch targets when threat is close
-            unit.Targetting.Target(highestThreat.target);
+            agent.Targetting.Target(highestThreat.target);
         }
     }
 
     private void UpdateThreat()
     {
         // Iterate backwards so candidates can be removed while scanning.
-        for (int i = unit.Targetting.Candidates.Count - 1; i >= 0; i--)
+        for (int i = agent.Targetting.Candidates.Count - 1; i >= 0; i--)
         {
-            TargetCandidate candidate = unit.Targetting.Candidates[i];
+            TargetCandidate candidate = agent.Targetting.Candidates[i];
             if (candidate == null || candidate.target == null) // Remove null (dead) candidates
             {
-                unit.Targetting.Candidates.RemoveAt(i);
+                agent.Targetting.Candidates.RemoveAt(i);
                 continue;
             }
         }
@@ -103,9 +103,9 @@ public class Targetting
     {
         float highestVal = 0;
         TargetCandidate highestThreat = null;
-        for (int i = unit.Targetting.Candidates.Count - 1; i >= 0; i--)
+        for (int i = agent.Targetting.Candidates.Count - 1; i >= 0; i--)
         {
-            TargetCandidate candidate = unit.Targetting.Candidates[i];
+            TargetCandidate candidate = agent.Targetting.Candidates[i];
             if (candidate.threat > highestVal)
             {
                 highestVal = candidate.threat;
@@ -116,9 +116,9 @@ public class Targetting
         return highestThreat;
     }
 
-    public void AddThreat(Damageable target, float threat)
+    public void AddThreat(Destructable target, float threat)
     {
-        TargetCandidate targetCandidate = unit.Targetting.GetCandidate(target);
+        TargetCandidate targetCandidate = agent.Targetting.GetCandidate(target);
         if (targetCandidate == null)
         {
             // If no candidate with target exists, set threat and add to candidates list.
@@ -128,7 +128,7 @@ public class Targetting
                 threat = threat
             };
 
-            unit.Targetting.Candidates.Add(newCandidate);
+            agent.Targetting.Candidates.Add(newCandidate);
         }
         else
         {

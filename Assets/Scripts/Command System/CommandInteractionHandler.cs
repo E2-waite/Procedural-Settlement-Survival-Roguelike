@@ -43,7 +43,7 @@ public class CommandInteractionHandler : IInteractionHandler
                 commandType = CommandType.Gather;
             }
         }
-        else if (clickTarget.IsUnit)
+        else if (clickTarget.IsAgent)
         {
             commandType = CommandType.Attack;
         }

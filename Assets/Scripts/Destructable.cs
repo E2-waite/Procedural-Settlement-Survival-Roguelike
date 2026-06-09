@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damageable : MonoBehaviour
+public class Destructable : MonoBehaviour
 {
     public enum TargetType
     {
-        Unit,
+        Agent,
         Building,
         Fire,
         Player,
         Max
     }
 
-    public virtual TargetType Type => TargetType.Unit;
+    public virtual TargetType Type => TargetType.Agent;
     [SerializeField] protected Health health = new Health();
     public Health Health => health;
 
@@ -23,7 +23,7 @@ public class Damageable : MonoBehaviour
     public Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
     // Handles receiving hits from units. Returns true if target is dead
-    public virtual bool Hit(float damage, Damageable source)
+    public virtual bool Hit(float damage, Destructable source)
     {
         if (dead) return true; // Already dead
         else

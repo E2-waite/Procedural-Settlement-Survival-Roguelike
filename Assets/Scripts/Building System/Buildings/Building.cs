@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : Damageable
+public class Building : Destructable
 {
     public override TargetType Type => TargetType.Building;
 

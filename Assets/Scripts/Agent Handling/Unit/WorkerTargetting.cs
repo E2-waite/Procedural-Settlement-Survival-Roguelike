@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorkerTargetting : Targetting
+public class WorkerTargetting : AgentTargetting
 {
     public override void Tick()
     {

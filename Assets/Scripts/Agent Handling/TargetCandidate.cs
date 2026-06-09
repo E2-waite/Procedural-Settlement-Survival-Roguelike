@@ -2,6 +2,6 @@ using UnityEngine;
 
 public class TargetCandidate
 {
-    public Damageable target;
+    public Destructable target;
     public float threat;
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class UnitMovement
+public class AgentMovement
 {
     [SerializeField] public float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
     public List<Vector2Int> path = new List<Vector2Int>();
@@ -15,11 +15,11 @@ public class UnitMovement
     public GridTile TargetTile => targetTile;
     public bool ReachedTarget => pathIndex >= path.Count;
 
-    Unit unit;
+    Agent agent;
 
-    public void Init(Unit unit)
+    public void Init(Agent agent)
     {
-        this.unit = unit;
+        this.agent = agent;
     }
 
     public void SetTargetTile(GridTile tile)
@@ -57,16 +57,16 @@ public class UnitMovement
 
             Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
 
-            Vector3 pathDir = (targetPos - unit.transform.position).normalized;
+            Vector3 pathDir = (targetPos - agent.transform.position).normalized;
             Vector3 swarmDir = SwarmDirection();
 
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
-            Vector3 movePos = unit.transform.position + (moveDir * moveSpeed * Time.deltaTime);
+            Vector3 movePos = agent.transform.position + (moveDir * moveSpeed * Time.deltaTime);
             movePos.y = 0;
-            unit.transform.position = movePos;
+            agent.transform.position = movePos;
 
-            if ((unit.transform.position - targetPos).sqrMagnitude < reachedThresh)
+            if ((agent.transform.position - targetPos).sqrMagnitude < reachedThresh)
             {
                 pathIndex++;
             }
@@ -75,16 +75,16 @@ public class UnitMovement
 
     protected Vector3 SwarmDirection()
     {
-        List<Unit> friendlyUnits = unit.GetNearbyFriendly();
+        List<Agent> friendlyUnits = agent.GetNearbyFriendly();
 
         if (friendlyUnits == null) return Vector3.zero;
 
         Vector3 separation = Vector3.zero;
-        foreach (Unit nearby in friendlyUnits)
+        foreach (Agent nearby in friendlyUnits)
         {
             if (nearby == null) continue;
 
-            Vector3 diff = unit.transform.position - nearby.transform.position;
+            Vector3 diff = agent.transform.position - nearby.transform.position;
             float dist = diff.magnitude;
 
             if (dist < swarmRadius && dist > 0.0001f)

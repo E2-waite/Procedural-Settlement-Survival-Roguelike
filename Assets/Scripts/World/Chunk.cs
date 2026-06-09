@@ -22,8 +22,8 @@ public class Chunk : MonoBehaviour
     public Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
     Player player = null;
-    public List<Unit> followers = new List<Unit>();
-    public List<Unit> enemies = new List<Unit>();
+    public List<Agent> unitAgents = new List<Agent>();
+    public List<Agent> enemyAgents = new List<Agent>();
     public  List<Chunk> neighbouringChunks = new List<Chunk>();
     private TileCatalog tileCatalog;
 
@@ -41,7 +41,7 @@ public class Chunk : MonoBehaviour
         tileCatalog = world.Context.tileCatalog;
         int size = world.Context.chunkSize;
 
-        // Chunks own their mesh, local tile lookup, unit lists, and resource renderer.
+        // Chunks own their mesh, local tile lookup, agent lists, and resource renderer.
         WorldGrid grid = world.Context.grid;
 
         position = pos;
@@ -98,35 +98,35 @@ public class Chunk : MonoBehaviour
         grid.SetChunk(this, pos);
     }
 
-    public void AddUnit(Unit unit)
+    public void AddAgent(Agent agent)
     {
-        if (unit is FriendlyUnit)
+        if (agent is Unit)
         {
-            FriendlyUnit follower = (FriendlyUnit)unit;
-            if (!followers.Contains(follower))
-                followers.Add(follower);
+            Unit follower = (Unit)agent;
+            if (!unitAgents.Contains(follower))
+                unitAgents.Add(follower);
         }
-        else if (unit is EnemyUnit)
+        else if (agent is Enemy)
         {
-            EnemyUnit enemy = (EnemyUnit)unit;
-            if (!enemies.Contains(enemy))
-                enemies.Add(enemy);
+            Enemy enemy = (Enemy)agent;
+            if (!enemyAgents.Contains(enemy))
+                enemyAgents.Add(enemy);
         }
     }
 
-    public void RemoveUnit(Unit unit)
+    public void RemoveAgent(Agent agent)
     {
-        if (unit is FriendlyUnit)
+        if (agent is Unit)
         {
-            FriendlyUnit follower = (FriendlyUnit)unit;
-            if (followers.Contains(follower))
-                followers.Remove(follower);
+            Unit follower = (Unit)agent;
+            if (unitAgents.Contains(follower))
+                unitAgents.Remove(follower);
         }
-        else if (unit is EnemyUnit)
+        else if (agent is Enemy)
         {
-            EnemyUnit enemy = (EnemyUnit)unit;
-            if (enemies.Contains(enemy))
-                enemies.Remove(enemy);
+            Enemy enemy = (Enemy)agent;
+            if (enemyAgents.Contains(enemy))
+                enemyAgents.Remove(enemy);
         }
     }
 
@@ -277,12 +277,12 @@ public class Chunk : MonoBehaviour
 
 
 
-    public List<Unit> GetEnemies(bool includeSurrounding = true)
+    public List<Agent> GetEnemies(bool includeSurrounding = true)
     {
-        if (!includeSurrounding) return enemies;
+        if (!includeSurrounding) return enemyAgents;
 
         // Include neighbouring chunks so units near chunk edges can still detect each other.
-        List<Unit> enemyList = new List<Unit>(enemies);
+        List<Agent> enemyList = new List<Agent>(enemyAgents);
 
         if (includeSurrounding)
         {
@@ -295,17 +295,17 @@ public class Chunk : MonoBehaviour
         return enemyList;
     }
 
-    public List<Unit> GetFollowers(bool includeSurrounding = true)
+    public List<Agent> GetUnits(bool includeSurrounding = true)
     {
-        if (!includeSurrounding) return followers;
+        if (!includeSurrounding) return unitAgents;
 
-        List<Unit> followerList = new List<Unit>(followers);
+        List<Agent> followerList = new List<Agent>(unitAgents);
 
         if (includeSurrounding)
         {
             foreach (Chunk neighbour in neighbouringChunks)
             {
-                followerList.AddRange(neighbour.GetFollowers(false));
+                followerList.AddRange(neighbour.GetUnits(false));
             }
         }
 

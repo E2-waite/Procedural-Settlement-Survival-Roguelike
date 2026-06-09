@@ -11,14 +11,14 @@ public class BuildingSystem
     private BuildingSpawner spawner;
     private ResourceSystem resourceSystem;
     private FireSystem fireSystem;
-    private FollowerSystem followerSystem;
+    private UnitSystem followerSystem;
     private BuildingObject selected;
     public BuildingObject Selected => selected;
     public BuildingSystem(GameContext context)
     {
         spawner = context.buildingSpawner;
         resourceSystem = context.resourceSystem;
-        followerSystem = context.followerSystem;
+        followerSystem = context.unitSystem;
         fireSystem = context.fireSystem;
         World world = context.world;
         grid = world.Context.grid;

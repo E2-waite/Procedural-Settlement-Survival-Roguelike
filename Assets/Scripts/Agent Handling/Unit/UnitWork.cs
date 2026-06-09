@@ -118,7 +118,7 @@ public class UnitWork
         }
         else
         {
-            unit.movement.FollowPath();
+            unit.Movement.FollowPath();
         }
     }
 
@@ -176,7 +176,7 @@ public class UnitWork
         }
         else
         {
-            unit.movement.FollowPath();
+            unit.Movement.FollowPath();
         }
     }
 
@@ -191,7 +191,7 @@ public class UnitWork
                 if (barracks != null)
                 {
                     startedConverting = true;
-                    barracks.Convert(unit);
+                    //barracks.Convert(unit);
                     SetState(WorkState.None);
                     unit.SetIdle();
                 }

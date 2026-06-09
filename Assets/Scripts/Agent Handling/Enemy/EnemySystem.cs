@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemySystem
 {
-    public List<EnemyUnit> enemies = new List<EnemyUnit>();
+    public List<Enemy> enemies = new List<Enemy>();
     private Player player;
     private WorldGrid grid;
     private EnemySpawner spawner;
@@ -22,7 +22,7 @@ public class EnemySystem
         dayNightSystem = context.dayNightSystem;
     }
 
-    public void AddEnemy(EnemyUnit enemy)
+    public void AddEnemy(Enemy enemy)
     {
         if (!enemies.Contains(enemy))
         {
@@ -30,7 +30,7 @@ public class EnemySystem
         }
     }
 
-    public void RemoveEnemy(EnemyUnit enemy)
+    public void RemoveEnemy(Enemy enemy)
     {
         if (enemies.Contains(enemy))
         {

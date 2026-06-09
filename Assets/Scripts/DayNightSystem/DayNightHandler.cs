@@ -12,6 +12,8 @@ public class DayNightHandler : MonoBehaviour
     DayNightSystem dayNightSystem;
     public void Init(DayNightSystem dayNightSystem)
     {
+        if (running) return;
+
         this.dayNightSystem = dayNightSystem;
         running = true;
         StartCoroutine(CycleRoutine());
