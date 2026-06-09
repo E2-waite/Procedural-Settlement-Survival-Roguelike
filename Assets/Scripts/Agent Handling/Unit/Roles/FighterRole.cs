@@ -10,6 +10,8 @@ public class FighterRole : IUnitRole
     public FighterTargetting Targetting => targetting;
 
     private Unit unit;
+    private AgentObject agentObject;
+    public AgentObject AgentObject => agentObject;
     public IUnitRole New()
     {
         return new FighterRole();
@@ -19,6 +21,7 @@ public class FighterRole : IUnitRole
         this.unit = unit;
         Targetting?.Init(unit);
         Combat?.Init(unit, Targetting);
+        unit.UpdateObject(context.agentCatalog.fighter);
         Debug.Log("Init Fighter");
     }
 

@@ -37,6 +37,7 @@ public class Enemy : Agent
         this.settlement = settlement;
         this.spawnTile = spawnTile;
         targetting.Init(context, this);
+        Sprite.Init(spriteRend, context.agentCatalog.enemy);
     }
 
     protected override void Update()

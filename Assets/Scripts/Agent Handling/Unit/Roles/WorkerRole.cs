@@ -35,6 +35,7 @@ public class WorkerRole : IUnitRole
         resourceSystem = context.resourceSystem;
         buildingSystem = context.buildingSystem;
         storage.max = maxCapacity;
+        unit.UpdateObject(context.agentCatalog.worker);
         Debug.Log("Init worker");
     }
 

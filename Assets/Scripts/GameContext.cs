@@ -26,6 +26,8 @@ public class GameContext
     public DayNightHandler dayNightHandler;
     public GridTile spawnTile;
 
+    public AgentCatalog agentCatalog;
+
     [Header("Building System")]
     public BuildingSystem buildingSystem;
     public BuildingSpawner buildingSpawner;

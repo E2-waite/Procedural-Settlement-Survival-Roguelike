@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class BuildingCatalogBuilder
+public static class AgentCatalogBuilder
 {
     [MenuItem("Tools/Refresh Buildings")]
     public static void Refresh()

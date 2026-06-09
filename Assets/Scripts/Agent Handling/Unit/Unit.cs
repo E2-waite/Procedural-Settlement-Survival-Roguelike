@@ -46,6 +46,7 @@ public class Unit : Agent
 
         role?.Init(context, this);
         gameContext = context;
+        UpdateObject(context.agentCatalog.unit);
     }
 
     protected override void Update()
@@ -62,6 +63,11 @@ public class Unit : Agent
     {
         role = newRole;
         role.Init(gameContext, this);
+    }
+
+    public void UpdateObject(AgentObject agentObject)
+    {
+        Sprite.Init(spriteRend, agentObject);
     }
 
     #region States

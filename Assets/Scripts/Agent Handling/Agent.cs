@@ -9,13 +9,13 @@ public class Agent : Destructable
     [SerializeField] public AgentMovement movement;
     public AgentMovement Movement => movement;
 
-
     [HideInInspector] public bool pathRequested = false;
     private WorldGrid grid;
     public float chunkInterval = 1f, chunkTimer = 0f;
     public Chunk chunk;
     private bool highlighted = false; // Is the mouse currently hovering over this agent
     [SerializeField] AgentSprite sprite = new AgentSprite();
+    public AgentSprite Sprite => sprite;
     public SpriteRenderer spriteRend;
 
     public bool WaitingForPath => pathRequested;
@@ -27,7 +27,6 @@ public class Agent : Destructable
         World world = context.world;
         grid = world.Context.grid;
         pathfinding = context.pathfinding;
-        sprite.Init(spriteRend);
 
         Vector3 forward = Camera.main.transform.forward;
         forward.Normalize();

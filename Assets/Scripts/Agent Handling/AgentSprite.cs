@@ -3,19 +3,19 @@ using UnityEngine;
 [System.Serializable]
 public class AgentSprite
 {
-    public SpriteRenderer spriteRenderer;
-    public Sprite upRight;
-    public Sprite upLeft;
-    public Sprite downRight;
-    public Sprite downLeft;
+    private SpriteRenderer spriteRenderer;
+    private AgentObject agentSprites;
 
-    public void Init(SpriteRenderer spriteRenderer)
+    public void Init(SpriteRenderer spriteRenderer, AgentObject agentSprites)
     {
         this.spriteRenderer = spriteRenderer;
+        this.agentSprites = agentSprites;
+        spriteRenderer.sprite = agentSprites.downRight;
     }
 
     public void SetDirection(Vector2 dir)
     {
+        if (agentSprites == null) return;
         if (dir == Vector2.zero) return;
 
         dir.Normalize();
@@ -35,10 +35,10 @@ public class AgentSprite
         bool up = dir.y > 0;
         bool right = dir.x > 0;
 
-        if (up && right) return upRight;
-        if (up && !right) return upLeft;
-        if (!up && right) return downRight;
-        return downLeft;
+        if (up && right) return agentSprites.upRight;
+        if (up && !right) return agentSprites.upLeft;
+        if (!up && right) return agentSprites.downRight;
+        return agentSprites.downLeft;
     }
 
     public void SetColor(Color color)

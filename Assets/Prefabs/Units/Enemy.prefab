@@ -56,16 +56,11 @@ MonoBehaviour:
     pathWeight: 2
     swarmWeight: 1
     path: []
+  defaultSprites: {fileID: 11400000, guid: 2b33bb6d907caa24c925c8d42ff2171b, type: 2}
   pathRequested: 0
   chunkInterval: 1
   chunkTimer: 0
   chunk: {fileID: 0}
-  sprite:
-    spriteRenderer: {fileID: 6490061291952677947}
-    upRight: {fileID: 478579273, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-    upLeft: {fileID: -181861861, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-    downRight: {fileID: -333559954, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-    downLeft: {fileID: 1324273794, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
   spriteRend: {fileID: 6490061291952677947}
   combat:
     state: 0
