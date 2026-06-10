@@ -50,7 +50,7 @@ public class SpawnerBuilding : Building
     protected void CleanupAgents()
     {
         cleanupTimer = cleanupInterval;
-        for (int i = spawnedAgents.Count - 1; i > 0; i--)
+        for (int i = spawnedAgents.Count - 1; i >= 0; i--)
         {
             if (spawnedAgents[i] == null || spawnedAgents[i].IsDead)
                 spawnedAgents.RemoveAt(i);

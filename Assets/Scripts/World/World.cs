@@ -30,6 +30,30 @@ public class World : MonoBehaviour
         }
     }
 
+    public void GenerateEmpty(GameContext gameContext)
+    {
+        chunkStreaming = gameContext.chunkStreaming;
+        context.grid = new WorldGrid(context);
+
+        for (int x = -1; x < 1; x++)
+        {
+            for (int y = -1; y < 1; y++)
+            {
+                Vector2Int chunkPos = new Vector2Int(x, y);
+                GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(chunkPos.x * context.chunkSize, 0, chunkPos.y * context.chunkSize), Quaternion.identity);
+                Chunk chunk = chunkObj.GetComponent<Chunk>();
+                chunk.Init(this, chunkPos, true);
+                chunkObj.transform.parent = transform;
+                chunk.name = "Chunk: " + chunkPos.ToString();
+            }
+        }
+    }
+
+    public void GenerateEmpty()
+    {
+
+    }
+
     public void InitStartChunks()
     {
         for (int x = -1; x < 1; x++)

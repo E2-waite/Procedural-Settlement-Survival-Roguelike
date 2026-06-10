@@ -44,7 +44,6 @@ public class Enemy : Agent
     {
         if (IsDead) return;
         base.Update();
-        return;
 
         Targetting?.Tick();
         Combat?.Tick();

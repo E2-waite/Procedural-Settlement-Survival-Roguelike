@@ -70,7 +70,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -152,8 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   followSpeed: 10
-  edgeSize: 20
-  buildRange: 200
+  edgeSize: 60
+  buildRange: 5
   minScroll: 10
   maxScroll: 50
-  player: {fileID: 0}

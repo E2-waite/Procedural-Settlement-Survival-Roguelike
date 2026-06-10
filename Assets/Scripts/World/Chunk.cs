@@ -26,7 +26,8 @@ public class Chunk : MonoBehaviour
     public List<Agent> enemyAgents = new List<Agent>();
     public  List<Chunk> neighbouringChunks = new List<Chunk>();
     private TileCatalog tileCatalog;
-
+    bool empty = false;
+    public bool IsEmpty => empty;
     public void AddNeighbour(Chunk chunk)
     {
         if (!neighbouringChunks.Contains(chunk))
@@ -35,8 +36,9 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    public void Init(World world, Vector2Int pos)
+    public void Init(World world, Vector2Int pos, bool empty = false)
     {
+        this.empty = empty;
         this.world = world;
         tileCatalog = world.Context.tileCatalog;
         int size = world.Context.chunkSize;
@@ -61,10 +63,16 @@ public class Chunk : MonoBehaviour
         {
             for (int y = 0; y < size + 1; y++)
             {
-                heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, world.Context.noiseScale) - seaLevel;
-                if (heights[x, y] > 0) heights[x, y] *= heightMultiplier;
-                heights[x, y] = Mathf.Clamp01(heights[x, y]);
-
+                if (empty)
+                {
+                    heights[x, y] = .4f;
+                }
+                else
+                {
+                    heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, world.Context.noiseScale) - seaLevel;
+                    if (heights[x, y] > 0) heights[x, y] *= heightMultiplier;
+                    heights[x, y] = Mathf.Clamp01(heights[x, y]);
+                }
             }
         }
 
@@ -93,7 +101,8 @@ public class Chunk : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
-        resources = new ChunkResources(world, this);
+        if (!empty)
+            resources = new ChunkResources(world, this);
 
         grid.SetChunk(this, pos);
     }

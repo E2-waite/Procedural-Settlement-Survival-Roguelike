@@ -3,6 +3,13 @@ using UnityEngine;
 [System.Serializable]
 public class GameContext
 {
+    public enum GameType
+    {
+        Game,
+        CombatPlayground
+    }
+    public GameType gameType = GameType.Game;
+
     [HideInInspector] public Player player;
     public World world;
     public InteractionController interactionController;

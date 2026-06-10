@@ -68,7 +68,7 @@ public class ChunkStreaming : MonoBehaviour
             }
             else
             {
-                CreateChunk(chunkPos);
+                CreateChunk(chunkPos, newChunk.IsEmpty);
             }
         }
 
@@ -96,13 +96,13 @@ public class ChunkStreaming : MonoBehaviour
         }
     }
 
-    void CreateChunk(Vector2Int pos)
+    void CreateChunk(Vector2Int pos, bool emptyChunk)
     {
         // Create a new chunk if there isn't one
         GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(pos.x * chunkSize, 0, pos.y * chunkSize), Quaternion.identity);
         chunkObj.transform.parent = transform;
         Chunk chunk = chunkObj.GetComponent<Chunk>();
-        chunk.Init(world, pos);
+        chunk.Init(world, pos, emptyChunk);
         chunk.name = "Chunk: " + pos.ToString();
         grid.SetChunk(chunk, pos);
         UpdateChunkNeighbours(chunk);

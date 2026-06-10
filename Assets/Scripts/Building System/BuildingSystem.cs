@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GameContext;
 public class BuildingSystem
 {
     // public TileMarker tileMarker;
@@ -13,14 +13,18 @@ public class BuildingSystem
     private BuildingObject selected;
     public BuildingObject Selected => selected;
     private GameContext gameContext;
+    GameType gameType;
 
     public BuildingSystem(GameContext context)
     {
+        gameType = context.gameType;
         spawner = context.buildingSpawner;
-        resourceSystem = context.resourceSystem;
+        if (gameType == GameType.Game)
+            resourceSystem = context.resourceSystem;
         World world = context.world;
         grid = world.Context.grid;
         gameContext = context;
+
     }
 
     public void Select(BuildingObject selection)
@@ -30,6 +34,8 @@ public class BuildingSystem
 
     public bool CanAfford()
     {
+        if (gameType != GameType.Game) return true;
+
         if (selected != null)
         {
             for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
@@ -52,9 +58,8 @@ public class BuildingSystem
         if (CanBuild(tile.position, selected.size) && CanAfford(selected))
         {
             Building building = spawner.Spawn(selected, tile);
-            building.Init(gameContext);
-
             if (building == null) return false;
+            building.Init(gameContext);
 
             ConsumeResources(selected);
             storage.Add(building);
@@ -89,6 +94,8 @@ public class BuildingSystem
 
     bool CanAfford(BuildingObject building)
     {
+        if (gameType != GameType.Game) return true;
+
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
             if (resourceSystem.GetResourceCount(i) < building.Cost.Get(i))
@@ -100,6 +107,8 @@ public class BuildingSystem
 
     void ConsumeResources(BuildingObject building)
     {
+        if (gameType != GameType.Game) return;
+
         for (ResourceNode.Type i = ResourceNode.Type.Wood; i < ResourceNode.Type.Max; i++)
         {
             resourceSystem.ConsumeResource(i, building.Cost.Get(i));

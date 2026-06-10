@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GameContext;
 public class Player : Destructable
 {
     PlayerController controller;
@@ -17,13 +17,15 @@ public class Player : Destructable
     private WorldGrid grid;
     private ChunkStreaming chunkStreaming;
     private FireSystem fireSystem;
+    private GameType gameType;
 
     public void Init(GameContext context)
     {
         chunkStreaming = context.chunkStreaming;
         World world = context.world;
         grid = world.Context.grid;
-        fireSystem = context.fireSystem;
+        if (context.gameType == GameType.Game)
+            fireSystem = context.fireSystem;
 
         controller = GetComponent<PlayerController>();
         controller.Init(context);
@@ -36,14 +38,19 @@ public class Player : Destructable
     {
         UpdateChunk();
 
-        if (fireCheckTimer <= 0)
+        if (fireSystem != null)
         {
-            CheckFires();
+            if (fireCheckTimer <= 0)
+            {
+                CheckFires();
+            }
+            else
+            {
+                fireCheckTimer -= Time.deltaTime;
+            }
         }
-        else
-        {
-            fireCheckTimer -= Time.deltaTime;
-        }
+
+        
         fire.Update();
     }
 

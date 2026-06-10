@@ -46,8 +46,6 @@ public class GameBootstrapper : MonoBehaviour
         CameraController.Init(context);
         SpawnFire(context.spawnTile);
         SpawnUnit(context.spawnTile);
-        SpawnEnemy(context.spawnTile);
-        //SpawnFighter(context.spawnTile);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
         Manager.Init(context);
@@ -99,14 +97,6 @@ public class GameBootstrapper : MonoBehaviour
         unit.Init(context);
     }
 
-    // Spawns the initial enemy
-    private void SpawnEnemy(GridTile tile)
-    {
-        GameObject enemyObj = Instantiate(enemyPrefab, tile.Center + new Vector3(-1f, 0.5f, 0f), Quaternion.identity);
-        Enemy enemy = enemyObj.GetComponent<Enemy>();
-        enemy.Init(context, null, tile);
-    }
-
     private void SpawnEnemySpawner(GridTile tile)
     {
         GameObject settlementObj = Instantiate(enemySpawnerPrefab, tile.worldPosition, Quaternion.identity);
@@ -137,11 +127,6 @@ public class GameBootstrapper : MonoBehaviour
         foreach (GridTile tile in grid.Tiles())
         {
             bool valid = true;
-
-            List<GridTile> neighbourTiles = new List<GridTile>();
-
-            neighbourTiles.Add(tile);
-
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {
                 GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
@@ -172,11 +157,7 @@ public class GameBootstrapper : MonoBehaviour
             bool valid = true;
 
             float dist = Vector2Int.Distance(tile.position, context.spawnTile.position);
-            if (dist < 25 || dist > 60) continue;
-
-            List<GridTile> neighbourTiles = new List<GridTile>();
-
-            neighbourTiles.Add(tile);
+            if (dist < 10 || dist > 25) continue;
 
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {
@@ -210,11 +191,7 @@ public class GameBootstrapper : MonoBehaviour
             float spawnDist = Vector2Int.Distance(tile.position, context.spawnTile.position);
             float enemyDist = Vector2Int.Distance(tile.position, enemySpawnTile.position);
 
-            if (spawnDist < 25 || spawnDist > 60 || enemyDist < 25) continue;
-
-            List<GridTile> neighbourTiles = new List<GridTile>();
-
-            neighbourTiles.Add(tile);
+            if (spawnDist < 10 || spawnDist > 25 || enemyDist < 25) continue;
 
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {

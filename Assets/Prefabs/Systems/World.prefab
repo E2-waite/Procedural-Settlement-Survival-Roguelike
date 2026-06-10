@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8347044527720904991}
-  - component: {fileID: 7265013926243679063}
+  - component: {fileID: 5858603850480298205}
+  - component: {fileID: 5949807670340739765}
   - component: {fileID: 3708523135992026103}
+  - component: {fileID: 4537252606265693175}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -33,7 +35,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7265013926243679063
+--- !u!114 &5858603850480298205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,17 +44,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 3775687841741434220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e4e120204046645852e7cf21a3da34, type: 3}
+  m_Script: {fileID: 11500000, guid: a76354be418b623438c22379b071a74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   context:
-    chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
     resourceCatalog: {fileID: 11400000, guid: 24df64b12f2ccd349a4d601a84d4c5ed, type: 2}
+    tileCatalog: {fileID: 11400000, guid: 3cc7e6027d3651c4aabc99d538ae6a42, type: 2}
     startSize: {x: 3, y: 3}
-    chunkSize: 100
-    chunkDistance: 2
     noiseScale: 0.05
+    chunkPrefab: {fileID: 7163139512779695548, guid: a7ff419f4e03e4e4aab25a747597313b, type: 3}
+    chunkDistance: 1
+    chunkSize: 100
     seedOffset: {x: 0, y: 0}
+--- !u!114 &5949807670340739765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3775687841741434220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8283e46c674b9e4469ff6862b6cdb3a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3708523135992026103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,3 +80,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d9aca8a47d53444b00195612e53071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4537252606265693175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3775687841741434220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d0ee0f7dec3ba4fba2ebbbc67e58d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldLight: {fileID: 0}
+  dayDuration: 600
+  nightDuration: 25
+  thresh: 5
+  dayColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  nightColor: {r: 0, g: 0, b: 1, a: 1}

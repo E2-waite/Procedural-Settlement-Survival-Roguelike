@@ -132,7 +132,9 @@ public class Unit : Agent
         {
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
 
-            if (!pathRequested && (movement.TargetReached || !movement.HasPath) && Vector3.Distance(transform.position, player.transform.position) > followDist)
+            if (!pathRequested && 
+                (movement.HasPath && movement.TargetReached) || 
+                !movement.HasPath && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
                 RequestPath(playerPos, player.transform.position);
             }
