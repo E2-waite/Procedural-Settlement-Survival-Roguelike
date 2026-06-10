@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaygroundBootstrapper : MonoBehaviour
@@ -5,6 +6,8 @@ public class PlaygroundBootstrapper : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject unitSpawnerPrefab;
     public GameObject unitPrefab;
+    public GameObject enemySpawnerPrefab;
+
 
     [SerializeField] private GameContext context = new GameContext();
     World World => context.world;
@@ -21,6 +24,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
         World.GenerateEmpty(context);
 
         GridTile spawnTile = GetSpawnTile();
+        GridTile enemyTile = FindEnemyTile();
         SpawnPlayer(spawnTile);
         Pathfinding.Init();
         TileMarker.Init(context);
@@ -33,9 +37,9 @@ public class PlaygroundBootstrapper : MonoBehaviour
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
 
-        SpawnUnit(context.spawnTile);
-        SpawnUnitSpawner(context.spawnTile);
-
+        SpawnUnit(spawnTile);
+        SpawnUnitSpawner(spawnTile);
+        SpawnEnemySpawner(enemyTile);
 
 
         // Disable this GameObject when finished init
@@ -69,6 +73,15 @@ public class PlaygroundBootstrapper : MonoBehaviour
         unit.Init(context);
     }
 
+    private void SpawnEnemySpawner(GridTile tile)
+    {
+        GameObject settlementObj = Instantiate(enemySpawnerPrefab, tile.worldPosition, Quaternion.identity);
+        EnemySpawnerBuilding settlement = settlementObj.GetComponent<EnemySpawnerBuilding>();
+        settlement.Init(context);
+        settlement.AddTile(tile);
+        tile.Build(settlement);
+    }
+
     private void SpawnUnitSpawner(GridTile tile)
     {
         GameObject settlementObj = Instantiate(unitSpawnerPrefab, tile.worldPosition, Quaternion.identity);
@@ -84,5 +97,37 @@ public class PlaygroundBootstrapper : MonoBehaviour
         WorldGrid grid = world.Context.grid;
 
         return grid.GetTile(new Vector2Int(0,0));
+    }
+
+    GridTile FindEnemyTile()
+    {
+        List<GridTile> validTiles = new List<GridTile>();
+        World world = context.world;
+        WorldGrid grid = world.Context.grid;
+
+        // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
+        foreach (GridTile tile in grid.Tiles())
+        {
+            bool valid = true;
+
+            float dist = Vector2Int.Distance(tile.position, context.spawnTile.position);
+            if (dist < 10 || dist > 25) continue;
+
+            foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
+            {
+                GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
+                if (neighbourTile == null || !neighbourTile.IsEmpty)
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) validTiles.Add(tile);
+        }
+
+        if (validTiles.Count == 0) return null;
+
+        return validTiles[Random.Range(0, validTiles.Count)];
     }
 }

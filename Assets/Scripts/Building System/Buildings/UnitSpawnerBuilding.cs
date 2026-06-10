@@ -18,7 +18,7 @@ public class UnitSpawnerBuilding : SpawnerBuilding
 
         GameObject enemyObj = Instantiate(agentPrefab, tile.worldPosition, Quaternion.identity);
         Unit unitAgent = enemyObj.GetComponent<Unit>();
-        unitAgent.Init(gameContext);
+        unitAgent.Init(gameContext, this);
         return unitAgent;
     }
 }

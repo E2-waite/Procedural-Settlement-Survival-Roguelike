@@ -32,7 +32,7 @@ public class Unit : Agent
     public IUnitRole Role => role;
     private ConvertBuilding convertBuilding = null;
     private GameContext gameContext;
-
+    private UnitSpawnerBuilding spawner;
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -51,6 +51,11 @@ public class Unit : Agent
         UpdateObject(context.agentCatalog.unit);
     }
 
+    public void Init(GameContext context, UnitSpawnerBuilding spawner)
+    {
+        this.spawner = spawner;
+        Init(context);
+    }
     protected override void Update()
     {
         if (IsDead) return; // Dead
@@ -156,7 +161,11 @@ public class Unit : Agent
     {
         movement.FollowPath();
 
-        if (movement.HasPath && movement.TargetReached)
+        if (convertBuilding == null) return;
+
+        float dist = Vector3.Distance(transform.position, convertBuilding.transform.position);
+        dist -= convertBuilding.transform.localScale.x;
+        if (movement.HasPath && movement.TargetReached || dist <= 1f)
         {
             if (convertBuilding != null)
             {
@@ -196,6 +205,7 @@ public class Unit : Agent
         player = thePlayer;
         markerSprite.enabled = true;
         markerSprite.color = Color.green;
+        spawner?.RemoveAgent(this);
     }
 
     // Stops commanding this unit
@@ -247,8 +257,8 @@ public class Unit : Agent
     // Sets convert state and requests path
     private void StartConverting(ConvertBuilding building)
     {
-        SetState(State.Converting);
         convertBuilding = building;
+        SetState(State.Converting);
         RequestPath(building.Tile);
     }
 

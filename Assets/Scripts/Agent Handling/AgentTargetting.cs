@@ -28,6 +28,7 @@ public class AgentTargetting
 
     public void Target(Destructable target)
     {
+        AddTarget(target, 100f);
         currentTarget = target;
     }
 
@@ -49,7 +50,7 @@ public class AgentTargetting
             TargetCandidate newCandidate = new TargetCandidate()
             {
                 target = target,
-                threat = threat
+                baseThreat = threat
             };
 
             Candidates.Add(newCandidate);
@@ -94,6 +95,15 @@ public class AgentTargetting
                 Candidates.RemoveAt(i);
                 continue;
             }
+            else
+            {
+                float dist = Vector3.Distance(agent.transform.position, candidate.target.transform.position);
+                if (dist <= 10)
+                {
+                    float threat = 10 - dist;
+                    candidate.threat = threat;
+                }
+            }
         }
     }
 
@@ -105,9 +115,10 @@ public class AgentTargetting
         for (int i = Candidates.Count - 1; i >= 0; i--)
         {
             TargetCandidate candidate = Candidates[i];
-            if (candidate.threat > highestVal)
+            float threat = candidate.baseThreat + candidate.threat;
+            if (threat > highestVal)
             {
-                highestVal = candidate.threat;
+                highestVal = threat;
                 highestThreat = candidate;
             }
         }
@@ -115,25 +126,25 @@ public class AgentTargetting
         return highestThreat;
     }
 
-    public void AddThreat(Destructable target, float threat)
-    {
-        TargetCandidate targetCandidate = GetCandidate(target);
-        if (targetCandidate == null)
-        {
-            // If no candidate with target exists, set threat and add to candidates list.
-            TargetCandidate newCandidate = new TargetCandidate()
-            {
-                target = target,
-                threat = threat
-            };
+    //public void AddThreat(Destructable target, float threat)
+    //{
+    //    TargetCandidate targetCandidate = GetCandidate(target);
+    //    if (targetCandidate == null)
+    //    {
+    //        // If no candidate with target exists, set threat and add to candidates list.
+    //        TargetCandidate newCandidate = new TargetCandidate()
+    //        {
+    //            target = target,
+    //            baseThreat = threat
+    //        };
 
-            Candidates.Add(newCandidate);
-        }
-        else
-        {
-            targetCandidate.threat += threat;
-        }
-    }
+    //        Candidates.Add(newCandidate);
+    //    }
+    //    else
+    //    {
+    //        targetCandidate.threat += threat;
+    //    }
+    //}
 
     
 }

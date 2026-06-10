@@ -52,7 +52,7 @@ MonoBehaviour:
   preBuild: 0
   id: 0
   mesh: {fileID: 2646544779832954327}
-  spawnInterval: 5
+  spawnInterval: 1
   agentPrefab: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
 --- !u!1 &8875262411121038824
 GameObject:

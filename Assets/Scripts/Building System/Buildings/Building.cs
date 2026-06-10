@@ -14,7 +14,7 @@ public class Building : Destructable
     public bool Built => built && !destroyed;
     public MeshRenderer mesh;
     private bool hovering = false;
-    private List<GridTile> tiles = new List<GridTile>();
+    protected List<GridTile> tiles = new List<GridTile>();
 
     public virtual void Init(GameContext context) { }
 
