@@ -82,9 +82,16 @@ public class CommandInteractionHandler : IInteractionHandler
         {
             return InteractType.Attack;
         }
-        else if (clickTarget.IsBuilding && clickTarget.Building is ConvertBuilding)
+        else if (clickTarget.IsBuilding)
         {
-            return  InteractType.Convert;
+            if (clickTarget.Building.Owner == Faction.Enemy)
+            {
+                return InteractType.Attack;
+            }
+            else if (clickTarget.Building is ConvertBuilding)
+            {
+                return InteractType.Convert;
+            }
         }
         return InteractType.Defend;
     }

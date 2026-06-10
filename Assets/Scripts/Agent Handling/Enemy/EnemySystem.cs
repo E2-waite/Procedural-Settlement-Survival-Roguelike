@@ -6,7 +6,6 @@ public class EnemySystem
     public List<Enemy> enemies = new List<Enemy>();
     private Player player;
     private WorldGrid grid;
-    private EnemySpawner spawner;
     private EnemyCatalog catalog;
     private DayNightSystem dayNightSystem;
     private GameContext gameContext;
@@ -17,7 +16,6 @@ public class EnemySystem
         player = context.player;
         World world = context.world;
         grid = world.Context.grid;
-        spawner = context.enemySpawner;
         catalog = context.enemyCatalog;
         dayNightSystem = context.dayNightSystem;
     }

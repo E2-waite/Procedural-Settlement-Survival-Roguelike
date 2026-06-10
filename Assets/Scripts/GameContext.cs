@@ -35,7 +35,6 @@ public class GameContext
 
     [Header("Enemy System")]
     public EnemySystem enemySystem;
-    public EnemySpawner enemySpawner;
     public EnemyCatalog enemyCatalog;
 
     public LayerMask buildMask;

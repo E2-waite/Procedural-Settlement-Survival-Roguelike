@@ -7,7 +7,8 @@ public class Building : Destructable
     public virtual Faction Owner => Faction.Unit;
     public override TargetType Type => TargetType.Building;
 
-    [SerializeField] bool prebuild = false;
+    [SerializeField] bool preBuild = false;
+    public virtual bool PreBuild => preBuild;
     public int id;
     bool built = false, destroyed = false;
     public bool Built => built && !destroyed;
@@ -22,7 +23,7 @@ public class Building : Destructable
         if (!Built)
             mesh.material.color = Color.red;
 
-        if (prebuild)
+        if (preBuild)
         {
             FinishBuilding();
         }

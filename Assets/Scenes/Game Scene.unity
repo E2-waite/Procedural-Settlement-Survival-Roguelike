@@ -261,7 +261,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1000224188}
   - component: {fileID: 1000224187}
-  - component: {fileID: 1000224189}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -296,18 +295,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1000224189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000224186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9370ac57592329141b5564e496761d03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1015048884 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3775687841741434220, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
@@ -483,7 +470,8 @@ MonoBehaviour:
   unitPrefab: {fileID: 2214493174657560647, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}
   firePrefab: {fileID: 7387552947533391560, guid: e7a74544fa1b5fc44aec644bcffb5979, type: 3}
   enemyPrefab: {fileID: 2214493174657560647, guid: 0fc622740e27f1847b43814cad75bcc6, type: 3}
-  enemySettlementPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
+  enemySpawnerPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
+  unitSpawnerPrefab: {fileID: 7387552947533391560, guid: 76119d16624d88549bcc19c54e5c8c3b, type: 3}
   context:
     player: {fileID: 0}
     world: {fileID: 8997166019633783117}
@@ -507,7 +495,6 @@ MonoBehaviour:
     agentCatalog: {fileID: 11400000, guid: 80d39e1366709e84cb8ff1ac53247f14, type: 2}
     buildingSpawner: {fileID: 8997166019633783114}
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
-    enemySpawner: {fileID: 1000224189}
     enemyCatalog: {fileID: 11400000, guid: 125b9e4f6945f9244a0b59b79e36ca4b, type: 2}
     buildMask:
       serializedVersion: 2
@@ -1978,13 +1965,6 @@ MonoBehaviour:
   rect: {fileID: 4391713227413522412}
   markerSize: 50
   markerSelectSize: 75
-  commandObjects:
-  - {fileID: 11400000, guid: c03ec55aed9b54b418c072999a7f91b1, type: 2}
-  - {fileID: 11400000, guid: 42fb0533b2ec5e947816b4c8bf88aa42, type: 2}
-  - {fileID: 11400000, guid: 0a4610098f90e9b4f914e20331dfa591, type: 2}
-  - {fileID: 11400000, guid: 8144c9904c8ff2748921a38025984147, type: 2}
-  - {fileID: 11400000, guid: 35d6a162d3139124db0d39f670ac2169, type: 2}
-  - {fileID: 11400000, guid: c138bfadc57afb540a02a1fe88b00880, type: 2}
   commandImage: {fileID: 8579621607312867479}
 --- !u!114 &6412848465129926553
 MonoBehaviour:

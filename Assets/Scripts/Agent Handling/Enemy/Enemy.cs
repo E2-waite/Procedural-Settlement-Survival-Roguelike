@@ -23,11 +23,11 @@ public class Enemy : Agent
     FireBuilding targetFire;
     EnemySystem enemySystem;
     MainFireBuilding mainFire;
-    public EnemySettlement settlement;
+    public EnemySpawnerBuilding settlement;
     private GridTile spawnTile;
     public GridTile SpawnTile => spawnTile;
 
-    public void Init(GameContext context, EnemySettlement settlement, GridTile spawnTile)
+    public void Init(GameContext context, EnemySpawnerBuilding settlement, GridTile spawnTile)
     {
         Init(context);
         enemySystem = context.enemySystem;

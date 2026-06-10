@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1898022967536050644}
   - component: {fileID: -3340613612145847238}
   m_Layer: 9
-  m_Name: Settlement
+  m_Name: EnemySpawner
   m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,10 +49,11 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
-  tilePos: {x: 0, y: 0}
-  autoBuild: 0
+  preBuild: 0
   id: 0
   mesh: {fileID: 2646544779832954327}
+  spawnInterval: 1
+  agentPrefab: {fileID: 2214493174657560647, guid: 0fc622740e27f1847b43814cad75bcc6, type: 3}
 --- !u!1 &8875262411121038824
 GameObject:
   m_ObjectHideFlags: 0

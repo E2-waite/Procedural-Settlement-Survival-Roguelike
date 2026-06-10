@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GlobalDefs;
 public class FighterRole : IUnitRole
 {
     [SerializeField] public AgentCombat combat = new AgentCombat();
@@ -12,6 +12,7 @@ public class FighterRole : IUnitRole
     private Unit unit;
     private AgentObject agentObject;
     public AgentObject AgentObject => agentObject;
+
     public IUnitRole New()
     {
         return new FighterRole();
@@ -61,7 +62,7 @@ public class FighterRole : IUnitRole
     {
         if (agent is Enemy)
         {
-            Targetting.Target((Enemy)agent);
+            Targetting.Target(agent);
             unit.RequestPath(Targetting.TargetPos(), agent.transform.position);
             return true;
         }
@@ -71,6 +72,12 @@ public class FighterRole : IUnitRole
 
     public bool Command(Building building)
     {
+        if (building.Owner == Faction.Enemy) // Target enemy buildings
+        {
+            Targetting.Target(building);
+            unit.RequestPath(Targetting.TargetPos(), building.transform.position);
+            return true;
+        }
         return false;
     }
     #endregion
