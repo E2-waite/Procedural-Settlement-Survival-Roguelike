@@ -15,7 +15,7 @@ public class Enemy : Agent
     public AgentCombat Combat => combat;
 
     private EnemyTargetting targetting = new EnemyTargetting();
-    public EnemyTargetting Targetting => targetting;
+    public EnemyTargetting Targeting => targetting;
 
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
@@ -45,7 +45,7 @@ public class Enemy : Agent
         if (IsDead) return;
         base.Update();
 
-        Targetting?.Tick();
+        Targeting?.Tick();
         Combat?.Tick();
     }
 
@@ -107,7 +107,7 @@ public class Enemy : Agent
         if (source is Unit)
         {
             // Targets the unit that hit this enemy
-            Targetting.AddTarget(source, 10);
+            Targeting.AddTarget(source, 10);
         }
 
         return false;

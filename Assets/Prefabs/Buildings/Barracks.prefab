@@ -49,11 +49,11 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
-  autoBuild: 1
+  preBuild: 0
   id: 0
   mesh: {fileID: 2646544779832954327}
   convertTime: 5
-  maxCapacity: 3
+  maxCapacity: 25
 --- !u!1 &8875262411121038824
 GameObject:
   m_ObjectHideFlags: 0

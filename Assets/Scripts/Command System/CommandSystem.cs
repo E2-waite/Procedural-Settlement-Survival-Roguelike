@@ -25,9 +25,12 @@ public class CommandSystem
     public CommandState commandState = CommandState.Unit;
     public CommandState State => commandState;
     // Units in this list respond to player right-click commands.
-    private List<Unit> commanding = new List<Unit>();
-    public bool IsCommanding => commanding.Count > 0;
+    //private List<Unit> commanding = new List<Unit>();
     private Player player;
+    private AgentSquad currentSquad;
+    public bool IsCommanding => currentSquad != null && currentSquad.Size > 0;
+    List<AgentSquad> squads = new List<AgentSquad>();
+    
 
     public CommandSystem(GameContext context)
     {
@@ -48,47 +51,27 @@ public class CommandSystem
     {
         if (target.IsTile)
         {
-            foreach (Unit unit in commanding)
+            foreach (Unit unit in currentSquad.Agents)
             {
                 unit.Command(target.Tile);
             }
         }
         else if (target.IsEnemy)
         {
-            foreach (Unit unit in commanding)
+            foreach (Unit unit in currentSquad.Agents)
             {
                 unit.Command(target.Enemy);
             }
         }
         else if (target.IsBuilding)
         {
-            foreach (Unit unit in commanding)
+            foreach (Unit unit in currentSquad.Agents)
             {
                 unit.Command(target.Building);
             }
         }
     }
     
-    // Commands all nearby follower units to start following the player
-    public void StartCommanding(List<Unit> nearbyFollowers)
-    {
-        if (player == null) return;
-
-        // Nearby followers are claimed into the command group before receiving orders.
-        foreach (Unit unit in nearbyFollowers)
-        {
-            if (unit == null) continue;
-
-            if (!commanding.Contains(unit))
-                commanding.Add(unit);
-        }
-
-        foreach (Unit unit in commanding)
-        {
-            unit.StartCommanding(player);
-        }
-    }
-
     public void StartCommanding(Unit unit)
     {
         if (unit == null) return;
@@ -97,42 +80,92 @@ public class CommandSystem
         else if (unit.Role is WorkerRole) SetState(CommandState.Worker);
         else if (unit.Role is FighterRole) SetState(CommandState.Fighter);
 
-        if (!commanding.Contains(unit))
+        // If we have a different squad selected, stop commanding it
+        if (unit.HasSquad && currentSquad != null && unit.Squad != currentSquad)
         {
-            if (!commanding.Contains(unit))
-                commanding.Add(unit);
+            StopCommanding();
+        }
 
+        
+        if (unit.HasSquad) // Start commanding existing squad if unit has one
+        {
+            foreach (Unit squadUnit in unit.Squad.Agents)
+            {
+                squadUnit.StartCommanding(player);
+            }
+            currentSquad = unit.Squad;
+        }
+        else if (!unit.HasSquad) // Create new squad or add unit to current squad
+        {
+            if (currentSquad == null)
+                currentSquad = GetSquad(unit);
+            unit.SetSquad(currentSquad);
+            currentSquad.AddAgent(unit);
             unit.StartCommanding(player);
         }
     }
 
-    // Stops commanding a specific unit
+    // Stops commanding a specific unit - removes unit from their squad
     public void StopCommanding(Unit unit)
     {
-        if (commanding.Contains(unit))
+        if (currentSquad == null) return;
+
+        if (currentSquad.HasAgent(unit))
         {
-            commanding.Remove(unit);
+            currentSquad.RemoveAgent(unit);
         }
         unit.StopCommanding();
 
-        if (commanding.Count == 0) SetState(CommandState.None);
+        if (currentSquad.Size == 0)
+        {
+            currentSquad.ClearAgents();
+            squads.Remove(currentSquad);
+            currentSquad = null; // Clear current squad when no units are being commanded
+            SetState(CommandState.None);
+        }
     }
 
-    // Stops commanding all units
+    // Stops commanding all units - units should keep their squad 
     public void StopCommanding()
     {
-        foreach (Unit unit in commanding)
+        if (currentSquad == null) return;
+
+        foreach (Unit unit in currentSquad.Agents)
         {
             unit.StopCommanding();
         }
-        commanding.Clear();
+
+        if (currentSquad.Size <= 1) // If the squad only has 1 or less agents clear it
+        {
+            currentSquad.ClearAgents();
+            squads.Remove(currentSquad);
+        }
+            
+        currentSquad = null; // Clear current squad when no units are being commanded
         SetState(CommandState.None);
     }
     public void CommandFollow()
     {
-        foreach (Unit unit in commanding)
+        if (currentSquad == null) return;
+        foreach (Unit unit in currentSquad.Agents)
         {
             unit.StartFollowing();
+        }
+    }
+
+    AgentSquad GetSquad(Agent agent)
+    {
+        if (agent.HasSquad)
+        {
+            return agent.Squad;
+        }
+        else
+        {
+            Debug.Log("New squad");
+            AgentSquad squad = new AgentSquad();
+            squad.Init(squads.Count);
+            squads.Add(squad);
+            return squad;
         }
     }
 }

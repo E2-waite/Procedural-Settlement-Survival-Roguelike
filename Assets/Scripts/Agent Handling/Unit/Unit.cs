@@ -204,7 +204,10 @@ public class Unit : Agent
         commanding = true;
         player = thePlayer;
         markerSprite.enabled = true;
-        markerSprite.color = Color.green;
+        if (HasSquad)
+            markerSprite.color = Squad.color;
+        else
+            markerSprite.color = Color.green;
         spawner?.RemoveAgent(this);
     }
 

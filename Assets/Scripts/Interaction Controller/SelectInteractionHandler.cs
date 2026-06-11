@@ -1,13 +1,13 @@
 using UnityEngine;
 using static InteractionController;
 using static CommandSystem;
-public class ControlInteractionHandler : IInteractionHandler
+public class SelectInteractionHandler : IInteractionHandler
 {
     private InteractionController controller;
     private CommandSystem commandSystem;
     private Player player;
 
-    public ControlInteractionHandler(GameContext context)
+    public SelectInteractionHandler(GameContext context)
     {
         controller = context.interactionController;
         commandSystem = context.commandSystem;
@@ -42,6 +42,7 @@ public class ControlInteractionHandler : IInteractionHandler
             commandSystem.StartCommanding(controller.Target.Unit);
         }
     }
+
     public void OnLeftUp(Vector2 diff, float time)
     {
         // Stops commanding units when LMB released and held for less than .25 seconds (tap) and not hovering over unit
@@ -64,13 +65,20 @@ public class ControlInteractionHandler : IInteractionHandler
                     }
 
                     if (unit.Commanding)
+                    {
                         commandSystem.StopCommanding(unit);
+                    }
                     else
+                    {
                         commandSystem.StartCommanding(unit);
+                    }
                 }
             }
         }
     }
+
+    
+
     public void OnRightDown()
     {
         if (commandSystem.IsCommanding)

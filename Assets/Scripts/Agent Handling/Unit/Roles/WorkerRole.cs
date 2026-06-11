@@ -215,7 +215,7 @@ public class WorkerRole : IUnitRole
         return false;
     }
     #endregion
-    #region Targetting
+    #region Targeting
     public void Target(ResourceNode resource)
     {
         if (resource == null) return;

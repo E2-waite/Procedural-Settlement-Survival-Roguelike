@@ -51,7 +51,7 @@ public class InteractionController : MonoBehaviour
 
             handlers[(int)GameState.Build] = new BuildInteractionHandler(context);
             handlers[(int)GameState.Command] = new CommandInteractionHandler(context);
-            handlers[(int)GameState.Control] = new ControlInteractionHandler(context);
+            handlers[(int)GameState.Control] = new SelectInteractionHandler(context);
             currentHandler = handlers[(int)currentState];
 
             InitHandlers();

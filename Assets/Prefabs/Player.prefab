@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
+  m_Sprite: {fileID: 260171739, guid: 22b98615a25a05e428cab211b5459620, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -141,12 +141,6 @@ MonoBehaviour:
     max: 1000
   deathTime: 0.5
   fireLight: {fileID: 705921184901987953}
-  sprite:
-    spriteRenderer: {fileID: 0}
-    upRight: {fileID: -1413524030, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    upLeft: {fileID: -1375187937, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    downRight: {fileID: 1226821801, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
-    downLeft: {fileID: -471734580, guid: 529ed7a040f8c994ea2b968ec80d023c, type: 3}
   fire:
     depletionRate: 1
     level: 0

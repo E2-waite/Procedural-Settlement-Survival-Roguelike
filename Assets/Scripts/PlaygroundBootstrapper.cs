@@ -5,7 +5,6 @@ public class PlaygroundBootstrapper : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject unitSpawnerPrefab;
-    public GameObject unitPrefab;
     public GameObject enemySpawnerPrefab;
 
 
@@ -37,10 +36,8 @@ public class PlaygroundBootstrapper : MonoBehaviour
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
 
-        SpawnUnit(spawnTile);
         SpawnUnitSpawner(spawnTile);
         SpawnEnemySpawner(enemyTile);
-
 
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
@@ -63,14 +60,6 @@ public class PlaygroundBootstrapper : MonoBehaviour
         GameObject playerObj = Instantiate(playerPrefab, tile.Center + new Vector3(1f, 0.5f, 0), Quaternion.identity);
         context.player = playerObj.GetComponent<Player>();
         context.player.Init(context);
-    }
-
-    // Spawns the initial unit
-    private void SpawnUnit(GridTile tile)
-    {
-        GameObject unitObj = Instantiate(unitPrefab, tile.Center + new Vector3(1f, 0.5f, 1f), Quaternion.identity);
-        Unit unit = unitObj.GetComponent<Unit>();
-        unit.Init(context);
     }
 
     private void SpawnEnemySpawner(GridTile tile)

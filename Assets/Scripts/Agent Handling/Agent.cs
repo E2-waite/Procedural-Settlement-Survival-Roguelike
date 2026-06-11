@@ -19,7 +19,12 @@ public class Agent : Destructable
     public SpriteRenderer spriteRend;
 
     public bool WaitingForPath => pathRequested;
+    protected AgentSquad squad;
 
+    public bool HasSquad => squad != null;
+    public void SetSquad(AgentSquad squad) { this.squad = squad; }
+    public AgentSquad Squad => squad;
+    public void ClearSquad() { squad = null; }
     public virtual void Init(GameContext context)
     {
         movement.Init(this);

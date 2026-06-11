@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SpawnerBuilding : Building
 {
-    private float spawnTimer = 0;
     [SerializeField] private float spawnInterval = 5;
+    [SerializeField] private int max = 3;
+
+    private float spawnTimer = 0;
     private float cleanupTimer = 0, cleanupInterval = 0.1f;
-    private int max = 3; 
     protected GameContext gameContext;
     int minDist = 1, maxDist = 10;
     public override bool PreBuild => true;

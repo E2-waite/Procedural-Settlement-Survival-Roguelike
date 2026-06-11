@@ -89,7 +89,7 @@ public class GameBootstrapper : MonoBehaviour
         context.player.Init(context);
     }
 
-    // Spawns the initial unit
+    // Spawns the initial units
     private void SpawnUnit(GridTile tile)
     {
         GameObject unitObj = Instantiate(unitPrefab, tile.Center + new Vector3(1f, 0.5f, 1f), Quaternion.identity);

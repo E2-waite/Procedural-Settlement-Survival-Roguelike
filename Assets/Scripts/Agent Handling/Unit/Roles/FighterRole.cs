@@ -7,7 +7,7 @@ public class FighterRole : IUnitRole
     public AgentCombat Combat => combat;
 
     private FighterTargetting targetting = new FighterTargetting();
-    public FighterTargetting Targetting => targetting;
+    public FighterTargetting Targeting => targetting;
 
     private Unit unit;
     private AgentObject agentObject;
@@ -20,22 +20,22 @@ public class FighterRole : IUnitRole
     public void Init(GameContext context, Unit unit)
     {
         this.unit = unit;
-        Targetting?.Init(unit);
-        Combat?.Init(unit, Targetting);
+        Targeting?.Init(unit);
+        Combat?.Init(unit, Targeting);
         unit.UpdateObject(context.agentCatalog.fighter);
         Debug.Log("Init Fighter");
     }
 
     public void Tick()
     {
-        Targetting?.Tick();
+        Targeting?.Tick();
         Combat?.Tick();
     }
 
     public void OnHit(float damage, Destructable source)
     {
         // Target hit source
-        Targetting.AddTarget(source, damage);
+        Targeting.AddTarget(source, damage);
     }
 
     public void HandleStates()
@@ -62,8 +62,8 @@ public class FighterRole : IUnitRole
     {
         if (agent is Enemy)
         {
-            Targetting.Target(agent);
-            unit.RequestPath(Targetting.TargetPos(), agent.transform.position);
+            Targeting.Target(agent);
+            unit.RequestPath(Targeting.TargetPos(), agent.transform.position);
             return true;
         }
 
@@ -74,14 +74,14 @@ public class FighterRole : IUnitRole
     {
         if (building.Owner == Faction.Enemy) // Target enemy buildings
         {
-            Targetting.Target(building);
-            unit.RequestPath(Targetting.TargetPos(), building.transform.position);
+            Targeting.Target(building);
+            unit.RequestPath(Targeting.TargetPos(), building.transform.position);
             return true;
         }
         return false;
     }
     #endregion
-    #region Targetting
+    #region Targeting
 
     #endregion
 }
