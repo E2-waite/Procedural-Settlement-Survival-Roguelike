@@ -12,18 +12,38 @@ public class FighterRole : IUnitRole
     private Unit unit;
     private AgentObject agentObject;
     public AgentObject AgentObject => agentObject;
+    private CombatType combatType;
+
+    public FighterRole(CombatType combatType)
+    {
+        this.combatType = combatType;
+    }
 
     public IUnitRole New()
     {
-        return new FighterRole();
+        return new FighterRole(combatType);
     }
+
     public void Init(GameContext context, Unit unit)
     {
         this.unit = unit;
         Targeting?.Init(unit);
-        Combat?.Init(unit, Targeting);
-        unit.UpdateObject(context.agentCatalog.fighter);
-        Debug.Log("Init Fighter");
+        Combat?.Init(unit, Targeting, combatType);
+
+        AgentObject agentObject;
+        if (combatType == CombatType.Melee)
+        {
+            Debug.Log("Init Melee Fighter");
+
+            agentObject = context.agentCatalog.fighter;
+        }
+        else
+        {
+            Debug.Log("Init Ranged Fighter");
+
+            agentObject = context.agentCatalog.ranger;
+        }
+        unit.UpdateObject(agentObject);
     }
 
     public void Tick()

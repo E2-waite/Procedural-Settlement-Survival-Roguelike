@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4340890009949230984}
-  - component: {fileID: 5590889519795617899}
+  - component: {fileID: -6709278625449584434}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Unit
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 875590959938760062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5590889519795617899
+--- !u!114 &-6709278625449584434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2214493174657560647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0900005cd9762408cea0e1b0ad9c8d, type: 3}
+  m_Script: {fileID: 11500000, guid: bb75e6fafa9e26949889caf3b5f6e8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health:
@@ -56,25 +56,17 @@ MonoBehaviour:
     pathWeight: 2
     swarmWeight: 1
     path: []
-  defaultSprites: {fileID: 11400000, guid: 2b33bb6d907caa24c925c8d42ff2171b, type: 2}
   pathRequested: 0
   chunkInterval: 1
   chunkTimer: 0
   chunk: {fileID: 0}
   spriteRend: {fileID: 6490061291952677947}
-  combat:
-    state: 0
-    lastState: 0
-    attackDist: 1
-    attackDamage: 10
-    defendingTile:
-      type: 0
-      chunk: {fileID: 0}
-      position: {x: 0, y: 0}
-      worldPosition: {x: 0, y: 0, z: 0}
-  fireCheckInterval: 0.5
-  fireDetectDist: 30
-  settlement: {fileID: 0}
+  projectilePrefab: {fileID: 3566523652595108076, guid: 6e108ec38cbcf2e43a43edc377630a47, type: 3}
+  followDist: 1.5
+  markerSprite: {fileID: 7396166917447108439}
+  state: 0
+  lastState: 0
+  swarmRadius: 0.5
 --- !u!1 &3835162298503540677
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +143,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 478579273, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
+  m_Sprite: {fileID: 892262829, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

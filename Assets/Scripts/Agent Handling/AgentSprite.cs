@@ -20,7 +20,8 @@ public class AgentSprite
 
         dir.Normalize();
 
-        spriteRenderer.sprite = GetDiagonalSprite(dir);
+        if (dir.magnitude > 0.1f)
+            spriteRenderer.sprite = GetDiagonalSprite(dir);
     }
 
     public void SetDirection(Vector3 dir)

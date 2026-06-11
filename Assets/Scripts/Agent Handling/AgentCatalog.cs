@@ -10,5 +10,6 @@ public class AgentCatalog : ScriptableObject
     public AgentObject unit;
     public AgentObject worker;
     public AgentObject fighter;
+    public AgentObject ranger;
     public AgentObject enemy;
 }

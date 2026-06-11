@@ -25,6 +25,7 @@ public class Agent : Destructable
     public void SetSquad(AgentSquad squad) { this.squad = squad; }
     public AgentSquad Squad => squad;
     public void ClearSquad() { squad = null; }
+    public GameObject projectilePrefab;
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -164,10 +165,17 @@ public class Agent : Destructable
         }
     }
 
-    protected override IEnumerator HitCoroutine()
+    protected override IEnumerator HitRoutine()
     {
         sprite.SetColor(Color.red);
         yield return new WaitForSeconds(0.1f);
         sprite.SetColor(Color.white);
+    }
+
+    public void LaunchProjectile(Destructable target, float damage)
+    {
+        GameObject projectileObj = Instantiate(projectilePrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        projectile.Launch(this, target, damage);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalDefs;
 
 [System.Serializable]
 public class AgentCombat
@@ -23,12 +24,18 @@ public class AgentCombat
     // Potential targets decay over time so units eventually stop caring about distant threats.
     [SerializeField] private GridTile defendingTile = null;
     bool initialized = false;
+    CombatType type;
 
-    public void Init(Agent agent, AgentTargetting targetting)
+    public void Init(Agent agent, AgentTargetting targetting, CombatType type)
     {
         this.agent = agent;
         this.targetting = targetting;
+        this.type = type;
         initialized = true;
+        if (type == CombatType.Melee)
+            attackDist = 1f;
+        else
+            attackDist = 5f;
     }
 
     public void Tick()
@@ -124,10 +131,19 @@ public class AgentCombat
         if (targetting.Current == null || attackTimer > 0) return false;
 
         attackTimer = attackInterval;
-        if (targetting.Current.Hit(attackDamage, agent))
-        {
 
+        if (type == CombatType.Melee)
+        {
+            if (targetting.Current.Hit(agent, attackDamage))
+            {
+
+            }
         }
+        else if (type == CombatType.Ranged)
+        {
+            agent.LaunchProjectile(targetting.Current, attackDamage);
+        }
+
 
         return true;
     }

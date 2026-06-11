@@ -6,7 +6,7 @@ public class AgentMovement
 {
     [SerializeField] public float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
     public List<Vector2Int> path = new List<Vector2Int>();
-    private float reachedThresh = .25f, swarmRadius = .5f;
+    private float reachedThresh = .25f, swarmRadius = .75f;
     protected int pathIndex = 0;
     private Vector3 posOffset = new Vector3(0, 0.01f, 0);
 
@@ -75,14 +75,12 @@ public class AgentMovement
 
     protected Vector3 SwarmDirection()
     {
-        List<Agent> friendlyUnits = agent.GetNearbyFriendly();
-
-        if (friendlyUnits == null) return Vector3.zero;
+        if (!agent.HasSquad) return Vector3.zero;
 
         Vector3 separation = Vector3.zero;
-        foreach (Agent nearby in friendlyUnits)
+        foreach (Agent nearby in agent.Squad.Agents)
         {
-            if (nearby == null) continue;
+            if (nearby == null || nearby == agent) continue;
 
             Vector3 diff = agent.transform.position - nearby.transform.position;
             float dist = diff.magnitude;

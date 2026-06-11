@@ -5,7 +5,6 @@ public class CommandSystem
 {
     public enum CommandState
     {
-        None,
         Unit,
         Worker,
         Fighter
@@ -121,7 +120,6 @@ public class CommandSystem
             currentSquad.ClearAgents();
             squads.Remove(currentSquad);
             currentSquad = null; // Clear current squad when no units are being commanded
-            SetState(CommandState.None);
         }
     }
 
@@ -142,7 +140,6 @@ public class CommandSystem
         }
             
         currentSquad = null; // Clear current squad when no units are being commanded
-        SetState(CommandState.None);
     }
     public void CommandFollow()
     {

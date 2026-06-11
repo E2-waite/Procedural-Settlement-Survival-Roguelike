@@ -183,9 +183,9 @@ public class Unit : Agent
     }
 
     // Handles receiving hits from another agent. Returns true if target is dead
-    public override bool Hit(float damage, Destructable source)
+    public override bool Hit(Destructable source, float damage)
     {
-        bool died = base.Hit(damage, source);
+        bool died = base.Hit(source, damage);
 
         if (!died)
         {

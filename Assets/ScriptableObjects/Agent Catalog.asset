@@ -15,4 +15,5 @@ MonoBehaviour:
   unit: {fileID: 11400000, guid: 8e79d005096085c4984218c1dc763f00, type: 2}
   worker: {fileID: 11400000, guid: 875af76ece017b84d941909865ba0d41, type: 2}
   fighter: {fileID: 11400000, guid: 56d6de2bb5d62c24ebd2d51dccc73da7, type: 2}
+  ranger: {fileID: 11400000, guid: 35dbc5bbbf9b40241bb4596e8875fa98, type: 2}
   enemy: {fileID: 11400000, guid: 3f30d8b86f731074f8efa13ac1b46762, type: 2}

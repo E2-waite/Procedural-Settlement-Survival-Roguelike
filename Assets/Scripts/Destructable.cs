@@ -23,13 +23,15 @@ public class Destructable : MonoBehaviour
     public Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
     // Handles receiving hits from units. Returns true if target is dead
-    public virtual bool Hit(float damage, Destructable source)
+    public virtual bool Hit(Destructable source, float damage)
     {
         if (dead) return true; // Already dead
         else
             Debug.Log(name + " hit by " + source.name + "(" + damage + " dmg)");
 
         health.Damage(damage);
+
+        StartCoroutine(HitRoutine());
 
         if (!dead && health.IsEmpty)
         {
@@ -38,16 +40,12 @@ public class Destructable : MonoBehaviour
             StartCoroutine(DeathRoutine());
             return true;
         }
-        else
-        {
-            StartCoroutine(HitCoroutine());
-        }
             
         return false;
     }
 
 
-    protected virtual IEnumerator HitCoroutine()
+    protected virtual IEnumerator HitRoutine()
     {
         yield return null;
     }

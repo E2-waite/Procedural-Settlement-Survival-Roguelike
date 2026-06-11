@@ -7,4 +7,10 @@ public static class GlobalDefs
         Unit,
         Enemy
     }
+
+    public enum CombatType
+    {
+        Melee,
+        Ranged
+    }
 }
