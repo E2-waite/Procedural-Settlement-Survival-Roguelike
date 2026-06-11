@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        target?.Hit(source, damage);
+        target?.Hit(source, damage, moveDir.normalized);
 
         Destroy(gameObject);
     }

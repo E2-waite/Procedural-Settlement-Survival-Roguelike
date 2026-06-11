@@ -165,11 +165,28 @@ public class Agent : Destructable
         }
     }
 
-    protected override IEnumerator HitRoutine()
+    protected override IEnumerator HitRoutine(Vector3 dir)
     {
         sprite.SetColor(Color.red);
+        StartCoroutine(KnockbackRoutine(dir));
         yield return new WaitForSeconds(0.1f);
         sprite.SetColor(Color.white);
+    }
+
+    protected virtual IEnumerator KnockbackRoutine(Vector3 dir)
+    {
+        float strength = 10;
+        Vector3 velocity = dir * strength;
+        velocity.y = 0;
+        while (velocity != Vector3.zero)
+        {
+            transform.position += velocity * Time.deltaTime;
+
+            if (velocity.magnitude < .01f) velocity = Vector3.zero;
+            else velocity *= .9f;
+
+            yield return null;
+        }
     }
 
     public void LaunchProjectile(Destructable target, float damage)

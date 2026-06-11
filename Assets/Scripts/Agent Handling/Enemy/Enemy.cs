@@ -100,9 +100,9 @@ public class Enemy : Agent
 
     #region Taking Damage
 
-    public override bool Hit(Destructable source, float damage)
+    public override bool Hit(Destructable source, float damage, Vector3 dir)
     {
-        if (base.Hit(source, damage)) return true;
+        if (base.Hit(source, damage, dir)) return true;
 
         if (source is Unit)
         {

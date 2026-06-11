@@ -134,7 +134,8 @@ public class AgentCombat
 
         if (type == CombatType.Melee)
         {
-            if (targetting.Current.Hit(agent, attackDamage))
+            Vector3 hitDir = targetting.Current.transform.position - agent.transform.position;
+            if (targetting.Current.Hit(agent, attackDamage, hitDir))
             {
 
             }
