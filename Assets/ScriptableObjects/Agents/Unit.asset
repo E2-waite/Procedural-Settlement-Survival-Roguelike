@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Unit
   m_EditorClassIdentifier: 
-  upRight: {fileID: -1985923885, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
-  upLeft: {fileID: -1893485436, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
-  downRight: {fileID: 892262829, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
-  downLeft: {fileID: 295343136, guid: 794bf1e287b41dc479318c6e85a30302, type: 3}
+  upRight: {fileID: 2055271962, guid: c424778b5748732408b32a57b128182e, type: 3}
+  upLeft: {fileID: -807726652, guid: c424778b5748732408b32a57b128182e, type: 3}
+  downRight: {fileID: 220285781, guid: c424778b5748732408b32a57b128182e, type: 3}
+  downLeft: {fileID: -96398266, guid: c424778b5748732408b32a57b128182e, type: 3}

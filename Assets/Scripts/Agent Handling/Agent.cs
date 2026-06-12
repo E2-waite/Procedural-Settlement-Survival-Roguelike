@@ -10,7 +10,7 @@ public class Agent : Destructable
     public AgentMovement Movement => movement;
 
     [HideInInspector] public bool pathRequested = false;
-    private WorldGrid grid;
+    protected WorldGrid grid;
     public float chunkInterval = 1f, chunkTimer = 0f;
     public Chunk chunk;
     private bool highlighted = false; // Is the mouse currently hovering over this agent
@@ -107,7 +107,7 @@ public class Agent : Destructable
     // Updates chunk state (adds unit to new chunk and removes unit from old chunk)
     void UpdateChunk()
     {
-        if (chunkTimer <= 0)
+        if (chunkTimer <= 0 && grid != null)
         {
             chunkTimer = chunkInterval;
 
