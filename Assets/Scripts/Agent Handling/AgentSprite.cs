@@ -1,15 +1,17 @@
 using UnityEngine;
-
+using static GlobalDefs;
 [System.Serializable]
 public class AgentSprite
 {
     private SpriteRenderer spriteRenderer;
+    private SpriteRenderer eyesRenderer;
     private AgentObject agentSprites;
     Vector2 lastDir = Vector2.zero;
     Vector2 facing = Vector2.zero;
-    public void Init(SpriteRenderer spriteRenderer, AgentObject agentSprites)
+    public void Init(SpriteRenderer spriteRenderer, SpriteRenderer eyesRenderer, AgentObject agentSprites)
     {
         this.spriteRenderer = spriteRenderer;
+        this.eyesRenderer = eyesRenderer;
         this.agentSprites = agentSprites;
         spriteRenderer.sprite = agentSprites.downRight;
     }
@@ -25,7 +27,11 @@ public class AgentSprite
         dir.Normalize();
 
         if (dir.magnitude > 0.1f)
-            spriteRenderer.sprite = GetDiagonalSprite(facing);
+        {
+            AgentDir agentDir = GetAgentDir(dir);
+            spriteRenderer.sprite = agentSprites.GetAgentSprite(agentDir);
+            eyesRenderer.sprite = agentSprites.GetAgentEyes(agentDir);
+        }
     }
 
     public void SetDirection(Vector3 dir)
@@ -34,8 +40,7 @@ public class AgentSprite
 
         SetDirection(new Vector2(dir.x, dir.z));
     }
-
-    private Sprite GetDiagonalSprite(Vector2 dir)
+    private Sprite GetEyeSprite(Vector2 dir)
     {
         bool up = dir.y > 0;
         bool down = dir.y <= 0;
@@ -47,6 +52,22 @@ public class AgentSprite
         else if (down && right) return agentSprites.downRight;
 
         return agentSprites.downLeft;
+    }
+    private AgentDir GetAgentDir(Vector2 dir)
+    {
+        bool up = dir.y > 0;
+        bool down = dir.y <= 0;
+        bool left = dir.x < 0;
+        bool right = dir.x > 0;
+
+        AgentDir agentDir = AgentDir.DownLeft;
+
+        if (up && right) agentDir = AgentDir.UpRight;
+        else if (up && left) agentDir = AgentDir.UpLeft;
+        else if (down && right) agentDir = AgentDir.DownRight;
+        else if (down && left) agentDir = AgentDir.DownLeft;
+
+        return agentDir;
     }
 
     public void SetColor(Color color)

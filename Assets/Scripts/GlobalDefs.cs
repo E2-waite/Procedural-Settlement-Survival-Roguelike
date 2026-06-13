@@ -13,4 +13,12 @@ public static class GlobalDefs
         Melee,
         Ranged
     }
+
+    public enum AgentDir
+    {
+        DownLeft,
+        DownRight,
+        UpLeft,
+        UpRight
+    }
 }

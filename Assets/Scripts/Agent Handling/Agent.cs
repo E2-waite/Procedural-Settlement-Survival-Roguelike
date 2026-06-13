@@ -17,7 +17,7 @@ public class Agent : Destructable
     [SerializeField] AgentSprite sprite = new AgentSprite();
     public AgentSprite Sprite => sprite;
     public SpriteRenderer spriteRend;
-
+    public SpriteRenderer eyesRend;
     public bool WaitingForPath => pathRequested;
     protected AgentSquad squad;
 
@@ -26,6 +26,7 @@ public class Agent : Destructable
     public AgentSquad Squad => squad;
     public void ClearSquad() { squad = null; }
     public GameObject projectilePrefab;
+    protected virtual Color HighlightColor => Color.white;
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -154,7 +155,11 @@ public class Agent : Destructable
     {
         highlighted = active;
         if (spriteRend != null)
-            spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 1f : 0f);
+        {
+            spriteRend.material.SetColor("_OutlineColor", HighlightColor);
+            spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 3f : 0f);
+
+        }
     }
 
     protected override void OnDeathStart()

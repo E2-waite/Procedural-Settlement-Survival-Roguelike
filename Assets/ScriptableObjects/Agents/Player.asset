@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
-  m_Name: Fighter
+  m_Name: Player
   m_EditorClassIdentifier: 
-  upRight: {fileID: 2055271962, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  upLeft: {fileID: -807726652, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  downRight: {fileID: 220285781, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  downLeft: {fileID: -96398266, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
+  upRight: {fileID: -807726652, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
+  upLeft: {fileID: 2055271962, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
+  downRight: {fileID: 220285781, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
+  downLeft: {fileID: -96398266, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}

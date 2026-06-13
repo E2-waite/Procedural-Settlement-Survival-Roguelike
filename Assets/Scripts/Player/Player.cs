@@ -6,7 +6,10 @@ public class Player : Destructable
     PlayerController controller;
     public Light fireLight;
     public override TargetType Type => TargetType.Player;
-    [SerializeField] AgentSprite sprite = new AgentSprite();
+    public AgentObject agentObject;
+    public SpriteRenderer rend;
+    public SpriteRenderer eyesRend;
+    AgentSprite sprite = new AgentSprite();
     [SerializeField] Fire fire = new Fire(false);
     private List<Unit> nearbyUnits = new List<Unit>();
     public List<Unit> NearbyUnits => nearbyUnits;
@@ -29,6 +32,10 @@ public class Player : Destructable
 
         controller = GetComponent<PlayerController>();
         controller.Init(context);
+
+        sprite = new AgentSprite();
+        if (sprite != null)
+            sprite.Init(rend, eyesRend, agentObject);
 
         fire.Init(fireLight);
         health.Fill();
@@ -121,14 +128,7 @@ public class Player : Destructable
 
     public void OnMove(Vector2 moveInput)
     {
-        if (controller != null)
-        {
-            controller.MovePlayer(moveInput);
-        }
-
-        //if (sprite != null)
-        //{
-        //    sprite.SetDirection(moveInput);
-        //}
+        controller?.MovePlayer(moveInput);
+        sprite?.SetDirection(moveInput);
     }
 }

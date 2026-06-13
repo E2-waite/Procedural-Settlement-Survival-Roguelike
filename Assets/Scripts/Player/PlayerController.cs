@@ -12,15 +12,6 @@ public class PlayerController : MonoBehaviour
         grid = context.world.Context.grid;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // Face the camera
-        Vector3 forward = Camera.main.transform.forward;
-        forward.Normalize();
-        transform.rotation = Quaternion.LookRotation(forward);
-    }
-
     public void MovePlayer(Vector2 moveInput)
     {
         Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);

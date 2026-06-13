@@ -33,6 +33,8 @@ public class Unit : Agent
     private ConvertBuilding convertBuilding = null;
     private GameContext gameContext;
     private UnitSpawnerBuilding spawner;
+    protected override Color HighlightColor => Color.green;
+
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -74,7 +76,7 @@ public class Unit : Agent
     // Updates the agent object on convert or init
     public void UpdateObject(AgentObject agentObject)
     {
-        Sprite.Init(spriteRend, agentObject);
+        Sprite.Init(spriteRend, eyesRend, agentObject);
     }
     #endregion
     #region States
@@ -143,9 +145,11 @@ public class Unit : Agent
             {
                 RequestPath(playerPos, player.transform.position);
             }
-        }
 
-        movement.FollowPath();
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist > followDist)
+                movement.FollowPath();
+        }
     }
 
     // Update role
