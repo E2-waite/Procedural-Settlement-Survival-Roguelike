@@ -16,3 +16,5 @@ MonoBehaviour:
   upLeft: {fileID: 2055271962, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
   downRight: {fileID: 220285781, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
   downLeft: {fileID: -96398266, guid: f1a0a44404bcad9458f481a40ad4bbed, type: 3}
+  eyesLeft: {fileID: -96398266, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  eyesRight: {fileID: 220285781, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}

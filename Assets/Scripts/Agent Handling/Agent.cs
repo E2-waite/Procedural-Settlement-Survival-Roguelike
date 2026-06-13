@@ -158,7 +158,6 @@ public class Agent : Destructable
         {
             spriteRend.material.SetColor("_OutlineColor", HighlightColor);
             spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 3f : 0f);
-
         }
     }
 

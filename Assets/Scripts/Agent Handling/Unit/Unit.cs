@@ -23,7 +23,6 @@ public class Unit : Agent
     public override TargetType Type => TargetType.Agent;
     public SpriteRenderer markerSprite;
     public State state, lastState;
-    public float swarmRadius = .5f;
     private Camera cam;
     protected float scanInterval = 1.0f, scanTimer = 0; // Timer for tracking when to next scan for nearby friendly units
     protected FireSystem fireSystem;

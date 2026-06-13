@@ -6,7 +6,8 @@ public class AgentMovement
 {
     [SerializeField] public float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
     public List<Vector2Int> path = new List<Vector2Int>();
-    private float reachedThresh = .25f, swarmRadius = .75f;
+    private float reachedThresh = .25f;
+    [SerializeField] private float swarmRadius = 1f;
     protected int pathIndex = 0;
     private Vector3 posOffset = new Vector3(0, 0.01f, 0);
 

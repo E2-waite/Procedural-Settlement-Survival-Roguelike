@@ -40,21 +40,18 @@ public class AgentSprite
 
         SetDirection(new Vector2(dir.x, dir.z));
     }
-    private Sprite GetEyeSprite(Vector2 dir)
-    {
-        bool up = dir.y > 0;
-        bool down = dir.y <= 0;
-        bool left = dir.x < 0;
-        bool right = dir.x > 0;
 
-        if (up && right) return agentSprites.upRight;
-        else if (up && left) return agentSprites.upLeft;
-        else if (down && right) return agentSprites.downRight;
+    float lastX = 0, lastY = 0;
 
-        return agentSprites.downLeft;
-    }
+
     private AgentDir GetAgentDir(Vector2 dir)
     {
+        if (dir.x == 0) dir.x = lastX;
+        else lastX = dir.x;
+
+        if (dir.y == 0) dir.y = lastY;
+        else lastY = dir.y;
+
         bool up = dir.y > 0;
         bool down = dir.y <= 0;
         bool left = dir.x < 0;

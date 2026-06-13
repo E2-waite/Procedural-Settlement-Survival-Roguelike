@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  upRight: {fileID: -333559954, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-  upLeft: {fileID: 1324273794, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-  downRight: {fileID: 478579273, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
-  downLeft: {fileID: -181861861, guid: 7c6930b9883927a448a7cf5ef6f125e0, type: 3}
+  upRight: {fileID: -807726652, guid: cf1b9054a3d290e41b70667850919d6e, type: 3}
+  upLeft: {fileID: 2055271962, guid: cf1b9054a3d290e41b70667850919d6e, type: 3}
+  downRight: {fileID: 220285781, guid: cf1b9054a3d290e41b70667850919d6e, type: 3}
+  downLeft: {fileID: -96398266, guid: cf1b9054a3d290e41b70667850919d6e, type: 3}
+  eyesLeft: {fileID: -96398266, guid: 7d9c33a6516f9e44a846213cf8b1dcd8, type: 3}
+  eyesRight: {fileID: 220285781, guid: 7d9c33a6516f9e44a846213cf8b1dcd8, type: 3}
