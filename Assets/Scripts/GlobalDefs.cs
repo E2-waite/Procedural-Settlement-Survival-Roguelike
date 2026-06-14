@@ -14,11 +14,21 @@ public static class GlobalDefs
         Ranged
     }
 
-    public enum AgentDir
+    public enum SpriteDir
     {
-        DownLeft,
-        DownRight,
-        UpLeft,
-        UpRight
+        DownRight, DownLeft, UpRight, UpLeft, Max
+    }
+
+    public enum SpriteLayers
+    {
+        BackHand,
+        Torso,
+        TorsoTrim,
+        FrontHand,
+        Head,
+        Eyes,
+        Helmet,
+        HelmetTrim,
+        Max
     }
 }

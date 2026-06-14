@@ -27,7 +27,6 @@ public class Enemy : Agent
     private GridTile spawnTile;
     public GridTile SpawnTile => spawnTile;
     protected override Color HighlightColor => Color.red;
-
     public void Init(GameContext context, EnemySpawnerBuilding settlement, GridTile spawnTile)
     {
         Init(context);
@@ -38,7 +37,7 @@ public class Enemy : Agent
         this.settlement = settlement;
         this.spawnTile = spawnTile;
         targetting.Init(context, this);
-        Sprite.Init(spriteRend, eyesRend, context.agentCatalog.enemy);
+        Sprite.Init(body, context.agentCatalog.enemy);
     }
 
     protected override void Update()

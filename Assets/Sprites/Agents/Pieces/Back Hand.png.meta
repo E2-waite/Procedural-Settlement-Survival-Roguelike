@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9dd2e260a327eed4dbc69921b96c5422
+guid: 584df2a6e642e744d98070148cef657f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hood (DR)
+      name: Back Hand (DR)
       rect:
         serializedVersion: 2
         x: 0
@@ -132,7 +132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (DL)
+      name: Back Hand (DL)
       rect:
         serializedVersion: 2
         x: 64
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (UR)
+      name: Back Hand (UR)
       rect:
         serializedVersion: 2
         x: 128
@@ -176,7 +176,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (UL)
+      name: Back Hand (UR
       rect:
         serializedVersion: 2
         x: 192
@@ -211,10 +211,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hood (DL): -96398266
-      Hood (DR): 220285781
-      Hood (UL): 2055271962
-      Hood (UR): -807726652
+      Back Hand (DL): -96398266
+      Back Hand (DR): 220285781
+      Back Hand (UR: 2055271962
+      Back Hand (UR): -807726652
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

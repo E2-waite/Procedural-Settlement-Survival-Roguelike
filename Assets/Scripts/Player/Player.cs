@@ -7,8 +7,6 @@ public class Player : Destructable
     public Light fireLight;
     public override TargetType Type => TargetType.Player;
     public AgentObject agentObject;
-    public SpriteRenderer rend;
-    public SpriteRenderer eyesRend;
     AgentSprite sprite = new AgentSprite();
     [SerializeField] Fire fire = new Fire(false);
     private List<Unit> nearbyUnits = new List<Unit>();
@@ -21,7 +19,7 @@ public class Player : Destructable
     private ChunkStreaming chunkStreaming;
     private FireSystem fireSystem;
     private GameType gameType;
-
+    public GameObject body;
     public void Init(GameContext context)
     {
         chunkStreaming = context.chunkStreaming;
@@ -34,8 +32,8 @@ public class Player : Destructable
         controller.Init(context);
 
         sprite = new AgentSprite();
-        if (sprite != null)
-            sprite.Init(rend, eyesRend, agentObject);
+        if (sprite != null && body != null)
+            sprite.Init(body, agentObject);
 
         fire.Init(fireLight);
         health.Fill();

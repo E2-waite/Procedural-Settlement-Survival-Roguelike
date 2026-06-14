@@ -57,7 +57,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
     // Spawns the player
     private void SpawnPlayer(GridTile tile)
     {
-        GameObject playerObj = Instantiate(playerPrefab, tile.Center + new Vector3(1f, 0.5f, 0), Quaternion.identity);
+        GameObject playerObj = Instantiate(playerPrefab, tile.Center + new Vector3(1f, 0, 0), Quaternion.identity);
         context.player = playerObj.GetComponent<Player>();
         context.player.Init(context);
     }

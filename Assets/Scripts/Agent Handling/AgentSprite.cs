@@ -3,17 +3,38 @@ using static GlobalDefs;
 [System.Serializable]
 public class AgentSprite
 {
-    private SpriteRenderer spriteRenderer;
-    private SpriteRenderer eyesRenderer;
     private AgentObject agentSprites;
     Vector2 lastDir = Vector2.zero;
     Vector2 facing = Vector2.zero;
-    public void Init(SpriteRenderer spriteRenderer, SpriteRenderer eyesRenderer, AgentObject agentSprites)
+    private SpriteRenderer[] spriteLayers = new SpriteRenderer[(int)SpriteLayers.Max];
+
+    public void Init(GameObject body, AgentObject agentSprites)
     {
-        this.spriteRenderer = spriteRenderer;
-        this.eyesRenderer = eyesRenderer;
+        for (int i = 0; i < body.transform.childCount; i++)
+        {
+            spriteLayers[i] = body.transform.GetChild(i).GetComponent<SpriteRenderer>();
+        }
         this.agentSprites = agentSprites;
-        spriteRenderer.sprite = agentSprites.downRight;
+
+        spriteLayers[(int)SpriteLayers.Torso].color = agentSprites.ClothingColor;
+        spriteLayers[(int)SpriteLayers.TorsoTrim].color = agentSprites.TrimColor;
+        spriteLayers[(int)SpriteLayers.Head].color = agentSprites.SkinColor;
+        spriteLayers[(int)SpriteLayers.Helmet].color = agentSprites.HelmetColor;
+        spriteLayers[(int)SpriteLayers.HelmetTrim].color = agentSprites.HelmetTrimColor;
+        spriteLayers[(int)SpriteLayers.FrontHand].color = agentSprites.UseSkinColorOnHands ? agentSprites.SkinColor : agentSprites.HandColor;
+        spriteLayers[(int)SpriteLayers.BackHand].color = agentSprites.UseSkinColorOnHands ? agentSprites.SkinColor : agentSprites.HandColor;
+
+        if (agentSprites.ShowHelmet)
+        {
+            spriteLayers[(int)SpriteLayers.Helmet].enabled = true;
+            spriteLayers[(int)SpriteLayers.HelmetTrim].enabled = true;
+        }
+        else
+        {
+            spriteLayers[(int)SpriteLayers.Helmet].enabled = false;
+            spriteLayers[(int)SpriteLayers.HelmetTrim].enabled = false;
+        }
+        SetDirection(new Vector2(1, -1));
     }
 
     public void SetDirection(Vector2 dir)
@@ -28,9 +49,11 @@ public class AgentSprite
 
         if (dir.magnitude > 0.1f)
         {
-            AgentDir agentDir = GetAgentDir(dir);
-            spriteRenderer.sprite = agentSprites.GetAgentSprite(agentDir);
-            eyesRenderer.sprite = agentSprites.GetAgentEyes(agentDir);
+            SpriteDir spriteDir = GetSpriteDir(dir);
+            for (SpriteLayers i = SpriteLayers.BackHand; i < SpriteLayers.Max; i++)
+            {
+                spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
+            }
         }
     }
 
@@ -44,7 +67,7 @@ public class AgentSprite
     float lastX = 0, lastY = 0;
 
 
-    private AgentDir GetAgentDir(Vector2 dir)
+    private SpriteDir GetSpriteDir(Vector2 dir)
     {
         if (dir.x == 0) dir.x = lastX;
         else lastX = dir.x;
@@ -57,18 +80,19 @@ public class AgentSprite
         bool left = dir.x < 0;
         bool right = dir.x > 0;
 
-        AgentDir agentDir = AgentDir.DownLeft;
+        SpriteDir SpriteDir = SpriteDir.DownLeft;
 
-        if (up && right) agentDir = AgentDir.UpRight;
-        else if (up && left) agentDir = AgentDir.UpLeft;
-        else if (down && right) agentDir = AgentDir.DownRight;
-        else if (down && left) agentDir = AgentDir.DownLeft;
+        if (up && right) SpriteDir = SpriteDir.UpRight;
+        else if (up && left) SpriteDir = SpriteDir.UpLeft;
+        else if (down && right) SpriteDir = SpriteDir.DownRight;
+        else if (down && left) SpriteDir = SpriteDir.DownLeft;
 
-        return agentDir;
+        return SpriteDir;
     }
 
     public void SetColor(Color color)
     {
-        spriteRenderer.color = color;
+        //return;
+        //spriteRenderer.color = color;
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Agent Catalog
   m_EditorClassIdentifier: 
   unit: {fileID: 11400000, guid: 8e79d005096085c4984218c1dc763f00, type: 2}
-  worker: {fileID: 11400000, guid: 875af76ece017b84d941909865ba0d41, type: 2}
-  fighter: {fileID: 11400000, guid: 56d6de2bb5d62c24ebd2d51dccc73da7, type: 2}
-  ranger: {fileID: 11400000, guid: 35dbc5bbbf9b40241bb4596e8875fa98, type: 2}
+  worker: {fileID: 11400000, guid: 1a3dcfea068350b4f96fe491590750b1, type: 2}
+  fighter: {fileID: 11400000, guid: 06f997e76266c9b44b4453a1dfcb840b, type: 2}
+  ranger: {fileID: 11400000, guid: 5fdff0f54b46c484eb829385cbb6a31f, type: 2}
   enemy: {fileID: 11400000, guid: 3f30d8b86f731074f8efa13ac1b46762, type: 2}

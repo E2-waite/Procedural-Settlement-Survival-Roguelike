@@ -16,8 +16,6 @@ public class Agent : Destructable
     private bool highlighted = false; // Is the mouse currently hovering over this agent
     [SerializeField] AgentSprite sprite = new AgentSprite();
     public AgentSprite Sprite => sprite;
-    public SpriteRenderer spriteRend;
-    public SpriteRenderer eyesRend;
     public bool WaitingForPath => pathRequested;
     protected AgentSquad squad;
 
@@ -27,6 +25,8 @@ public class Agent : Destructable
     public void ClearSquad() { squad = null; }
     public GameObject projectilePrefab;
     protected virtual Color HighlightColor => Color.white;
+    public GameObject body;
+
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -34,10 +34,6 @@ public class Agent : Destructable
         World world = context.world;
         grid = world.Context.grid;
         pathfinding = context.pathfinding;
-
-        Vector3 forward = Camera.main.transform.forward;
-        forward.Normalize();
-        spriteRend.transform.rotation = Quaternion.LookRotation(forward);
     }
 
     protected virtual void Update()
@@ -154,11 +150,11 @@ public class Agent : Destructable
     public void Highlight(bool active)
     {
         highlighted = active;
-        if (spriteRend != null)
-        {
-            spriteRend.material.SetColor("_OutlineColor", HighlightColor);
-            spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 3f : 0f);
-        }
+        //if (spriteRend != null)
+        //{
+        //    spriteRend.material.SetColor("_OutlineColor", HighlightColor);
+        //    spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 3f : 0f);
+        //}
     }
 
     protected override void OnDeathStart()

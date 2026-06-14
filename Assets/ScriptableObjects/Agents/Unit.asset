@@ -12,9 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Unit
   m_EditorClassIdentifier: 
-  upRight: {fileID: 2055271962, guid: c424778b5748732408b32a57b128182e, type: 3}
-  upLeft: {fileID: -807726652, guid: c424778b5748732408b32a57b128182e, type: 3}
-  downRight: {fileID: 220285781, guid: c424778b5748732408b32a57b128182e, type: 3}
-  downLeft: {fileID: -96398266, guid: c424778b5748732408b32a57b128182e, type: 3}
-  eyesLeft: {fileID: -96398266, guid: 68bbae53614ea78498832a4e56d7738d, type: 3}
-  eyesRight: {fileID: 220285781, guid: 68bbae53614ea78498832a4e56d7738d, type: 3}
+  showHelmet: 0
+  skinOnHands: 1
+  clothingColor: {r: 0.4, g: 0.21960784, b: 0.1882353, a: 1}
+  trimColor: {r: 0.5372549, g: 0.43137255, b: 0.18431373, a: 1}
+  skinColor: {r: 0.92941177, g: 0.7647059, b: 0.6039216, a: 1}
+  torso: {fileID: 21300000, guid: 052379b3345658046b0f556af4a68f08, type: 3}
+  torsoTrim:
+  - {fileID: 220285781, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -96398266, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -807726652, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: 2055271962, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  head: {fileID: 21300000, guid: f983dcea7498fce4cb37c64bdbe517cf, type: 3}
+  eyes:
+  - {fileID: 220285781, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: -96398266, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: -807726652, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: 2055271962, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  helmet:
+  - {fileID: 220285781, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+  - {fileID: -96398266, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+  - {fileID: -807726652, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+  - {fileID: 2055271962, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+  helmetTrim:
+  - {fileID: 220285781, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
+  - {fileID: -96398266, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
+  - {fileID: -807726652, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
+  - {fileID: 2055271962, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
+  frontHand:
+  - {fileID: 220285781, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: -96398266, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: -807726652, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: 2055271962, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  backHand:
+  - {fileID: 220285781, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: -96398266, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: -807726652, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: 2055271962, guid: 584df2a6e642e744d98070148cef657f, type: 3}

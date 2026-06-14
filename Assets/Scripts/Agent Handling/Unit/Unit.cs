@@ -75,7 +75,7 @@ public class Unit : Agent
     // Updates the agent object on convert or init
     public void UpdateObject(AgentObject agentObject)
     {
-        Sprite.Init(spriteRend, eyesRend, agentObject);
+        Sprite.Init(body, agentObject);
     }
     #endregion
     #region States

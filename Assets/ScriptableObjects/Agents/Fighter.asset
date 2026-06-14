@@ -12,9 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
-  upRight: {fileID: 2055271962, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  upLeft: {fileID: -807726652, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  downRight: {fileID: 220285781, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  downLeft: {fileID: -96398266, guid: 9df4a503c0d125f4389267058079e15f, type: 3}
-  eyesLeft: {fileID: 220285781, guid: 77a4474027736aa45aeed6506b921943, type: 3}
-  eyesRight: {fileID: -96398266, guid: 77a4474027736aa45aeed6506b921943, type: 3}
+  showHelmet: 1
+  useSkinColorOnHands: 1
+  clothingColor: {r: 0.6745098, g: 0.19215687, b: 0.19215687, a: 1}
+  trimColor: {r: 0.8980392, g: 0.54901963, b: 0, a: 1}
+  skinColor: {r: 0.92941177, g: 0.7647059, b: 0.6039216, a: 1}
+  helmetColor: {r: 0.34901962, g: 0.3372549, b: 0.32156864, a: 1}
+  helmetTrimColor: {r: 0.18039216, g: 0.1764706, b: 0.16862746, a: 1}
+  handColor: {r: 0.34901962, g: 0.3372549, b: 0.32156864, a: 1}
+  torso: {fileID: 21300000, guid: 052379b3345658046b0f556af4a68f08, type: 3}
+  torsoTrim:
+  - {fileID: 220285781, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -96398266, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -807726652, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: 2055271962, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  head: {fileID: 21300000, guid: f983dcea7498fce4cb37c64bdbe517cf, type: 3}
+  eyes:
+  - {fileID: 220285781, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: -96398266, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: -807726652, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  - {fileID: 2055271962, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+  helmet:
+  - {fileID: 220285781, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
+  - {fileID: -96398266, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
+  - {fileID: 2055271962, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
+  - {fileID: -807726652, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
+  helmetTrim:
+  - {fileID: 220285781, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
+  - {fileID: -96398266, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
+  - {fileID: -807726652, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
+  - {fileID: 2055271962, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
+  frontHand:
+  - {fileID: 220285781, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: -96398266, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: -807726652, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  - {fileID: 2055271962, guid: 6fd0e7c9ba594f644888964465ca9729, type: 3}
+  backHand:
+  - {fileID: 220285781, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: -96398266, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: -807726652, guid: 584df2a6e642e744d98070148cef657f, type: 3}
+  - {fileID: 2055271962, guid: 584df2a6e642e744d98070148cef657f, type: 3}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9dd2e260a327eed4dbc69921b96c5422
+guid: 806340268750ed44b86d42e15bd1135e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hood (DR)
+      name: Helmet (DR)
       rect:
         serializedVersion: 2
         x: 0
@@ -132,7 +132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (DL)
+      name: Helmet (DL)
       rect:
         serializedVersion: 2
         x: 64
@@ -154,7 +154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (UR)
+      name: Helmet (UR)
       rect:
         serializedVersion: 2
         x: 128
@@ -176,7 +176,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hood (UL)
+      name: Helmet (UL)
       rect:
         serializedVersion: 2
         x: 192
@@ -211,10 +211,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hood (DL): -96398266
-      Hood (DR): 220285781
-      Hood (UL): 2055271962
-      Hood (UR): -807726652
+      Helmet (DL): -96398266
+      Helmet (DR): 220285781
+      Helmet (UL): 2055271962
+      Helmet (UR): -807726652
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
