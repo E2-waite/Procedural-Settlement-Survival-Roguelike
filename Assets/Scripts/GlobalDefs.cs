@@ -29,6 +29,8 @@ public static class GlobalDefs
         Eyes,
         Helmet,
         HelmetTrim,
+        BackEquip,
+        FrontEquip,
         Max
     }
 }

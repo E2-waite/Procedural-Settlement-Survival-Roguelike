@@ -13,7 +13,8 @@ public class AgentObjectEditor : Editor
     private Texture2D helmetTrimSheet;
     private Texture2D frontHandSheet;
     private Texture2D backHandSheet;
-
+    private Texture2D frontEquipSheet;
+    private Texture2D backEquipSheet;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -27,7 +28,8 @@ public class AgentObjectEditor : Editor
         helmetTrimSheet = DrawSheetField("Helmet Trim", helmetTrimSheet);
         frontHandSheet = DrawSheetField("Front Hand", frontHandSheet);
         backHandSheet = DrawSheetField("Back Hand", backHandSheet);
-
+        frontEquipSheet = DrawSheetField("Front Equipment", frontEquipSheet);
+        backEquipSheet = DrawSheetField("Back Equipment", backEquipSheet);
 
         if (GUILayout.Button("Assign Sprite Sheets"))
         {
@@ -38,7 +40,8 @@ public class AgentObjectEditor : Editor
             AssignArray("helmetTrim", helmetTrimSheet);
             AssignArray("frontHand", frontHandSheet);
             AssignArray("backHand", backHandSheet);
-
+            AssignArray("frontEquip", frontEquipSheet);
+            AssignArray("backEquip", backEquipSheet);
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();

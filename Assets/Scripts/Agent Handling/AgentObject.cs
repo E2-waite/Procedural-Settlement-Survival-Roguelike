@@ -17,8 +17,11 @@ public class AgentObject : ScriptableObject
     [SerializeField] private Sprite[] eyes = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] helmet = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] helmetTrim = new Sprite[(int)SpriteDir.Max];
-    [SerializeField] private Sprite[] frontHand = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] backHand = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] frontHand = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] backEquip = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] frontEquip = new Sprite[(int)SpriteDir.Max];
+
     public bool ShowHelmet => showHelmet;
     public bool UseSkinColorOnHands => useSkinColorOnHands;
     public Color ClothingColor => clothingColor;
@@ -34,8 +37,10 @@ public class AgentObject : ScriptableObject
     public Sprite GetEyes(SpriteDir dir) => eyes[(int)dir];
     public Sprite GetHelmet(SpriteDir dir) => helmet[(int)dir];
     public Sprite GetHelmetTrim(SpriteDir dir) => helmetTrim[(int)dir];
-    public Sprite GetFrontHand(SpriteDir dir) => frontHand[(int)dir];
     public Sprite GetBackHand(SpriteDir dir) => backHand[(int)dir];
+    public Sprite GetFrontHand(SpriteDir dir) => frontHand[(int)dir];
+    public Sprite GetBackEquip(SpriteDir dir) => backEquip[(int)dir];
+    public Sprite GetFrontEquip(SpriteDir dir) => frontEquip[(int)dir];
 
     public Sprite GetSprite(SpriteDir dir, SpriteLayers layer)
     {
@@ -57,6 +62,10 @@ public class AgentObject : ScriptableObject
                 return GetBackHand(dir);
             case SpriteLayers.FrontHand:
                 return GetFrontHand(dir);
+            case SpriteLayers.BackEquip:
+                return GetBackEquip(dir);
+            case SpriteLayers.FrontEquip:
+                return GetFrontEquip(dir);
         }
         return null;
     }
