@@ -21,9 +21,11 @@ public static class GlobalDefs
 
     public enum SpriteLayers
     {
-        BackHand,
         Torso,
         TorsoTrim,
+        Armour,
+        ArmourTrim,
+        BackHand,
         FrontHand,
         Head,
         Eyes,

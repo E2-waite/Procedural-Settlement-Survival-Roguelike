@@ -20,7 +20,7 @@ public class AgentCombat
     private AgentTargetting targetting;
 
     public float attackDist = 1f, attackDamage = 10f;
-    protected float attackInterval = 0.5f, attackTimer = 0;
+    protected float attackInterval = 1.5f, attackTimer = 0;
     // Potential targets decay over time so units eventually stop caring about distant threats.
     [SerializeField] private GridTile defendingTile = null;
     bool initialized = false;
@@ -158,7 +158,7 @@ public class AgentCombat
     // Move towards target
     void Chase()
     {
-        if (!targetting.HasTarget) return;
+        if (!targetting.HasTarget || attackTimer > 0) return;
 
         // Request a new path only when there is no active path or pending request.
         if (agent != null && !agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static Enemy;
 public class EnemyTargetting : AgentTargetting
@@ -19,6 +20,8 @@ public class EnemyTargetting : AgentTargetting
     public override void Tick()
     {
         base.Tick();
+        SearchForUnits();
+        return;
         if (dayNightSystem.Phase == DayNightSystem.DayPhase.Night && !targetting)
         {
             // Target fire
@@ -27,6 +30,16 @@ public class EnemyTargetting : AgentTargetting
         else if (dayNightSystem.Phase == DayNightSystem.DayPhase.Day && !returning)
         {
             ReturnToSpawn();
+        }
+    }
+
+    void SearchForUnits()
+    {
+        List<Agent> units = agent.GetNearbyHostile();
+
+        foreach (Agent unit in units)
+        {
+            AddTarget(unit, 10f);
         }
     }
 

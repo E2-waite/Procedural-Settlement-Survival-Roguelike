@@ -332,6 +332,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &764268122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1368042807}
+    m_Modifications:
+    - target: {fileID: 224423711276513633, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_Name
+      value: World Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227699760496916989, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 887
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+--- !u!4 &764268123 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+  m_PrefabInstance: {fileID: 764268122}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1030624925
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +488,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e4b8d186308af43b5b16a3f2e701c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1368042807 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+  m_PrefabInstance: {fileID: 609993327282371029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1390172148 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5393609224864432791, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
@@ -509,7 +580,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1478446018654184710, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 764268123}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
 --- !u!1001 &1885986444158966826

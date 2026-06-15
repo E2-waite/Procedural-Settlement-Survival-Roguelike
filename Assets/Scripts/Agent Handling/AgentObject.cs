@@ -4,15 +4,20 @@ using static GlobalDefs;
 public class AgentObject : ScriptableObject
 {
     [SerializeField] private bool showHelmet = true;
+    [SerializeField] private bool showArmour = true;
     [SerializeField] private bool useSkinColorOnHands = true;
     [SerializeField] private Color clothingColor = Color.white;
     [SerializeField] private Color trimColor = Color.white;
+    [SerializeField] private Color armourColor = Color.white;
+    [SerializeField] private Color armourTrimColor = Color.white;
     [SerializeField] private Color skinColor = Color.white;
     [SerializeField] private Color helmetColor = Color.white;
     [SerializeField] private Color helmetTrimColor = Color.white;
     [SerializeField] private Color handColor = Color.white;
     [SerializeField] private Sprite torso;
     [SerializeField] private Sprite[] torsoTrim = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] armour = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] armourTrim = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite head;
     [SerializeField] private Sprite[] eyes = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] helmet = new Sprite[(int)SpriteDir.Max];
@@ -23,9 +28,12 @@ public class AgentObject : ScriptableObject
     [SerializeField] private Sprite[] frontEquip = new Sprite[(int)SpriteDir.Max];
 
     public bool ShowHelmet => showHelmet;
+    public bool ShowArmour => showArmour;
     public bool UseSkinColorOnHands => useSkinColorOnHands;
     public Color ClothingColor => clothingColor;
     public Color TrimColor => trimColor;
+    public Color ArmourColor => armourColor;
+    public Color ArmourTrimColor => armourTrimColor;
     public Color SkinColor => skinColor;
     public Color HandColor => handColor;
     public Color HelmetColor => helmetColor;
@@ -33,6 +41,8 @@ public class AgentObject : ScriptableObject
 
     public Sprite GetTorso(SpriteDir dir) => torso;
     public Sprite GetTorsoTrim(SpriteDir dir) => torsoTrim[(int)dir];
+    public Sprite GetArmour(SpriteDir dir) => armour[(int)dir];
+    public Sprite GetArmourTrim(SpriteDir dir) => armourTrim[(int)dir];
     public Sprite GetHead(SpriteDir dir) => head;
     public Sprite GetEyes(SpriteDir dir) => eyes[(int)dir];
     public Sprite GetHelmet(SpriteDir dir) => helmet[(int)dir];
@@ -50,6 +60,10 @@ public class AgentObject : ScriptableObject
                 return GetTorso(dir);
             case SpriteLayers.TorsoTrim:
                 return GetTorsoTrim(dir);
+            case SpriteLayers.Armour:
+                return GetArmour(dir);
+            case SpriteLayers.ArmourTrim:
+                return GetArmourTrim(dir);
             case SpriteLayers.Head:
                 return GetHead(dir);
             case SpriteLayers.Eyes:

@@ -46,16 +46,30 @@ public class AgentTargetting
         TargetCandidate targetCandidate = GetCandidate(target);
         if (targetCandidate == null)
         {
-            // If no candidate with target exists, set threat and add to candidates list.
-            TargetCandidate newCandidate = new TargetCandidate()
-            {
-                target = target,
-                baseThreat = threat
-            };
-
-            Candidates.Add(newCandidate);
+            Candidates.Add(NewCandidate(target, threat));
         }
     }
+
+    public void AddThreat(Destructable target, float threat)
+    {
+        TargetCandidate targetCandidate = GetCandidate(target);
+
+        if (targetCandidate == null)
+        {
+            Candidates.Add(NewCandidate(target, threat));
+        }
+        else
+        {
+            targetCandidate.threat += threat;
+        }
+    }
+
+    private TargetCandidate NewCandidate(Destructable target, float threat) =>
+        new TargetCandidate()
+        {
+            target = target,
+            baseThreat = threat
+        };
 
     public TargetCandidate GetCandidate(Destructable target)
     {
@@ -95,7 +109,7 @@ public class AgentTargetting
                 Candidates.RemoveAt(i);
                 continue;
             }
-            else
+            else if (candidate.target.isActiveAndEnabled)
             {
                 float dist = Vector3.Distance(agent.transform.position, candidate.target.transform.position);
                 if (dist <= 10)

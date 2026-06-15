@@ -17,6 +17,7 @@ public class Projectile : MonoBehaviour
     IEnumerator MoveRoutine()
     {
         float dist = float.MaxValue;
+        Vector3 hitDir = (target.transform.position - transform.position).normalized;
         Vector3 moveDir = Vector3.zero;
         while (dist > .1f)
         {
@@ -31,7 +32,7 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        target?.Hit(source, damage, moveDir.normalized);
+        target?.Hit(source, damage, hitDir);
 
         Destroy(gameObject);
     }

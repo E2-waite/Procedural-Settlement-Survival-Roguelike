@@ -6,6 +6,8 @@ Shader "Custom/UnitShader"
         _Color ("Tint", Color) = (1,1,1,1)
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
         _OutlineThickness ("Thickness", Float) = 1
+        _OverlayStrength ("Overlay Strengh", Float) = 0
+        _OverlayColor ("Overlay Color", Color) = (0,0,0,1)
     }
 
     SubShader
@@ -49,6 +51,8 @@ Shader "Custom/UnitShader"
             float4 _Color;
             float4 _OutlineColor;
             float _OutlineThickness;
+            float _OverlayStrength;
+            float4 _OverlayColor;
 
             v2f vert (appdata v)
             {
@@ -61,13 +65,17 @@ Shader "Custom/UnitShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float4 col = tex2D(_MainTex, i.uv) * i.color;
+                float4 texCol = tex2D(_MainTex, i.uv) * i.color;
 
-                float alpha = col.a;
+                float alpha = texCol.a;
 
                 // Only calculate outline where sprite is transparent
                 if (alpha > 0.01)
+                {
+                    float4 col = lerp(texCol, _OverlayColor, _OverlayStrength);
+                    col.a = texCol.a;
                     return col;
+                }
 
                 float2 texel = _MainTex_TexelSize.xy * _OutlineThickness;
 

@@ -8,6 +8,8 @@ using static GlobalDefs;
 public class AgentObjectEditor : Editor
 {
     private Texture2D torsoTrimSheet;
+    private Texture2D armourSheet;
+    private Texture2D armourTrimSheet;
     private Texture2D eyesSheet;
     private Texture2D helmetSheet;
     private Texture2D helmetTrimSheet;
@@ -15,6 +17,7 @@ public class AgentObjectEditor : Editor
     private Texture2D backHandSheet;
     private Texture2D frontEquipSheet;
     private Texture2D backEquipSheet;
+
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -23,6 +26,8 @@ public class AgentObjectEditor : Editor
         EditorGUILayout.LabelField("Auto Assign Sprite Sheets", EditorStyles.boldLabel);
 
         torsoTrimSheet = DrawSheetField("Torso Trim", torsoTrimSheet);
+        armourSheet = DrawSheetField("Armour", armourSheet);
+        armourTrimSheet = DrawSheetField("Armour Trim", armourTrimSheet);
         eyesSheet = DrawSheetField("Eyes", eyesSheet);
         helmetSheet = DrawSheetField("Helmet", helmetSheet);
         helmetTrimSheet = DrawSheetField("Helmet Trim", helmetTrimSheet);
@@ -35,6 +40,8 @@ public class AgentObjectEditor : Editor
         {
 
             AssignArray("torsoTrim", torsoTrimSheet);
+            AssignArray("armour", armourSheet);
+            AssignArray("armourTrim", armourTrimSheet);
             AssignArray("eyes", eyesSheet);
             AssignArray("helmet", helmetSheet);
             AssignArray("helmetTrim", helmetTrimSheet);

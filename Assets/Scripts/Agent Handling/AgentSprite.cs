@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using static GlobalDefs;
 [System.Serializable]
@@ -7,7 +8,7 @@ public class AgentSprite
     Vector2 lastDir = Vector2.zero;
     Vector2 facing = Vector2.zero;
     private SpriteRenderer[] spriteLayers = new SpriteRenderer[(int)SpriteLayers.Max];
-
+    private Color[] startColors = new Color[(int)SpriteLayers.Max];
     public void Init(GameObject body, AgentObject agentSprites)
     {
         for (int i = 0; i < body.transform.childCount; i++)
@@ -18,11 +19,18 @@ public class AgentSprite
 
         spriteLayers[(int)SpriteLayers.Torso].color = agentSprites.ClothingColor;
         spriteLayers[(int)SpriteLayers.TorsoTrim].color = agentSprites.TrimColor;
+        spriteLayers[(int)SpriteLayers.Armour].color = agentSprites.ArmourColor;
+        spriteLayers[(int)SpriteLayers.ArmourTrim].color = agentSprites.ArmourTrimColor;
         spriteLayers[(int)SpriteLayers.Head].color = agentSprites.SkinColor;
         spriteLayers[(int)SpriteLayers.Helmet].color = agentSprites.HelmetColor;
         spriteLayers[(int)SpriteLayers.HelmetTrim].color = agentSprites.HelmetTrimColor;
         spriteLayers[(int)SpriteLayers.FrontHand].color = agentSprites.UseSkinColorOnHands ? agentSprites.SkinColor : agentSprites.HandColor;
         spriteLayers[(int)SpriteLayers.BackHand].color = agentSprites.UseSkinColorOnHands ? agentSprites.SkinColor : agentSprites.HandColor;
+
+        for (int i = 0; i < (int)SpriteLayers.Max; i++)
+        {
+            startColors[i] = spriteLayers[i].color;
+        }
 
         if (agentSprites.ShowHelmet)
         {
@@ -33,6 +41,17 @@ public class AgentSprite
         {
             spriteLayers[(int)SpriteLayers.Helmet].enabled = false;
             spriteLayers[(int)SpriteLayers.HelmetTrim].enabled = false;
+        }
+
+        if (agentSprites.ShowArmour)
+        {
+            spriteLayers[(int)SpriteLayers.Armour].enabled = true;
+            spriteLayers[(int)SpriteLayers.ArmourTrim].enabled = true;
+        }
+        else
+        {
+            spriteLayers[(int)SpriteLayers.Armour].enabled = false;
+            spriteLayers[(int)SpriteLayers.ArmourTrim].enabled = false;
         }
         SetDirection(new Vector2(1, -1));
     }
@@ -50,7 +69,7 @@ public class AgentSprite
         if (dir.magnitude > 0.1f)
         {
             SpriteDir spriteDir = GetSpriteDir(dir);
-            for (SpriteLayers i = SpriteLayers.BackHand; i < SpriteLayers.Max; i++)
+            for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
             {
                 spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
             }
@@ -90,9 +109,11 @@ public class AgentSprite
         return SpriteDir;
     }
 
-    public void SetColor(Color color)
+    public void ShowOverlay(bool show)
     {
-        //return;
-        //spriteRenderer.color = color;
+        for (int i = 0; i < (int)SpriteLayers.Max; i++)
+        {
+            spriteLayers[i].material.SetFloat("_OverlayStrength", show ? 1.0f : 0.0f);
+        }
     }
 }

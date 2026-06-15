@@ -167,23 +167,22 @@ public class Agent : Destructable
 
     protected override IEnumerator HitRoutine(Vector3 dir)
     {
-        sprite.SetColor(Color.red);
+        sprite.ShowOverlay(true);
         StartCoroutine(KnockbackRoutine(dir));
         yield return new WaitForSeconds(0.1f);
-        sprite.SetColor(Color.white);
+        sprite.ShowOverlay(false);
     }
 
     protected virtual IEnumerator KnockbackRoutine(Vector3 dir)
     {
-        float strength = 10;
-        Vector3 velocity = dir * strength;
-        velocity.y = 0;
-        while (velocity != Vector3.zero)
+        float velocity = 10f;
+        float falloff = 50f;
+        dir.y = 0;
+        dir.Normalize();
+        while (velocity > 0)
         {
-            transform.position += velocity * Time.deltaTime;
-
-            if (velocity.magnitude < .01f) velocity = Vector3.zero;
-            else velocity *= .9f;
+            transform.position = transform.position + dir * velocity * Time.deltaTime;
+            velocity -= falloff * Time.deltaTime;
 
             yield return null;
         }

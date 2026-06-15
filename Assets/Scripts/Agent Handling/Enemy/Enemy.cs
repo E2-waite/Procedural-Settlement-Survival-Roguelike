@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalDefs;
 
 public class Enemy : Agent
 {
@@ -9,7 +10,7 @@ public class Enemy : Agent
         Moving,
         Combat
     }
-    private State state = State.Idle;
+    private State state = State.Combat;
 
     [SerializeField] public AgentCombat combat = new AgentCombat();
     public AgentCombat Combat => combat;
@@ -38,6 +39,8 @@ public class Enemy : Agent
         this.spawnTile = spawnTile;
         targetting.Init(context, this);
         Sprite.Init(body, context.agentCatalog.enemy);
+        Combat?.Init(this, Targeting, CombatType.Melee);
+        health.Fill();
     }
 
     protected override void Update()
@@ -45,8 +48,8 @@ public class Enemy : Agent
         if (IsDead) return;
         base.Update();
 
-        Targeting?.Tick();
         Combat?.Tick();
+        targetting?.Tick();
     }
 
     public void SetState(State state)
@@ -107,7 +110,8 @@ public class Enemy : Agent
         if (source is Unit)
         {
             // Targets the unit that hit this enemy
-            Targeting.AddTarget(source, 10);
+            Targeting.AddThreat(source, 100);
+            SetState(State.Combat);
         }
 
         return false;
