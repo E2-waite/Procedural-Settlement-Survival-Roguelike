@@ -14,7 +14,7 @@ public class Player : Destructable
     public float fireLightDist = 2f, fireCheckInterval = .5f;
     private float fireCheckTimer = 0f;
     private Chunk chunk;
-    public SphereCollider col;
+    //public SphereCollider col;
     private WorldGrid grid;
     private ChunkStreaming chunkStreaming;
     private FireSystem fireSystem;
@@ -56,7 +56,7 @@ public class Player : Destructable
         }
 
         
-        fire.Update();
+        fire?.Update();
     }
 
     FireBuilding FindFire()
@@ -104,25 +104,25 @@ public class Player : Destructable
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Unit unit = other.GetComponent<Unit>();
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Unit unit = other.GetComponent<Unit>();
 
-        if (unit != null && !nearbyUnits.Contains(unit))
-        {
-            nearbyUnits.Add(unit);
-        }
-    }
+    //    if (unit != null && !nearbyUnits.Contains(unit))
+    //    {
+    //        nearbyUnits.Add(unit);
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        Unit unit = other.GetComponent<Unit>();
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    Unit unit = other.GetComponent<Unit>();
 
-        if (unit != null && nearbyUnits.Contains(unit))
-        {
-            nearbyUnits.Remove(unit);
-        }
-    }
+    //    if (unit != null && nearbyUnits.Contains(unit))
+    //    {
+    //        nearbyUnits.Remove(unit);
+    //    }
+    //}
 
     public void OnMove(Vector2 moveInput)
     {

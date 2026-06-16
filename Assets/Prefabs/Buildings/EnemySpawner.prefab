@@ -53,7 +53,8 @@ MonoBehaviour:
   id: 0
   mesh: {fileID: 2646544779832954327}
   spawnInterval: 0.1
-  agentPrefab: {fileID: 2214493174657560647, guid: 0fc622740e27f1847b43814cad75bcc6, type: 3}
+  max: 3
+  agentPrefab: {fileID: 4023463472726660831, guid: 0fc622740e27f1847b43814cad75bcc6, type: 3}
 --- !u!1 &8875262411121038824
 GameObject:
   m_ObjectHideFlags: 0

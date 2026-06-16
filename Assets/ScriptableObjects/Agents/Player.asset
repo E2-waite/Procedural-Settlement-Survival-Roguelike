@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   showHelmet: 1
-  showArmour: 1
+  showArmour: 0
   useSkinColorOnHands: 1
   clothingColor: {r: 0.6745098, g: 0.19215687, b: 0.19215687, a: 1}
-  trimColor: {r: 0.627451, g: 0.32156864, b: 0.1764706, a: 1}
+  trimColor: {r: 0.8980392, g: 0.54901963, b: 0, a: 1}
   armourColor: {r: 0.34901962, g: 0.3372549, b: 0.32156864, a: 1}
   armourTrimColor: {r: 0.18039216, g: 0.1764706, b: 0.16862746, a: 1}
   skinColor: {r: 0.92941177, g: 0.7647059, b: 0.6039216, a: 1}
   helmetColor: {r: 0.6745098, g: 0.19215687, b: 0.19215687, a: 1}
   helmetTrimColor: {r: 0.8980392, g: 0.54901963, b: 0, a: 1}
   handColor: {r: 1, g: 1, b: 1, a: 1}
-  torso: {fileID: 21300000, guid: ce74290a9c927ce4aad3c4cf84b900e3, type: 3}
+  torso: {fileID: 21300000, guid: 052379b3345658046b0f556af4a68f08, type: 3}
   torsoTrim:
-  - {fileID: 220285781, guid: 635f215dcd4896f4a9568329a8fba562, type: 3}
-  - {fileID: -96398266, guid: 635f215dcd4896f4a9568329a8fba562, type: 3}
-  - {fileID: -807726652, guid: 635f215dcd4896f4a9568329a8fba562, type: 3}
-  - {fileID: 2055271962, guid: 635f215dcd4896f4a9568329a8fba562, type: 3}
+  - {fileID: 220285781, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -96398266, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: -807726652, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  - {fileID: 2055271962, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
   armour:
   - {fileID: 220285781, guid: 6baac065e3af84147926d0ea865cf78f, type: 3}
   - {fileID: -96398266, guid: 6baac065e3af84147926d0ea865cf78f, type: 3}

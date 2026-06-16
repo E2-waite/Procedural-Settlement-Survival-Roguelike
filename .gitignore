@@ -104,3 +104,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+/Assets/Leohpaz
+Assets/Leohpaz.meta
+/Assets/Imported
+Assets/Imported.meta
+Packages/packages-lock.json
+Packages/packages-lock.json

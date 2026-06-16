@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd7aa76dde812449ad9bcab4a00028e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3971953758240167567, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
+  playerPrefab: {fileID: 836752002073266148, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   unitSpawnerPrefab: {fileID: 7387552947533391560, guid: 76119d16624d88549bcc19c54e5c8c3b, type: 3}
   enemySpawnerPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
   context:
