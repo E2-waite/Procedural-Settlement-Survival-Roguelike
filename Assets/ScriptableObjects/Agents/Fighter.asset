@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showHelmet: 1
   showArmour: 1
-  useSkinColorOnHands: 1
+  useSkinColorOnHands: 0
   clothingColor: {r: 0.6745098, g: 0.19215687, b: 0.19215687, a: 1}
-  trimColor: {r: 0.8980392, g: 0.54901963, b: 0, a: 1}
+  trimColor: {r: 0.627451, g: 0.3215686, b: 0.1764706, a: 1}
   armourColor: {r: 0.34901962, g: 0.3372549, b: 0.32156864, a: 1}
   armourTrimColor: {r: 0.18039216, g: 0.1764706, b: 0.16862746, a: 1}
   skinColor: {r: 0.92941177, g: 0.7647059, b: 0.6039216, a: 1}
@@ -48,8 +48,8 @@ MonoBehaviour:
   helmet:
   - {fileID: 220285781, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
   - {fileID: -96398266, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
-  - {fileID: 2055271962, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
   - {fileID: -807726652, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
+  - {fileID: 2055271962, guid: 806340268750ed44b86d42e15bd1135e, type: 3}
   helmetTrim:
   - {fileID: 220285781, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
   - {fileID: -96398266, guid: b6dcc27576892ba4bbcc03204fbace39, type: 3}
@@ -66,12 +66,12 @@ MonoBehaviour:
   - {fileID: -807726652, guid: 33a2e76fb162c814b81bd383d039afcb, type: 3}
   - {fileID: 2055271962, guid: 33a2e76fb162c814b81bd383d039afcb, type: 3}
   backEquip:
-  - {fileID: 220285781, guid: 0165faaa1f242ff40916195c5e6f93d4, type: 3}
-  - {fileID: -96398266, guid: 0165faaa1f242ff40916195c5e6f93d4, type: 3}
-  - {fileID: -807726652, guid: 0165faaa1f242ff40916195c5e6f93d4, type: 3}
-  - {fileID: 2055271962, guid: 0165faaa1f242ff40916195c5e6f93d4, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   frontEquip:
-  - {fileID: 220285781, guid: 0c3fe13fa130a8c4f809a5a8233bc2fc, type: 3}
-  - {fileID: -96398266, guid: 0c3fe13fa130a8c4f809a5a8233bc2fc, type: 3}
-  - {fileID: -807726652, guid: 0c3fe13fa130a8c4f809a5a8233bc2fc, type: 3}
-  - {fileID: 2055271962, guid: 0c3fe13fa130a8c4f809a5a8233bc2fc, type: 3}
+  - {fileID: 220285781, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
+  - {fileID: -96398266, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
+  - {fileID: -807726652, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
+  - {fileID: 2055271962, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}

@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   showHelmet: 1
+  showArmour: 0
   useSkinColorOnHands: 1
   clothingColor: {r: 0.24161035, g: 0, b: 0.645283, a: 1}
   trimColor: {r: 0.06512767, g: 0.4867924, b: 0, a: 1}
+  armourColor: {r: 1, g: 1, b: 1, a: 1}
+  armourTrimColor: {r: 1, g: 1, b: 1, a: 1}
   skinColor: {r: 0.4513708, g: 0.3247917, b: 0.5396226, a: 1}
   helmetColor: {r: 0.24313726, g: 0, b: 0.64705884, a: 1}
   helmetTrimColor: {r: 0.06666667, g: 0.4862745, b: 0, a: 1}
@@ -26,6 +29,16 @@ MonoBehaviour:
   - {fileID: -96398266, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
   - {fileID: -807726652, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
   - {fileID: 2055271962, guid: 983b671c218fb294fa5e50eb37a9c2b0, type: 3}
+  armour:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  armourTrim:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   head: {fileID: 21300000, guid: f983dcea7498fce4cb37c64bdbe517cf, type: 3}
   eyes:
   - {fileID: 220285781, guid: 7d9c33a6516f9e44a846213cf8b1dcd8, type: 3}
