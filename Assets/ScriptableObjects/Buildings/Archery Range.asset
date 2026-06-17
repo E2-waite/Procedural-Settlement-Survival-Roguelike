@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fdab7698a6a9448822694e080d8204, type: 3}
   m_Name: Archery Range
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7387552947533391560, guid: 1b1920d02370a9a478c6fc8b1cf2f856, type: 3}
+  prefab: {fileID: 391948151395145179, guid: 5d7aa35fcac8bf14d8bb7b41d2263dfc, type: 3}
   size: {x: 2, y: 2}
   icon: {fileID: 21300000, guid: b497468f784cf7241999dbbeb592baa0, type: 3}
   cost:

@@ -5,7 +5,7 @@ public class InteractionController : MonoBehaviour
 {
     public enum GameState : int
     {
-        Control = 0,
+        Select = 0,
         Build,
         Command,
         Max
@@ -16,7 +16,7 @@ public class InteractionController : MonoBehaviour
 
     private LayerMask buildMask;
     private LayerMask commandMask;
-    private GameState currentState = GameState.Control;
+    private GameState currentState = GameState.Select;
     private HoverTarget target = new HoverTarget();
     public HoverTarget Target => target;
     private bool initialized = false;
@@ -25,6 +25,7 @@ public class InteractionController : MonoBehaviour
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
     private WorldGrid grid;
+    private HighlightHandler highlighter = new HighlightHandler();
 
     public void Init(GameContext context)
     {
@@ -51,10 +52,11 @@ public class InteractionController : MonoBehaviour
 
             handlers[(int)GameState.Build] = new BuildInteractionHandler(context);
             handlers[(int)GameState.Command] = new CommandInteractionHandler(context);
-            handlers[(int)GameState.Control] = new SelectInteractionHandler(context);
+            handlers[(int)GameState.Select] = new SelectInteractionHandler(context);
             currentHandler = handlers[(int)currentState];
 
             InitHandlers();
+            highlighter.Init(context);
         }
 
     }
@@ -116,13 +118,15 @@ public class InteractionController : MonoBehaviour
     // Called from mouse raycast
     void OnHover(RaycastHit hit)
     {
-        if (commanding || hit.collider == null)
+        if (commanding || hit.collider == null || currentState == GameState.Command)
         {
             return;
         }
 
+        highlighter.Clear(target);
         // Updates the hover target with the ray hit
         target.Update(hit, grid);
+        highlighter.Set(target);
 
         if (currentHandler != null) currentHandler.OnHover(target);
     }

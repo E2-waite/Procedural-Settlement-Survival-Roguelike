@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fdab7698a6a9448822694e080d8204, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7387552947533391560, guid: a1bdaa1a6063cc041af2bbcc242013bb, type: 3}
+  prefab: {fileID: 913719078593349120, guid: cb1787e4e003c66459dff67665e9ad8f, type: 3}
   size: {x: 1, y: 1}
   icon: {fileID: 0}
   cost:

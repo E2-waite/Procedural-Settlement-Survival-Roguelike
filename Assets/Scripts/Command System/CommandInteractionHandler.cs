@@ -149,7 +149,7 @@ public class CommandInteractionHandler : IInteractionHandler
             commandSystem.CommandFollow();
         }
 
-        controller.SetState(GameState.Control);
+        controller.SetState(GameState.Select);
     }
     public void OnEscape()
     {

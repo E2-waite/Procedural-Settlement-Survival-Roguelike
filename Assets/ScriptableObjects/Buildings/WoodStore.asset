@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fdab7698a6a9448822694e080d8204, type: 3}
   m_Name: WoodStore
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7387552947533391560, guid: a93f7ae3a7dd8b34f9cbd56eaee8eef4, type: 3}
+  prefab: {fileID: 8675964729594310312, guid: 8adf4b3a2d843a64c945a58090e5b633, type: 3}
   size: {x: 2, y: 2}
   icon: {fileID: 21300000, guid: ffc8ff6e99128284faeb8449ad027819, type: 3}
   cost:

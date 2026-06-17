@@ -26,6 +26,7 @@ public class Agent : Destructable
     public GameObject projectilePrefab;
     protected virtual Color HighlightColor => Color.white;
     public GameObject body;
+    public GameObject outline;
 
     public virtual void Init(GameContext context)
     {
@@ -150,6 +151,9 @@ public class Agent : Destructable
     public void Highlight(bool active)
     {
         highlighted = active;
+
+        sprite.ShowOutline(active);
+
         //if (spriteRend != null)
         //{
         //    spriteRend.material.SetColor("_OutlineColor", HighlightColor);

@@ -75,3 +75,35 @@ MonoBehaviour:
   - {fileID: -96398266, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
   - {fileID: -807726652, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
   - {fileID: 2055271962, guid: 6b223abd938b3cd4d8234a8d56161b2d, type: 3}
+  torsoOutline: {fileID: 0}
+  armourOutline:
+  - {fileID: 220285781, guid: d965a88a8daf2de4fb635d661f21a611, type: 3}
+  - {fileID: -96398266, guid: d965a88a8daf2de4fb635d661f21a611, type: 3}
+  - {fileID: -807726652, guid: d965a88a8daf2de4fb635d661f21a611, type: 3}
+  - {fileID: 2055271962, guid: d965a88a8daf2de4fb635d661f21a611, type: 3}
+  headOutline: {fileID: 0}
+  helmetOutline:
+  - {fileID: 220285781, guid: bd5eaa27be6c35041a2b83fce6ecbb87, type: 3}
+  - {fileID: -96398266, guid: bd5eaa27be6c35041a2b83fce6ecbb87, type: 3}
+  - {fileID: -807726652, guid: bd5eaa27be6c35041a2b83fce6ecbb87, type: 3}
+  - {fileID: 2055271962, guid: bd5eaa27be6c35041a2b83fce6ecbb87, type: 3}
+  backHandOutline:
+  - {fileID: 220285781, guid: 76f1996450f131142b32219198dd15a9, type: 3}
+  - {fileID: -96398266, guid: 76f1996450f131142b32219198dd15a9, type: 3}
+  - {fileID: -807726652, guid: 76f1996450f131142b32219198dd15a9, type: 3}
+  - {fileID: 2055271962, guid: 76f1996450f131142b32219198dd15a9, type: 3}
+  frontHandOutline:
+  - {fileID: 220285781, guid: f72eb2e8f54ecc742931e9a26fa72010, type: 3}
+  - {fileID: -96398266, guid: f72eb2e8f54ecc742931e9a26fa72010, type: 3}
+  - {fileID: -807726652, guid: f72eb2e8f54ecc742931e9a26fa72010, type: 3}
+  - {fileID: 2055271962, guid: f72eb2e8f54ecc742931e9a26fa72010, type: 3}
+  backEquipOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  frontEquipOutline:
+  - {fileID: 220285781, guid: 0be24634bb6de6e49ba7ead55f08b29d, type: 3}
+  - {fileID: -96398266, guid: 0be24634bb6de6e49ba7ead55f08b29d, type: 3}
+  - {fileID: -807726652, guid: 0be24634bb6de6e49ba7ead55f08b29d, type: 3}
+  - {fileID: 2055271962, guid: 0be24634bb6de6e49ba7ead55f08b29d, type: 3}

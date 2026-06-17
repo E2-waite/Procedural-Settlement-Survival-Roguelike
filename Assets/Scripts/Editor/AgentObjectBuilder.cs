@@ -18,6 +18,13 @@ public class AgentObjectEditor : Editor
     private Texture2D frontEquipSheet;
     private Texture2D backEquipSheet;
 
+    private Texture2D armourOutlineSheet;
+    private Texture2D helmetOutlineSheet;
+    private Texture2D frontHandOutlineSheet;
+    private Texture2D backHandOutlineSheet;
+    private Texture2D frontEquipOutlineSheet;
+    private Texture2D backEquipOutlineSheet;
+
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -49,6 +56,27 @@ public class AgentObjectEditor : Editor
             AssignArray("backHand", backHandSheet);
             AssignArray("frontEquip", frontEquipSheet);
             AssignArray("backEquip", backEquipSheet);
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+
+        EditorGUILayout.LabelField("Auto Assign Outline Sheets", EditorStyles.boldLabel);
+        armourOutlineSheet = DrawSheetField("Armour", armourOutlineSheet);
+        helmetOutlineSheet = DrawSheetField("Helmet", helmetOutlineSheet);
+        frontHandOutlineSheet = DrawSheetField("Front Hand", frontHandOutlineSheet);
+        backHandOutlineSheet = DrawSheetField("Back Hand", backHandOutlineSheet);
+        frontEquipOutlineSheet = DrawSheetField("Front Equipment", frontEquipOutlineSheet);
+        backEquipOutlineSheet = DrawSheetField("Back Equipment", backEquipOutlineSheet);
+
+        if (GUILayout.Button("Assign Outline Sheets"))
+        {
+            AssignArray("armourOutline", armourOutlineSheet);
+            AssignArray("helmetOutline", helmetOutlineSheet);
+            AssignArray("frontHandOutline", frontHandOutlineSheet);
+            AssignArray("backHandOutline", backHandOutlineSheet);
+            AssignArray("frontEquipOutline", frontEquipOutlineSheet);
+            AssignArray("backEquipOutline", backEquipOutlineSheet);
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();

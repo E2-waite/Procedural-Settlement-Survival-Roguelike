@@ -27,6 +27,15 @@ public class AgentObject : ScriptableObject
     [SerializeField] private Sprite[] backEquip = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] frontEquip = new Sprite[(int)SpriteDir.Max];
 
+    [SerializeField] private Sprite torsoOutline;
+    [SerializeField] private Sprite[] armourOutline = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite headOutline;
+    [SerializeField] private Sprite[] helmetOutline = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] backHandOutline = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] frontHandOutline = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] backEquipOutline = new Sprite[(int)SpriteDir.Max];
+    [SerializeField] private Sprite[] frontEquipOutline = new Sprite[(int)SpriteDir.Max];
+
     public bool ShowHelmet => showHelmet;
     public bool ShowArmour => showArmour;
     public bool UseSkinColorOnHands => useSkinColorOnHands;
@@ -39,47 +48,58 @@ public class AgentObject : ScriptableObject
     public Color HelmetColor => helmetColor;
     public Color HelmetTrimColor => helmetTrimColor;
 
-    public Sprite GetTorso(SpriteDir dir) => torso;
-    public Sprite GetTorsoTrim(SpriteDir dir) => torsoTrim[(int)dir];
-    public Sprite GetArmour(SpriteDir dir) => armour[(int)dir];
-    public Sprite GetArmourTrim(SpriteDir dir) => armourTrim[(int)dir];
-    public Sprite GetHead(SpriteDir dir) => head;
-    public Sprite GetEyes(SpriteDir dir) => eyes[(int)dir];
-    public Sprite GetHelmet(SpriteDir dir) => helmet[(int)dir];
-    public Sprite GetHelmetTrim(SpriteDir dir) => helmetTrim[(int)dir];
-    public Sprite GetBackHand(SpriteDir dir) => backHand[(int)dir];
-    public Sprite GetFrontHand(SpriteDir dir) => frontHand[(int)dir];
-    public Sprite GetBackEquip(SpriteDir dir) => backEquip[(int)dir];
-    public Sprite GetFrontEquip(SpriteDir dir) => frontEquip[(int)dir];
-
     public Sprite GetSprite(SpriteDir dir, SpriteLayers layer)
     {
         switch (layer)
         {
             case SpriteLayers.Torso:
-                return GetTorso(dir);
+                return torso;
             case SpriteLayers.TorsoTrim:
-                return GetTorsoTrim(dir);
+                return torsoTrim[(int) dir];
             case SpriteLayers.Armour:
-                return GetArmour(dir);
+                return armour[(int)dir];
             case SpriteLayers.ArmourTrim:
-                return GetArmourTrim(dir);
+                return armourTrim[(int)dir];
             case SpriteLayers.Head:
-                return GetHead(dir);
+                return head;
             case SpriteLayers.Eyes:
-                return GetEyes(dir);
+                return eyes[(int)dir];
             case SpriteLayers.Helmet:
-                return GetHelmet(dir);
+                return helmet[(int)dir];
             case SpriteLayers.HelmetTrim:
-                return GetHelmetTrim(dir);
+                return helmetTrim[(int)dir];
             case SpriteLayers.BackHand:
-                return GetBackHand(dir);
+                return backHand[(int)dir];
             case SpriteLayers.FrontHand:
-                return GetFrontHand(dir);
+                return frontHand[(int)dir];
             case SpriteLayers.BackEquip:
-                return GetBackEquip(dir);
+                return backEquip[(int)dir];
             case SpriteLayers.FrontEquip:
-                return GetFrontEquip(dir);
+                return frontEquip[(int)dir];
+        }
+        return null;
+    }
+
+    public Sprite GetOutline(SpriteDir dir, SpriteLayers layer)
+    {
+        switch (layer)
+        {
+            case SpriteLayers.Torso:
+                return torsoOutline;
+            case SpriteLayers.Armour:
+                return armourOutline[(int)dir];
+            case SpriteLayers.Head:
+                return headOutline;
+            case SpriteLayers.Helmet:
+                return helmetOutline[(int)dir];
+            case SpriteLayers.BackHand:
+                return backHandOutline[(int)dir];
+            case SpriteLayers.FrontHand:
+                return frontHandOutline[(int)dir];
+            case SpriteLayers.BackEquip:
+                return backEquipOutline[(int)dir];
+            case SpriteLayers.FrontEquip:
+                return frontEquipOutline[(int)dir];
         }
         return null;
     }

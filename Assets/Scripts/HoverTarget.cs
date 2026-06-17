@@ -40,62 +40,65 @@ public class HoverTarget
         }
     }
 
-    public void Update(RaycastHit hit, WorldGrid grid)
+    public bool Update(RaycastHit hit, WorldGrid grid)
     {
         if (hit.transform.GetComponentInParent<Agent>() is Agent agent)
         {
-            Set(agent);
+            return Set(agent);
         }
         else if (hit.transform.GetComponentInParent<Building>() is Building building)
         {
-            Set(building);
-            return;
+            return Set(building);
         }
         else
         {
             GridTile tile = grid.GetTile(hit.point);
             if (tile != null)
             {
-                Set(tile);
+                return Set(tile);
             }
         }
+        return false;
     }
 
-    private void Set(GridTile tile)
+    private bool Set(GridTile tile)
     {
         if (tile != hoveringTile)
         {
             ClearOld();
             hoveringTile = tile;
             hoveringTile.SetHovering();
+            return true;
         }
+        return false;
     }
 
-    private void Set(Agent agent)
+    private bool Set(Agent agent)
     {
         if (agent != hoveringAgent)
         {
             ClearOld();
             hoveringAgent = agent;
-            hoveringAgent.Highlight(true);
+            return true;
         }
+        return false;
     }
 
-    private void Set(Building building)
+    private bool Set(Building building)
     {
         if (building != hoveringBuilding)
         {
             ClearOld();
             hoveringBuilding = building;
-            hoveringBuilding.SetHovering();
+            return true;
         }
+        return false;
     }
 
     private void ClearOld()
     {
         if (hoveringAgent != null)
         {
-            hoveringAgent.Highlight(false);
             hoveringAgent = null;
         }
         else if (hoveringTile != null)

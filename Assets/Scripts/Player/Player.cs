@@ -33,7 +33,7 @@ public class Player : Destructable
 
         sprite = new AgentSprite();
         if (sprite != null && body != null)
-            sprite.Init(body, agentObject);
+            sprite.Init(body.transform, null, agentObject);
 
         fire.Init(fireLight);
         health.Fill();

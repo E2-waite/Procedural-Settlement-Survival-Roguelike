@@ -15,3 +15,5 @@ MonoBehaviour:
   type: 0
   mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: 6b8607a37f78da949bacc45e9c0a09e1, type: 2}
+  outlineMaterial: {fileID: 2100000, guid: 9719232ff67577247803df3d025b73af, type: 2}
+  outlineMask: {fileID: 2100000, guid: 106f3ff43a17d4967a2b64c7a92e49ec, type: 2}

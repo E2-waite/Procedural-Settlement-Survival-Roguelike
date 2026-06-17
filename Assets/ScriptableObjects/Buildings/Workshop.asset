@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fdab7698a6a9448822694e080d8204, type: 3}
   m_Name: Workshop
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7387552947533391560, guid: 20214c14567bcfd48b0d57f2c29eac19, type: 3}
+  prefab: {fileID: 6377244473034654419, guid: 20214c14567bcfd48b0d57f2c29eac19, type: 3}
   size: {x: 2, y: 2}
   icon: {fileID: 21300000, guid: 035f2953ba87b5247bd0fc243f7a7368, type: 3}
   cost:

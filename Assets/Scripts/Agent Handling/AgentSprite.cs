@@ -7,14 +7,27 @@ public class AgentSprite
     private AgentObject agentSprites;
     Vector2 lastDir = Vector2.zero;
     Vector2 facing = Vector2.zero;
+    private SpriteRenderer[] outlineLayers = new SpriteRenderer[(int)SpriteLayers.Max];
     private SpriteRenderer[] spriteLayers = new SpriteRenderer[(int)SpriteLayers.Max];
     private Color[] startColors = new Color[(int)SpriteLayers.Max];
-    public void Init(GameObject body, AgentObject agentSprites)
+    bool hasOutline = false;
+    public void Init(Transform body, Transform outline, AgentObject agentSprites)
     {
         for (int i = 0; i < body.transform.childCount; i++)
         {
             spriteLayers[i] = body.transform.GetChild(i).GetComponent<SpriteRenderer>();
         }
+
+        hasOutline = outline != null;
+
+        if (hasOutline)
+        {
+            for (int i = 0; i < outline.transform.childCount; i++)
+            {
+                outlineLayers[i] = outline.transform.GetChild(i).GetComponent<SpriteRenderer>();
+            }
+        }
+
         this.agentSprites = agentSprites;
 
         spriteLayers[(int)SpriteLayers.Torso].color = agentSprites.ClothingColor;
@@ -72,7 +85,18 @@ public class AgentSprite
             for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
             {
                 spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
+
+                if (hasOutline)
+                {
+                    Sprite outlineSprite = agentSprites.GetOutline(spriteDir, i);
+                    if (outlineSprite != null)
+                    {
+                        outlineLayers[(int)i].sprite = outlineSprite;
+                    }
+                }
             }
+
+            
         }
     }
 
@@ -114,6 +138,28 @@ public class AgentSprite
         for (int i = 0; i < (int)SpriteLayers.Max; i++)
         {
             spriteLayers[i].material.SetFloat("_OverlayStrength", show ? 1.0f : 0.0f);
+        }
+    }
+
+    public void OutlineColour(Color color)
+    {
+        if (!hasOutline) return;
+
+        for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
+        {
+            if (outlineLayers[(int)i] != null) outlineLayers[(int)i].color = color;
+        }
+    }
+
+    public void ShowOutline(bool show)
+    {
+        if (!hasOutline) return;
+
+        for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
+        {
+            if ((i == SpriteLayers.Helmet && !agentSprites.ShowHelmet) || (i == SpriteLayers.Armour && !agentSprites.ShowArmour)) continue;
+
+            if (outlineLayers[(int)i] != null) outlineLayers[(int)i].enabled = show;
         }
     }
 }

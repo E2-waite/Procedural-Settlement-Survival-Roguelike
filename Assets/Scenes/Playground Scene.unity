@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 836752002073266148, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
-  unitSpawnerPrefab: {fileID: 7387552947533391560, guid: 76119d16624d88549bcc19c54e5c8c3b, type: 3}
+  unitSpawnerPrefab: {fileID: 2582552897848075036, guid: 9a89db247c68fe94c904fc934ba0fa2a, type: 3}
   enemySpawnerPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
   context:
     gameType: 1

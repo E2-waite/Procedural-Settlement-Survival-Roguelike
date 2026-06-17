@@ -7,7 +7,7 @@ public class BuildInteractionHandler : IInteractionHandler
     readonly private InteractionController   _controller;
     readonly private BuildingSystem          _buildSystem;
     readonly private TileMarker              _tileMarker;
-    private GridTile                _lastTile;
+    private GridTile                        _lastTile;
 
     public BuildInteractionHandler(GameContext context)
     {
@@ -72,7 +72,7 @@ public class BuildInteractionHandler : IInteractionHandler
     }
     public void OnRightDown()
     {
-        _controller.SetState(GameState.Control);
+        _controller.SetState(GameState.Select);
     }
 
     public void OnRightHeld(Vector2 diff, float time)
@@ -85,7 +85,7 @@ public class BuildInteractionHandler : IInteractionHandler
     }
     public void OnEscape()
     {
-        _controller.SetState(GameState.Control);
+        _controller.SetState(GameState.Select);
     }
     public void OnFKey()
     {

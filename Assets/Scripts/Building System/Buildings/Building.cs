@@ -12,15 +12,27 @@ public class Building : Destructable
     public int id;
     bool built = false, destroyed = false;
     public bool Built => built && !destroyed;
-    public MeshRenderer mesh;
+    private MeshRenderer mesh;
     private bool hovering = false;
     protected List<GridTile> tiles = new List<GridTile>();
+    private Material outlineMat;
 
     public virtual void Init(GameContext context) { }
 
     protected virtual void Start()
     {
-        if (!Built)
+        if (transform.childCount > 0)
+        {
+            mesh = transform.GetChild(0).GetComponent<MeshRenderer>();
+            outlineMat = mesh.materials[1];
+
+            if (outlineMat != null)
+            {
+                outlineMat.SetColor("_OutlineColor", Owner == Faction.Enemy ? Color.red : Color.green);
+            }
+        }
+
+        if (!Built && mesh != null)
             mesh.material.color = Color.red;
 
         if (preBuild)
@@ -28,7 +40,6 @@ public class Building : Destructable
             FinishBuilding();
         }
     }
-
 
     public bool Build(float val)
     {
@@ -57,15 +68,22 @@ public class Building : Destructable
         built = true;
     }
 
-    public void SetHovering()
+    public void Highlight(bool active)
     {
-        hovering = true;
+        outlineMat.SetFloat("_OutlineWidth", active ? 4 : 0);
     }
 
-    public void ClearHovering()
-    {
-        hovering = false;
-    }
+    //public void SetHovering()
+    //{
+    //    hovering = true;
+    //    outlineMat.SetFloat("_OutlineWidth", 4);
+    //}
+
+    //public void ClearHovering()
+    //{
+    //    hovering = false;
+    //    outlineMat.SetFloat("_OutlineWidth", 0);
+    //}
 
     public void AddTile(GridTile tile)
     {
