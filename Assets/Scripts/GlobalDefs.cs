@@ -5,6 +5,7 @@ public static class GlobalDefs
     public enum Faction
     {
         Unit,
+        Neutral,
         Enemy
     }
 

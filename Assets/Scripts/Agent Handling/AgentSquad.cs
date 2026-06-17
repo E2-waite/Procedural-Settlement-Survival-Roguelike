@@ -9,7 +9,7 @@ public class AgentSquad
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
 
-    List < Color> squadColors = new List<Color>()
+    List <Color> squadColors = new List<Color>()
     {
        Color.green,
        Color.blue,
@@ -57,5 +57,4 @@ public class AgentSquad
     {
         return agents.Contains(agent);
     }
-
 }

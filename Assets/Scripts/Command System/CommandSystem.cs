@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GlobalDefs;
 public class CommandSystem
 {
     public enum CommandState
@@ -74,6 +74,12 @@ public class CommandSystem
     public void StartCommanding(Unit unit)
     {
         if (unit == null) return;
+
+        if (unit.Faction == Faction.Neutral) // Try to recruit a unit if we have space
+        {
+            if (!unit.Recruit())
+                return;
+        }
 
         if (unit.Role == null) SetState(CommandState.Unit);
         else if (unit.Role is WorkerRole) SetState(CommandState.Worker);

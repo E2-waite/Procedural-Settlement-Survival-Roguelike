@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using static GlobalDefs;
 
 public class Unit : Agent
 {
@@ -17,6 +17,8 @@ public class Unit : Agent
     public float followDist = 1.5f;
     Player player;
     public bool Following => state == State.Following;
+    private Faction faction = Faction.Neutral;
+    public Faction Faction => faction;
     private bool commanding = false; // This unit is being commanded
     public bool Commanding => commanding;
     private UnitSystem unitSystem;
@@ -44,8 +46,9 @@ public class Unit : Agent
         state = State.Idle;
         lastState = State.Idle;
 
+
         unitSystem = context.unitSystem;
-        unitSystem.AddUnit(this);
+        //unitSystem.AddUnit(this);
 
         role?.Init(context, this);
         gameContext = context;
@@ -62,6 +65,22 @@ public class Unit : Agent
         if (IsDead) return; // Dead
 
         base.Update();
+    }
+
+    public bool Recruit()
+    {
+        if (unitSystem.AddUnit(this))
+        {
+            faction = Faction.Unit;
+            Debug.Log("Recruited " + name);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Failed to recruit " + name);
+        }
+
+        return false;
     }
 
     #region Roles

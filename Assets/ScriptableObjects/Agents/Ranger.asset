@@ -85,8 +85,8 @@ MonoBehaviour:
   helmetOutline:
   - {fileID: 220285781, guid: 6b1f609031812aa49a99f36eb787bbce, type: 3}
   - {fileID: -96398266, guid: 6b1f609031812aa49a99f36eb787bbce, type: 3}
-  - {fileID: -807726652, guid: 6b1f609031812aa49a99f36eb787bbce, type: 3}
   - {fileID: 2055271962, guid: 6b1f609031812aa49a99f36eb787bbce, type: 3}
+  - {fileID: -807726652, guid: 6b1f609031812aa49a99f36eb787bbce, type: 3}
   backHandOutline:
   - {fileID: 0}
   - {fileID: 0}
