@@ -58,6 +58,7 @@ public class Agent : Destructable
     public void RequestPath(GridTile tile, Vector3 worldPos)
     {
         Movement.SetTargetPos(worldPos);
+        Movement.SetTargetTile(tile);
 
         RequestPath(tile.position);
     }
@@ -69,7 +70,7 @@ public class Agent : Destructable
             Mathf.FloorToInt(worldPos.x),
             Mathf.FloorToInt(worldPos.z));
 
-        RequestPath(gridPos);
+        RequestPath(grid.GetTile(gridPos), worldPos);
     }
 
     // Request a path to the position

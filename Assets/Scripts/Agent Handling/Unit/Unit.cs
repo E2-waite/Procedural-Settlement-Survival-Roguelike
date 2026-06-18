@@ -154,21 +154,16 @@ public class Unit : Agent
         // Continuously update path
         if (player != null)
         {
-            if (!pathRequested && 
-                (movement.HasPath && movement.TargetReached) || 
-                !movement.HasPath && Vector3.Distance(transform.position, player.transform.position) > followDist)
-            {
-                Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
-                Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
+            Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
+            movement.SetTargetPos(formationPos);
 
+            if (!pathRequested && movement.TargetChanged)
+            {
+                Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
                 RequestPath(grid.GetTile(gridPos), formationPos);
             }
 
             movement.FollowPath();
-
-            //float dist = Vector3.Distance(transform.position, player.transform.position);
-            //if (dist > followDist)
-            //    movement.FollowPath();
         }
     }
 

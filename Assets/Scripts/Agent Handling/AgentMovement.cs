@@ -18,6 +18,8 @@ public class AgentMovement
     public bool ReachedTarget => pathIndex >= path.Count;
 
     Agent agent;
+    bool targetPosChanged = false;
+    public bool TargetChanged => targetPosChanged;
 
     public void Init(Agent agent)
     {
@@ -31,7 +33,15 @@ public class AgentMovement
 
     public void SetTargetPos(Vector3 pos)
     {
-        targetPosition = pos;
+        if (pos != targetPosition)
+        {
+            targetPosition = pos;
+            targetPosChanged = true;
+        }
+        else
+        {
+            targetPosChanged = false;
+        }
     }
 
     public void SetPath(List<Vector2Int> path)
