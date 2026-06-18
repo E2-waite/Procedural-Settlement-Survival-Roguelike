@@ -182,9 +182,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4549533740962986133, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5227699760496916989, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
-      propertyPath: orthographic size
-      value: 7
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7180213928074144990, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
+      propertyPath: m_RendererIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

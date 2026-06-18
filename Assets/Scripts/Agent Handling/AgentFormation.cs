@@ -5,14 +5,21 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Formations/Grid Formation")]
 public class AgentFormation : ScriptableObject
 {
+    public enum Type
+    {
+        Command,
+        Follow
+    };
+
+    public Type type = Type.Command;
     public int[] slots;
     public int width = 5, height = 5;
-    public int spacing = 1;
+    public float spacing = 1.5f;
 
     public struct Slot
     {
         public int weight;
-        public Vector2Int pos;
+        public Vector3 pos;
     }
 
 
@@ -38,8 +45,8 @@ public class AgentFormation : ScriptableObject
     {
         List<Slot> result = new();
 
-        int  xOffset = (int)((width - 1) * spacing * 0.5f);
-        int zOffset = (int)((height - 1) * spacing * 0.5f);
+        float  xOffset = (int)((width - 1) * spacing * 0.5f);
+        float zOffset = (int)((height - 1) * spacing * 0.5f);
 
         for (int y = 0; y < height; y++)
         {
@@ -51,8 +58,9 @@ public class AgentFormation : ScriptableObject
                 Slot slot = new Slot()
                 {
                     weight = weight,
-                    pos = new Vector2Int(
+                    pos = new Vector3(
                             x * spacing - xOffset,
+                            0,
                             y * spacing - zOffset)
                 };
 

@@ -127,9 +127,6 @@ public class ChunkResources
 
     void DrawBatch(int count, ResourceObject obj)
     {
-        obj.outlineMaterial.enableInstancing = true;
-
-        obj.outlineMask.enableInstancing = true;
         obj.material.enableInstancing = true;
 
 
@@ -140,22 +137,5 @@ public class ChunkResources
             batchBuffer,
             count
         );
-        //Graphics.DrawMeshInstanced(
-        //    obj.mesh,
-        //    0,
-        //    obj.outlineMask,
-        //    batchBuffer,
-        //    count
-        //    );
-
-        ////obj.outlineMaterial.SetColor("_OutlineColor", obj.material.GetColor("_BaseColor"));
-        //Graphics.DrawMeshInstanced(
-        //    obj.mesh,
-        //    0,
-        //    obj.outlineMaterial,
-        //    batchBuffer,
-        //    count
-        //    );
-
     }
 }

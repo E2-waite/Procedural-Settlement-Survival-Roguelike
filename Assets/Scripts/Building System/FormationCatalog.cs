@@ -8,4 +8,5 @@ using UnityEditor;
 public class FormationCatalog : ScriptableObject
 {
     public AgentFormation wedgeFormation;
+    public AgentFormation ringFormation;
 }

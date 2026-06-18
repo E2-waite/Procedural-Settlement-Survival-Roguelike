@@ -11,7 +11,7 @@ public class FormationBuilder : Editor
 
         formation.width = EditorGUILayout.IntField("Width", formation.width);
         formation.height = EditorGUILayout.IntField("Height", formation.height);
-        formation.spacing = EditorGUILayout.IntField("Spacing", formation.spacing);
+        formation.spacing = EditorGUILayout.FloatField("Spacing", formation.spacing);
 
         formation.width = Mathf.Max(1, formation.width);
         formation.height = Mathf.Max(1, formation.height);

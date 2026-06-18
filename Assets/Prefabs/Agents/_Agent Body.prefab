@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7055413693095850740}
   - component: {fileID: 7976327287198316736}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Torso
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6030753150829732287}
   - component: {fileID: 2552743955420515628}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Torso Trim
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2997455870440628030}
   - component: {fileID: 8652599043800303099}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Back Hand
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1979518827558150186}
   - component: {fileID: 7295322051547213294}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2841980117092838405}
   - component: {fileID: 5080910321767146899}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Armour Trim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,7 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 937844663540883261}
   - component: {fileID: 3071738247521562640}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Armour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3911800774532448890}
   - component: {fileID: 5644389051263813228}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4692752808883628}
   - component: {fileID: 7207778953234913270}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front Equipment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3320361231314113748}
   - component: {fileID: 986681879126819394}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Back Equipment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -836,7 +836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2190223248833172088}
   - component: {fileID: 7771836313229417515}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -923,7 +923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5633145906970256299}
   - component: {fileID: 3215599232347203622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front Hand
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -1010,7 +1010,7 @@ GameObject:
   m_Component:
   - component: {fileID: 684368769025720145}
   - component: {fileID: 9003383647589996188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Helmet Trim
   m_TagString: Untagged
   m_Icon: {fileID: 0}

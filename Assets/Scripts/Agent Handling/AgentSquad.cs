@@ -11,6 +11,7 @@ public class AgentSquad
     public int Size => agents.Count;
     private AgentFormation agentFormation;
     WorldGrid grid;
+    Player player;
     List <Color> squadColors = new List<Color>()
     {
        Color.green,
@@ -30,6 +31,7 @@ public class AgentSquad
         agentFormation = context.formationCatalog.wedgeFormation;
         World world = context.world;
         grid = world.Context.grid;
+        player = context.player;
     }
 
     public void AddAgent(Agent agent)
@@ -74,34 +76,43 @@ public class AgentSquad
         return total / agents.Count;
     }
 
-    public Vector2Int GetFormationPos(Agent agent)
+    public Vector3 GetFormationPos(Agent agent)
     {
         if (agentFormation != null && agents.Contains(agent))
         {
             List<AgentFormation.Slot> formationSlots = agentFormation.GetSlots();
 
-            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector2Int.zero;
+            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector3.zero;
             else return formationSlots[agent.SquadSlotIndex].pos;
         }
-        return Vector2Int.zero;
+        return Vector3.zero;
     }
 
-    public void CommandMove(GridTile targetTile)
+    public void CommandMove(GridTile targetTile, Vector3 worldPos)
     {
+        Vector3 lookDir = (player.transform.position - worldPos).normalized;
+        lookDir.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookDir);
+
         foreach (Unit unit in agents)
         {
-            Vector2Int offset = GetFormationPos(unit);
-            Vector2Int gridPos = targetTile.position + offset;
+            Vector3 offset = rotation * GetFormationPos(unit);
+
+            Vector3 targetPos = worldPos + offset;
+
+            Vector2Int gridPos = new Vector2Int(
+                    Mathf.FloorToInt(targetPos.x),
+                    Mathf.FloorToInt(targetPos.z));
 
             GridTile slotTile = grid.GetTile(gridPos);
 
             if (slotTile != null && slotTile.IsEmpty)
             {
-                unit.RequestPath(slotTile);
+                unit.RequestPath(slotTile, targetPos);
             }
             else
             {
-                unit.RequestPath(targetTile);
+                unit.RequestPath(targetTile, targetPos);
             }
 
             unit.SetState(Unit.State.Moving);

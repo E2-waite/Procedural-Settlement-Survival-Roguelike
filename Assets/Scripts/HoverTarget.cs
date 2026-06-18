@@ -6,7 +6,8 @@ public class HoverTarget
     private GridTile hoveringTile = null;
     private Agent hoveringAgent = null;
     private Building hoveringBuilding = null;
-
+    private Vector3 hoveringPos = Vector3.zero;
+    public Vector3 Position => hoveringPos;
     public bool IsTile => hoveringTile != null;
     public GridTile Tile => hoveringTile;
 
@@ -38,10 +39,13 @@ public class HoverTarget
         {
             Set(otherTarget.Building);
         }
+        hoveringPos = otherTarget.Position;
     }
 
     public bool Update(RaycastHit hit, WorldGrid grid)
     {
+        hoveringPos = hit.point;
+
         if (hit.transform.GetComponentInParent<Agent>() is Agent agent)
         {
             return Set(agent);
@@ -58,6 +62,7 @@ public class HoverTarget
                 return Set(tile);
             }
         }
+
         return false;
     }
 

@@ -50,11 +50,7 @@ public class CommandSystem
     {
         if (target.IsTile)
         {
-            currentSquad.CommandMove(target.Tile);
-            //foreach (Unit unit in currentSquad.Agents)
-            //{
-            //    unit.Command(target.Tile);
-            //}
+            currentSquad.CommandMove(target.Tile, target.Position);
         }
         else if (target.IsEnemy)
         {

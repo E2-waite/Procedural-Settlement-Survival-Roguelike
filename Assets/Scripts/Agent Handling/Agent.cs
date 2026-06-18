@@ -29,7 +29,7 @@ public class Agent : Destructable
     public GameObject body;
     public GameObject outline;
 
-    public Vector2Int FormationPos => Squad == null ? Vector2Int.zero : Squad.GetFormationPos(this);
+    public Vector3 FormationPos => Squad == null ? Vector3.zero : Squad.GetFormationPos(this);
 
     public virtual void Init(GameContext context)
     {
@@ -47,11 +47,29 @@ public class Agent : Destructable
         HandleStates();
     }
 
-    // Request a path to a position and set target tile
     public void RequestPath(GridTile tile)
     {
-        movement.SetTargetTile(tile);
+        Movement.SetTargetPos(tile.worldPosition);
+
         RequestPath(tile.position);
+    }
+
+    // Request a path to a position and set target tile
+    public void RequestPath(GridTile tile, Vector3 worldPos)
+    {
+        Movement.SetTargetPos(worldPos);
+
+        RequestPath(tile.position);
+    }
+
+    public void RequestPath(Vector3 worldPos)
+    {
+        Movement.SetTargetPos(worldPos);
+        Vector2Int gridPos = new Vector2Int(
+            Mathf.FloorToInt(worldPos.x),
+            Mathf.FloorToInt(worldPos.z));
+
+        RequestPath(gridPos);
     }
 
     // Request a path to the position

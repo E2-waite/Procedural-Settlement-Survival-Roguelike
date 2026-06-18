@@ -250,7 +250,7 @@ public class Unit : Agent
         role?.Command(tile);
 
         // Move to tile if empty and role didn't consume command
-        RequestPath(tile.position);
+        RequestPath(pos);
         SetState(State.Moving);
     }
 

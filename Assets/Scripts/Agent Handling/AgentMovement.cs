@@ -10,6 +10,7 @@ public class AgentMovement
     [SerializeField] private float swarmRadius = 1f;
     protected int pathIndex = 0;
     private Vector3 posOffset = new Vector3(0, 0.01f, 0);
+    private Vector3 targetPosition = Vector3.zero;
 
     protected GridTile targetTile;
 
@@ -28,13 +29,18 @@ public class AgentMovement
         targetTile = tile;
     }
 
+    public void SetTargetPos(Vector3 pos)
+    {
+        targetPosition = pos;
+    }
+
     public void SetPath(List<Vector2Int> path)
     {
         this.path = path;
         pathIndex = 0;
     }
 
-    public bool TargetReached => pathIndex >= path.Count;
+    public bool TargetReached => agent.transform.position == targetPosition;
     public bool HasPath => !(path == null || path.Count == 0);
 
     public void ClearPath()
@@ -52,6 +58,7 @@ public class AgentMovement
 
     public void FollowPath()
     {
+        float targetDist = Vector3.Distance(agent.transform.position, targetPosition);
         if (path != null && path.Count > 0 && pathIndex < path.Count)
         {
             Vector2Int currentTarget = path[pathIndex];
@@ -61,7 +68,6 @@ public class AgentMovement
             Vector3 pathDir = (targetPos - agent.transform.position).normalized;
             //Vector3 swarmDir = SwarmDirection();
             Vector3 swarmDir = Vector3.zero;
-
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
             Vector3 movePos = agent.transform.position + (moveDir * moveSpeed * Time.deltaTime);
@@ -72,6 +78,17 @@ public class AgentMovement
             {
                 pathIndex++;
             }
+        }
+        else if (targetDist < 5f && targetDist > 0.01f) // If we're close to the target position, move to the target
+        {
+            moveDir = (targetPosition - agent.transform.position).normalized;
+            Vector3 movePos = agent.transform.position + (moveDir * moveSpeed * Time.deltaTime);
+            movePos.y = 0;
+            agent.transform.position = movePos;
+        }
+        else if (targetDist <= 0.01f)
+        {
+            agent.transform.position = targetPosition;
         }
     }
 
