@@ -71,9 +71,9 @@ public class FighterRole : IUnitRole
 
     #region Commanding
     // Commands fighter to defend a tile (doesn't consume command)
-    public bool Command(GridTile tile)
+    public bool Command(GridTile tile, Vector3 pos)
     {
-        Combat.DefendTile(tile);
+        Combat.SetFormationPos(pos);
         return false;
     }
 

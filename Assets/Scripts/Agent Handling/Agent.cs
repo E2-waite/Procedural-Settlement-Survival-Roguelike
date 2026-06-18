@@ -49,7 +49,7 @@ public class Agent : Destructable
     protected virtual void Update()
     {
         UpdateChunk();
-        sprite.SetDirection(movement.MoveDir());
+        //sprite.SetDirection(movement.MoveDir());
         HandleStates();
     }
 

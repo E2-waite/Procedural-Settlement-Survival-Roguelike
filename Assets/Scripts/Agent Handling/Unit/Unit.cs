@@ -64,6 +64,18 @@ public class Unit : Agent
         if (IsDead) return; // Dead
 
         base.Update();
+
+        if (state == State.Following && player != null)
+        {
+            Sprite?.SetDirection(player.LookDir);
+        }
+        else if (squad != null)
+        {
+            Sprite?.SetDirection(-squad.FacingDir);
+
+        }
+
+
     }
 
     public bool Recruit()
@@ -246,7 +258,7 @@ public class Unit : Agent
     // Commands unit to move to the passed tile
     public virtual void Command(GridTile tile, Vector3 pos)
     {
-        role?.Command(tile);
+        role?.Command(tile, pos);
 
         // Move to tile if empty and role didn't consume command
         RequestPath(pos);

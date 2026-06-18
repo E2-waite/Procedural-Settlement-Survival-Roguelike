@@ -185,7 +185,7 @@ public class WorkerRole : IUnitRole
     #endregion
     #region Commanding
 
-    public bool Command(GridTile tile)
+    public bool Command(GridTile tile, Vector3 pos)
     {
         return false;
     }

@@ -18,6 +18,10 @@ public class AgentSquad
 
     WorldGrid grid;
     Player player;
+
+    Vector3 facingDir = Vector3.zero;
+    public Vector3 FacingDir => facingDir;
+
     List <Color> squadColors = new List<Color>()
     {
        Color.green,
@@ -119,12 +123,12 @@ public class AgentSquad
 
     public void CommandMove(GridTile targetTile, Vector3 worldPos)
     {
-        Vector3 lookDir = (player.transform.position - worldPos).normalized;
-        lookDir.y = 0;
+        facingDir = (player.transform.position - worldPos).normalized;
+        facingDir.y = 0;
 
         foreach (Unit unit in agents)
         {
-            Vector3 offset = unit.SnappedRotation(lookDir) * CommandFormationPos(unit);
+            Vector3 offset = unit.SnappedRotation(facingDir) * CommandFormationPos(unit);
 
             Vector3 targetPos = worldPos + offset;
 
@@ -136,14 +140,12 @@ public class AgentSquad
 
             if (slotTile != null && slotTile.IsEmpty)
             {
-                unit.RequestPath(slotTile, targetPos);
+                unit.Command(slotTile, targetPos);
             }
             else
             {
-                unit.RequestPath(targetTile, targetPos);
+                unit.Command(targetTile, targetPos);
             }
-
-            unit.SetState(Unit.State.Moving);
         }
     }
 

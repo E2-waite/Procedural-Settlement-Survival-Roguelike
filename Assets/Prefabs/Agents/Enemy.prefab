@@ -291,10 +291,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health:
     current: 0
-    max: 100
+    max: 10
   deathTime: 0.5
   movement:
-    moveSpeed: 5
+    moveSpeed: 0
     pathWeight: 2
     swarmWeight: 1
     path: []
@@ -310,6 +310,7 @@ MonoBehaviour:
     state: 0
     lastState: 0
     attackDist: 1
+    chaseDist: 3
     attackDamage: 10
     defendingTile:
       type: 0

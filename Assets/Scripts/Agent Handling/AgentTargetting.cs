@@ -38,6 +38,11 @@ public class AgentTargetting
         return currentTarget != null ? currentTarget.GridPos : Vector2Int.zero;
     }
 
+    public Vector3 TargetWorldPos()
+    {
+        return currentTarget != null ? currentTarget.transform.position : Vector3.zero;
+    }
+
     // Add threat to the threat candidate associated with the target
     public void AddTarget(Destructable target, float threat)
     {

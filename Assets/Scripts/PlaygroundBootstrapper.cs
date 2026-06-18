@@ -37,7 +37,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
         World.InitStartChunks();
 
         SpawnUnitSpawner(spawnTile);
-       // SpawnEnemySpawner(enemyTile);
+        SpawnEnemySpawner(enemyTile);
 
         // Disable this GameObject when finished init
         gameObject.SetActive(false);

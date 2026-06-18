@@ -15,7 +15,7 @@ public interface IUnitRole
 
     #region Commanding
 
-    bool Command(GridTile tile);
+    bool Command(GridTile tile, Vector3 pos);
 
     bool Command(Agent agent);
 

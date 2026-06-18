@@ -182,18 +182,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4549533740962986133, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5227699760496916989, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 7180213928074144990, guid: 3dff90a21519c494499c920aba0c7099, type: 3}
-      propertyPath: m_RendererIndex
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -603,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 836752002073266148, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   unitSpawnerPrefab: {fileID: 2582552897848075036, guid: 9a89db247c68fe94c904fc934ba0fa2a, type: 3}
-  enemySpawnerPrefab: {fileID: 7387552947533391560, guid: 10ef8c9ce4687904fbebc22da19ed71f, type: 3}
+  enemySpawnerPrefab: {fileID: 7393810201957651812, guid: 87965abbb149e6c449dcc0f142caa105, type: 3}
   context:
     gameType: 1
     player: {fileID: 0}

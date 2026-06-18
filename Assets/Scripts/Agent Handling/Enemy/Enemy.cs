@@ -48,8 +48,8 @@ public class Enemy : Agent
         if (IsDead) return;
         base.Update();
 
-        Combat?.Tick();
-        targetting?.Tick();
+        //Combat?.Tick();
+        //targetting?.Tick();
     }
 
     public void SetState(State state)
