@@ -94,7 +94,9 @@ public class Unit : Agent
     public void UpdateObject(AgentObject agentObject)
     {
         Sprite.Init(body.transform, outline.transform, agentObject);
+        roleType = agentObject.AgentType;
     }
+
     #endregion
     #region States
     // Generic SetState function for setting units' state to generic state (Working, moving, following and attacking)

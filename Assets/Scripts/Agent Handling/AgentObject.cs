@@ -3,6 +3,17 @@ using static GlobalDefs;
 [CreateAssetMenu(fileName = "RoleObject", menuName = "Scriptable Objects/Agent")]
 public class AgentObject : ScriptableObject
 {
+    public enum RoleType
+    {
+        None,
+        Melee,
+        Ranged,
+        Max
+    }
+
+
+    [SerializeField] private RoleType roleType = RoleType.None;
+
     [SerializeField] private bool showHelmet = true;
     [SerializeField] private bool showArmour = true;
     [SerializeField] private bool useSkinColorOnHands = true;
@@ -36,6 +47,7 @@ public class AgentObject : ScriptableObject
     [SerializeField] private Sprite[] backEquipOutline = new Sprite[(int)SpriteDir.Max];
     [SerializeField] private Sprite[] frontEquipOutline = new Sprite[(int)SpriteDir.Max];
 
+    public RoleType AgentType => roleType;
     public bool ShowHelmet => showHelmet;
     public bool ShowArmour => showArmour;
     public bool UseSkinColorOnHands => useSkinColorOnHands;

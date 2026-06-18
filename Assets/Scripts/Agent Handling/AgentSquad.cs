@@ -1,17 +1,20 @@
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
+using static AgentObject;
 
 public class AgentSquad
 {
-    private List<Agent> agents = new List<Agent>();
+    private List<Agent> agents = new List<Agent>(); // List of agents of all types
+    private List<Agent>[] agentTypes = new List<Agent>[(int)RoleType.Max]; // Lists of agents of a specific type
+
     public Color color = Color.white;
     int id;
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
-    private AgentFormation commandFormation;
-
-    private AgentFormation followFormation;
+    private AgentFormation[] commandFormation = new AgentFormation[(int)RoleType.Max];
+    private AgentFormation[] followFormation = new AgentFormation[(int)RoleType.Max];
+    public AgentFormation CommandFormation(RoleType agentType) => commandFormation[(int)agentType];
+    public AgentFormation FollowFormation(RoleType agentType) => followFormation[(int)agentType];
 
     WorldGrid grid;
     Player player;
@@ -31,9 +34,15 @@ public class AgentSquad
     {
         id = index;
         color = squadColors[id];
-        commandFormation = context.formationCatalog.wedgeFormation;
-        followFormation = context.formationCatalog.ringFormation;
+        commandFormation[(int)RoleType.Melee] = context.formationCatalog.meleeCommand;
+        followFormation[(int)RoleType.Melee] = context.formationCatalog.meleeFollow;
+        commandFormation[(int)RoleType.Ranged] = context.formationCatalog.rangedCommand;
+        followFormation[(int)RoleType.Ranged] = context.formationCatalog.rangedFollow;
 
+        for (int i = 0; i < (int)RoleType.Max; i++)
+        {
+            agentTypes[i] = new List<Agent>();
+        }
         World world = context.world;
         grid = world.Context.grid;
         player = context.player;
@@ -44,8 +53,10 @@ public class AgentSquad
         if (!agents.Contains(agent))
         {
             Debug.Log("Adding " + agent.name + " to squad");
-            agent.SquadSlotIndex = agents.Count;
+            agent.SquadIndex = agents.Count;
             agents.Add(agent);
+            agent.SquadTypeIndex = agentTypes[(int)agent.AgentType].Count;
+            agentTypes[(int)agent.AgentType].Add(agent);
             agent.SetSquad(this);
         }
     }
@@ -55,6 +66,7 @@ public class AgentSquad
         Debug.Log("Removing " + agent.name + " from squad");
 
         agents.Remove(agent);
+        agentTypes[(int)agent.AgentType].Remove(agent);
         agent.ClearSquad();
     }
 
@@ -85,10 +97,10 @@ public class AgentSquad
     {
         if (followFormation != null && agents.Contains(agent))
         {
-            List<AgentFormation.Slot> formationSlots = followFormation.GetSlots();
+            List<AgentFormation.Slot> formationSlots = followFormation[(int)agent.AgentType]?.GetSlots();
 
-            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector3.zero;
-            else return formationSlots[agent.SquadSlotIndex].pos;
+            if (formationSlots == null || agent.SquadTypeIndex >= formationSlots.Count) return Vector3.zero;
+            else return formationSlots[agent.SquadTypeIndex].pos;
         }
         return Vector3.zero;
     }
@@ -97,10 +109,10 @@ public class AgentSquad
     {
         if (commandFormation != null && agents.Contains(agent))
         {
-            List<AgentFormation.Slot> formationSlots = commandFormation.GetSlots();
+            List<AgentFormation.Slot> formationSlots = commandFormation[(int)agent.AgentType]?.GetSlots();
 
-            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector3.zero;
-            else return formationSlots[agent.SquadSlotIndex].pos;
+            if (formationSlots == null || agent.SquadTypeIndex >= formationSlots.Count) return Vector3.zero;
+            else return formationSlots[agent.SquadTypeIndex].pos;
         }
         return Vector3.zero;
     }

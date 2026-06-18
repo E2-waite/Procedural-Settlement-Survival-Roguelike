@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
+  roleType: 1
   showHelmet: 1
   showArmour: 1
   useSkinColorOnHands: 0

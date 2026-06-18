@@ -7,6 +7,8 @@ using UnityEditor;
 [CreateAssetMenu]
 public class FormationCatalog : ScriptableObject
 {
-    public AgentFormation wedgeFormation;
-    public AgentFormation ringFormation;
+    public AgentFormation meleeCommand;
+    public AgentFormation meleeFollow;
+    public AgentFormation rangedCommand;
+    public AgentFormation rangedFollow;
 }

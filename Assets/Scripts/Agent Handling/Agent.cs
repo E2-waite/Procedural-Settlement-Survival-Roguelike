@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AgentObject;
 
 public class Agent : Destructable
 {
-    public int SquadSlotIndex { get; set; } = -1;
+    protected RoleType roleType = RoleType.None;
+    public RoleType AgentType => roleType;
+
+    public int SquadIndex { get; set; } = -1; // Index in squad's agents list
+    public int SquadTypeIndex { get; set; } = -1; // Index in squad's specific agent type list
+
     private PathfindingHandler pathfinding;
     public PathfindingHandler Pathfinding => pathfinding;
     [SerializeField] public AgentMovement movement;
