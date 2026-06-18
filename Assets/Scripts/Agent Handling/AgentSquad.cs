@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class AgentSquad
@@ -8,7 +9,8 @@ public class AgentSquad
     int id;
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
-
+    private AgentFormation agentFormation;
+    WorldGrid grid;
     List <Color> squadColors = new List<Color>()
     {
        Color.green,
@@ -21,10 +23,13 @@ public class AgentSquad
     };
 
 
-    public void Init(int index)
+    public void Init(GameContext context, int index)
     {
         id = index;
         color = squadColors[id];
+        agentFormation = context.formationCatalog.wedgeFormation;
+        World world = context.world;
+        grid = world.Context.grid;
     }
 
     public void AddAgent(Agent agent)
@@ -32,6 +37,7 @@ public class AgentSquad
         if (!agents.Contains(agent))
         {
             Debug.Log("Adding " + agent.name + " to squad");
+            agent.SquadSlotIndex = agents.Count;
             agents.Add(agent);
             agent.SetSquad(this);
         }
@@ -56,5 +62,67 @@ public class AgentSquad
     public bool HasAgent(Agent agent)
     {
         return agents.Contains(agent);
+    }
+
+    public Vector3 CenterPos()
+    {
+        Vector3 total = Vector3.zero;
+        foreach(Agent agent in agents)
+        {
+            total += agent.transform.position;
+        }
+        return total / agents.Count;
+    }
+
+    public Vector2Int GetFormationPos(Agent agent)
+    {
+        if (agentFormation != null && agents.Contains(agent))
+        {
+            List<AgentFormation.Slot> formationSlots = agentFormation.GetSlots();
+
+            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector2Int.zero;
+            else return formationSlots[agent.SquadSlotIndex].pos;
+        }
+        return Vector2Int.zero;
+    }
+
+    public void CommandMove(GridTile targetTile)
+    {
+        foreach (Unit unit in agents)
+        {
+            Vector2Int offset = GetFormationPos(unit);
+            Vector2Int gridPos = targetTile.position + offset;
+
+            GridTile slotTile = grid.GetTile(gridPos);
+
+            if (slotTile != null && slotTile.IsEmpty)
+            {
+                unit.RequestPath(slotTile);
+            }
+            else
+            {
+                unit.RequestPath(targetTile);
+            }
+
+            unit.SetState(Unit.State.Moving);
+        }
+    }
+
+    // Commands agents
+    public virtual void Command(GridTile tile)
+    {
+        
+    }
+
+    // Commands unit to interact with an agent
+    public virtual void Command(Agent agent)
+    {
+
+    }
+
+    // Commands unit to interact with a building
+    public virtual void Command(Building building)
+    {
+        
     }
 }

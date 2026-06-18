@@ -29,12 +29,12 @@ public class CommandSystem
     private AgentSquad currentSquad;
     public bool IsCommanding => currentSquad != null && currentSquad.Size > 0;
     List<AgentSquad> squads = new List<AgentSquad>();
-    
+    GameContext gameContext;
 
     public CommandSystem(GameContext context)
     {
         player = context.player;
-
+        gameContext = context;
     }
 
     private void SetState(CommandState state)
@@ -50,10 +50,11 @@ public class CommandSystem
     {
         if (target.IsTile)
         {
-            foreach (Unit unit in currentSquad.Agents)
-            {
-                unit.Command(target.Tile);
-            }
+            currentSquad.CommandMove(target.Tile);
+            //foreach (Unit unit in currentSquad.Agents)
+            //{
+            //    unit.Command(target.Tile);
+            //}
         }
         else if (target.IsEnemy)
         {
@@ -166,7 +167,7 @@ public class CommandSystem
         {
             Debug.Log("New squad");
             AgentSquad squad = new AgentSquad();
-            squad.Init(squads.Count);
+            squad.Init(gameContext, squads.Count);
             squads.Add(squad);
             return squad;
         }

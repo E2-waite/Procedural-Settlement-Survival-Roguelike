@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 332acd3e301081c439ede273030310dd, type: 3}
-  m_Name: ResourceCatalog
+  m_Script: {fileID: 11500000, guid: 2b39156c18d5d77409302e4144bb03e9, type: 3}
+  m_Name: Formations
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: ada1663e0f5787b4f8d52ad0eca5b545, type: 2}
-  stone: {fileID: 11400000, guid: 390567ac189ae9e40be61363badd8fb6, type: 2}
+  wedgeFormation: {fileID: 11400000, guid: edae252670eab6d4bbb40252b512b2fa, type: 2}

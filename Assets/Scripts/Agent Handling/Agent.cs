@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Agent : Destructable
 {
+    public int SquadSlotIndex { get; set; } = -1;
     private PathfindingHandler pathfinding;
     public PathfindingHandler Pathfinding => pathfinding;
     [SerializeField] public AgentMovement movement;
@@ -28,6 +29,8 @@ public class Agent : Destructable
     public GameObject body;
     public GameObject outline;
 
+    public Vector2Int FormationPos => Squad == null ? Vector2Int.zero : Squad.GetFormationPos(this);
+
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -48,11 +51,11 @@ public class Agent : Destructable
     public void RequestPath(GridTile tile)
     {
         movement.SetTargetTile(tile);
-        RequestPath(tile.position, tile.worldPosition);
+        RequestPath(tile.position);
     }
 
     // Request a path to the position
-    public void RequestPath(Vector2Int gridPos, Vector3 worldPos, bool includeResources = false)
+    public void RequestPath(Vector2Int gridPos, bool includeResources = false)
     {
         movement.ClearPath();
 

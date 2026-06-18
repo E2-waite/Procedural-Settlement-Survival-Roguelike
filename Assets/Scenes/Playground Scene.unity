@@ -600,6 +600,7 @@ MonoBehaviour:
     gameType: 1
     player: {fileID: 0}
     world: {fileID: 505730497}
+    formationCatalog: {fileID: 11400000, guid: ea8c6e0031b03d94d9af3a7dcbecf6a6, type: 2}
     interactionController: {fileID: 1325772644}
     cameraController: {fileID: 205974911}
     userInterface: {fileID: 1682215829}

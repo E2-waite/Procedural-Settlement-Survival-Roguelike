@@ -6,7 +6,7 @@ public class AgentMovement
 {
     [SerializeField] public float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
     public List<Vector2Int> path = new List<Vector2Int>();
-    private float reachedThresh = .25f;
+    private float reachedThresh = .01f;
     [SerializeField] private float swarmRadius = 1f;
     protected int pathIndex = 0;
     private Vector3 posOffset = new Vector3(0, 0.01f, 0);
@@ -59,7 +59,8 @@ public class AgentMovement
             Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
 
             Vector3 pathDir = (targetPos - agent.transform.position).normalized;
-            Vector3 swarmDir = SwarmDirection();
+            //Vector3 swarmDir = SwarmDirection();
+            Vector3 swarmDir = Vector3.zero;
 
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 

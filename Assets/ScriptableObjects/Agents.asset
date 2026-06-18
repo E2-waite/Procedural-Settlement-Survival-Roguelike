@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5337226b31780624ab48db9ffcfc3c8a, type: 3}
-  m_Name: Agent Catalog
+  m_Name: Agents
   m_EditorClassIdentifier: 
   unit: {fileID: 11400000, guid: 8e79d005096085c4984218c1dc763f00, type: 2}
   worker: {fileID: 11400000, guid: 1a3dcfea068350b4f96fe491590750b1, type: 2}

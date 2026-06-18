@@ -224,7 +224,7 @@ public class WorkerRole : IUnitRole
         targetResource = resource;
         SetState(State.Gather);
 
-        unit.RequestPath(targetResource.tile.position, targetResource.tile.worldPosition, true);
+        unit.RequestPath(targetResource.tile.position, true);
     }
 
     // Target the passed resource building
@@ -246,7 +246,7 @@ public class WorkerRole : IUnitRole
 
                 Vector2Int storePos = new Vector2Int((int)store.transform.position.x, (int)store.transform.position.z);
 
-                unit.RequestPath(storePos, store.transform.position);
+                unit.RequestPath(storePos);
                 targetResource = null; // Don't return to gathering if we've commanded to store
             }
         }
@@ -259,7 +259,7 @@ public class WorkerRole : IUnitRole
 
         targetBuilding = building;
         SetState(State.Build);
-        unit.RequestPath(building.GridPos, building.transform.position);
+        unit.RequestPath(building.GridPos);
     }
     #endregion
     #region Actions

@@ -61,7 +61,7 @@ public class AgentCombat
             // If defending, path to the defending tile
             if (state == CombatState.Defending && defendingTile != null)
             {
-                agent?.RequestPath(defendingTile.position, defendingTile.worldPosition);
+                agent?.RequestPath(defendingTile.position);
             }
         }
     }
@@ -163,7 +163,7 @@ public class AgentCombat
         // Request a new path only when there is no active path or pending request.
         if (agent != null && !agent.pathRequested && (!agent.movement.HasPath || agent.Movement.TargetReached))
         {
-            agent.RequestPath(targetting.TargetPos(), targetting.Current.transform.position);
+            agent.RequestPath(targetting.TargetPos());
         }
 
         agent?.movement.FollowPath();

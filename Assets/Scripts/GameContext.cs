@@ -12,6 +12,7 @@ public class GameContext
 
     [HideInInspector] public Player player;
     public World world;
+    public FormationCatalog formationCatalog;
     public InteractionController interactionController;
     public CameraController cameraController;
     public UserInterface userInterface;

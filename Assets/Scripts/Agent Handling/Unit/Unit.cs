@@ -161,7 +161,7 @@ public class Unit : Agent
                 (movement.HasPath && movement.TargetReached) || 
                 !movement.HasPath && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
-                RequestPath(playerPos, player.transform.position);
+                RequestPath(playerPos);
             }
 
             float dist = Vector3.Distance(transform.position, player.transform.position);
@@ -245,12 +245,12 @@ public class Unit : Agent
     }
 
     // Commands unit to move to the passed tile
-    public virtual void Command(GridTile tile)
+    public virtual void Command(GridTile tile, Vector3 pos)
     {
         role?.Command(tile);
 
         // Move to tile if empty and role didn't consume command
-        RequestPath(tile);
+        RequestPath(tile.position);
         SetState(State.Moving);
     }
 
@@ -294,7 +294,7 @@ public class Unit : Agent
         {
             SetState(State.Following);
             Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-            RequestPath(playerPos, player.transform.position);
+            RequestPath(playerPos);
         }
     }
 

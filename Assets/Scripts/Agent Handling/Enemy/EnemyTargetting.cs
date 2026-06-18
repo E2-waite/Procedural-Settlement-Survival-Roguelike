@@ -64,7 +64,7 @@ public class EnemyTargetting : AgentTargetting
 
             enemy.SetState(State.Combat);
 
-            enemy.RequestPath(TargetPos(), mainFire.transform.position);
+            enemy.RequestPath(TargetPos());
         }
     }
 }

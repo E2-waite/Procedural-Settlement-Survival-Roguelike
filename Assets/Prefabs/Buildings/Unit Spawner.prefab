@@ -83,6 +83,6 @@ MonoBehaviour:
   deathTime: 0.5
   preBuild: 0
   id: 0
-  spawnInterval: 5
+  spawnInterval: 0.5
   max: 3
   agentPrefab: {fileID: 2099999823309988302, guid: 1a8d31c023bb7724baed5f80a6d6f071, type: 3}

@@ -83,7 +83,7 @@ public class FighterRole : IUnitRole
         if (agent is Enemy)
         {
             Targeting.Target(agent);
-            unit.RequestPath(Targeting.TargetPos(), agent.transform.position);
+            unit.RequestPath(Targeting.TargetPos());
             return true;
         }
 
@@ -95,7 +95,7 @@ public class FighterRole : IUnitRole
         if (building.Owner == Faction.Enemy) // Target enemy buildings
         {
             Targeting.Target(building);
-            unit.RequestPath(Targeting.TargetPos(), building.transform.position);
+            unit.RequestPath(Targeting.TargetPos());
             return true;
         }
         return false;

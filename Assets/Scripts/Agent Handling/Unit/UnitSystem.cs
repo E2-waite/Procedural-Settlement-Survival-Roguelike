@@ -3,7 +3,7 @@ using UnityEngine;
 public class UnitSystem
 {
     [SerializeField] private UnitStorage storage = new UnitStorage();
-    private int capacity = 5;
+    private int capacity = 100;
 
     public void IncreaseCapacity(int num)
     {
