@@ -9,7 +9,10 @@ public class AgentSquad
     int id;
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
-    private AgentFormation agentFormation;
+    private AgentFormation commandFormation;
+
+    private AgentFormation followFormation;
+
     WorldGrid grid;
     Player player;
     List <Color> squadColors = new List<Color>()
@@ -28,7 +31,9 @@ public class AgentSquad
     {
         id = index;
         color = squadColors[id];
-        agentFormation = context.formationCatalog.wedgeFormation;
+        commandFormation = context.formationCatalog.wedgeFormation;
+        followFormation = context.formationCatalog.ringFormation;
+
         World world = context.world;
         grid = world.Context.grid;
         player = context.player;
@@ -76,11 +81,23 @@ public class AgentSquad
         return total / agents.Count;
     }
 
-    public Vector3 GetFormationPos(Agent agent)
+    public Vector3 FollowFormationPos(Agent agent)
     {
-        if (agentFormation != null && agents.Contains(agent))
+        if (followFormation != null && agents.Contains(agent))
         {
-            List<AgentFormation.Slot> formationSlots = agentFormation.GetSlots();
+            List<AgentFormation.Slot> formationSlots = followFormation.GetSlots();
+
+            if (agent.SquadSlotIndex >= formationSlots.Count) return Vector3.zero;
+            else return formationSlots[agent.SquadSlotIndex].pos;
+        }
+        return Vector3.zero;
+    }
+
+    public Vector3 CommandFormationPos(Agent agent)
+    {
+        if (commandFormation != null && agents.Contains(agent))
+        {
+            List<AgentFormation.Slot> formationSlots = commandFormation.GetSlots();
 
             if (agent.SquadSlotIndex >= formationSlots.Count) return Vector3.zero;
             else return formationSlots[agent.SquadSlotIndex].pos;
@@ -92,11 +109,10 @@ public class AgentSquad
     {
         Vector3 lookDir = (player.transform.position - worldPos).normalized;
         lookDir.y = 0;
-        Quaternion rotation = Quaternion.LookRotation(lookDir);
 
         foreach (Unit unit in agents)
         {
-            Vector3 offset = rotation * GetFormationPos(unit);
+            Vector3 offset = unit.SnappedRotation(lookDir) * CommandFormationPos(unit);
 
             Vector3 targetPos = worldPos + offset;
 

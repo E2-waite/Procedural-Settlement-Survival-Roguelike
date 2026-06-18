@@ -26,6 +26,7 @@ public class InteractionController : MonoBehaviour
     private bool commanding = false;
     private WorldGrid grid;
     private HighlightHandler highlighter = new HighlightHandler();
+    private Player player;
 
     public void Init(GameContext context)
     {
@@ -36,6 +37,8 @@ public class InteractionController : MonoBehaviour
 
             buildMask = context.buildMask;
             commandMask = context.commandMask;
+
+            player = context.player;
 
             // Subscribe after context.inputManager creates controls, but before gameplay input is enabled.
             context.inputManager.MouseMoved         += OnMouseMoved;
@@ -127,6 +130,9 @@ public class InteractionController : MonoBehaviour
         // Updates the hover target with the ray hit
         target.Update(hit, grid);
         highlighter.Set(target);
+
+        player.OnHover(hit);
+
 
         if (currentHandler != null) currentHandler.OnHover(target);
     }

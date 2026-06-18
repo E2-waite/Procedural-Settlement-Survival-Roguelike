@@ -29,7 +29,7 @@ public class Agent : Destructable
     public GameObject body;
     public GameObject outline;
 
-    public Vector3 FormationPos => Squad == null ? Vector3.zero : Squad.GetFormationPos(this);
+    public Vector3 FollowPos => Squad == null ? Vector3.zero : Squad.FollowFormationPos(this);
 
     public virtual void Init(GameContext context)
     {

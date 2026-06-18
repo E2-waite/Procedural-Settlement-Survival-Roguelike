@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Formations
   m_EditorClassIdentifier: 
   wedgeFormation: {fileID: 11400000, guid: edae252670eab6d4bbb40252b512b2fa, type: 2}
+  ringFormation: {fileID: 11400000, guid: b2b2d7cbdf3799646a7b4e22839eee67, type: 2}

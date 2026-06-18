@@ -20,6 +20,8 @@ public class Player : Destructable
     private FireSystem fireSystem;
     private GameType gameType;
     public GameObject body;
+    public Vector3 hoverPos = Vector3.zero;
+    public Vector3 LookDir => (hoverPos - transform.position).normalized;
     public void Init(GameContext context)
     {
         chunkStreaming = context.chunkStreaming;
@@ -42,6 +44,9 @@ public class Player : Destructable
     void Update()
     {
         UpdateChunk();
+
+        sprite?.SetDirection(LookDir);
+
 
         if (fireSystem != null)
         {
@@ -127,6 +132,11 @@ public class Player : Destructable
     public void OnMove(Vector2 moveInput)
     {
         controller?.MovePlayer(moveInput);
-        sprite?.SetDirection(moveInput);
     }
+
+    public void OnHover(RaycastHit hit)
+    {
+        hoverPos = hit.point;
+    }
+
 }

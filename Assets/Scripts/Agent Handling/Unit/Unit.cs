@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GlobalDefs;
@@ -155,18 +154,21 @@ public class Unit : Agent
         // Continuously update path
         if (player != null)
         {
-            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-
             if (!pathRequested && 
                 (movement.HasPath && movement.TargetReached) || 
                 !movement.HasPath && Vector3.Distance(transform.position, player.transform.position) > followDist)
             {
-                RequestPath(playerPos);
+                Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
+                Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
+
+                RequestPath(grid.GetTile(gridPos), formationPos);
             }
 
-            float dist = Vector3.Distance(transform.position, player.transform.position);
-            if (dist > followDist)
-                movement.FollowPath();
+            movement.FollowPath();
+
+            //float dist = Vector3.Distance(transform.position, player.transform.position);
+            //if (dist > followDist)
+            //    movement.FollowPath();
         }
     }
 
@@ -293,9 +295,19 @@ public class Unit : Agent
         if (player != null)
         {
             SetState(State.Following);
-            Vector2Int playerPos = new Vector2Int(Mathf.FloorToInt(player.transform.position.x), Mathf.FloorToInt(player.transform.position.z));
-            RequestPath(playerPos);
+
+            Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
+            Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
+
+            RequestPath(grid.GetTile(gridPos), formationPos);
         }
+    }
+
+    public Quaternion SnappedRotation(Vector3 dir)
+    {
+        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        angle = Mathf.Round(angle / 45f) * 45f;
+        return Quaternion.Euler(0, angle, 0);
     }
 
     #endregion

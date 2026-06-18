@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     private Camera cam;
     private WorldGrid grid;
-
+    private Vector3 facing = Vector3.zero;
+    public Vector3 Facing => facing;
     public void Init(GameContext context)
     {
         grid = context.world.Context.grid;
@@ -15,6 +16,10 @@ public class PlayerController : MonoBehaviour
     public void MovePlayer(Vector2 moveInput)
     {
         Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);
+        if (move.magnitude > 0.1f)
+        {
+            facing = move.normalized;
+        }
 
         Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
