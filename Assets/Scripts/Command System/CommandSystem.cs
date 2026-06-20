@@ -31,6 +31,7 @@ public class CommandSystem
     List<AgentSquad> squads = new List<AgentSquad>();
     GameContext gameContext;
 
+
     public CommandSystem(GameContext context)
     {
         player = context.player;
@@ -167,5 +168,12 @@ public class CommandSystem
             squads.Add(squad);
             return squad;
         }
+    }
+
+    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    {
+        if (currentSquad == null || currentSquad.Size == 0) return;
+
+        currentSquad.SetFormationDir(vec, rot);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static AgentObject;
-
+using static Calculations;
 public class AgentSquad
 {
     private List<Agent> agents = new List<Agent>(); // List of agents of all types
@@ -19,8 +19,19 @@ public class AgentSquad
     WorldGrid grid;
     Player player;
 
-    Vector3 facingDir = Vector3.zero;
-    public Vector3 FacingDir => facingDir;
+
+    private Vector3 facingDir = Vector3.zero;
+    public Vector3 FacingDir
+    {
+        get { return facingDir; }
+        set { facingDir = value; }
+    }
+    private Quaternion facingRot = Quaternion.identity;
+    public Quaternion FacingRot
+    {
+        get { return facingRot; }
+        set { facingRot = value; }
+    }
 
     List <Color> squadColors = new List<Color>()
     {
@@ -123,12 +134,9 @@ public class AgentSquad
 
     public void CommandMove(GridTile targetTile, Vector3 worldPos)
     {
-        facingDir = (player.transform.position - worldPos).normalized;
-        facingDir.y = 0;
-
         foreach (Unit unit in agents)
         {
-            Vector3 offset = unit.SnappedRotation(facingDir) * CommandFormationPos(unit);
+            Vector3 offset = facingRot * CommandFormationPos(unit);
 
             Vector3 targetPos = worldPos + offset;
 
@@ -165,5 +173,16 @@ public class AgentSquad
     public virtual void Command(Building building)
     {
         
+    }
+
+    public void SetFormationDir(Vector3 vec, Quaternion rot)
+    {
+        facingDir = vec;
+        facingRot = rot;
+
+        foreach (Agent agent in agents)
+        {
+            agent.LookTo(vec);
+        }
     }
 }

@@ -6,7 +6,7 @@ public class EnemyTargetting : AgentTargetting
     private DayNightSystem dayNightSystem;
     private Enemy enemy;
     private MainFireBuilding mainFire;
-    bool targetting = false, returning = false;
+    bool targeting = false, returning = false;
 
     public void Init(GameContext context, Enemy enemy)
     {
@@ -22,7 +22,7 @@ public class EnemyTargetting : AgentTargetting
         base.Tick();
         SearchForUnits();
         return;
-        if (dayNightSystem.Phase == DayNightSystem.DayPhase.Night && !targetting)
+        if (dayNightSystem.Phase == DayNightSystem.DayPhase.Night && !targeting)
         {
             // Target fire
             TargetFire();
@@ -49,16 +49,16 @@ public class EnemyTargetting : AgentTargetting
         enemy.RequestPath(enemy.SpawnTile);
         enemy.SetState(State.Moving);
         returning = true;
-        targetting = false;
+        targeting = false;
     }
 
     private void TargetFire()
     {
         if (mainFire != null)
         {
-            Debug.Log(enemy.name + " targetting fire");
+            Debug.Log(enemy.name + " targeting fire");
 
-            targetting = true;
+            targeting = true;
             returning = false;
             Target(mainFire);
 

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using static Calculations;
 // Interprets input events according to the current player interaction mode.
 public class InteractionController : MonoBehaviour
 {
@@ -27,6 +27,8 @@ public class InteractionController : MonoBehaviour
     private WorldGrid grid;
     private HighlightHandler highlighter = new HighlightHandler();
     private Player player;
+    private Vector3 lookVec;
+    private Quaternion lookRot, lastRot;
 
     public void Init(GameContext context)
     {
@@ -145,8 +147,27 @@ public class InteractionController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, currentState == GameState.Build ? buildMask : commandMask))
         {
             OnHover(hit);
+
+            UpdateLook(hit);
+        }
+
+    }
+
+    private void UpdateLook(RaycastHit hit)
+    {
+        if (player == null) return;
+
+        lookVec = hit.point - player.transform.position;
+        lookRot = SnappedRotation(lookVec);
+
+        if (lookRot != lastRot)
+        {
+            lastRot = lookRot;
+            player?.OnLookChanged(lookVec, lookRot);
+            currentHandler?.OnLookChanged(lookVec, lastRot);
         }
     }
+
 
     // Casts ray only when mouse has moved
     void OnMouseMoved(Vector2 pos, Vector2 diff)

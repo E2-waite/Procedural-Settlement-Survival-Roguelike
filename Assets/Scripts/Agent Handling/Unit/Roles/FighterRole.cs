@@ -6,8 +6,8 @@ public class FighterRole : IUnitRole
     [SerializeField] public AgentCombat combat = new AgentCombat();
     public AgentCombat Combat => combat;
 
-    private FighterTargetting targetting = new FighterTargetting();
-    public FighterTargetting Targeting => targetting;
+    private FighterTargetting targeting = new FighterTargetting();
+    public FighterTargetting Targeting => targeting;
 
     private Unit unit;
     private AgentObject agentObject;

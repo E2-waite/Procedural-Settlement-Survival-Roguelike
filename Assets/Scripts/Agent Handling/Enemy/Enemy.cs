@@ -15,8 +15,8 @@ public class Enemy : Agent
     [SerializeField] public AgentCombat combat = new AgentCombat();
     public AgentCombat Combat => combat;
 
-    private EnemyTargetting targetting = new EnemyTargetting();
-    public EnemyTargetting Targeting => targetting;
+    private EnemyTargetting targeting = new EnemyTargetting();
+    public EnemyTargetting Targeting => targeting;
 
     public float fireCheckInterval = .5f, fireDetectDist = 30f;
     private float fireCheckTimer = 0f;
@@ -37,7 +37,7 @@ public class Enemy : Agent
         mainFire = context.mainFireBuilding;
         this.settlement = settlement;
         this.spawnTile = spawnTile;
-        targetting.Init(context, this);
+        targeting.Init(context, this);
         Sprite.Init(body.transform, outline.transform, context.agentCatalog.enemy);
         Combat?.Init(this, Targeting, CombatType.Melee);
         health.Fill();
@@ -49,7 +49,7 @@ public class Enemy : Agent
         base.Update();
 
         //Combat?.Tick();
-        //targetting?.Tick();
+        //targeting?.Tick();
     }
 
     public void SetState(State state)
@@ -126,7 +126,7 @@ public class Enemy : Agent
     #endregion
 
     #region Detecting Units
-    // Gets nearby follower units for targetting
+    // Gets nearby follower units for targeting
     public override List<Agent> GetNearbyHostile()
     {
         if (chunk != null)

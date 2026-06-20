@@ -35,7 +35,6 @@ public class Agent : Destructable
     public GameObject body;
     public GameObject outline;
 
-    public Vector3 FollowPos => Squad == null ? Vector3.zero : Squad.FollowFormationPos(this);
 
     public virtual void Init(GameContext context)
     {
@@ -225,5 +224,10 @@ public class Agent : Destructable
         GameObject projectileObj = Instantiate(projectilePrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
         Projectile projectile = projectileObj.GetComponent<Projectile>();
         projectile.Launch(this, target, damage);
+    }
+
+    public void LookTo(Vector3 vec)
+    {
+        Sprite?.SetDirection(vec);
     }
 }

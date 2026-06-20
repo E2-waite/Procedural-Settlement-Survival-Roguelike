@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static GlobalDefs;
-
+using static Calculations;
 public class Unit : Agent
 {
     public enum State
@@ -65,17 +65,10 @@ public class Unit : Agent
 
         base.Update();
 
-        if (state == State.Following && player != null)
-        {
-            Sprite?.SetDirection(player.LookDir);
-        }
-        else if (squad != null)
+        if (squad != null && state != State.Following)
         {
             Sprite?.SetDirection(-squad.FacingDir);
-
         }
-
-
     }
 
     public bool Recruit()
@@ -162,19 +155,35 @@ public class Unit : Agent
         }
     }
 
+    Vector3 FollowPos()
+    {
+        if (player == null) return Vector3.zero;
+
+        Vector3 formationPos = Squad == null ? Vector3.zero : Squad.FollowFormationPos(this);
+        if (squad != null)
+        {
+            formationPos = squad.FacingRot * formationPos;
+        }
+
+        return player.transform.position + formationPos;
+    }
+
     // Continuously follows the player
     protected virtual void FollowState()
     {
         // Continuously update path
         if (player != null)
         {
-            Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
-            movement.SetTargetPos(formationPos);
+            Vector3 followPos = FollowPos();
+            movement.SetTargetPos(followPos);
 
             if (!pathRequested && movement.TargetChanged)
             {
-                Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
-                RequestPath(grid.GetTile(gridPos), formationPos);
+                Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(followPos.x), Mathf.FloorToInt(followPos.z));
+                GridTile gridTile = grid.GetTile(gridPos);
+                if (gridTile == null) return;
+
+                RequestPath(gridTile, followPos);
             }
 
             movement.FollowPath();
@@ -304,20 +313,14 @@ public class Unit : Agent
         if (player != null)
         {
             SetState(State.Following);
+            Vector3 followPos = FollowPos();
+            Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(followPos.x), Mathf.FloorToInt(followPos.z));
 
-            Vector3 formationPos = player.transform.position + (SnappedRotation(-player.LookDir) * FollowPos);
-            Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(formationPos.x), Mathf.FloorToInt(formationPos.z));
-
-            RequestPath(grid.GetTile(gridPos), formationPos);
+            RequestPath(grid.GetTile(gridPos), followPos);
         }
     }
 
-    public Quaternion SnappedRotation(Vector3 dir)
-    {
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        angle = Mathf.Round(angle / 45f) * 45f;
-        return Quaternion.Euler(0, angle, 0);
-    }
+
 
     #endregion
     #region Agent Detection

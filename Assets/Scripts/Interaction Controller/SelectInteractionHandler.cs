@@ -24,8 +24,15 @@ public class SelectInteractionHandler : IInteractionHandler
     }
     public void OnHover(HoverTarget target)
     {
+        Vector3 lookDir = player.transform.position - target.Position;
+        float angle = Mathf.Atan2(lookDir.x, lookDir.z) * Mathf.Rad2Deg;
+        angle = Mathf.Round(angle / 45f) * 45f;
 
+        Quaternion lookRot = Quaternion.Euler(0, angle, 0);
     }
+
+
+
     public void OnMouseMoved(Vector2 pos, Vector2 diff)
     {
     }
@@ -99,5 +106,10 @@ public class SelectInteractionHandler : IInteractionHandler
     public void OnMoveInput(Vector2 move)
     {
         player.OnMove(move);
+    }
+
+    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    {
+        commandSystem?.OnLookChanged(vec, rot);
     }
 }

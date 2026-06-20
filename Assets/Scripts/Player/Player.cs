@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using static GameContext;
 public class Player : Destructable
@@ -21,7 +22,7 @@ public class Player : Destructable
     private GameType gameType;
     public GameObject body;
     public Vector3 hoverPos = Vector3.zero;
-    public Vector3 LookDir => (hoverPos - transform.position).normalized;
+
     public void Init(GameContext context)
     {
         chunkStreaming = context.chunkStreaming;
@@ -45,7 +46,7 @@ public class Player : Destructable
     {
         UpdateChunk();
 
-        sprite?.SetDirection(LookDir);
+        
 
 
         if (fireSystem != null)
@@ -62,6 +63,11 @@ public class Player : Destructable
 
         
         fire?.Update();
+    }
+
+    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    {
+        sprite?.SetDirection(vec);
     }
 
     FireBuilding FindFire()

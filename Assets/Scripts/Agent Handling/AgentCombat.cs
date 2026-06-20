@@ -17,7 +17,7 @@ public class AgentCombat
     [SerializeField] CombatState state, lastState;
 
     private Agent agent;
-    private AgentTargetting targetting;
+    private AgentTargetting targeting;
 
     public float attackDist = 1f, chaseDist = 5f, attackDamage = 10f;
     protected float attackInterval = 1.5f, attackTimer = 0;
@@ -27,10 +27,10 @@ public class AgentCombat
     CombatType type;
 
 
-    public void Init(Agent agent, AgentTargetting targetting, CombatType type)
+    public void Init(Agent agent, AgentTargetting targeting, CombatType type)
     {
         this.agent = agent;
-        this.targetting = targetting;
+        this.targeting = targeting;
         this.type = type;
         initialized = true;
         if (type == CombatType.Melee)
@@ -72,7 +72,7 @@ public class AgentCombat
     {
         if (agent.IsDead) return;
 
-        if (targetting.Current == null && targetting.Candidates.Count == 0)
+        if (targeting.Current == null && targeting.Candidates.Count == 0)
         {
             // Defend if defending tile is available else set to none
             if (formationPos == Vector3.zero)
@@ -120,16 +120,16 @@ public class AgentCombat
     // Returns true if in attack range of the target
     public bool InAttackRange()
     {
-        if (targetting?.Current == null) return false;
-        float dist = Vector3.Distance(agent.transform.position, targetting.Current.transform.position);
+        if (targeting?.Current == null) return false;
+        float dist = Vector3.Distance(agent.transform.position, targeting.Current.transform.position);
         return dist < attackDist;
     }
 
     // Returns true if in chase range of the target
     public bool InChaseRange()
     {
-        if (targetting?.Current == null) return false;
-        float dist = Vector3.Distance(agent.transform.position, targetting.Current.transform.position);
+        if (targeting?.Current == null) return false;
+        float dist = Vector3.Distance(agent.transform.position, targeting.Current.transform.position);
         return dist < chaseDist;
     }
 
@@ -137,21 +137,21 @@ public class AgentCombat
     // Attack (hit) the current target
     public bool Attack()
     {
-        if (targetting.Current == null || attackTimer > 0) return false;
+        if (targeting.Current == null || attackTimer > 0) return false;
 
         attackTimer = attackInterval;
 
         if (type == CombatType.Melee)
         {
-            Vector3 hitDir = targetting.Current.transform.position - agent.transform.position;
-            if (targetting.Current.Hit(agent, attackDamage, hitDir))
+            Vector3 hitDir = targeting.Current.transform.position - agent.transform.position;
+            if (targeting.Current.Hit(agent, attackDamage, hitDir))
             {
 
             }
         }
         else if (type == CombatType.Ranged)
         {
-            agent.LaunchProjectile(targetting.Current, attackDamage);
+            agent.LaunchProjectile(targeting.Current, attackDamage);
         }
 
 
@@ -167,14 +167,14 @@ public class AgentCombat
     // Move towards target
     void Chase()
     {
-        if (!targetting.HasTarget || attackTimer > 0) return;
+        if (!targeting.HasTarget || attackTimer > 0) return;
 
-        agent.movement.SetTargetPos(targetting.TargetWorldPos());
+        agent.movement.SetTargetPos(targeting.TargetWorldPos());
 
         // Request a new path only when there is no active path or pending request.
         if (agent != null && !agent.pathRequested && agent.movement.TargetChanged)
         {
-            agent.RequestPath(targetting.TargetPos());
+            agent.RequestPath(targeting.TargetPos());
         }
 
         agent?.movement.FollowPath();
