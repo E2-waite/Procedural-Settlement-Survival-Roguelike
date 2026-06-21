@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static CommandSystem;
 
-public class CommandWidget : MonoBehaviour
+public class ActionWidget : MonoBehaviour
 {
     [SerializeField] Image commandMarker;
     [SerializeField] RectTransform rect;
@@ -21,7 +21,7 @@ public class CommandWidget : MonoBehaviour
 
     }
 
-    public void Show(CommandTypeObject commandObj)
+    public void Show(ActionTypeObject commandObj)
     {
         commandImage.sprite = commandObj.icon;
         commandImage.color = commandObj.color;

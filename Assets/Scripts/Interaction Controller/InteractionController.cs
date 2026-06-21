@@ -7,6 +7,7 @@ public class InteractionController : MonoBehaviour
     {
         Select = 0,
         Build,
+        Action,
         Command,
         Max
     }
@@ -55,6 +56,7 @@ public class InteractionController : MonoBehaviour
             initialized = true;
 
             handlers[(int)GameState.Build] = new BuildInteractionHandler(context);
+            handlers[(int)GameState.Action] = new ActionInteractionHandler(context);
             handlers[(int)GameState.Command] = new CommandInteractionHandler(context);
             handlers[(int)GameState.Select] = new SelectInteractionHandler(context);
             currentHandler = handlers[(int)currentState];
@@ -155,14 +157,14 @@ public class InteractionController : MonoBehaviour
     private void UpdateLook(RaycastHit hit)
     {
         if (player == null) return;
-        lookRot = SnappedRotation(hit.point - player.transform.position);
+        Vector3 lookVec = (hit.point - player.transform.position).normalized;
+        lookRot = SnappedRotation(lookVec);
+
+        player?.LookTo(lookVec);
 
         if (lookRot != lastRot)
         {
             lastRot = lookRot;
-            Debug.Log("Look rot: " + lookRot.eulerAngles);
-
-            player?.OnLookChanged(lookRot);
             currentHandler?.OnLookChanged(lastRot);
         }
     }

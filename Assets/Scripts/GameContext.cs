@@ -21,7 +21,7 @@ public class GameContext
     public TileMarker tileMarker;
     public MainFireBuilding mainFireBuilding;
     public ResourcesPanel resourcePanel;
-    public CommandPanel commandPanel;
+    public ActionPanel actionPanel;
     public CommandSystem commandSystem;
     public ResourceSystem resourceSystem;
     public UnitSystem unitSystem;

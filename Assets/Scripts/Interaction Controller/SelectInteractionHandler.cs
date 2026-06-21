@@ -39,14 +39,23 @@ public class SelectInteractionHandler : IInteractionHandler
 
     public void OnLeftDown()
     {
+        //if (commandSystem.IsCommanding)
+        //    controller.SetState(GameState.Action);
     }
 
     public void OnLeftHeld(Vector2 diff, float time)
     {
         // Starts commanding hoving unit when LMB held for over .25 seconds
-        if (time >= .25f && controller.Target.IsUnit)
+        //if (time >= .25f && controller.Target.IsUnit)
+        //{
+        //    commandSystem.StartCommanding(controller.Target.Unit);
+        //}
+
+        if (time >= 0.25f)
         {
-            commandSystem.StartCommanding(controller.Target.Unit);
+            // Switch to action state
+            if (commandSystem.IsCommanding)
+                controller.SetState(GameState.Action);
         }
     }
 
@@ -88,14 +97,24 @@ public class SelectInteractionHandler : IInteractionHandler
 
     public void OnRightDown()
     {
-        if (commandSystem.IsCommanding)
-            controller.SetState(GameState.Command);
+
     }
     public void OnRightHeld(Vector2 diff, float time)
     {
+        if (time >= 0.25f)
+        {
+            // Switch to action state
+            if (commandSystem.IsCommanding)
+                controller.SetState(GameState.Command);
+        }
     }
     public void OnRightUp(Vector2 diff, float time)
     {
+        if (time < 0.25f)
+        {
+            if (commandSystem.IsCommanding)
+                commandSystem.CommandFollow();
+        }
     }
     public void OnEscape()
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 public class UserInterface : MonoBehaviour
 {
     public BuildPanel buildPanel;
-    public CommandPanel commandPanel;
+    public ActionPanel commandPanel;
     public ResourcesPanel resourcesPanel;
     public void Init(GameContext context)
     {

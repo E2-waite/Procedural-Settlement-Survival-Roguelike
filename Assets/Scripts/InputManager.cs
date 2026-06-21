@@ -98,7 +98,7 @@ public class InputManager : MonoBehaviour
 
         if (held[(int)MouseButton.Left])
         {
-            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Right];
+            Vector2 posDiff = mousePos - clickStartPos[(int)MouseButton.Left];
             LeftClickHeld?.Invoke(posDiff, Time.time - clickStartTime[(int)MouseButton.Left]);
         }
 

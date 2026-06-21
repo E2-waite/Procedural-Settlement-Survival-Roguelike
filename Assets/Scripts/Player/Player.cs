@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using static GameContext;
+using static UnityEngine.Rendering.DebugUI.Table;
 public class Player : Destructable
 {
     PlayerController controller;
@@ -68,6 +68,11 @@ public class Player : Destructable
     public void OnLookChanged(Quaternion rot)
     {
         sprite?.SetDirection(rot * Vector3.forward);
+    }
+
+    public void LookTo(Vector3 vec)
+    {
+        sprite?.SetDirection(vec);
     }
 
     FireBuilding FindFire()

@@ -34,7 +34,7 @@ public class Unit : Agent
     private GameContext gameContext;
     private UnitSpawnerBuilding spawner;
     protected override Color HighlightColor => Color.green;
-
+    private bool updateMarker = true;
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -65,12 +65,8 @@ public class Unit : Agent
 
         base.Update();
 
-        if (squad != null && state != State.Following)
-        {
-            Sprite?.SetDirection(squad.FacingDir);
-        }
-
-        markerSprite.transform.position = body.transform.position;
+        if (updateMarker)
+            markerSprite.transform.position = body.transform.position;
     }
 
     public bool Recruit()
@@ -185,6 +181,9 @@ public class Unit : Agent
                 GridTile gridTile = grid.GetTile(gridPos);
                 if (gridTile == null) return;
 
+                if (squad != null)
+                    LookTo(squad.FacingDir);
+
                 RequestPath(gridTile, followPos);
             }
 
@@ -258,11 +257,7 @@ public class Unit : Agent
     // Stops commanding this unit
     public virtual void StopCommanding()
     {
-        if (state == State.Following)
-            SetWorking();
-
         commanding = false;
-        player = null;
         markerSprite.enabled = false;
     }
 
@@ -347,4 +342,15 @@ public class Unit : Agent
     }
     // TODO: get nearby when the chunk's units change, rather than continuously every second
     #endregion
+
+    public void UpdateMarkerPos(Vector3 pos)
+    {
+        updateMarker = false;
+        markerSprite.transform.position = pos;
+    }
+
+    public void SetMarkerUpdating()
+    {
+        updateMarker = true;
+    }
 }

@@ -5,8 +5,6 @@ using static GlobalDefs;
 public class AgentSprite
 {
     private AgentObject agentSprites;
-    Vector2 lastDir = Vector2.zero;
-    Vector2 facing = Vector2.zero;
     private SpriteRenderer[] outlineLayers = new SpriteRenderer[(int)SpriteLayers.Max];
     private SpriteRenderer[] spriteLayers = new SpriteRenderer[(int)SpriteLayers.Max];
     private Color[] startColors = new Color[(int)SpriteLayers.Max];
@@ -66,71 +64,66 @@ public class AgentSprite
             spriteLayers[(int)SpriteLayers.Armour].enabled = false;
             spriteLayers[(int)SpriteLayers.ArmourTrim].enabled = false;
         }
-        SetDirection(new Vector2(1, -1));
-    }
-
-    public void SetDirection(Vector2 dir)
-    {
-        if (agentSprites == null) return;
-        if (dir == Vector2.zero) return;
-
-        if (dir.x != 0) facing.x = dir.x;
-        facing.y = dir.y;
-
-        dir.Normalize();
-
-        if (dir.magnitude > 0.1f)
-        {
-            SpriteDir spriteDir = GetSpriteDir(dir);
-            for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
-            {
-                spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
-
-                if (hasOutline)
-                {
-                    Sprite outlineSprite = agentSprites.GetOutline(spriteDir, i);
-                    if (outlineSprite != null)
-                    {
-                        outlineLayers[(int)i].sprite = outlineSprite;
-                    }
-                }
-            }
-
-            
-        }
+        SetDirection(new Vector3(1, 0, -1));
     }
 
     public void SetDirection(Vector3 dir)
     {
-        if (dir == Vector3.zero) return;
+        if (agentSprites == null) return;
 
-        SetDirection(new Vector2(dir.x, dir.z));
+        dir = Quaternion.Euler(0, -45, 0) * dir;
+
+        Debug.Log("Sprite dir " + dir);
+
+        //if (dir.x != 0) facing.x = dir.x;
+        //facing.y = dir.y;
+
+        //dir.Normalize();
+
+ 
+        SpriteDir spriteDir = GetSpriteDir(dir);
+        for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
+        {
+            spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
+
+            if (hasOutline)
+            {
+                Sprite outlineSprite = agentSprites.GetOutline(spriteDir, i);
+                if (outlineSprite != null)
+                {
+                    outlineLayers[(int)i].sprite = outlineSprite;
+                }
+            }
+        }
     }
+
+    //public void SetDirection(Vector3 dir)
+    //{
+    //    if (dir == Vector3.zero) return;
+
+    //    SetDirection(new Vector2(dir.x, dir.z));
+    //}
 
     float lastX = 0, lastY = 0;
 
 
-    private SpriteDir GetSpriteDir(Vector2 dir)
+    private SpriteDir GetSpriteDir(Vector3 dir)
     {
-        if (dir.x == 0) dir.x = lastX;
-        else lastX = dir.x;
+        SpriteDir spriteDir = SpriteDir.DownLeft;
 
-        if (dir.y == 0) dir.y = lastY;
-        else lastY = dir.y;
 
-        bool up = dir.y > 0;
-        bool down = dir.y <= 0;
-        bool left = dir.x < 0;
-        bool right = dir.x > 0;
+        if (dir.z > 0f)
+        {
+            if (dir.x > 0f) spriteDir = SpriteDir.UpRight;
+            else if (dir.x < 0f) spriteDir = SpriteDir.UpLeft;
+        }
+        else if (dir.z < 0f)
+        {
+            if (dir.x > 0f) spriteDir = SpriteDir.DownRight;
+            else if (dir.x < 0f) spriteDir = SpriteDir.DownLeft;
+        }
 
-        SpriteDir SpriteDir = SpriteDir.DownLeft;
-
-        if (up && right) SpriteDir = SpriteDir.UpRight;
-        else if (up && left) SpriteDir = SpriteDir.UpLeft;
-        else if (down && right) SpriteDir = SpriteDir.DownRight;
-        else if (down && left) SpriteDir = SpriteDir.DownLeft;
-
-        return SpriteDir;
+        return spriteDir;
     }
 
     public void ShowOverlay(bool show)

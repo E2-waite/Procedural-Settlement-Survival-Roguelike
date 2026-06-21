@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using static CommandSystem;
 
-public class CommandPanel : MonoBehaviour
+public class ActionPanel : MonoBehaviour
 {
-    [SerializeField] private CommandWidget commandWidget;
-    public CommandTypeCatalog commandCatalog;
+    [SerializeField] private ActionWidget commandWidget;
+    public ActionTypeCatalog actionCatalog;
     public void Init(GameContext context)
     {
         
@@ -31,6 +31,6 @@ public class CommandPanel : MonoBehaviour
     {
         commandWidget.gameObject.SetActive(true);
         commandWidget.UpdateMarker(0, 0, false);
-        commandWidget.Show(commandCatalog.GetObject(type));
+        commandWidget.Show(actionCatalog.GetObject(type));
     }
 }

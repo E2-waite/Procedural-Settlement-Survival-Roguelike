@@ -143,6 +143,7 @@ public class AgentSquad
                     Mathf.FloorToInt(targetPos.z));
 
             GridTile slotTile = grid.GetTile(gridPos);
+            unit.LookTo(facing);
 
             if (slotTile != null && slotTile.IsEmpty)
             {
@@ -180,9 +181,25 @@ public class AgentSquad
 
         foreach (Agent agent in agents)
         {
-            agent.LookTo(facing);
-
             agent.FormationPos = (facing * commandDist) + (rotation * CommandFormationPos(agent));
+        }
+    }
+
+    public void UpdateMarkers(bool commanding, Vector3 playerPos)
+    {
+        foreach (Unit unit in agents)
+        {
+            if (unit == null) continue;
+
+            if (commanding)
+            {
+                Vector3 targetPos = playerPos + unit.FormationPos;
+                unit.UpdateMarkerPos(targetPos);
+            }
+            else
+            {
+                unit.SetMarkerUpdating();
+            }
         }
     }
 }

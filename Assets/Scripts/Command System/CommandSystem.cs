@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static GlobalDefs;
+using static UnityEngine.GraphicsBuffer;
 public class CommandSystem
 {
     public enum CommandState
@@ -154,6 +155,11 @@ public class CommandSystem
         }
     }
 
+    public void CommandMove(HoverTarget target)
+    {
+        currentSquad.CommandMove(target.Tile, player.transform.position);
+    }
+
     AgentSquad GetSquad(Agent agent)
     {
         if (agent.HasSquad)
@@ -175,5 +181,12 @@ public class CommandSystem
         if (currentSquad == null || currentSquad.Size == 0) return;
 
         currentSquad.SetFormationDir(rot);
+    }
+
+    public void UpdateCommandMarkers(bool commanding)
+    {
+        if (currentSquad == null || player == null) return;
+
+        currentSquad.UpdateMarkers(commanding, player.transform.position);
     }
 }

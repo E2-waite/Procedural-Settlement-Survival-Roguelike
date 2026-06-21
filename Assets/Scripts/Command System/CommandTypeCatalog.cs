@@ -2,18 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using static CommandSystem;
 [CreateAssetMenu]
-public class CommandTypeCatalog : ScriptableObject
+public class ActionTypeCatalog : ScriptableObject
 {
-    public CommandTypeObject Move;
-    public CommandTypeObject Build;
-    public CommandTypeObject Attack;
-    public CommandTypeObject Defend;
-    public CommandTypeObject Gather;
-    public CommandTypeObject Convert;
+    public ActionTypeObject Move;
+    public ActionTypeObject Build;
+    public ActionTypeObject Attack;
+    public ActionTypeObject Defend;
+    public ActionTypeObject Gather;
+    public ActionTypeObject Convert;
 
-    public CommandTypeObject GetObject(InteractType type)
+    public ActionTypeObject GetObject(InteractType type)
     {
-        CommandTypeObject commandType = Move;
+        ActionTypeObject commandType = Move;
 
         switch (type)
         {
