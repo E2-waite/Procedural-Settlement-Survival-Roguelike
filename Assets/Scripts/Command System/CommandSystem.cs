@@ -51,7 +51,7 @@ public class CommandSystem
     {
         if (target.IsTile)
         {
-            currentSquad.CommandMove(target.Tile, target.Position);
+            currentSquad.CommandMove(target.Tile, player.transform.position);
         }
         else if (target.IsEnemy)
         {
@@ -170,10 +170,10 @@ public class CommandSystem
         }
     }
 
-    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    public void OnLookChanged(Quaternion rot)
     {
         if (currentSquad == null || currentSquad.Size == 0) return;
 
-        currentSquad.SetFormationDir(vec, rot);
+        currentSquad.SetFormationDir(rot);
     }
 }

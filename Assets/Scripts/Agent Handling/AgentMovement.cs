@@ -50,7 +50,7 @@ public class AgentMovement
         pathIndex = 0;
     }
 
-    public bool TargetReached => agent.transform.position == targetPosition;
+    public bool TargetReached => agent.body.transform.position == targetPosition;
     public bool HasPath => !(path == null || path.Count == 0);
 
     public void ClearPath()
@@ -68,37 +68,37 @@ public class AgentMovement
 
     public void FollowPath()
     {
-        float targetDist = Vector3.Distance(agent.transform.position, targetPosition);
+        float targetDist = Vector3.Distance(agent.body.transform.position, targetPosition);
         if (path != null && path.Count > 0 && pathIndex < path.Count)
         {
             Vector2Int currentTarget = path[pathIndex];
 
             Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
 
-            Vector3 pathDir = (targetPos - agent.transform.position).normalized;
+            Vector3 pathDir = (targetPos - agent.body.transform.position).normalized;
             //Vector3 swarmDir = SwarmDirection();
             Vector3 swarmDir = Vector3.zero;
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
-            Vector3 movePos = agent.transform.position + (moveDir * moveSpeed * Time.deltaTime);
+            Vector3 movePos = agent.body.transform.position + (moveDir * moveSpeed * Time.deltaTime);
             movePos.y = 0;
-            agent.transform.position = movePos;
+            agent.body.transform.position = movePos;
 
-            if ((agent.transform.position - targetPos).sqrMagnitude < reachedThresh)
+            if ((agent.body.transform.position - targetPos).sqrMagnitude < reachedThresh)
             {
                 pathIndex++;
             }
         }
         else if (targetDist < 5f && targetDist > 0.01f) // If we're close to the target position, move to the target
         {
-            moveDir = (targetPosition - agent.transform.position).normalized;
-            Vector3 movePos = agent.transform.position + (moveDir * moveSpeed * Time.deltaTime);
+            moveDir = (targetPosition - agent.body.transform.position).normalized;
+            Vector3 movePos = agent.body.transform.position + (moveDir * moveSpeed * Time.deltaTime);
             movePos.y = 0;
-            agent.transform.position = movePos;
+            agent.body.transform.position = movePos;
         }
         else if (targetDist <= 0.01f)
         {
-            agent.transform.position = targetPosition;
+            agent.body.transform.position = targetPosition;
         }
     }
 
@@ -111,7 +111,7 @@ public class AgentMovement
         {
             if (nearby == null || nearby == agent) continue;
 
-            Vector3 diff = agent.transform.position - nearby.transform.position;
+            Vector3 diff = agent.body.transform.position - nearby.transform.position;
             float dist = diff.magnitude;
 
             if (dist < swarmRadius && dist > 0.0001f)

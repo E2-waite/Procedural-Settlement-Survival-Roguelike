@@ -20,7 +20,7 @@ public class Destructable : MonoBehaviour
     public float deathTime = 0.5f;
     private bool dead = false;
     public bool IsDead => dead;
-    public Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
+    public virtual Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
     // Handles receiving hits from units. Returns true if target is dead
     public virtual bool Hit(Destructable source, float damage, Vector3 dir)

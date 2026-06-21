@@ -16,6 +16,6 @@ public interface IInteractionHandler
     void OnEscape();
     void OnFKey();
     void OnMoveInput(Vector2 move);
-    void OnLookChanged(Vector3 vec, Quaternion rot);
+    void OnLookChanged(Quaternion rot);
 
 }

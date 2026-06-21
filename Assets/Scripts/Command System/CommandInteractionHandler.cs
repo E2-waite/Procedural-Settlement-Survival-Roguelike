@@ -163,7 +163,7 @@ public class CommandInteractionHandler : IInteractionHandler
     {
 
     }
-    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    public void OnLookChanged(Quaternion rot)
     {
 
     }

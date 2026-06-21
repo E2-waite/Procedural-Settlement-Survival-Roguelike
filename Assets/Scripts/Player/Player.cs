@@ -65,9 +65,9 @@ public class Player : Destructable
         fire?.Update();
     }
 
-    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    public void OnLookChanged(Quaternion rot)
     {
-        sprite?.SetDirection(vec);
+        sprite?.SetDirection(rot * Vector3.forward);
     }
 
     FireBuilding FindFire()

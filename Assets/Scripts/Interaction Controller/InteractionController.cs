@@ -27,7 +27,6 @@ public class InteractionController : MonoBehaviour
     private WorldGrid grid;
     private HighlightHandler highlighter = new HighlightHandler();
     private Player player;
-    private Vector3 lookVec;
     private Quaternion lookRot, lastRot;
 
     public void Init(GameContext context)
@@ -156,15 +155,15 @@ public class InteractionController : MonoBehaviour
     private void UpdateLook(RaycastHit hit)
     {
         if (player == null) return;
-
-        lookVec = hit.point - player.transform.position;
-        lookRot = SnappedRotation(lookVec);
+        lookRot = SnappedRotation(hit.point - player.transform.position);
 
         if (lookRot != lastRot)
         {
             lastRot = lookRot;
-            player?.OnLookChanged(lookVec, lookRot);
-            currentHandler?.OnLookChanged(lookVec, lastRot);
+            Debug.Log("Look rot: " + lookRot.eulerAngles);
+
+            player?.OnLookChanged(lookRot);
+            currentHandler?.OnLookChanged(lastRot);
         }
     }
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static AgentObject;
-using static Calculations;
+
 public class AgentSquad
 {
     private List<Agent> agents = new List<Agent>(); // List of agents of all types
@@ -17,20 +17,19 @@ public class AgentSquad
     public AgentFormation FollowFormation(RoleType agentType) => followFormation[(int)agentType];
 
     WorldGrid grid;
-    Player player;
+    private float commandDist = 7.5f; // The distance from the player that squads are commanded to
 
-
-    private Vector3 facingDir = Vector3.zero;
+    private Vector3 facing = Vector3.zero;
     public Vector3 FacingDir
     {
-        get { return facingDir; }
-        set { facingDir = value; }
+        get { return facing; }
+        set { facing = value; }
     }
-    private Quaternion facingRot = Quaternion.identity;
+    private Quaternion rotation = Quaternion.identity;
     public Quaternion FacingRot
     {
-        get { return facingRot; }
-        set { facingRot = value; }
+        get { return rotation; }
+        set { rotation = value; }
     }
 
     List <Color> squadColors = new List<Color>()
@@ -60,7 +59,6 @@ public class AgentSquad
         }
         World world = context.world;
         grid = world.Context.grid;
-        player = context.player;
     }
 
     public void AddAgent(Agent agent)
@@ -73,6 +71,8 @@ public class AgentSquad
             agent.SquadTypeIndex = agentTypes[(int)agent.AgentType].Count;
             agentTypes[(int)agent.AgentType].Add(agent);
             agent.SetSquad(this);
+
+            agent.FormationPos = (facing * commandDist) + (rotation * CommandFormationPos(agent));
         }
     }
 
@@ -132,13 +132,11 @@ public class AgentSquad
         return Vector3.zero;
     }
 
-    public void CommandMove(GridTile targetTile, Vector3 worldPos)
+    public void CommandMove(GridTile targetTile, Vector3 playerPos)
     {
         foreach (Unit unit in agents)
         {
-            Vector3 offset = facingRot * CommandFormationPos(unit);
-
-            Vector3 targetPos = worldPos + offset;
+            Vector3 targetPos = playerPos + unit.FormationPos;
 
             Vector2Int gridPos = new Vector2Int(
                     Mathf.FloorToInt(targetPos.x),
@@ -175,14 +173,16 @@ public class AgentSquad
         
     }
 
-    public void SetFormationDir(Vector3 vec, Quaternion rot)
+    public void SetFormationDir(Quaternion rot)
     {
-        facingDir = vec;
-        facingRot = rot;
+        facing = rot * Vector3.forward;
+        rotation = rot;
 
         foreach (Agent agent in agents)
         {
-            agent.LookTo(vec);
+            agent.LookTo(facing);
+
+            agent.FormationPos = (facing * commandDist) + (rotation * CommandFormationPos(agent));
         }
     }
 }

@@ -308,6 +308,11 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 3350735279981303970}
   m_SourcePrefab: {fileID: 100100000, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
+--- !u!1 &196056609702628562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3483460884692491607, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
+  m_PrefabInstance: {fileID: 3670210793076494725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1180303928026250014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2490065555535538843, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
@@ -350,8 +355,9 @@ MonoBehaviour:
   chunkTimer: 0
   chunk: {fileID: 0}
   projectilePrefab: {fileID: 3566523652595108076, guid: 6e108ec38cbcf2e43a43edc377630a47, type: 3}
-  body: {fileID: 1180303928026250014}
-  outline: {fileID: 7889402355236619335}
+  body: {fileID: 196056609702628562}
+  spriteObj: {fileID: 1180303928026250014}
+  outlineObj: {fileID: 7889402355236619335}
   followDist: 1.5
   markerSprite: {fileID: 1317499300034250793}
   state: 0

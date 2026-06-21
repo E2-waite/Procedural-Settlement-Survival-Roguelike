@@ -67,8 +67,10 @@ public class Unit : Agent
 
         if (squad != null && state != State.Following)
         {
-            Sprite?.SetDirection(-squad.FacingDir);
+            Sprite?.SetDirection(squad.FacingDir);
         }
+
+        markerSprite.transform.position = body.transform.position;
     }
 
     public bool Recruit()
@@ -98,7 +100,7 @@ public class Unit : Agent
     // Updates the agent object on convert or init
     public void UpdateObject(AgentObject agentObject)
     {
-        Sprite.Init(body.transform, outline.transform, agentObject);
+        Sprite.Init(spriteObj.transform, outlineObj.transform, agentObject);
         roleType = agentObject.AgentType;
     }
 

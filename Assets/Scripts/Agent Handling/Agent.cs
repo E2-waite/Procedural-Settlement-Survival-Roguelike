@@ -33,8 +33,11 @@ public class Agent : Destructable
     public GameObject projectilePrefab;
     protected virtual Color HighlightColor => Color.white;
     public GameObject body;
-    public GameObject outline;
-
+    public GameObject spriteObj;
+    public GameObject outlineObj;
+    public Vector3 FormationPos { get; set; } = Vector3.zero;
+    public override Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(body.transform.position.x), Mathf.FloorToInt(body.transform.position.z));
+    public Vector3 WorldPos => body.transform.position;
 
     public virtual void Init(GameContext context)
     {

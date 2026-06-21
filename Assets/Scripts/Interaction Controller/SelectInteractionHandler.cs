@@ -108,8 +108,8 @@ public class SelectInteractionHandler : IInteractionHandler
         player.OnMove(move);
     }
 
-    public void OnLookChanged(Vector3 vec, Quaternion rot)
+    public void OnLookChanged(Quaternion rot)
     {
-        commandSystem?.OnLookChanged(vec, rot);
+        commandSystem?.OnLookChanged(rot);
     }
 }

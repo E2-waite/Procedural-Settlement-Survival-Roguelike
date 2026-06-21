@@ -38,7 +38,7 @@ public class Enemy : Agent
         this.settlement = settlement;
         this.spawnTile = spawnTile;
         targeting.Init(context, this);
-        Sprite.Init(body.transform, outline.transform, context.agentCatalog.enemy);
+        Sprite.Init(spriteObj.transform, outlineObj.transform, context.agentCatalog.enemy);
         Combat?.Init(this, Targeting, CombatType.Melee);
         health.Fill();
     }

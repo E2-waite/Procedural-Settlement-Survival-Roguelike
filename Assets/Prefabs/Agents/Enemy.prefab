@@ -272,6 +272,11 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 604582103037652673}
   m_SourcePrefab: {fileID: 100100000, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
+--- !u!1 &2903146594555067331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3483460884692491607, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
+  m_PrefabInstance: {fileID: 1737739944740693652}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4023463472726660831 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3443995821105180747, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
@@ -304,19 +309,15 @@ MonoBehaviour:
   chunkTimer: 0
   chunk: {fileID: 0}
   projectilePrefab: {fileID: 3566523652595108076, guid: 6e108ec38cbcf2e43a43edc377630a47, type: 3}
-  body: {fileID: 4220941764580019215}
-  outline: {fileID: 5156143994188985174}
+  body: {fileID: 2903146594555067331}
+  spriteObj: {fileID: 4220941764580019215}
+  outlineObj: {fileID: 5156143994188985174}
   combat:
     state: 0
     lastState: 0
     attackDist: 1
     chaseDist: 3
     attackDamage: 10
-    defendingTile:
-      type: 0
-      chunk: {fileID: 0}
-      position: {x: 0, y: 0}
-      worldPosition: {x: 0, y: 0, z: 0}
   fireCheckInterval: 0.5
   fireDetectDist: 30
   settlement: {fileID: 0}
