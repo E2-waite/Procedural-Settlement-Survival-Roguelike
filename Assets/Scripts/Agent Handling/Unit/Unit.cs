@@ -160,7 +160,7 @@ public class Unit : Agent
         Vector3 formationPos = Squad == null ? Vector3.zero : Squad.FollowFormationPos(this);
         if (squad != null)
         {
-            formationPos = squad.FacingRot * formationPos;
+            formationPos = squad.FollowRot * formationPos;
         }
 
         return player.transform.position + formationPos;
@@ -247,10 +247,7 @@ public class Unit : Agent
         commanding = true;
         player = thePlayer;
         markerSprite.enabled = true;
-        if (HasSquad)
-            markerSprite.color = Squad.color;
-        else
-            markerSprite.color = Color.green;
+        markerSprite.color = Color.green;
         spawner?.RemoveAgent(this);
     }
 
@@ -262,7 +259,7 @@ public class Unit : Agent
     }
 
     // Commands unit to move to the passed tile
-    public virtual void Command(GridTile tile, Vector3 pos)
+    public virtual void MoveTo(GridTile tile, Vector3 pos)
     {
         role?.Command(tile, pos);
 

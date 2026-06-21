@@ -24,14 +24,13 @@ public class CommandSystem
 
     public CommandState commandState = CommandState.Unit;
     public CommandState State => commandState;
-    // Units in this list respond to player right-click commands.
-    //private List<Unit> commanding = new List<Unit>();
     private Player player;
     private AgentSquad currentSquad;
     public bool IsCommanding => currentSquad != null && currentSquad.Size > 0;
+    public AgentSquad CurrentSquad => currentSquad;
     List<AgentSquad> squads = new List<AgentSquad>();
     GameContext gameContext;
-
+    Quaternion lookRot;
 
     public CommandSystem(GameContext context)
     {
@@ -50,11 +49,7 @@ public class CommandSystem
     // Commands all following units to interact with the target
     public void Command(HoverTarget target)
     {
-        if (target.IsTile)
-        {
-            currentSquad.CommandMove(target.Tile, player.transform.position);
-        }
-        else if (target.IsEnemy)
+        if (target.IsEnemy)
         {
             foreach (Unit unit in currentSquad.Agents)
             {
@@ -148,16 +143,12 @@ public class CommandSystem
     }
     public void CommandFollow()
     {
-        if (currentSquad == null) return;
-        foreach (Unit unit in currentSquad.Agents)
-        {
-            unit.StartFollowing();
-        }
+        currentSquad?.CommandFollow();
     }
 
     public void CommandMove(HoverTarget target)
     {
-        currentSquad.CommandMove(target.Tile, player.transform.position);
+        currentSquad?.CommandMove(lookRot);
     }
 
     AgentSquad GetSquad(Agent agent)
@@ -168,7 +159,6 @@ public class CommandSystem
         }
         else
         {
-            Debug.Log("New squad");
             AgentSquad squad = new AgentSquad();
             squad.Init(gameContext, squads.Count);
             squads.Add(squad);
@@ -176,17 +166,16 @@ public class CommandSystem
         }
     }
 
-    public void OnLookChanged(Quaternion rot)
+    public void UpdateLookRot(Quaternion rot)
     {
-        if (currentSquad == null || currentSquad.Size == 0) return;
-
-        currentSquad.SetFormationDir(rot);
+        lookRot = rot;
+        currentSquad?.UpdateFollowDir(rot);
     }
 
-    public void UpdateCommandMarkers(bool commanding)
+    public void AimFormation(bool commanding)
     {
-        if (currentSquad == null || player == null) return;
-
-        currentSquad.UpdateMarkers(commanding, player.transform.position);
+        currentSquad?.UpdateMarkers(commanding, lookRot);
     }
+
+
 }

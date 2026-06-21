@@ -1,13 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static AgentObject;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class AgentSquad
 {
+    enum SquadState
+    {
+        None,
+        Follow,
+        Formation
+    }
+    SquadState state = SquadState.None;
     private List<Agent> agents = new List<Agent>(); // List of agents of all types
     private List<Agent>[] agentTypes = new List<Agent>[(int)RoleType.Max]; // Lists of agents of a specific type
 
-    public Color color = Color.white;
     int id;
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
@@ -18,36 +25,20 @@ public class AgentSquad
 
     WorldGrid grid;
     private float commandDist = 7.5f; // The distance from the player that squads are commanded to
-
+    private Player player;
     private Vector3 facing = Vector3.zero;
     public Vector3 FacingDir
     {
         get { return facing; }
         set { facing = value; }
     }
-    private Quaternion rotation = Quaternion.identity;
-    public Quaternion FacingRot
-    {
-        get { return rotation; }
-        set { rotation = value; }
-    }
-
-    List <Color> squadColors = new List<Color>()
-    {
-       Color.green,
-       Color.blue,
-       Color.red,
-       Color.yellow,
-       Color.purple,
-       Color.orange,
-       Color.pink
-    };
-
+    private Quaternion formationRotation = Quaternion.identity;
+    private Quaternion followRot = Quaternion.identity;
+    public Quaternion FollowRot => followRot;
 
     public void Init(GameContext context, int index)
     {
         id = index;
-        color = squadColors[id];
         commandFormation[(int)RoleType.Melee] = context.formationCatalog.meleeCommand;
         followFormation[(int)RoleType.Melee] = context.formationCatalog.meleeFollow;
         commandFormation[(int)RoleType.Ranged] = context.formationCatalog.rangedCommand;
@@ -59,27 +50,26 @@ public class AgentSquad
         }
         World world = context.world;
         grid = world.Context.grid;
+        player = context.player;
     }
 
     public void AddAgent(Agent agent)
     {
         if (!agents.Contains(agent))
         {
-            Debug.Log("Adding " + agent.name + " to squad");
             agent.SquadIndex = agents.Count;
             agents.Add(agent);
             agent.SquadTypeIndex = agentTypes[(int)agent.AgentType].Count;
             agentTypes[(int)agent.AgentType].Add(agent);
             agent.SetSquad(this);
 
-            agent.FormationPos = (facing * commandDist) + (rotation * CommandFormationPos(agent));
+            if (state == SquadState.Formation)
+                MoveToFormation((Unit)agent);
         }
     }
 
     public void RemoveAgent(Agent agent)
     {
-        Debug.Log("Removing " + agent.name + " from squad");
-
         agents.Remove(agent);
         agentTypes[(int)agent.AgentType].Remove(agent);
         agent.ClearSquad();
@@ -115,7 +105,11 @@ public class AgentSquad
             List<AgentFormation.Slot> formationSlots = followFormation[(int)agent.AgentType]?.GetSlots();
 
             if (formationSlots == null || agent.SquadTypeIndex >= formationSlots.Count) return Vector3.zero;
-            else return formationSlots[agent.SquadTypeIndex].pos;
+            else
+            {
+
+                return formationSlots[agent.SquadTypeIndex].pos;
+            }
         }
         return Vector3.zero;
     }
@@ -132,27 +126,51 @@ public class AgentSquad
         return Vector3.zero;
     }
 
-    public void CommandMove(GridTile targetTile, Vector3 playerPos)
+    public void CommandFollow()
     {
+        state = SquadState.Follow;
         foreach (Unit unit in agents)
         {
-            Vector3 targetPos = playerPos + unit.FormationPos;
+            if (unit == null) continue;
+            unit.StartFollowing();
+        }
+    }
 
-            Vector2Int gridPos = new Vector2Int(
-                    Mathf.FloorToInt(targetPos.x),
-                    Mathf.FloorToInt(targetPos.z));
+    public void UpdateFollowDir(Quaternion rotation)
+    {
+        followRot = rotation;
+    }
 
-            GridTile slotTile = grid.GetTile(gridPos);
-            unit.LookTo(facing);
 
-            if (slotTile != null && slotTile.IsEmpty)
-            {
-                unit.Command(slotTile, targetPos);
-            }
-            else
-            {
-                unit.Command(targetTile, targetPos);
-            }
+    public void CommandMove(Quaternion rot)
+    {
+        state = SquadState.Formation;
+        facing = rot * Vector3.forward;
+        formationRotation = rot;
+
+        foreach (Unit unit in agents)
+        {
+            MoveToFormation(unit);
+        }
+    }
+
+    private void MoveToFormation(Unit unit)
+    {
+        if (unit == null) return;
+
+        unit.FormationPos = (facing * commandDist) + (formationRotation * CommandFormationPos(unit));
+        Vector3 targetPos = player.transform.position + unit.FormationPos;
+
+        Vector2Int gridPos = new Vector2Int(
+                Mathf.FloorToInt(targetPos.x),
+                Mathf.FloorToInt(targetPos.z));
+
+        GridTile slotTile = grid.GetTile(gridPos);
+        unit.LookTo(facing);
+
+        if (slotTile != null && slotTile.IsEmpty)
+        {
+            unit.MoveTo(slotTile, targetPos);
         }
     }
 
@@ -174,32 +192,43 @@ public class AgentSquad
         
     }
 
-    public void SetFormationDir(Quaternion rot)
+    public void UpdateMarkers(bool commanding, Quaternion rot)
     {
-        facing = rot * Vector3.forward;
-        rotation = rot;
+        Vector3 newFacing = rot * Vector3.forward;
 
-        foreach (Agent agent in agents)
-        {
-            agent.FormationPos = (facing * commandDist) + (rotation * CommandFormationPos(agent));
-        }
-    }
-
-    public void UpdateMarkers(bool commanding, Vector3 playerPos)
-    {
         foreach (Unit unit in agents)
         {
             if (unit == null) continue;
 
             if (commanding)
             {
-                Vector3 targetPos = playerPos + unit.FormationPos;
-                unit.UpdateMarkerPos(targetPos);
+                Vector3 selectedPos = player.transform.position + (newFacing * commandDist) + (rot * CommandFormationPos(unit));
+                unit.UpdateMarkerPos(selectedPos);
             }
             else
             {
                 unit.SetMarkerUpdating();
             }
+        }
+    }
+
+    public void Highlight(Color color)
+    {
+        foreach (Agent agent in agents)
+        {
+            if (agent == null) continue;
+
+            agent.HighlightSelf(color);
+        }
+    }
+
+    public void ClearHighlight()
+    {
+        foreach (Agent agent in agents)
+        {
+            if (agent == null) continue;
+
+            agent.ClearHighlightSelf();
         }
     }
 }

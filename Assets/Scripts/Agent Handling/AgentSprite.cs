@@ -71,17 +71,7 @@ public class AgentSprite
     {
         if (agentSprites == null) return;
 
-        dir = Quaternion.Euler(0, -45, 0) * dir;
-
-        Debug.Log("Sprite dir " + dir);
-
-        //if (dir.x != 0) facing.x = dir.x;
-        //facing.y = dir.y;
-
-        //dir.Normalize();
-
- 
-        SpriteDir spriteDir = GetSpriteDir(dir);
+        SpriteDir spriteDir = GetSpriteDir(Quaternion.Euler(0, -45, 0) * dir);
         for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
         {
             spriteLayers[(int)i].sprite = agentSprites.GetSprite(spriteDir, i);
@@ -155,4 +145,15 @@ public class AgentSprite
             if (outlineLayers[(int)i] != null) outlineLayers[(int)i].enabled = show;
         }
     }
+
+    public void SetOutlineColor(Color color)
+    {
+        if (!hasOutline) return;
+
+        for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
+        {
+            if (outlineLayers[(int)i] != null) outlineLayers[(int)i].color = color;
+        }
+    }
 }
+

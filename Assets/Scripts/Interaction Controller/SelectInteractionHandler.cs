@@ -129,6 +129,6 @@ public class SelectInteractionHandler : IInteractionHandler
 
     public void OnLookChanged(Quaternion rot)
     {
-        commandSystem?.OnLookChanged(rot);
+        commandSystem?.UpdateLookRot(rot);
     }
 }

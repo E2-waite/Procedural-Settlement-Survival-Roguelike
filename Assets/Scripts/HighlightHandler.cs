@@ -17,7 +17,7 @@ public class HighlightHandler
 
         if (target.IsAgent)
         {
-            target.Agent.Highlight(false);
+            target.Agent.ClearHighlight();
         }
         else if (target.IsBuilding)
         {
@@ -31,7 +31,11 @@ public class HighlightHandler
 
         if (target.IsAgent)
         {
-            target.Agent.Highlight(true);
+            Agent agent = target.Agent;
+            if (!agent.HasSquad || agent.Squad != commandSystem.CurrentSquad)
+                target.Agent.Highlight(Color.white);
+            else
+                target.Agent.Highlight(Color.green);
         }
         else if (target.IsBuilding)
         {

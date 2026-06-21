@@ -51,7 +51,6 @@ public class Agent : Destructable
     protected virtual void Update()
     {
         UpdateChunk();
-        //sprite.SetDirection(movement.MoveDir());
         HandleStates();
     }
 
@@ -178,17 +177,42 @@ public class Agent : Destructable
     }
 
 
-    public void Highlight(bool active)
+    public void Highlight(Color color)
     {
-        highlighted = active;
+        if (squad == null)
+        {
+            HighlightSelf(color);
+        }
+        else
+        {
+            squad.Highlight(color);
+        }
+           
+    }
 
-        sprite.ShowOutline(active);
+    public void HighlightSelf(Color color)
+    {
+        highlighted = true;
+        sprite.ShowOutline(true);
+        sprite.OutlineColour(color);
+    }
 
-        //if (spriteRend != null)
-        //{
-        //    spriteRend.material.SetColor("_OutlineColor", HighlightColor);
-        //    spriteRend.material.SetFloat("_OutlineThickness", highlighted ? 3f : 0f);
-        //}
+    public void ClearHighlight()
+    {
+        if (squad == null)
+        {
+            ClearHighlightSelf();
+        }
+        else
+        {
+            squad.ClearHighlight();
+        }
+    }
+
+    public void ClearHighlightSelf()
+    {
+        highlighted = false;
+        sprite.ShowOutline(false);    
     }
 
     protected override void OnDeathStart()

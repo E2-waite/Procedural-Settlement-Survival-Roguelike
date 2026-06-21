@@ -57,11 +57,11 @@ public class CommandInteractionHandler : IInteractionHandler
     }
     public void OnRightHeld(Vector2 diff, float time)
     {
-        commandSystem?.UpdateCommandMarkers(true);
+        commandSystem?.AimFormation(true);
     }
     public void OnRightUp(Vector2 diff, float time)
     {
-        commandSystem?.UpdateCommandMarkers(false);
+        commandSystem?.AimFormation(false);
         commandSystem?.CommandMove(controller.Target);
         controller.SetState(GameState.Select);
     }
@@ -79,6 +79,6 @@ public class CommandInteractionHandler : IInteractionHandler
     }
     public void OnLookChanged(Quaternion rot)
     {
-        commandSystem?.OnLookChanged(rot);
+        commandSystem?.UpdateLookRot(rot);
     }
 }
