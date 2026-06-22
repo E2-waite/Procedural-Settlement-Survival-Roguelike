@@ -29,7 +29,7 @@ public class InteractionController : MonoBehaviour
     private HighlightHandler highlighter = new HighlightHandler();
     private Player player;
     private Quaternion lookRot, lastRot;
-
+    private RaycastHit lastHit;
     public void Init(GameContext context)
     {
         if (!initialized)
@@ -129,13 +129,16 @@ public class InteractionController : MonoBehaviour
             return;
         }
 
-        highlighter.Clear(target);
-        // Updates the hover target with the ray hit
-        target.Update(hit, grid);
-        highlighter.Set(target);
-
+        if (hit.transform != lastHit.transform)
+        {
+            highlighter.Clear(target);
+            // Updates the hover target with the ray hit
+            target.Update(hit, grid);
+            highlighter.Set(target);
+            lastHit = hit;
+        }
+        
         player.OnHover(hit);
-
 
         if (currentHandler != null) currentHandler.OnHover(target);
     }

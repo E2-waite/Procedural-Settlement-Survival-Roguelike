@@ -15,7 +15,7 @@ public class HighlightHandler
     {
         if (target == null) return;
 
-        if (target.IsAgent)
+        if (target.IsAgent && !target.Agent.Commanding)
         {
             target.Agent.ClearHighlight();
         }
@@ -34,8 +34,6 @@ public class HighlightHandler
             Agent agent = target.Agent;
             if (!agent.HasSquad || agent.Squad != commandSystem.CurrentSquad)
                 target.Agent.Highlight(Color.white);
-            else
-                target.Agent.Highlight(Color.green);
         }
         else if (target.IsBuilding)
         {

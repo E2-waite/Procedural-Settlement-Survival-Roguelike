@@ -161,6 +161,8 @@ public class AgentSquad
         unit.FormationPos = (facing * commandDist) + (formationRotation * CommandFormationPos(unit));
         Vector3 targetPos = player.transform.position + unit.FormationPos;
 
+        unit.UpdateMarker(targetPos);
+
         Vector2Int gridPos = new Vector2Int(
                 Mathf.FloorToInt(targetPos.x),
                 Mathf.FloorToInt(targetPos.z));
@@ -203,11 +205,7 @@ public class AgentSquad
             if (commanding)
             {
                 Vector3 selectedPos = player.transform.position + (newFacing * commandDist) + (rot * CommandFormationPos(unit));
-                unit.UpdateMarkerPos(selectedPos);
-            }
-            else
-            {
-                unit.SetMarkerUpdating();
+                unit.UpdateMarker(selectedPos);
             }
         }
     }

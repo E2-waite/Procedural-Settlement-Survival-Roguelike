@@ -124,7 +124,7 @@ public class AgentSprite
         }
     }
 
-    public void OutlineColour(Color color)
+    public void OutlineColor(Color color)
     {
         if (!hasOutline) return;
 
@@ -143,16 +143,6 @@ public class AgentSprite
             if ((i == SpriteLayers.Helmet && !agentSprites.ShowHelmet) || (i == SpriteLayers.Armour && !agentSprites.ShowArmour)) continue;
 
             if (outlineLayers[(int)i] != null) outlineLayers[(int)i].enabled = show;
-        }
-    }
-
-    public void SetOutlineColor(Color color)
-    {
-        if (!hasOutline) return;
-
-        for (SpriteLayers i = SpriteLayers.Torso; i < SpriteLayers.Max; i++)
-        {
-            if (outlineLayers[(int)i] != null) outlineLayers[(int)i].color = color;
         }
     }
 }

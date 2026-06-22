@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static GlobalDefs;
-using static Calculations;
 public class Unit : Agent
 {
     public enum State
@@ -19,7 +18,6 @@ public class Unit : Agent
     private Faction faction = Faction.Neutral;
     public Faction Faction => faction;
     private bool commanding = false; // This unit is being commanded
-    public bool Commanding => commanding;
     private UnitSystem unitSystem;
     public override TargetType Type => TargetType.Agent;
     public SpriteRenderer markerSprite;
@@ -35,6 +33,7 @@ public class Unit : Agent
     private UnitSpawnerBuilding spawner;
     protected override Color HighlightColor => Color.green;
     private bool updateMarker = true;
+    public override bool Commanding => commanding;
     public override void Init(GameContext context)
     {
         base.Init(context);
@@ -65,8 +64,8 @@ public class Unit : Agent
 
         base.Update();
 
-        if (updateMarker)
-            markerSprite.transform.position = body.transform.position;
+        //if (updateMarker)
+        //    markerSprite.transform.position = body.transform.position;
     }
 
     public bool Recruit()
@@ -246,16 +245,19 @@ public class Unit : Agent
     {
         commanding = true;
         player = thePlayer;
-        markerSprite.enabled = true;
-        markerSprite.color = Color.green;
         spawner?.RemoveAgent(this);
+        Sprite?.ShowOutline(true);
+        Sprite?.OutlineColor(Color.green);
+        ShowMarker();
+
     }
 
     // Stops commanding this unit
     public virtual void StopCommanding()
     {
         commanding = false;
-        markerSprite.enabled = false;
+        Sprite?.ShowOutline(false);
+        HideMarker();
     }
 
     // Commands unit to move to the passed tile
@@ -337,17 +339,21 @@ public class Unit : Agent
 
         return null;
     }
-    // TODO: get nearby when the chunk's units change, rather than continuously every second
     #endregion
 
-    public void UpdateMarkerPos(Vector3 pos)
+    public void UpdateMarker(Vector3 pos)
     {
-        updateMarker = false;
+        markerSprite.enabled = true;
         markerSprite.transform.position = pos;
     }
 
-    public void SetMarkerUpdating()
+    void ShowMarker()
     {
-        updateMarker = true;
+        markerSprite.enabled = true;
+    }
+
+    public void HideMarker()
+    {
+        markerSprite.enabled = false;
     }
 }

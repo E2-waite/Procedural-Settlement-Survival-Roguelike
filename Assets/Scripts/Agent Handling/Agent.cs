@@ -38,7 +38,7 @@ public class Agent : Destructable
     public Vector3 FormationPos { get; set; } = Vector3.zero;
     public override Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(body.transform.position.x), Mathf.FloorToInt(body.transform.position.z));
     public Vector3 WorldPos => body.transform.position;
-
+    public virtual bool Commanding => false;
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -194,7 +194,7 @@ public class Agent : Destructable
     {
         highlighted = true;
         sprite.ShowOutline(true);
-        sprite.OutlineColour(color);
+        sprite.OutlineColor(color);
     }
 
     public void ClearHighlight()
