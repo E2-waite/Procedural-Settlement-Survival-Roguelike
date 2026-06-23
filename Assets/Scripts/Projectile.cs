@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        target?.Hit(source, damage, hitDir);
+        target?.OnHit(source, damage, hitDir);
 
         Destroy(gameObject);
     }

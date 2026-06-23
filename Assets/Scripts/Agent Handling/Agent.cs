@@ -37,8 +37,9 @@ public class Agent : Destructable
     public GameObject outlineObj;
     public Vector3 FormationPos { get; set; } = Vector3.zero;
     public override Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(body.transform.position.x), Mathf.FloorToInt(body.transform.position.z));
-    public Vector3 WorldPos => body.transform.position;
+    public override Vector3 WorldPos => body.transform.position;
     public virtual bool Commanding => false;
+
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -81,7 +82,7 @@ public class Agent : Destructable
     }
 
     // Request a path to the position
-    public void RequestPath(Vector2Int gridPos, bool includeResources = false)
+    public void RequestPath(Vector2Int gridPos, bool includeTarget = false)
     {
         movement.ClearPath();
 
@@ -108,6 +109,11 @@ public class Agent : Destructable
                     pathable[x, y] = false;
                 else
                     pathable[x, y] = true;
+
+                if (includeTarget && tilePos == gridPos)
+                {
+                    pathable[x, y] = true;
+                }
             }
         }
 
@@ -185,7 +191,10 @@ public class Agent : Destructable
         }
         else
         {
-            squad.Highlight(color);
+            if (squad.Faction == GlobalDefs.Faction.Friendly)
+                squad.Highlight(color);
+            else
+                HighlightSelf(color);
         }
            
     }
@@ -220,6 +229,7 @@ public class Agent : Destructable
         if (chunk != null)
         {
             chunk.RemoveAgent(this);
+            squad?.RemoveAgent(this);
         }
     }
 
@@ -239,7 +249,7 @@ public class Agent : Destructable
         dir.Normalize();
         while (velocity > 0)
         {
-            transform.position = transform.position + dir * velocity * Time.deltaTime;
+            body.transform.position = body.transform.position + dir * velocity * Time.deltaTime;
             velocity -= falloff * Time.deltaTime;
 
             yield return null;

@@ -43,10 +43,10 @@ public class HighlightHandler
             {
                 if (target.Building is ConvertBuilding) highlight = true;
 
-                if (commandSystem.State == CommandState.Fighter && target.Building.Owner == Faction.Enemy)
+                if (commandSystem.State == CommandState.Fighter && target.Building.Faction == Faction.Enemy)
                     highlight = true;
 
-                if (commandSystem.State == CommandState.Worker && target.Building.Owner == Faction.Unit)
+                if (commandSystem.State == CommandState.Worker && target.Building.Faction == Faction.Friendly)
                     highlight = true;
             }
 

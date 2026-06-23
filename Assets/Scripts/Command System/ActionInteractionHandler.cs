@@ -63,7 +63,7 @@ public class ActionInteractionHandler : IInteractionHandler
 
     InteractType WorkerInteractType()
     {
-        if (clickTarget.IsBuilding && clickTarget.Building.Owner == Faction.Unit)
+        if (clickTarget.IsBuilding && clickTarget.Building.Faction == Faction.Friendly)
         {
             if (!clickTarget.Building.Built)
             {
@@ -89,7 +89,7 @@ public class ActionInteractionHandler : IInteractionHandler
         }
         else if (clickTarget.IsBuilding)
         {
-            if (clickTarget.Building.Owner == Faction.Enemy)
+            if (clickTarget.Building.Faction == Faction.Enemy)
             {
                 return InteractType.Attack;
             }

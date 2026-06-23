@@ -19,7 +19,6 @@ public class Player : Destructable
     private WorldGrid grid;
     private ChunkStreaming chunkStreaming;
     private FireSystem fireSystem;
-    private GameType gameType;
     public GameObject body;
     public Vector3 hoverPos = Vector3.zero;
 

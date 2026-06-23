@@ -7,7 +7,8 @@ public interface IUnitRole
 
     void Tick();
 
-    void HandleStates();
+    void HandleWorkStates();
+    void HandleCombatStates();
 
     void OnReachedTarget();
 

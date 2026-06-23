@@ -39,7 +39,7 @@ public class EnemyTargetting : AgentTargetting
 
         foreach (Agent unit in units)
         {
-            AddTarget(unit, 10f);
+            AddTarget(unit, 0f);
         }
     }
 

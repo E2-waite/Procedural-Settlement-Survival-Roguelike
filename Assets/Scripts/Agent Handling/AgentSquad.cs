@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static AgentObject;
-using static UnityEngine.Rendering.DebugUI.Table;
-
+using static GlobalDefs;
 public class AgentSquad
 {
+    Faction faction = Faction.Neutral;
+    public Faction Faction => faction;
     enum SquadState
     {
         None,
@@ -15,7 +16,6 @@ public class AgentSquad
     private List<Agent> agents = new List<Agent>(); // List of agents of all types
     private List<Agent>[] agentTypes = new List<Agent>[(int)RoleType.Max]; // Lists of agents of a specific type
 
-    int id;
     public IEnumerable<Agent> Agents => agents;
     public int Size => agents.Count;
     private AgentFormation[] commandFormation = new AgentFormation[(int)RoleType.Max];
@@ -35,10 +35,17 @@ public class AgentSquad
     private Quaternion formationRotation = Quaternion.identity;
     private Quaternion followRot = Quaternion.identity;
     public Quaternion FollowRot => followRot;
+    private int capacity = int.MaxValue;
+    public Agent GetAgent(int id) => id >= agents.Count ? null : agents[id];
 
-    public void Init(GameContext context, int index)
+
+    //public AgentSquad(Faction faction)
+    //{
+    //    this.faction = faction;
+    //}
+
+    public void Init(GameContext context, Faction faction)
     {
-        id = index;
         commandFormation[(int)RoleType.Melee] = context.formationCatalog.meleeCommand;
         followFormation[(int)RoleType.Melee] = context.formationCatalog.meleeFollow;
         commandFormation[(int)RoleType.Ranged] = context.formationCatalog.rangedCommand;
@@ -51,6 +58,7 @@ public class AgentSquad
         World world = context.world;
         grid = world.Context.grid;
         player = context.player;
+        this.faction = faction;
     }
 
     public void AddAgent(Agent agent)
@@ -174,6 +182,11 @@ public class AgentSquad
         {
             unit.MoveTo(slotTile, targetPos);
         }
+    }
+
+    public virtual void Command(AgentSquad squad)
+    {
+        
     }
 
     // Commands agents

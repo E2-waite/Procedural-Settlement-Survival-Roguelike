@@ -15,7 +15,7 @@ public class SpawnerBuilding : Building
     public GameObject agentPrefab;
     protected WorldGrid grid;
     List<Agent> spawnedAgents = new List<Agent>();
-
+    protected bool spawning = true;
     public override void Init(GameContext context)
     {
         spawnTimer = spawnInterval;

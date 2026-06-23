@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840ed7441e8dd1244a9d4369c7847f56, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
+  roleType: 0
   showHelmet: 1
   showArmour: 0
   useSkinColorOnHands: 1
@@ -48,8 +49,8 @@ MonoBehaviour:
   helmet:
   - {fileID: 220285781, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
   - {fileID: -96398266, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
-  - {fileID: -807726652, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
   - {fileID: 2055271962, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+  - {fileID: -807726652, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
   helmetTrim:
   - {fileID: 220285781, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
   - {fileID: -96398266, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
@@ -71,6 +72,38 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   frontEquip:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  torsoOutline: {fileID: 0}
+  armourOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  headOutline: {fileID: 0}
+  helmetOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  backHandOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  frontHandOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  backEquipOutline:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  frontEquipOutline:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

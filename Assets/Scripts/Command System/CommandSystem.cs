@@ -69,8 +69,11 @@ public class CommandSystem
     {
         if (unit == null) return;
 
+        bool recruiting = false;
+
         if (unit.Faction == Faction.Neutral) // Try to recruit a unit if we have space
         {
+            recruiting = true;
             if (!unit.Recruit())
                 return;
         }
@@ -86,15 +89,16 @@ public class CommandSystem
         }
 
         
-        if (unit.HasSquad) // Start commanding existing squad if unit has one
+        if (unit.HasSquad && !recruiting) // Start commanding existing squad if unit has one
         {
-            foreach (Unit squadUnit in unit.Squad.Agents)
+            List<Agent> squadAgents = new List<Agent>(unit.Squad.Agents);
+            foreach (Unit squadUnit in squadAgents)
             {
                 squadUnit.StartCommanding(player);
             }
             currentSquad = unit.Squad;
         }
-        else if (!unit.HasSquad) // Create new squad or add unit to current squad
+        else // Create new squad or add unit to current squad
         {
             if (currentSquad == null)
                 currentSquad = GetSquad(unit);
@@ -153,14 +157,14 @@ public class CommandSystem
 
     AgentSquad GetSquad(Agent agent)
     {
-        if (agent.HasSquad)
+        if (agent.HasSquad && agent.Squad.Faction == Faction.Friendly)
         {
             return agent.Squad;
         }
         else
         {
             AgentSquad squad = new AgentSquad();
-            squad.Init(gameContext, squads.Count);
+            squad.Init(gameContext, Faction.Friendly);
             squads.Add(squad);
             return squad;
         }

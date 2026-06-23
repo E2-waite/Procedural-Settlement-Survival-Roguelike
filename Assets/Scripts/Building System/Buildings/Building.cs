@@ -4,7 +4,7 @@ using static GlobalDefs;
 public class Building : Destructable
 {
     protected Faction owner;
-    public virtual Faction Owner => Faction.Unit;
+    public virtual Faction Faction => Faction.Friendly;
     public override TargetType Type => TargetType.Building;
 
     [SerializeField] bool preBuild = false;
@@ -28,7 +28,7 @@ public class Building : Destructable
 
             if (outlineMat != null)
             {
-                outlineMat.SetColor("_OutlineColor", Owner == Faction.Enemy ? Color.red : Color.green);
+                outlineMat.SetColor("_OutlineColor", Faction == Faction.Enemy ? Color.red : Color.green);
             }
         }
 

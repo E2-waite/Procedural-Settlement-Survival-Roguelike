@@ -3,7 +3,7 @@ using static GlobalDefs;
 
 public class UnitSpawnerBuilding : SpawnerBuilding
 {
-    public override Faction Owner => Faction.Unit;
+    public override Faction Faction => Faction.Neutral;
 
     public override void Init(GameContext context)
     {

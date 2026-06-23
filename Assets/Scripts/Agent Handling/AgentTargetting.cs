@@ -13,6 +13,7 @@ public class AgentTargetting
 
     // Returns true if we have a target
     public bool HasTarget => currentTarget != null;
+    const float targetDist = 15f;
 
     public void Init(Agent agent)
     {
@@ -40,7 +41,7 @@ public class AgentTargetting
 
     public Vector3 TargetWorldPos()
     {
-        return currentTarget != null ? currentTarget.transform.position : Vector3.zero;
+        return currentTarget != null ? currentTarget.WorldPos : Vector3.zero;
     }
 
     // Add threat to the threat candidate associated with the target
@@ -65,7 +66,7 @@ public class AgentTargetting
         }
         else
         {
-            targetCandidate.threat += threat;
+            targetCandidate.distThreat += threat;
         }
     }
 
@@ -116,11 +117,11 @@ public class AgentTargetting
             }
             else if (candidate.target.isActiveAndEnabled)
             {
-                float dist = Vector3.Distance(agent.transform.position, candidate.target.transform.position);
-                if (dist <= 10)
+                float dist = Vector3.Distance(agent.WorldPos, candidate.target.WorldPos);
+                if (dist <= targetDist)
                 {
-                    float threat = 10 - dist;
-                    candidate.threat = threat;
+                    float threat = targetDist - dist;
+                    candidate.distThreat = threat;
                 }
             }
         }
@@ -134,7 +135,7 @@ public class AgentTargetting
         for (int i = Candidates.Count - 1; i >= 0; i--)
         {
             TargetCandidate candidate = Candidates[i];
-            float threat = candidate.baseThreat + candidate.threat;
+            float threat = candidate.baseThreat + candidate.distThreat;
             if (threat > highestVal)
             {
                 highestVal = threat;

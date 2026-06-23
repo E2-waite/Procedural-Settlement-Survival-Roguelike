@@ -55,17 +55,27 @@ public class FighterRole : IUnitRole
     public void OnHit(float damage, Destructable source)
     {
         // Target hit source
-        Targeting.AddTarget(source, damage);
+        Targeting.AddThreat(source, damage);
+
     }
 
-    public void HandleStates()
+    public void HandleWorkStates()
     {
 
+    }
+
+    public void HandleCombatStates()
+    {
+        if (combat == null) return;
+
+        combat.UpdateState();
+        combat.ExecuteState();
     }
 
     public void OnReachedTarget()
     {
         // Start defending if target reached when in moving state
+        unit.SetState(Unit.State.Combat);
         //Combat.StartDefending();
     }
 
@@ -84,6 +94,7 @@ public class FighterRole : IUnitRole
         {
             Targeting.Target(agent);
             unit.RequestPath(Targeting.TargetPos());
+            unit.SetState(Unit.State.Combat);
             return true;
         }
 
@@ -92,7 +103,7 @@ public class FighterRole : IUnitRole
 
     public bool Command(Building building)
     {
-        if (building.Owner == Faction.Enemy) // Target enemy buildings
+        if (building.Faction == Faction.Enemy) // Target enemy buildings
         {
             Targeting.Target(building);
             unit.RequestPath(Targeting.TargetPos());
@@ -100,8 +111,5 @@ public class FighterRole : IUnitRole
         }
         return false;
     }
-    #endregion
-    #region Targeting
-
     #endregion
 }

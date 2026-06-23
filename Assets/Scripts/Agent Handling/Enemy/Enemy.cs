@@ -10,8 +10,9 @@ public class Enemy : Agent
         Moving,
         Combat
     }
-    private State state = State.Combat;
 
+    [SerializeField] private State state = State.Combat;
+    public Faction faction = Faction.Enemy;
     [SerializeField] public AgentCombat combat = new AgentCombat();
     public AgentCombat Combat => combat;
 
@@ -24,11 +25,11 @@ public class Enemy : Agent
     FireBuilding targetFire;
     EnemySystem enemySystem;
     MainFireBuilding mainFire;
-    public EnemySpawnerBuilding settlement;
+    public EnemySettlementBuilding settlement;
     private GridTile spawnTile;
     public GridTile SpawnTile => spawnTile;
     protected override Color HighlightColor => Color.red;
-    public void Init(GameContext context, EnemySpawnerBuilding settlement, GridTile spawnTile)
+    public void Init(GameContext context, EnemySettlementBuilding settlement, GridTile spawnTile)
     {
         Init(context);
         enemySystem = context.enemySystem;
@@ -38,6 +39,7 @@ public class Enemy : Agent
         this.settlement = settlement;
         this.spawnTile = spawnTile;
         targeting.Init(context, this);
+        roleType = AgentObject.RoleType.Melee;
         Sprite.Init(spriteObj.transform, outlineObj.transform, context.agentCatalog.enemy);
         Combat?.Init(this, Targeting, CombatType.Melee);
         health.Fill();
@@ -48,8 +50,8 @@ public class Enemy : Agent
         if (IsDead) return;
         base.Update();
 
-        //Combat?.Tick();
-        //targeting?.Tick();
+        Combat?.Tick();
+        targeting?.Tick();
     }
 
     public void SetState(State state)
@@ -100,17 +102,22 @@ public class Enemy : Agent
         }
     }
 
+    public void OrderTo(Building building)
+    {
+        Targeting?.AddTarget(building, 100f);
+    }
+
 
     #region Taking Damage
 
-    public override bool Hit(Destructable source, float damage, Vector3 dir)
+    public override bool OnHit(Destructable source, float damage, Vector3 dir)
     {
-        if (base.Hit(source, damage, dir)) return true;
+        if (base.OnHit(source, damage, dir)) return true;
 
         if (source is Unit)
         {
             // Targets the unit that hit this enemy
-            Targeting.AddThreat(source, 100);
+            Targeting.AddThreat(source, damage);
             SetState(State.Combat);
         }
 

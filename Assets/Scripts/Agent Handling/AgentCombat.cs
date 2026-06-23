@@ -19,7 +19,7 @@ public class AgentCombat
     private Agent agent;
     private AgentTargetting targeting;
 
-    public float attackDist = 1f, chaseDist = 5f, attackDamage = 10f;
+    public float attackDist = 1f, chaseDist = 10f, attackDamage = 10f;
     protected float attackInterval = 1.5f, attackTimer = 0;
     // Potential targets decay over time so units eventually stop caring about distant threats.
     bool initialized = false;
@@ -47,9 +47,6 @@ public class AgentCombat
         {
             attackTimer -= Time.deltaTime;
         }
-
-        UpdateState();
-        ExecuteState();
     }
 
     public void SetState(CombatState state)
@@ -85,7 +82,7 @@ public class AgentCombat
             // Start attacking if we have targets and in range
             SetState(CombatState.Attacking);
         }
-        else if (agent.AgentType == AgentObject.RoleType.Melee && InChaseRange())
+        else
         {
             // Start chasing if we have targets but not in range
             SetState(CombatState.Chasing);
@@ -95,6 +92,8 @@ public class AgentCombat
     // Executes the current combat state
     public void ExecuteState()
     {
+        if (agent.IsDead) return;
+
         switch (state)
         {
             case CombatState.Attacking:
@@ -121,7 +120,7 @@ public class AgentCombat
     public bool InAttackRange()
     {
         if (targeting?.Current == null) return false;
-        float dist = Vector3.Distance(agent.transform.position, targeting.Current.transform.position);
+        float dist = Vector3.Distance(agent.WorldPos, targeting.Current.WorldPos);
         return dist < attackDist;
     }
 
@@ -129,7 +128,7 @@ public class AgentCombat
     public bool InChaseRange()
     {
         if (targeting?.Current == null) return false;
-        float dist = Vector3.Distance(agent.transform.position, targeting.Current.transform.position);
+        float dist = Vector3.Distance(agent.WorldPos, targeting.Current.WorldPos);
         return dist < chaseDist;
     }
 
@@ -143,8 +142,8 @@ public class AgentCombat
 
         if (type == CombatType.Melee)
         {
-            Vector3 hitDir = targeting.Current.transform.position - agent.transform.position;
-            if (targeting.Current.Hit(agent, attackDamage, hitDir))
+            Vector3 hitDir = targeting.Current.WorldPos - agent.WorldPos;
+            if (targeting.Current.OnHit(agent, attackDamage, hitDir))
             {
 
             }
@@ -172,9 +171,9 @@ public class AgentCombat
         agent.movement.SetTargetPos(targeting.TargetWorldPos());
 
         // Request a new path only when there is no active path or pending request.
-        if (agent != null && !agent.pathRequested && agent.movement.TargetChanged)
+        if (agent != null && !agent.pathRequested && (agent.movement.TargetChanged || !agent.movement.HasPath))
         {
-            agent.RequestPath(targeting.TargetPos());
+            agent.RequestPath(targeting.TargetPos(), targeting.Current is Building);
         }
 
         agent?.movement.FollowPath();

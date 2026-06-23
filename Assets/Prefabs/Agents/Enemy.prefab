@@ -269,7 +269,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3443995821105180747, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 604582103037652673}
   m_SourcePrefab: {fileID: 100100000, guid: c0ab9626db92b874ba2520a9457fdfc7, type: 3}
 --- !u!1 &2903146594555067331 stripped
@@ -299,7 +299,7 @@ MonoBehaviour:
     max: 10
   deathTime: 0.5
   movement:
-    moveSpeed: 0
+    moveSpeed: 5
     pathWeight: 2
     swarmWeight: 1
     path: []

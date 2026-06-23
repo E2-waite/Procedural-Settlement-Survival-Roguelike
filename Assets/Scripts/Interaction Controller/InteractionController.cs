@@ -17,7 +17,7 @@ public class InteractionController : MonoBehaviour
 
     private LayerMask buildMask;
     private LayerMask commandMask;
-    private GameState currentState = GameState.Select;
+    [SerializeField] private GameState currentState = GameState.Select;
     private HoverTarget target = new HoverTarget();
     public HoverTarget Target => target;
     private bool initialized = false;
@@ -132,12 +132,11 @@ public class InteractionController : MonoBehaviour
         if (hit.transform != lastHit.transform)
         {
             highlighter.Clear(target);
-            // Updates the hover target with the ray hit
-            target.Update(hit, grid);
-            highlighter.Set(target);
             lastHit = hit;
         }
-        
+        target.Update(hit, grid);
+        highlighter.Set(target);
+
         player.OnHover(hit);
 
         if (currentHandler != null) currentHandler.OnHover(target);

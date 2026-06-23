@@ -6,7 +6,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject unitSpawnerPrefab;
     public GameObject enemySpawnerPrefab;
-
+    public GameObject firePrefab;
 
     [SerializeField] private GameContext context = new GameContext();
     World World => context.world;
@@ -17,6 +17,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
     CameraController CameraController => context.cameraController;
     UserInterface UserInterface => context.userInterface;
     TileMarker TileMarker => context.tileMarker;
+    DayNightSystem DayNightSystem => context.dayNightSystem;
 
     private void Start()
     {
@@ -35,10 +36,10 @@ public class PlaygroundBootstrapper : MonoBehaviour
         CameraController.Init(context);
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
-
+        DayNightSystem.Init(context);
         SpawnUnitSpawner(spawnTile);
-        //SpawnEnemySpawner(enemyTile);
-
+        SpawnEnemySpawner(enemyTile);
+        SpawnFire(spawnTile);
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }
@@ -54,6 +55,17 @@ public class PlaygroundBootstrapper : MonoBehaviour
         context.dayNightSystem = new DayNightSystem();
     }
 
+    // Spawns the initial fire
+    private void SpawnFire(GridTile tile)
+    {
+        GameObject fireObj = Instantiate(firePrefab, tile.worldPosition, Quaternion.identity);
+        MainFireBuilding fireBuilding = fireObj.GetComponent<MainFireBuilding>();
+        fireBuilding.Init(context);
+        tile.Build(fireBuilding);
+        fireBuilding.AddTile(tile);
+        context.mainFireBuilding = fireBuilding;
+    }
+
     // Spawns the player
     private void SpawnPlayer(GridTile tile)
     {
@@ -65,7 +77,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
     private void SpawnEnemySpawner(GridTile tile)
     {
         GameObject settlementObj = Instantiate(enemySpawnerPrefab, tile.worldPosition, Quaternion.identity);
-        EnemySpawnerBuilding settlement = settlementObj.GetComponent<EnemySpawnerBuilding>();
+        EnemySettlementBuilding settlement = settlementObj.GetComponent<EnemySettlementBuilding>();
         settlement.Init(context);
         settlement.AddTile(tile);
         tile.Build(settlement);
@@ -100,7 +112,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
             bool valid = true;
 
             float dist = Vector2Int.Distance(tile.position, context.spawnTile.position);
-            if (dist < 10 || dist > 25) continue;
+            if (dist < 25 || dist > 50) continue;
 
             foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
             {

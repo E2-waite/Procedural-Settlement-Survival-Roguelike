@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DayNightSystem
@@ -6,6 +7,8 @@ public class DayNightSystem
     private DayPhase phase;
     public DayPhase Phase => phase;
     DayNightHandler handler;
+
+    public event Action<DayPhase> PhaseChanged;
 
     public void Init(GameContext context)
     {
@@ -16,6 +19,9 @@ public class DayNightSystem
 
     public void SetPhase(DayPhase phase)
     {
+        if (this.phase == phase) return;
         this.phase = phase;
+
+        PhaseChanged?.Invoke(phase);
     }
 }

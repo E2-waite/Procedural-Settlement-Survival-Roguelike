@@ -15,7 +15,7 @@ public class FighterTargetting : AgentTargetting
 
         foreach (Agent enemy in enemies)
         {
-            AddTarget(enemy, 10f);
+            AddTarget(enemy, 0f);
         }
     }
 }

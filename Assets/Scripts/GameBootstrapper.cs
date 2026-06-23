@@ -100,7 +100,7 @@ public class GameBootstrapper : MonoBehaviour
     private void SpawnEnemySpawner(GridTile tile)
     {
         GameObject settlementObj = Instantiate(enemySpawnerPrefab, tile.worldPosition, Quaternion.identity);
-        EnemySpawnerBuilding settlement = settlementObj.GetComponent<EnemySpawnerBuilding>();
+        EnemySettlementBuilding settlement = settlementObj.GetComponent<EnemySettlementBuilding>();
         settlement.Init(context);
         settlement.AddTile(tile);
         tile.Build(settlement);

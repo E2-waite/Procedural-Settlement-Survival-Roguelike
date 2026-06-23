@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GlobalDefs;
 public class Destructable : MonoBehaviour
 {
     public enum TargetType
@@ -12,7 +12,6 @@ public class Destructable : MonoBehaviour
         Player,
         Max
     }
-
     public virtual TargetType Type => TargetType.Agent;
     [SerializeField] protected Health health = new Health();
     public Health Health => health;
@@ -22,8 +21,11 @@ public class Destructable : MonoBehaviour
     public bool IsDead => dead;
     public virtual Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.z));
 
+    public virtual Vector3 WorldPos => transform.position;
+
+
     // Handles receiving hits from units. Returns true if target is dead
-    public virtual bool Hit(Destructable source, float damage, Vector3 dir)
+    public virtual bool OnHit(Destructable source, float damage, Vector3 dir)
     {
         if (dead) return true; // Already dead
         else

@@ -9,6 +9,7 @@ public class Unit : Agent
         Working,
         Moving,
         Following,
+        Combat,
         Converting
     }
 
@@ -63,16 +64,13 @@ public class Unit : Agent
         if (IsDead) return; // Dead
 
         base.Update();
-
-        //if (updateMarker)
-        //    markerSprite.transform.position = body.transform.position;
     }
 
     public bool Recruit()
     {
         if (unitSystem.AddUnit(this))
         {
-            faction = Faction.Unit;
+            faction = Faction.Friendly;
             Debug.Log("Recruited " + name);
             return true;
         }
@@ -111,17 +109,15 @@ public class Unit : Agent
         }
     }
 
-    public void SetWorking()
-    {
-        SetState(State.Working);
-    }
-
     protected override void HandleStates()
     {
         switch(state)
         {
             case State.Working:
                 WorkingState(); break;
+
+            case State.Combat:
+                CombatState(); break;
 
             case State.Moving:
                 MovingState(); break;
@@ -147,7 +143,7 @@ public class Unit : Agent
             }
             else
             {
-                SetState(State.Working);
+                role?.OnReachedTarget();
             }
         }
     }
@@ -194,9 +190,14 @@ public class Unit : Agent
     protected virtual void WorkingState()
     {
         role?.Tick();
-        role?.HandleStates();
+        role?.HandleWorkStates();
     }
 
+    protected virtual void CombatState()
+    {
+        role?.Tick();
+        role?.HandleCombatStates();
+    }
 
     // Moves towards convert building and convert unit role when in range
     protected virtual void ConvertState()
@@ -225,9 +226,9 @@ public class Unit : Agent
     }
 
     // Handles receiving hits from another agent. Returns true if target is dead
-    public override bool Hit(Destructable source, float damage, Vector3 dir)
+    public override bool OnHit(Destructable source, float damage, Vector3 dir)
     {
-        bool died = base.Hit(source, damage, dir);
+        bool died = base.OnHit(source, damage, dir);
 
         if (!died)
         {
@@ -273,10 +274,7 @@ public class Unit : Agent
     // Commands unit to interact with an agent
     public virtual void Command(Agent agent)
     {
-        if (role != null && role.Command(agent))
-        {
-            SetState(State.Working);
-        }
+        role?.Command(agent);
     }
 
     // Commands unit to interact with a building
@@ -289,9 +287,9 @@ public class Unit : Agent
             if (!convertBuilding.SameType(role)) // Only convert if building is not of the same role type
                 StartConverting((ConvertBuilding)building);
         }
-        else if (role != null && role.Command(building))
+        else if (role != null)
         {
-            SetState(State.Working);
+            role.Command(building);
         }
     }
 

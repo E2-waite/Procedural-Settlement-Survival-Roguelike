@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class Fire
 {
-    public float depletionRate = 1.0f;
+    public float depletionRate = 0.01f;
     const float maxLevel = 10f;
     public float level;
     bool extinguished = true;

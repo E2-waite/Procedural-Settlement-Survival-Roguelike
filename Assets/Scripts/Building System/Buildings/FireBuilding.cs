@@ -30,7 +30,7 @@ public class FireBuilding : Building
 
     protected override void OnDeathStart()
     {
-        fireSystem.Remove(this);
+        fireSystem?.Remove(this);
     }
 
     private void Update()

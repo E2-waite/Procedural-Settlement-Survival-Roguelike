@@ -335,6 +335,18 @@ PrefabInstance:
       propertyPath: context.chunkSize
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5858603850480298205, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.startSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858603850480298205, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.startSize.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858603850480298205, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: context.chunkDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8347044527720904991, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: m_LocalPosition.x
       value: 77.09895

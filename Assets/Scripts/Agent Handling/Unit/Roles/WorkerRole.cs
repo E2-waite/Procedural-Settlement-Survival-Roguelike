@@ -99,7 +99,7 @@ public class WorkerRole : IUnitRole
     }
 
     // Handles state execution
-    public void HandleStates()
+    public void HandleWorkStates()
     {
         switch (state)
         {
@@ -114,7 +114,12 @@ public class WorkerRole : IUnitRole
         }
     }
 
-    // GatherState: Gather resources when in range
+    public void HandleCombatStates()
+    {
+        // Flee?
+    }
+
+        // GatherState: Gather resources when in range
     void GatherState()
     {
         if (InRange)
@@ -197,11 +202,12 @@ public class WorkerRole : IUnitRole
 
     public bool Command(Building building) 
     {
+        bool consumed = false;
         if (!building.Built)
         {
             // If building isn't built, repair/build
             Target(building);
-            return true;
+            consumed = true;
         }
         else
         {
@@ -209,10 +215,13 @@ public class WorkerRole : IUnitRole
             if (building is ResourceBuilding)
             {
                 Target((ResourceBuilding)building);
-                return true;
+                consumed = true;
             }
         }
-        return false;
+
+        if (consumed) unit.SetState(Unit.State.Working);
+
+        return consumed;
     }
     #endregion
     #region Targeting
