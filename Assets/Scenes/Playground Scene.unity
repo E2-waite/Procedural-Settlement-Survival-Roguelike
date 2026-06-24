@@ -331,6 +331,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: worldLight
+      value: 
+      objectReference: {fileID: 471772464}
+    - target: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: dayDuration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+      propertyPath: nightDuration
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5858603850480298205, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: context.chunkSize
       value: 20
@@ -572,6 +584,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a23de16fd0ce7e41a7f6104bb918546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1023025329 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
+  m_PrefabInstance: {fileID: 505730496}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d0ee0f7dec3ba4fba2ebbbc67e58d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1174999309
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +627,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 836752002073266148, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   unitSpawnerPrefab: {fileID: 2582552897848075036, guid: 9a89db247c68fe94c904fc934ba0fa2a, type: 3}
   enemySpawnerPrefab: {fileID: 7393810201957651812, guid: 87965abbb149e6c449dcc0f142caa105, type: 3}
+  firePrefab: {fileID: 913719078593349120, guid: cb1787e4e003c66459dff67665e9ad8f, type: 3}
   context:
     gameType: 1
     player: {fileID: 0}
@@ -620,7 +644,7 @@ MonoBehaviour:
     inputManager: {fileID: 1325772645}
     chunkStreaming: {fileID: 525224792}
     gameManager: {fileID: 0}
-    dayNightHandler: {fileID: 0}
+    dayNightHandler: {fileID: 1023025329}
     spawnTile:
       type: 0
       chunk: {fileID: 0}

@@ -176,6 +176,11 @@ public class CommandSystem
         currentSquad?.UpdateFollowDir(rot);
     }
 
+    public void UpdateLookDist(float dist)
+    {
+        currentSquad?.UpdateCommandDist(dist);
+    }
+
     public void AimFormation(bool commanding)
     {
         currentSquad?.UpdateMarkers(commanding, lookRot);

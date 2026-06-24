@@ -131,4 +131,8 @@ public class SelectInteractionHandler : IInteractionHandler
     {
         commandSystem?.UpdateLookRot(rot);
     }
+
+    public void OnLookDistChanged(float dist)
+    {
+    }
 }

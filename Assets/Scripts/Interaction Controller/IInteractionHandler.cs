@@ -17,5 +17,6 @@ public interface IInteractionHandler
     void OnFKey();
     void OnMoveInput(Vector2 move);
     void OnLookChanged(Quaternion rot);
+    void OnLookDistChanged(float dist);
 
 }

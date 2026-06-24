@@ -30,6 +30,7 @@ public class InteractionController : MonoBehaviour
     private Player player;
     private Quaternion lookRot, lastRot;
     private RaycastHit lastHit;
+    private float lookDist = 0, lastDist = 0;
     public void Init(GameContext context)
     {
         if (!initialized)
@@ -169,6 +170,10 @@ public class InteractionController : MonoBehaviour
             lastRot = lookRot;
             currentHandler?.OnLookChanged(lastRot);
         }
+
+        float dist = Vector3.Distance(player.transform.position, hit.point);
+        lookDist = Mathf.Round(dist / 2.5f) * 2.5f;
+        currentHandler?.OnLookDistChanged(lookDist);
     }
 
 

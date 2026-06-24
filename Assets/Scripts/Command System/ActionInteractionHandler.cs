@@ -167,4 +167,7 @@ public class ActionInteractionHandler : IInteractionHandler
     public void OnLookChanged(Quaternion rot)
     {
     }
+    public void OnLookDistChanged(float dist)
+    {
+    }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using static AgentObject;
 using static GlobalDefs;
@@ -35,6 +36,7 @@ public class AgentSquad
     private Quaternion formationRotation = Quaternion.identity;
     private Quaternion followRot = Quaternion.identity;
     public Quaternion FollowRot => followRot;
+    private Vector3 formationOffset = Vector3.zero;
     private int capacity = int.MaxValue;
     public Agent GetAgent(int id) => id >= agents.Count ? null : agents[id];
 
@@ -149,12 +151,20 @@ public class AgentSquad
         followRot = rotation;
     }
 
+    public void UpdateCommandDist(float dist)
+    {
+        commandDist = Mathf.Clamp(dist, 5, 10);
+    }
+
 
     public void CommandMove(Quaternion rot)
     {
+        if (player == null) return;
+
         state = SquadState.Formation;
         facing = rot * Vector3.forward;
         formationRotation = rot;
+        formationOffset = player.transform.position;
 
         foreach (Unit unit in agents)
         {
@@ -167,7 +177,7 @@ public class AgentSquad
         if (unit == null) return;
 
         unit.FormationPos = (facing * commandDist) + (formationRotation * CommandFormationPos(unit));
-        Vector3 targetPos = player.transform.position + unit.FormationPos;
+        Vector3 targetPos = formationOffset + unit.FormationPos;
 
         unit.UpdateMarker(targetPos);
 

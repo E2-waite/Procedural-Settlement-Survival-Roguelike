@@ -249,8 +249,8 @@ public class Unit : Agent
         spawner?.RemoveAgent(this);
         Sprite?.ShowOutline(true);
         Sprite?.OutlineColor(Color.green);
-        ShowMarker();
-
+        if (state != State.Following && state != State.Idle)
+            ShowMarker();
     }
 
     // Stops commanding this unit
@@ -269,6 +269,7 @@ public class Unit : Agent
         // Move to tile if empty and role didn't consume command
         RequestPath(pos);
         SetState(State.Moving);
+        UpdateMarker(pos);
     }
 
     // Commands unit to interact with an agent
@@ -311,6 +312,7 @@ public class Unit : Agent
             Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(followPos.x), Mathf.FloorToInt(followPos.z));
 
             RequestPath(grid.GetTile(gridPos), followPos);
+            HideMarker();
         }
     }
 

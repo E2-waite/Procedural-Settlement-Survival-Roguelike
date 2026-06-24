@@ -258,7 +258,7 @@ public class Agent : Destructable
 
     public void LaunchProjectile(Destructable target, float damage)
     {
-        GameObject projectileObj = Instantiate(projectilePrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
+        GameObject projectileObj = Instantiate(projectilePrefab, WorldPos + new Vector3(0, .5f, 0), Quaternion.identity);
         Projectile projectile = projectileObj.GetComponent<Projectile>();
         projectile.Launch(this, target, damage);
     }

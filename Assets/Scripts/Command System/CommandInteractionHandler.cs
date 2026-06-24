@@ -81,4 +81,9 @@ public class CommandInteractionHandler : IInteractionHandler
     {
         commandSystem?.UpdateLookRot(rot);
     }
+
+    public void OnLookDistChanged(float dist)
+    {
+        commandSystem?.UpdateLookDist(dist);
+    }
 }

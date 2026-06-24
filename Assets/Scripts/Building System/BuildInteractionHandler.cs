@@ -100,4 +100,8 @@ public class BuildInteractionHandler : IInteractionHandler
     {
 
     }
+
+    public void OnLookDistChanged(float dist)
+    {
+    }
 }
