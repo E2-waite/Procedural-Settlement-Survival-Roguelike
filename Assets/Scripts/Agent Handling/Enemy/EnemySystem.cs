@@ -9,6 +9,7 @@ public class EnemySystem
     private EnemyCatalog catalog;
     private DayNightSystem dayNightSystem;
     private GameContext gameContext;
+    List<EnemySettlementBuilding> settlements = new List<EnemySettlementBuilding>();
 
     public void Init(GameContext context)
     {
@@ -39,9 +40,18 @@ public class EnemySystem
     public void Tick()
     {
         
-
-
     }
 
-    
+    public void OnSettlementDestroy(EnemySettlementBuilding settlement)
+    {
+        settlements.Remove(settlement);
+
+        // Spawn a new one
+    }
+
+    public void OnSettlementSpawn(EnemySettlementBuilding settlement)
+    {
+        if (!settlements.Contains(settlement))
+            settlements.Add(settlement);
+    }
 }

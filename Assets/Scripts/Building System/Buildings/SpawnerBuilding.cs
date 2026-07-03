@@ -4,7 +4,7 @@ using UnityEngine;
 public class SpawnerBuilding : Building
 {
     [SerializeField] private float spawnInterval = 5;
-    [SerializeField] private int max = 3;
+    [SerializeField] protected int max = 1;
 
     private float spawnTimer = 0;
     private float cleanupTimer = 0, cleanupInterval = 0.1f;
@@ -14,7 +14,7 @@ public class SpawnerBuilding : Building
     protected bool initialized = false;
     public GameObject agentPrefab;
     protected WorldGrid grid;
-    List<Agent> spawnedAgents = new List<Agent>();
+    protected List<Agent> spawnedAgents = new List<Agent>();
     protected bool spawning = true;
     public override void Init(GameContext context)
     {
@@ -30,7 +30,7 @@ public class SpawnerBuilding : Building
         if (initialized)
         {
             if (spawnTimer > 0) spawnTimer -= Time.deltaTime;
-            else if (spawnedAgents.Count < max)
+            else if (spawning && spawnedAgents.Count < max)
             {
                 spawnTimer = spawnInterval;
                 Agent spawnedAgent = Spawn(FindSpawnTile());

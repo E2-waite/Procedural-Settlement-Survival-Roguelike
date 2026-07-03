@@ -6,14 +6,26 @@ public class EnemySettlementBuilding : SpawnerBuilding
     private EnemyCatalog catalog;
     public override Faction Faction => Faction.Enemy;
     private AgentSquad currentSquad;
-    
+    private EnemySystem enemySystem;
+    private int raidLevel = 1;
+    private DayNightSystem dayNightSystem;
     public override void Init(GameContext context)
     {
         World world = context.world;
         grid = world.Context.grid;
         catalog = context.enemyCatalog;
-        context.dayNightSystem.PhaseChanged += OnPhaseChanged;
+        dayNightSystem = context.dayNightSystem;
+        dayNightSystem.PhaseChanged += OnPhaseChanged;
         base.Init(context);
+        enemySystem = context.enemySystem;
+        enemySystem.OnSettlementSpawn(this);
+    }
+
+    protected override void OnDeathFinish()
+    {
+        dayNightSystem.PhaseChanged -= OnPhaseChanged;
+
+        base.OnDeathFinish();
     }
 
     protected override Agent Spawn(GridTile tile)
@@ -37,6 +49,9 @@ public class EnemySettlementBuilding : SpawnerBuilding
     // Triggered when time becomes night
     public void DetachSquad()
     {
+        if (currentSquad == null) return;
+
+        spawnedAgents.Clear();
         foreach (Enemy enemy in currentSquad.Agents)
         {
             if (enemy == null) continue;
@@ -46,8 +61,6 @@ public class EnemySettlementBuilding : SpawnerBuilding
 
         // Send squad to attack
         currentSquad = null;
-
-
     }
 
     public void OnPhaseChanged(DayPhase newPhase)
@@ -56,10 +69,18 @@ public class EnemySettlementBuilding : SpawnerBuilding
         {
             spawning = false;
             DetachSquad();
+            max++;
         }
+        else
         {
             spawning = true;
         }
-        Debug.Log("Spawner phase change");
+    }
+
+    protected override void OnDeathStart()
+    {
+        base.OnDeathStart();
+
+        enemySystem.OnSettlementDestroy(this);
     }
 }
