@@ -626,7 +626,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 836752002073266148, guid: 84a037727334d9a4d94a0906522e9e38, type: 3}
   unitSpawnerPrefab: {fileID: 2582552897848075036, guid: 9a89db247c68fe94c904fc934ba0fa2a, type: 3}
-  enemySpawnerPrefab: {fileID: 7393810201957651812, guid: 87965abbb149e6c449dcc0f142caa105, type: 3}
   firePrefab: {fileID: 913719078593349120, guid: cb1787e4e003c66459dff67665e9ad8f, type: 3}
   context:
     gameType: 1
@@ -655,6 +654,7 @@ MonoBehaviour:
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
     enemyCatalog: {fileID: 11400000, guid: 125b9e4f6945f9244a0b59b79e36ca4b, type: 2}
     enemyManager: {fileID: 1193125988}
+    enemySettlement: {fileID: 7393810201957651812, guid: 87965abbb149e6c449dcc0f142caa105, type: 3}
     buildMask:
       serializedVersion: 2
       m_Bits: 64
@@ -934,7 +934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3027759841502636924, guid: 9959a4965bb97a84ab38063d40e3533a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 17.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3054350863953313120, guid: 9959a4965bb97a84ab38063d40e3533a, type: 3}
       propertyPath: m_Pivot.x

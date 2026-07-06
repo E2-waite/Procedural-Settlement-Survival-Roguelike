@@ -6,12 +6,19 @@ public class EnemyManager : MonoBehaviour
     WorldGrid grid;
     GridTile playerSpawn;
     GameContext gameContext;
+    EnemySystem system;
     public void Init(GameContext context)
     {
         gameContext = context;
         World world = context.world;    
         grid = world.Context.grid;
         playerSpawn = context.spawnTile;
+        system = context.enemySystem;
+    }
+
+    private void Update()
+    {
+        system.Tick();
     }
 
     public void SpawnSettlement()
