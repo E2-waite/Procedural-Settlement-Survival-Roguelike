@@ -5,7 +5,6 @@ public class PlaygroundBootstrapper : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject unitSpawnerPrefab;
-    public GameObject enemySpawnerPrefab;
     public GameObject firePrefab;
 
     [SerializeField] private GameContext context = new GameContext();
@@ -18,14 +17,15 @@ public class PlaygroundBootstrapper : MonoBehaviour
     UserInterface UserInterface => context.userInterface;
     TileMarker TileMarker => context.tileMarker;
     DayNightSystem DayNightSystem => context.dayNightSystem;
+    EnemyManager EnemyManager => context.enemyManager;
 
     private void Start()
     {
         World.GenerateEmpty(context);
 
-        GridTile spawnTile = GetSpawnTile();
-        GridTile enemyTile = FindEnemyTile();
-        SpawnPlayer(spawnTile);
+        context.spawnTile = GetSpawnTile();
+
+        SpawnPlayer(context.spawnTile);
         Pathfinding.Init();
         TileMarker.Init(context);
         CreateSystems();
@@ -38,9 +38,10 @@ public class PlaygroundBootstrapper : MonoBehaviour
         ChunkStreaming.Init(context.world);
         World.InitStartChunks();
         DayNightSystem.Init(context);
-        SpawnUnitSpawner(spawnTile);
-        SpawnEnemySpawner(enemyTile);
-        SpawnFire(spawnTile);
+        SpawnUnitSpawner(context.spawnTile);
+        EnemyManager.Init(context);
+        EnemyManager.SpawnSettlement();
+        SpawnFire(context.spawnTile);
         // Disable this GameObject when finished init
         gameObject.SetActive(false);
     }
@@ -75,15 +76,6 @@ public class PlaygroundBootstrapper : MonoBehaviour
         context.player.Init(context);
     }
 
-    private void SpawnEnemySpawner(GridTile tile)
-    {
-        GameObject settlementObj = Instantiate(enemySpawnerPrefab, tile.worldPosition, Quaternion.identity);
-        EnemySettlementBuilding settlement = settlementObj.GetComponent<EnemySettlementBuilding>();
-        settlement.Init(context);
-        settlement.AddTile(tile);
-        tile.Build(settlement);
-    }
-
     private void SpawnUnitSpawner(GridTile tile)
     {
         GameObject settlementObj = Instantiate(unitSpawnerPrefab, tile.worldPosition, Quaternion.identity);
@@ -99,37 +91,5 @@ public class PlaygroundBootstrapper : MonoBehaviour
         WorldGrid grid = world.Context.grid;
 
         return grid.GetTile(new Vector2Int(0,0));
-    }
-
-    GridTile FindEnemyTile()
-    {
-        List<GridTile> validTiles = new List<GridTile>();
-        World world = context.world;
-        WorldGrid grid = world.Context.grid;
-
-        // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
-        foreach (GridTile tile in grid.Tiles())
-        {
-            bool valid = true;
-
-            float dist = Vector2Int.Distance(tile.position, context.spawnTile.position);
-            if (dist < 25 || dist > 50) continue;
-
-            foreach (Vector2Int neighbourPos in Consts.ALL_NEIGHBOURS)
-            {
-                GridTile neighbourTile = grid.GetTile(tile.position + neighbourPos);
-                if (neighbourTile == null || !neighbourTile.IsEmpty)
-                {
-                    valid = false;
-                    break;
-                }
-            }
-
-            if (valid) validTiles.Add(tile);
-        }
-
-        if (validTiles.Count == 0) return null;
-
-        return validTiles[Random.Range(0, validTiles.Count)];
     }
 }

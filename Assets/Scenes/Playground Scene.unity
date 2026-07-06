@@ -654,6 +654,7 @@ MonoBehaviour:
     buildingSpawner: {fileID: 584859958}
     buildingCatalog: {fileID: 11400000, guid: e26019af94e04484eb1bb8ccb099d576, type: 2}
     enemyCatalog: {fileID: 11400000, guid: 125b9e4f6945f9244a0b59b79e36ca4b, type: 2}
+    enemyManager: {fileID: 1193125988}
     buildMask:
       serializedVersion: 2
       m_Bits: 64
@@ -675,6 +676,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1193125985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8029365829326004741, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
+  m_PrefabInstance: {fileID: 1407785177}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1193125988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193125985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d710c0aefd8cc4aaad67d5b7df4caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1271172323 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7609218844280289954, guid: 9959a4965bb97a84ab38063d40e3533a, type: 3}
@@ -889,7 +907,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8029365829326004741, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1193125988}
   m_SourcePrefab: {fileID: 100100000, guid: 48a345f4425bbb4438cff77eb2eae596, type: 3}
 --- !u!1001 &1682215828
 PrefabInstance:
@@ -913,7 +934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3027759841502636924, guid: 9959a4965bb97a84ab38063d40e3533a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 17.5
       objectReference: {fileID: 0}
     - target: {fileID: 3054350863953313120, guid: 9959a4965bb97a84ab38063d40e3533a, type: 3}
       propertyPath: m_Pivot.x

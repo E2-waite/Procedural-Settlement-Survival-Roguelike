@@ -9,8 +9,10 @@ public class EnemySystem
     private EnemyCatalog catalog;
     private DayNightSystem dayNightSystem;
     private GameContext gameContext;
+    private EnemyManager manager;
     List<EnemySettlementBuilding> settlements = new List<EnemySettlementBuilding>();
-
+    private float angerLevel = 0; // Anger level for determining how hostile enemies are (spawns more/stronger enemies)
+    
     public void Init(GameContext context)
     {
         gameContext = context;
@@ -19,6 +21,7 @@ public class EnemySystem
         grid = world.Context.grid;
         catalog = context.enemyCatalog;
         dayNightSystem = context.dayNightSystem;
+        manager = context.enemyManager;
     }
 
     public void AddEnemy(Enemy enemy)
@@ -44,9 +47,12 @@ public class EnemySystem
 
     public void OnSettlementDestroy(EnemySettlementBuilding settlement)
     {
+        angerLevel++;
+
         settlements.Remove(settlement);
 
         // Spawn a new one
+        manager.SpawnSettlement();
     }
 
     public void OnSettlementSpawn(EnemySettlementBuilding settlement)

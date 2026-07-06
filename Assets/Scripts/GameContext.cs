@@ -44,6 +44,8 @@ public class GameContext
     [Header("Enemy System")]
     public EnemySystem enemySystem;
     public EnemyCatalog enemyCatalog;
+    public EnemyManager enemyManager;
+    public GameObject enemySettlement;
 
     public LayerMask buildMask;
     public LayerMask commandMask;
