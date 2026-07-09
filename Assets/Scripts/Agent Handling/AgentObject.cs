@@ -62,57 +62,37 @@ public class AgentObject : ScriptableObject
 
     public Sprite GetSprite(SpriteDir dir, SpriteLayers layer)
     {
-        switch (layer)
+        return layer switch
         {
-            case SpriteLayers.Torso:
-                return torso;
-            case SpriteLayers.TorsoTrim:
-                return torsoTrim[(int) dir];
-            case SpriteLayers.Armour:
-                return armour[(int)dir];
-            case SpriteLayers.ArmourTrim:
-                return armourTrim[(int)dir];
-            case SpriteLayers.Head:
-                return head;
-            case SpriteLayers.Eyes:
-                return eyes[(int)dir];
-            case SpriteLayers.Helmet:
-                return helmet[(int)dir];
-            case SpriteLayers.HelmetTrim:
-                return helmetTrim[(int)dir];
-            case SpriteLayers.BackHand:
-                return backHand[(int)dir];
-            case SpriteLayers.FrontHand:
-                return frontHand[(int)dir];
-            case SpriteLayers.BackEquip:
-                return backEquip[(int)dir];
-            case SpriteLayers.FrontEquip:
-                return frontEquip[(int)dir];
-        }
-        return null;
+            SpriteLayers.Torso => torso,
+            SpriteLayers.TorsoTrim => torsoTrim[(int)dir],
+            SpriteLayers.Armour => armour[(int)dir],
+            SpriteLayers.ArmourTrim => armourTrim[(int)dir],
+            SpriteLayers.Head => head,
+            SpriteLayers.Eyes => eyes[(int)dir],
+            SpriteLayers.Helmet => helmet[(int)dir],
+            SpriteLayers.HelmetTrim => helmetTrim[(int)dir],
+            SpriteLayers.BackHand => backHand[(int)dir],
+            SpriteLayers.FrontHand => frontHand[(int)dir],
+            SpriteLayers.BackEquip => backEquip[(int)dir],
+            SpriteLayers.FrontEquip => frontEquip[(int)dir],
+            _ => null
+        };  
     }
 
     public Sprite GetOutline(SpriteDir dir, SpriteLayers layer)
     {
-        switch (layer)
+        return layer switch
         {
-            case SpriteLayers.Torso:
-                return torsoOutline;
-            case SpriteLayers.Armour:
-                return armourOutline[(int)dir];
-            case SpriteLayers.Head:
-                return headOutline;
-            case SpriteLayers.Helmet:
-                return helmetOutline[(int)dir];
-            case SpriteLayers.BackHand:
-                return backHandOutline[(int)dir];
-            case SpriteLayers.FrontHand:
-                return frontHandOutline[(int)dir];
-            case SpriteLayers.BackEquip:
-                return backEquipOutline[(int)dir];
-            case SpriteLayers.FrontEquip:
-                return frontEquipOutline[(int)dir];
-        }
-        return null;
+            SpriteLayers.Torso => torsoOutline,
+            SpriteLayers.Armour => armourOutline[(int)dir],
+            SpriteLayers.Head => headOutline,
+            SpriteLayers.Helmet => helmetOutline[(int)dir],
+            SpriteLayers.BackHand => backHandOutline[(int)dir],
+            SpriteLayers.FrontHand => frontHandOutline[(int)dir],
+            SpriteLayers.BackEquip => backEquipOutline[(int)dir],
+            SpriteLayers.FrontEquip => frontEquipOutline[(int)dir],
+            _ => null
+        };
     }
 }

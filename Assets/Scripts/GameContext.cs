@@ -47,6 +47,10 @@ public class GameContext
     public EnemyManager enemyManager;
     public GameObject enemySettlement;
 
+    [Header("Particle System")]
+    public ParticleManager particleManager;
+
+    [Header("Layer Masks")]
     public LayerMask buildMask;
     public LayerMask commandMask;
 
