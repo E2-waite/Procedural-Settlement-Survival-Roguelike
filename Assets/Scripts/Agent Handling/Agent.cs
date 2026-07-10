@@ -39,7 +39,7 @@ public class Agent : Destructable
     public override Vector2Int GridPos => new Vector2Int(Mathf.FloorToInt(body.transform.position.x), Mathf.FloorToInt(body.transform.position.z));
     public override Vector3 WorldPos => body.transform.position;
     public virtual bool Commanding => false;
-
+    private ParticleManager particleManager;
     public virtual void Init(GameContext context)
     {
         movement.Init(this);
@@ -47,6 +47,7 @@ public class Agent : Destructable
         World world = context.world;
         grid = world.Context.grid;
         pathfinding = context.pathfinding;
+        particleManager = context.particleManager;
     }
 
     protected virtual void Update()
@@ -266,5 +267,14 @@ public class Agent : Destructable
     public void LookTo(Vector3 vec)
     {
         Sprite?.SetDirection(vec);
+    }
+
+    public override bool OnHit(Destructable source, float damage, Vector3 dir)
+    {
+        bool dead = base.OnHit(source, damage, dir);
+        if (dead) return dead;
+
+        particleManager.PlayHitEffect(ParticleType.Hit, WorldPos, damage);
+        return dead;
     }
 }

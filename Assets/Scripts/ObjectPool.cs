@@ -2,19 +2,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Class for storing pools of objects to be reused instead of creating new ones
-public class ObjectPool<T> where T : Component
+public class ObjectPool<T> where T : Component, IPoolable
 {
     Queue<T> pool = new();
     private T prefab;
     private int poolSize = 0;
     private int instances = 0;
-    Transform parent;
-
-    public ObjectPool(T prefab, int poolSize, Transform parent)
+    private Transform parent;
+    private Vector3 offset;
+    public Vector3 Offset => offset;
+    public ObjectPool(T prefab, int poolSize, Transform parent, Vector3 offset)
     {
         this.prefab = prefab;
         this.poolSize = poolSize;
         this.parent = parent;
+        this.offset = offset;
     }
 
     // Pre-warm the pool by creating the specified number of objects
@@ -38,6 +40,7 @@ public class ObjectPool<T> where T : Component
         if (prefab == null || instances >= poolSize) return null;
 
         T obj = Object.Instantiate(prefab, parent);
+        obj.Init();
         obj.gameObject.SetActive(active);
         instances++;
 
@@ -47,18 +50,16 @@ public class ObjectPool<T> where T : Component
     // Get an object from the pool, if the pool is empty, create a new one
     public T Get()
     {
-        if (pool.Count == 0) return Create(true);
-
-        T obj = pool.Dequeue();
-        obj.gameObject.SetActive(true);
-
+        T obj = pool.Count == 0 ? Create(true) : pool.Dequeue();
+        if (obj == null) return null;
+        obj.OnGet();
         return obj;
     }
 
     public void Return(T obj)
     {
         if (obj == null) return;
-        obj.gameObject.SetActive(false);
+        obj.OnReturn();
         pool.Enqueue(obj);
     }
 }

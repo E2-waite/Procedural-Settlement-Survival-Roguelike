@@ -38,6 +38,7 @@ public class GameBootstrapper : MonoBehaviour
         Pathfinding.Init();
         TileMarker.Init(context);
         CreateSystems();
+        if (context.particleManager != null) context.particleManager.Init();
         ResourceSystem.Init(context);
         InputManager.Init();
         InteractionController.Init(context);

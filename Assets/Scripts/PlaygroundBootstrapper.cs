@@ -29,6 +29,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
         Pathfinding.Init();
         TileMarker.Init(context);
         CreateSystems();
+        if (context.particleManager != null) context.particleManager.Init();
         context.enemySystem.Init(context);
         InputManager.Init();
         InteractionController.Init(context);
