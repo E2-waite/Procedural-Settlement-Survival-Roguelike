@@ -5,8 +5,8 @@ public class FireBuilding : Building
     public override TargetType Type => TargetType.Fire;
 
     [SerializeField] protected Fire fire = new Fire(false);
-    public Light fireLight;
     private FireSystem fireSystem;
+    FireEffect fireEffect;
     public override void Init(GameContext context)
     {
         fireSystem = context.fireSystem;
@@ -15,7 +15,8 @@ public class FireBuilding : Building
     protected override void Start()
     {
         base.Start();
-        fire.Init(fireLight);
+        fireEffect = GetComponent<FireEffect>();
+        fire.Init(fireEffect);
     }
 
     protected override void FinishBuilding()

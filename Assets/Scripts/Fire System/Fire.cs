@@ -7,7 +7,7 @@ public class Fire
     const float maxLevel = 1000f;
     public float level;
     bool extinguished = true;
-    Light light;
+    FireEffect effect;
 
     public Fire(bool lit)
     {
@@ -18,9 +18,9 @@ public class Fire
         }
     }
 
-    public void Init(Light light)
+    public void Init(FireEffect effect)
     {
-        this.light = light;
+        this.effect = effect;
     }
 
     public void Update()
@@ -33,7 +33,7 @@ public class Fire
         }
 
         float v = Mathf.Clamp(level, 0, maxLevel) / maxLevel;
-        light.intensity = Mathf.Lerp(0, 10, v);
+        //light.intensity = Mathf.Lerp(0, 10, v);
     }
 
     public void Light()
@@ -41,7 +41,7 @@ public class Fire
         level = maxLevel;
         extinguished = false;
 
-        light.intensity = 10f;
+        //light.intensity = 10f;
     }
     public void Light(ref float fuel)
     {
@@ -60,7 +60,7 @@ public class Fire
         }
 
         extinguished = false;
-        light.intensity = 10f;
+        //light.intensity = 10f;
     }
 
     void Extinguish()

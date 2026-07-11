@@ -383,11 +383,11 @@ PrefabInstance:
       objectReference: {fileID: 471772464}
     - target: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: dayDuration
-      value: 60
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 4537252606265693175, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: nightDuration
-      value: 60
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5858603850480298205, guid: 228671b3e21bb6e43aa23ba441074611, type: 3}
       propertyPath: context.chunkSize
@@ -483,6 +483,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d9aca8a47d53444b00195612e53071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &624588329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 624588330}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &624588330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624588329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.96077, y: 0, z: -9.02659}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &685941464
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +732,7 @@ MonoBehaviour:
     enemyCatalog: {fileID: 11400000, guid: 125b9e4f6945f9244a0b59b79e36ca4b, type: 2}
     enemyManager: {fileID: 1193125988}
     enemySettlement: {fileID: 7393810201957651812, guid: 87965abbb149e6c449dcc0f142caa105, type: 3}
-    particleManager: {fileID: 0}
+    particleManager: {fileID: 147418066}
     buildMask:
       serializedVersion: 2
       m_Bits: 64
@@ -1213,3 +1244,4 @@ SceneRoots:
   - {fileID: 1682215828}
   - {fileID: 1790376128}
   - {fileID: 147418067}
+  - {fileID: 624588330}
