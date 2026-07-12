@@ -4,7 +4,7 @@ using UnityEngine;
 public class Fire
 {
     public float depletionRate = 0.001f;
-    const float maxLevel = 1000f;
+    const float maxLevel = 100f;
     public float level;
     bool extinguished = true;
     FireEffect effect;
@@ -32,17 +32,19 @@ public class Fire
             Extinguish();
         }
 
-        float v = Mathf.Clamp(level, 0, maxLevel) / maxLevel;
-        //light.intensity = Mathf.Lerp(0, 10, v);
+        if (!extinguished)
+        {
+            float v = Mathf.Clamp(level, 0, maxLevel) / maxLevel;
+            effect.UpdateEffect(level, maxLevel);
+        }
     }
 
     public void Light()
     {
         level = maxLevel;
         extinguished = false;
-
-        //light.intensity = 10f;
     }
+
     public void Light(ref float fuel)
     {
         float space = maxLevel - level;
@@ -60,12 +62,12 @@ public class Fire
         }
 
         extinguished = false;
-        //light.intensity = 10f;
     }
 
     void Extinguish()
     {
         extinguished = true;
+        effect.Extinguish();
         Debug.Log("Fire extinguished");
     }
 

@@ -266,9 +266,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5526352251486464173, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7218342673494057726, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
       propertyPath: m_Name
       value: Main Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504552250658380710, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504552250658380710, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504552250658380710, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7504552250658380710, guid: 56b4fae754fbd1d458dd6bce0c9445c8, type: 3}
       propertyPath: m_LocalPosition.y
