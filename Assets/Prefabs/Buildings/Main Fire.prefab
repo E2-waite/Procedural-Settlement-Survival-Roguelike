@@ -349,8 +349,8 @@ MonoBehaviour:
   flameParticle: {fileID: 8562336793299299719}
   sparkParticle: {fileID: 2162066690800026462}
   smokeParticle: {fileID: 1040457158830234459}
-  baseIntensity: 1.5
-  intensityVariation: 0.3
+  baseIntensity: 7.5
+  intensityVariation: 1
   flickerSpeed: 5
 --- !u!4 &5170927481088772800 stripped
 Transform:
