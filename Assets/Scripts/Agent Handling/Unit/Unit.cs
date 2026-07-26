@@ -38,7 +38,7 @@ public class Unit : Agent
     public override void Init(GameContext context)
     {
         base.Init(context);
-        World world = context.world;
+        WorldBuilder world = context.world;
         fireSystem = context.fireSystem;
         health.Fill();
 
@@ -324,7 +324,7 @@ public class Unit : Agent
     {
         if (chunk != null)
         {
-            return chunk.GetUnits();
+            return chunk.Data.GetUnits();
         }
 
         return null;
@@ -334,7 +334,7 @@ public class Unit : Agent
     {
         if (chunk != null)
         {
-            return chunk.GetEnemies();
+            return chunk.Data.GetEnemies();
         }
 
         return null;

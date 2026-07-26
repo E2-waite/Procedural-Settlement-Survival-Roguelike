@@ -14,7 +14,7 @@ public class ConvertBuilding : Building
     public override void Init(GameContext context) 
     {
         commandSystem = context.commandSystem;
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
     }
 

@@ -25,7 +25,7 @@ public class Player : Destructable
     public void Init(GameContext context)
     {
         chunkStreaming = context.chunkStreaming;
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         if (context.gameType == GameType.Game)
             fireSystem = context.fireSystem;
@@ -110,8 +110,8 @@ public class Player : Destructable
 
         if (newChunk != chunk)
         {
-            if (chunk != null) chunk.RemovePlayer();
-            newChunk.AddPlayer(this);
+            if (chunk != null) chunk.Data.RemovePlayer();
+            newChunk.Data.AddPlayer(this);
             chunk = newChunk;
 
             // Update chunks (disable stale chunks and enable/create active chunks)

@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GridTile;
 
+//[ExecuteAlways]
 public class Chunk : MonoBehaviour
 {
-    public GameObject tilePrefab;
     public Vector2Int position;
-    World world;
+    private ChunkData data = new();
+    public ChunkData Data => data;
+
+    WorldBuilder world;
     Mesh mesh;
     List<Vector3> vertices;
     List<int> triangles;
@@ -15,34 +18,26 @@ public class Chunk : MonoBehaviour
     public float seaLevel = 0.35f;
 
     float[,] heights;
-    public float heightMultiplier = 2.5f, heightScale = 1f;
     //public int size;
 
     ChunkResources resources;
     public Dictionary<Vector2Int, GridTile> tiles = new Dictionary<Vector2Int, GridTile>();
 
-    Player player = null;
-    public List<Agent> unitAgents = new List<Agent>();
-    public List<Agent> enemyAgents = new List<Agent>();
-    public  List<Chunk> neighbouringChunks = new List<Chunk>();
     private TileCatalog tileCatalog;
     bool empty = false;
+    private float step = .1f;
+    private bool smooth = false;
     public bool IsEmpty => empty;
-    public void AddNeighbour(Chunk chunk)
-    {
-        if (!neighbouringChunks.Contains(chunk))
-        {
-            neighbouringChunks.Add(chunk);
-        }
-    }
 
-    public void Init(World world, Vector2Int pos, bool empty = false)
+
+    public void Init(WorldBuilder world, Vector2Int pos, bool empty = false)
     {
         this.empty = empty;
         this.world = world;
         tileCatalog = world.Context.tileCatalog;
         int size = world.Context.chunkSize;
-
+        smooth = world.Context.smooth;
+        step = world.Context.step;
         // Chunks own their mesh, local tile lookup, agent lists, and resource renderer.
         WorldGrid grid = world.Context.grid;
 
@@ -70,7 +65,7 @@ public class Chunk : MonoBehaviour
                 else
                 {
                     heights[x, y] = GetHeight(x + position.x * size, y + position.y * size, world.Context.noiseScale) - seaLevel;
-                    if (heights[x, y] > 0) heights[x, y] *= heightMultiplier;
+                    if (heights[x, y] > 0) heights[x, y] *= world.Context.heightMultiplier;
                     heights[x, y] = Mathf.Clamp01(heights[x, y]);
                 }
             }
@@ -107,47 +102,7 @@ public class Chunk : MonoBehaviour
         grid.SetChunk(this, pos);
     }
 
-    public void AddAgent(Agent agent)
-    {
-        if (agent is Unit)
-        {
-            Unit follower = (Unit)agent;
-            if (!unitAgents.Contains(follower))
-                unitAgents.Add(follower);
-        }
-        else if (agent is Enemy)
-        {
-            Enemy enemy = (Enemy)agent;
-            if (!enemyAgents.Contains(enemy))
-                enemyAgents.Add(enemy);
-        }
-    }
-
-    public void RemoveAgent(Agent agent)
-    {
-        if (agent is Unit)
-        {
-            Unit follower = (Unit)agent;
-            if (unitAgents.Contains(follower))
-                unitAgents.Remove(follower);
-        }
-        else if (agent is Enemy)
-        {
-            Enemy enemy = (Enemy)agent;
-            if (enemyAgents.Contains(enemy))
-                enemyAgents.Remove(enemy);
-        }
-    }
-
-    public void AddPlayer(Player player)
-    {
-        this.player = player;
-    }
-
-    public void RemovePlayer()
-    {
-        player = null;
-    }
+    
 
     private void Update()
     {
@@ -185,20 +140,36 @@ public class Chunk : MonoBehaviour
         height = Mathf.Clamp01(height);
         height = Mathf.Pow(height, 1.2f);
 
-        float step = 0.1f;
-        height = Mathf.Round(height / step) * step;
+        //float step = 0.1f;
+        //height = Mathf.Round(height / step) * step;
 
         return height;
     }
 
+    float StepHeight(float height)
+    {
+        return Mathf.Round(height / step) * step;
+    }
 
     void AddTile(int x, int y, GridTile tile, ref int index)
     {
-        // 4 corners of the tile
-        vertices.Add(new Vector3(x, heights[x, y] * heightScale, y));
-        vertices.Add(new Vector3(x, heights[x, y + 1] * heightScale, y + 1));
-        vertices.Add(new Vector3(x + 1, heights[x + 1, y + 1] * heightScale, y + 1));
-        vertices.Add(new Vector3(x + 1, heights[x + 1, y] * heightScale, y));
+        if (smooth)
+        {
+            vertices.Add(new Vector3(x, heights[x, y] * world.Context.heightScale, y));
+            vertices.Add(new Vector3(x, heights[x, y + 1] * world.Context.heightScale, y + 1));
+            vertices.Add(new Vector3(x + 1, heights[x + 1, y + 1] * world.Context.heightScale, y + 1));
+            vertices.Add(new Vector3(x + 1, heights[x + 1, y] * world.Context.heightScale, y));
+        }
+        else
+        {
+            float tileHeight = HeightFromType(tile.type) * world.Context.heightScale;
+
+            vertices.Add(new Vector3(x, tileHeight, y));
+            vertices.Add(new Vector3(x, tileHeight, y + 1));
+            vertices.Add(new Vector3(x + 1, tileHeight, y + 1));
+            vertices.Add(new Vector3(x + 1, tileHeight, y));
+        }
+
 
         Color tileColor = ColorFromType(tile.type);
 
@@ -284,40 +255,21 @@ public class Chunk : MonoBehaviour
         }
     }
 
-
-
-    public List<Agent> GetEnemies(bool includeSurrounding = true)
+    float HeightFromType(TileType tileType)
     {
-        if (!includeSurrounding) return enemyAgents;
-
-        // Include neighbouring chunks so units near chunk edges can still detect each other.
-        List<Agent> enemyList = new List<Agent>(enemyAgents);
-
-        if (includeSurrounding)
+        if (tileType == TileType.Water)
         {
-            foreach (Chunk neighbour in neighbouringChunks)
-            {
-                enemyList.AddRange(neighbour.GetEnemies(false));
-            }
+            return 0f;
         }
-
-        return enemyList;
+        else if (tileType == TileType.Sand)
+        {
+            return .2f;
+        }
+        else
+        {
+            return .4f;
+        }
     }
 
-    public List<Agent> GetUnits(bool includeSurrounding = true)
-    {
-        if (!includeSurrounding) return unitAgents;
 
-        List<Agent> followerList = new List<Agent>(unitAgents);
-
-        if (includeSurrounding)
-        {
-            foreach (Chunk neighbour in neighbouringChunks)
-            {
-                followerList.AddRange(neighbour.GetUnits(false));
-            }
-        }
-
-        return followerList;
-    }
 }

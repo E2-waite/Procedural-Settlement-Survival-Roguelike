@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class World : MonoBehaviour
+public class WorldBuilder : MonoBehaviour
 {
+    private GameObject world;
+    public GameContext gameContext;
     [SerializeField] WorldContext context = new();
     public WorldContext Context => context;
     ChunkStreaming chunkStreaming;
@@ -9,6 +11,16 @@ public class World : MonoBehaviour
     // Generates the initial chunks
     public void Generate(GameContext gameContext)
     {
+#if UNITY_EDITOR
+        if (world != null)
+        {
+            DestroyImmediate(world);
+        }
+        world = new GameObject("World");
+#endif
+
+
+        if (gameContext == null) return;
         chunkStreaming = gameContext.chunkStreaming;
 
         // The seed offset keeps terrain deterministic after generation while varying each new run.
@@ -16,15 +28,15 @@ public class World : MonoBehaviour
         context.grid = new WorldGrid(context);
 
         // Generate the initial grid
-        for (int x = -1; x < 1; x++)
+        for (int x = 0; x < context.startSize.x; x++)
         {
-            for (int y = -1; y < 1; y++)
+            for (int y = 0; y < context.startSize.y; y++)
             {
                 Vector2Int chunkPos = new Vector2Int(x, y);
                 GameObject chunkObj = Instantiate(context.chunkPrefab, new Vector3(chunkPos.x * context.chunkSize, 0, chunkPos.y * context.chunkSize), Quaternion.identity);
+                chunkObj.transform.parent = world.transform;
                 Chunk chunk = chunkObj.GetComponent<Chunk>();
                 chunk.Init(this, chunkPos);
-                chunkObj.transform.parent = transform;
                 chunk.name = "Chunk: " + chunkPos.ToString();
             }
         }

@@ -57,7 +57,7 @@ public class AgentSquad
         {
             agentTypes[i] = new List<Agent>();
         }
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         player = context.player;
         this.faction = faction;

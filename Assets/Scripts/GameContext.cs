@@ -11,7 +11,7 @@ public class GameContext
     public GameType gameType = GameType.Game;
 
     [HideInInspector] public Player player;
-    public World world;
+    public WorldBuilder world;
     public FormationCatalog formationCatalog;
     public InteractionController interactionController;
     public CameraController cameraController;

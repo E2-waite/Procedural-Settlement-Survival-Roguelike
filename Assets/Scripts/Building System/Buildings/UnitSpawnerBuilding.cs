@@ -7,7 +7,7 @@ public class UnitSpawnerBuilding : SpawnerBuilding
 
     public override void Init(GameContext context)
     {
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         base.Init(context);
     }

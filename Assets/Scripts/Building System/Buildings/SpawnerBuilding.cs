@@ -20,7 +20,7 @@ public class SpawnerBuilding : Building
     {
         spawnTimer = spawnInterval;
         gameContext = context;
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         initialized = true;
     }

@@ -8,7 +8,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
     public GameObject firePrefab;
 
     [SerializeField] private GameContext context = new GameContext();
-    World World => context.world;
+    WorldBuilder World => context.world;
     PathfindingHandler Pathfinding => context.pathfinding;
     ChunkStreaming ChunkStreaming => context.chunkStreaming;
     InputManager InputManager => context.inputManager;
@@ -88,7 +88,7 @@ public class PlaygroundBootstrapper : MonoBehaviour
 
     private GridTile GetSpawnTile()
     {
-        World world = context.world;
+        WorldBuilder world = context.world;
         WorldGrid grid = world.Context.grid;
 
         return grid.GetTile(new Vector2Int(0,0));

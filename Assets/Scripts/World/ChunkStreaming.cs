@@ -8,12 +8,12 @@ public class ChunkStreaming : MonoBehaviour
     private HashSet<Vector2Int> requiredChunks = new HashSet<Vector2Int>();
     private Chunk lastChunk;
     private WorldGrid grid;
-    private World world;
+    private WorldBuilder world;
     private GameObject chunkPrefab;
     private int chunkDistance;
     private int chunkSize;
 
-    public void Init(World world)
+    public void Init(WorldBuilder world)
     {
         this.world = world;
 
@@ -35,8 +35,8 @@ public class ChunkStreaming : MonoBehaviour
             if (grid.HasChunk(neighbourPos))
             {
                 Chunk neighbour = grid.GetChunk(neighbourPos);
-                neighbour.AddNeighbour(chunk);
-                chunk.AddNeighbour(neighbour);
+                neighbour.Data.AddNeighbour(chunk.Data);
+                chunk.Data.AddNeighbour(neighbour.Data);
             }
         }
     }

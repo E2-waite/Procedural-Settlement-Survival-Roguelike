@@ -44,7 +44,7 @@ public class Agent : Destructable
     {
         movement.Init(this);
 
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         pathfinding = context.pathfinding;
         particleManager = context.particleManager;
@@ -149,9 +149,9 @@ public class Agent : Destructable
             Chunk newChunk = grid.ChunkFromGridPos(GridPos);
             if (newChunk != null && newChunk != chunk)
             {
-                if (chunk != null) chunk.RemoveAgent(this);
+                if (chunk != null) chunk.Data.RemoveAgent(this);
 
-                newChunk.AddAgent(this);
+                newChunk.Data.AddAgent(this);
 
                 chunk = newChunk;
             }
@@ -229,7 +229,7 @@ public class Agent : Destructable
     {
         if (chunk != null)
         {
-            chunk.RemoveAgent(this);
+            chunk.Data.RemoveAgent(this);
             squad?.RemoveAgent(this);
         }
     }

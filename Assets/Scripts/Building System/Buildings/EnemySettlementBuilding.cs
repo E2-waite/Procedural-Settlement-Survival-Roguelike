@@ -11,7 +11,7 @@ public class EnemySettlementBuilding : SpawnerBuilding
     private DayNightSystem dayNightSystem;
     public override void Init(GameContext context)
     {
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         catalog = context.enemyCatalog;
         dayNightSystem = context.dayNightSystem;

@@ -20,7 +20,7 @@ public class ChunkResources
     private int count;
     private ResourceCatalog resourceCatalog;
 
-    public ChunkResources(World world, Chunk chunk)
+    public ChunkResources(WorldBuilder world, Chunk chunk)
     {
         this.chunk = chunk;
         this.resourceCatalog = world.Context.resourceCatalog;

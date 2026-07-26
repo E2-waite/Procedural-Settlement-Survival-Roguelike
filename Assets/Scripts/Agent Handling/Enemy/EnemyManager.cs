@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     public void Init(GameContext context)
     {
         gameContext = context;
-        World world = context.world;    
+        WorldBuilder world = context.world;    
         grid = world.Context.grid;
         playerSpawn = context.spawnTile;
         system = context.enemySystem;

@@ -15,7 +15,7 @@ public class TileMarker : MonoBehaviour
 
     public void Init(GameContext context)
     {
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
     }
 

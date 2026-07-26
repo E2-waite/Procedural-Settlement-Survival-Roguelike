@@ -21,7 +21,7 @@ public class ResourceSystem
 
     public void Init(GameContext context)
     {
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         panel = context.resourcePanel;
 

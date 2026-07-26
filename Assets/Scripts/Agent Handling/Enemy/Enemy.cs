@@ -138,7 +138,7 @@ public class Enemy : Agent
     {
         if (chunk != null)
         {
-            return chunk.GetUnits();
+            return chunk.Data.GetUnits();
         }
 
         return null;
@@ -149,7 +149,7 @@ public class Enemy : Agent
     {
         if (chunk != null)
         {
-            return chunk.GetEnemies();
+            return chunk.Data.GetEnemies();
         }
 
         return null;

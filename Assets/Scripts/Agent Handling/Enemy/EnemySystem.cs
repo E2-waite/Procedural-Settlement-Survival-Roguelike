@@ -17,7 +17,7 @@ public class EnemySystem
     {
         gameContext = context;
         player = context.player;
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         catalog = context.enemyCatalog;
         dayNightSystem = context.dayNightSystem;

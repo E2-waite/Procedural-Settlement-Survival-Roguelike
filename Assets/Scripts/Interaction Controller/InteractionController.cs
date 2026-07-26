@@ -35,7 +35,7 @@ public class InteractionController : MonoBehaviour
     {
         if (!initialized)
         {
-            World world = context.world;
+            WorldBuilder world = context.world;
             grid = world.Context.grid;
 
             buildMask = context.buildMask;

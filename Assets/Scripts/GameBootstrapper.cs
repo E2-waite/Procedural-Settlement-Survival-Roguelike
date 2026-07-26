@@ -11,7 +11,7 @@ public class GameBootstrapper : MonoBehaviour
     public GameObject enemySpawnerPrefab;
     public GameObject unitSpawnerPrefab;
     [SerializeField] private GameContext context = new GameContext();
-    World World => context.world;
+    WorldBuilder World => context.world;
     PathfindingHandler Pathfinding => context.pathfinding;
     ChunkStreaming ChunkStreaming => context.chunkStreaming;
     InputManager InputManager => context.inputManager;
@@ -121,7 +121,7 @@ public class GameBootstrapper : MonoBehaviour
     {
         // TODO: handle edge-case situation where no spawn tile was found
         List<GridTile> validTiles = new List<GridTile>();
-        World world = context.world;
+        WorldBuilder world = context.world;
         WorldGrid grid = world.Context.grid;
 
         // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
@@ -149,7 +149,7 @@ public class GameBootstrapper : MonoBehaviour
     GridTile FindEnemyTile()
     {
         List<GridTile> validTiles = new List<GridTile>();
-        World world = context.world;
+        WorldBuilder world = context.world;
         WorldGrid grid = world.Context.grid;
 
         // Spawn on a tile with all neighbouring cells empty so the starting area is usable.
@@ -181,7 +181,7 @@ public class GameBootstrapper : MonoBehaviour
     GridTile FindUnitTile(GridTile enemySpawnTile)
     {
         List<GridTile> validTiles = new List<GridTile>();
-        World world = context.world;
+        WorldBuilder world = context.world;
         WorldGrid grid = world.Context.grid;
 
         // Spawn on a tile with all neighbouring cells empty so the starting area is usable.

@@ -21,7 +21,7 @@ public class BuildingSystem
         spawner = context.buildingSpawner;
         if (gameType == GameType.Game)
             resourceSystem = context.resourceSystem;
-        World world = context.world;
+        WorldBuilder world = context.world;
         grid = world.Context.grid;
         gameContext = context;
 
