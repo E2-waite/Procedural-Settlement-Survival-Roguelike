@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Cinderwild.WorldBuilder.Data;
 using static GlobalDefs;
 public class Building : Destructable
 {
@@ -13,8 +14,7 @@ public class Building : Destructable
     bool built = false, destroyed = false;
     public bool Built => built && !destroyed;
     private MeshRenderer mesh;
-    private bool hovering = false;
-    protected List<GridTile> tiles = new List<GridTile>();
+    protected List<TileData> tiles = new List<TileData>();
     private Material outlineMat;
 
     public virtual void Init(GameContext context) { }
@@ -85,10 +85,10 @@ public class Building : Destructable
     //    outlineMat.SetFloat("_OutlineWidth", 0);
     //}
 
-    public void AddTile(GridTile tile)
+    public void AddTile(TileData tile)
     {
         tiles.Add(tile);
     }
 
-    public GridTile Tile => tiles[0];
+    public TileData Tile => tiles[0];
 }

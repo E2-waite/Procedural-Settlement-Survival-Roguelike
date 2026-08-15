@@ -1,3 +1,5 @@
+using Cinderwild.WorldBuilder.Data;
+using Cinderwild.WorldBuilder.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 using static GlobalDefs;
@@ -38,7 +40,7 @@ public class Unit : Agent
     public override void Init(GameContext context)
     {
         base.Init(context);
-        WorldBuilder world = context.world;
+        World world = context.world;
         fireSystem = context.fireSystem;
         health.Fill();
 
@@ -173,13 +175,13 @@ public class Unit : Agent
             if (!pathRequested && movement.TargetChanged)
             {
                 Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(followPos.x), Mathf.FloorToInt(followPos.z));
-                GridTile gridTile = grid.GetTile(gridPos);
-                if (gridTile == null) return;
+                TileData tile = grid.GetTile(gridPos);
+                if (tile == null) return;
 
                 if (squad != null)
                     LookTo(squad.FacingDir);
 
-                RequestPath(gridTile, followPos);
+                RequestPath(tile, followPos);
             }
 
             movement.FollowPath();
@@ -262,7 +264,7 @@ public class Unit : Agent
     }
 
     // Commands unit to move to the passed tile
-    public virtual void MoveTo(GridTile tile, Vector3 pos)
+    public virtual void MoveTo(TileData tile, Vector3 pos)
     {
         role?.Command(tile, pos);
 

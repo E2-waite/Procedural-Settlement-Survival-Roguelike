@@ -1,3 +1,4 @@
+using Cinderwild.WorldBuilder.Data;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -26,10 +27,10 @@ public class TileSaveData
     ResourceSaveData resource;
     BuildingSaveData building;
 
-    public TileSaveData(GridTile tile)
+    public TileSaveData(TileData tile)
     {
         type = (int)tile.type;
-        position = new SaveVector2Int(tile.position);
+        position = new SaveVector2Int(tile.Position);
         worldPosition = new SaveVector3(tile.worldPosition);
         resource = new ResourceSaveData(tile.Resource);
         building = new BuildingSaveData(tile.Building);

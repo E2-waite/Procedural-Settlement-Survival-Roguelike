@@ -1,4 +1,6 @@
 using UnityEngine;
+using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.WorldBuilder.Data;
 
 [System.Serializable]
 public class GameContext
@@ -11,7 +13,7 @@ public class GameContext
     public GameType gameType = GameType.Game;
 
     [HideInInspector] public Player player;
-    public WorldBuilder world;
+    public World world;
     public FormationCatalog formationCatalog;
     public InteractionController interactionController;
     public CameraController cameraController;
@@ -27,12 +29,11 @@ public class GameContext
     public UnitSystem unitSystem;
     public FireSystem fireSystem;
     public InputManager inputManager;
-    public ChunkStreaming chunkStreaming;
     public GameManager gameManager;
 
     public DayNightSystem dayNightSystem;
     public DayNightHandler dayNightHandler;
-    public GridTile spawnTile;
+    public TileData spawnTile;
 
     public AgentCatalog agentCatalog;
 

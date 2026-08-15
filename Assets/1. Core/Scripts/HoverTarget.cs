@@ -1,15 +1,16 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using Cinderwild.WorldBuilder.Data;
+using Cinderwild.WorldBuilder.Data;
 
 public class HoverTarget
 {
-    private GridTile hoveringTile = null;
+    private TileData hoveringTile = null;
     private Agent hoveringAgent = null;
     private Building hoveringBuilding = null;
     private Vector3 hoveringPos = Vector3.zero;
     public Vector3 Position => hoveringPos;
     public bool IsTile => hoveringTile != null;
-    public GridTile Tile => hoveringTile;
+    public TileData Tile => hoveringTile;
 
     public bool IsAgent => hoveringAgent != null;
     public bool IsUnit => hoveringAgent != null && hoveringAgent is Unit;
@@ -42,7 +43,7 @@ public class HoverTarget
         hoveringPos = otherTarget.Position;
     }
 
-    public bool Update(RaycastHit hit, WorldGrid grid)
+    public bool Update(RaycastHit hit, World world)
     {
         hoveringPos = hit.point;
 
@@ -56,7 +57,7 @@ public class HoverTarget
         }
         else
         {
-            GridTile tile = grid.GetTile(hit.point);
+            TileData tile = grid.GetTile(hit.point);
             if (tile != null)
             {
                 return Set(tile);
@@ -66,13 +67,12 @@ public class HoverTarget
         return false;
     }
 
-    private bool Set(GridTile tile)
+    private bool Set(TileData tile)
     {
         if (tile != hoveringTile)
         {
             ClearOld();
             hoveringTile = tile;
-            hoveringTile.SetHovering();
             return true;
         }
         return false;

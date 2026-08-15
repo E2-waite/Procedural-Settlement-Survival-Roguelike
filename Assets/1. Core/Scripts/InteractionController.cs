@@ -25,7 +25,6 @@ public class InteractionController : MonoBehaviour
     private Vector2 mousePos;
     public Vector2 MousePos => mousePos;
     private bool commanding = false;
-    private WorldGrid grid;
     private HighlightHandler highlighter = new HighlightHandler();
     private Player player;
     private Quaternion lookRot, lastRot;

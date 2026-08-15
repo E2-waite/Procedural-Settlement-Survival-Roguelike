@@ -1,3 +1,4 @@
+using Cinderwild.WorldBuilder.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,20 +57,20 @@ public class Agent : Destructable
         HandleStates();
     }
 
-    public void RequestPath(GridTile tile)
+    public void RequestPath(TileData tile)
     {
         Movement.SetTargetPos(tile.worldPosition);
 
-        RequestPath(tile.position);
+        RequestPath(tile.Position);
     }
 
     // Request a path to a position and set target tile
-    public void RequestPath(GridTile tile, Vector3 worldPos)
+    public void RequestPath(TileData tile, Vector3 worldPos)
     {
         Movement.SetTargetPos(worldPos);
         Movement.SetTargetTile(tile);
 
-        RequestPath(tile.position);
+        RequestPath(tile.Position);
     }
 
     public void RequestPath(Vector3 worldPos)
@@ -105,7 +106,7 @@ public class Agent : Destructable
             {
                 Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
-                GridTile tile = grid.GetTile(tilePos);
+                TileData tile = grid.GetTile(tilePos);
                 if (tile == null || !tile.IsEmpty)
                     pathable[x, y] = false;
                 else
