@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Generation;
+using Cinderwild.WorldBuilder.Runtime;
 
 namespace Cinderwild.WorldBuilder.Data
 {

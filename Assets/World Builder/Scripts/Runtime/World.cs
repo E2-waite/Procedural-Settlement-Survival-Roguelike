@@ -1,9 +1,9 @@
 using UnityEngine;
 using System;
 using Cinderwild.WorldBuilder.Data;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.WorldBuilder.Generation;
 
-namespace Cinderwild.WorldBuilder.Generation
+namespace Cinderwild.WorldBuilder.Runtime
 {
     [ExecuteAlways]
     public class World : MonoBehaviour
@@ -16,6 +16,7 @@ namespace Cinderwild.WorldBuilder.Generation
         private Vector2 seedOffset = Vector2.zero;
         public static Action OnPropertiesChanged;
 
+#if GENERATE_IN_EDITOR
         private void OnEnable()
         {
             Debug.Log("Subscribed");
@@ -27,7 +28,7 @@ namespace Cinderwild.WorldBuilder.Generation
         {
             OnPropertiesChanged -= Generate;
         }
-
+#endif
 
         public void Generate()
         {
@@ -35,9 +36,8 @@ namespace Cinderwild.WorldBuilder.Generation
 
             ChunkBuilder.Init(this);
             WorldManager.Init(this);
-            TileBuilder.Init(this);
             ResourceBuilder.Init(this);
-            Data = new WorldData();
+            Data = new WorldData(properties);
 
             if (transform.childCount > 0)
             {

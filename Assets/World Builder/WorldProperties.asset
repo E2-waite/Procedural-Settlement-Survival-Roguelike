@@ -20,8 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22abff982da0190479b9da588a72e8c4, type: 2}
   tree: {fileID: 11400000, guid: 8d67c10e5787c8c45bbc4fd570d8f4df, type: 2}
   stone: {fileID: 0}
-  noiseScale: 0.08
-  resourceScale: 0.287
+  noiseScale: 0.048
+  resourceScale: 0.234
   heightMultiplier: 2.16
   heightScale: 1.53
   tileScale: 1

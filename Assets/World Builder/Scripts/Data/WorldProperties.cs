@@ -1,4 +1,4 @@
-using Cinderwild.WorldBuilder.Generation;
+using Cinderwild.WorldBuilder.Runtime;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
