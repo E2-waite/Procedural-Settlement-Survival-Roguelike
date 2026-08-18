@@ -1,5 +1,4 @@
 using Cinderwild.Core.Data;
-using Cinderwild.Core.Input;
 using UnityEngine;
 
 namespace Cinderwild.Gameplay
@@ -15,6 +14,7 @@ namespace Cinderwild.Gameplay
             context.Interaction.Init(context);
             context.World.Generate();
             context.Player.Init(context);
+            context.Camera.Init(context);
             Destroy(this);
         }
     }

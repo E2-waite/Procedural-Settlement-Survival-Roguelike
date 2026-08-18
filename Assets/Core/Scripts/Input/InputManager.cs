@@ -140,7 +140,6 @@ namespace Cinderwild.Core.Input
         {
             if (moveInput.x != 0 || moveInput.y != 0)
             {
-                Debug.Log("Input");
                 Moved?.Invoke(moveInput);
             }
         }

@@ -9,15 +9,16 @@ namespace Cinderwild.Core.Data
     public class Context
     {
         // Monobehaviours
-        [SerializeField] private Player player;
+        [SerializeField] private World world;
         [SerializeField] private InputManager input;
         [SerializeField] private InteractionController interaction;
-        [SerializeField] private World world;
+        [SerializeField] private Player player;
+        [SerializeField] private CameraController camera;
 
-
-        public Player Player => player;
+        public World World => world;
         public InputManager Input => input;
         public InteractionController Interaction => interaction;
-        public World World => world;
+        public Player Player => player;
+        public CameraController Camera => camera;
     }
 }

@@ -62,8 +62,7 @@ namespace Cinderwild.Core.Input
         }
         public void OnMoveInput(Vector2 move)
         {
-            Debug.Log("Handler");
-            player.OnMove(move);
+            player?.Controller?.MovePlayer(move);
         }
 
         public void OnLookChanged(Quaternion rot)

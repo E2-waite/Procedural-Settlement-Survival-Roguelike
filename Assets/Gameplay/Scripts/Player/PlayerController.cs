@@ -6,14 +6,11 @@ namespace Cinderwild.Gameplay.Agents
     public class PlayerController : MonoBehaviour
     {
         public float moveSpeed = 5f;
-        private Camera cam;
         private Vector3 facing = Vector3.zero;
         public Vector3 Facing => facing;
 
         public void MovePlayer(Vector2 moveInput)
         {
-            Debug.Log("MOVE!");
-
             Vector3 move = CameraRelativeMove(moveInput, Camera.main.transform);
             if (move.magnitude > 0.1f)
             {

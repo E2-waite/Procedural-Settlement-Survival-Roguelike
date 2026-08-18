@@ -5,7 +5,6 @@ public interface IInteractionHandler
 {
     void Enable();
     void Disable();
-
     void OnMouseMoved(Vector2 pos, Vector2 diff);
     void OnLeftDown();
     void OnLeftHeld(Vector2 diff, float time);

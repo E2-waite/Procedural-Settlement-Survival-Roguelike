@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinderwild.Core.Data;
+using Cinderwild.WorldBuilder.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {
@@ -14,14 +15,10 @@ namespace Cinderwild.Gameplay.Agents
             health.Fill();
         }
 
-        void Update()
+        private void Update()
         {
-        }
-
-        public void OnMove(Vector2 moveInput)
-        {
-            Debug.Log("Player");
-            Controller?.MovePlayer(moveInput);
+            Chunk chunk = WorldManager.GetChunk(transform.position);
+            WorldManager.StreamChunks(chunk);
         }
     }
 }

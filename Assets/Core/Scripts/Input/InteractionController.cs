@@ -147,7 +147,6 @@ namespace Cinderwild.Core.Input
         // Consumes context.InputManager's Move action on WASD pressed
         void OnMoveInput(Vector2 move)
         {
-            Debug.Log("Interaction");
             if (currentHandler != null) currentHandler.OnMoveInput(move);
         }
     }

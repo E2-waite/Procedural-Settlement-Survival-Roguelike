@@ -61,6 +61,8 @@ namespace Cinderwild.WorldBuilder.Generation
             tile.WorldPosition = worldPos;
             tile.Center = new Vector3(worldPos.x + (WorldData.Properties.tileScale * .5f), worldPos.y, worldPos.z + (WorldData.Properties.tileScale * .5f));
 
+            tile.Walkable = tile.Object.topoType == TopoType.Stepped;
+
             return tile;
         }
 
