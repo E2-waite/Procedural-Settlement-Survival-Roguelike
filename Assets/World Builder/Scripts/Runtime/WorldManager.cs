@@ -1,9 +1,13 @@
+using Cinderwild.WorldBuilder.Data;
 using Cinderwild.WorldBuilder.Generation;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cinderwild.WorldBuilder.Runtime
 {
+    /// <summary>
+    /// Provides global access to the current World and manages runtime world operations.
+    /// </summary>
     public static class WorldManager
     {
         public static World World { get; private set; }
@@ -22,13 +26,20 @@ namespace Cinderwild.WorldBuilder.Runtime
         {
             position *= World.Properties.tileScale;
             position /= World.Properties.chunkSize;
-            position.y = 0;
-
             Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
             World.Data.Chunks.TryGetValue(chunkPos, out Chunk chunk);
 
             return chunk;
+        }
+
+        public static TileData GetTile(Vector3 position)
+        {
+            position *= World.Properties.tileScale;
+            Vector2Int tilePos = new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.z));
+
+            World.Data.Tiles.TryGetValue(tilePos, out TileData tile);
+            return tile;
         }
 
         // Streams surrounding chunks, enabling/creating valid chunks and disabling invalid chunks

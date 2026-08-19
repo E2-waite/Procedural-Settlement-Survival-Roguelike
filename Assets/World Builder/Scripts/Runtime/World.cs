@@ -5,6 +5,10 @@ using Cinderwild.WorldBuilder.Generation;
 
 namespace Cinderwild.WorldBuilder.Runtime
 {
+    /// <summary>
+    /// Represents the current game world, including its configuration and runtime data.
+    /// Responsible for generating and managing the world's initial state.
+    /// </summary>
     [ExecuteAlways]
     public class World : MonoBehaviour
     {

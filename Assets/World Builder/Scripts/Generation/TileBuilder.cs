@@ -60,8 +60,7 @@ namespace Cinderwild.WorldBuilder.Generation
 
             tile.WorldPosition = worldPos;
             tile.Center = new Vector3(worldPos.x + (WorldData.Properties.tileScale * .5f), worldPos.y, worldPos.z + (WorldData.Properties.tileScale * .5f));
-
-            tile.Walkable = tile.Object.topoType == TopoType.Stepped;
+            tile.IsFlat = tile.Object.topoType == TopoType.Stepped || tile.Object.topoType == TopoType.Sloped;
 
             return tile;
         }
@@ -120,6 +119,8 @@ namespace Cinderwild.WorldBuilder.Generation
                     TileData tile = chunk.GetTile(new Vector2Int(x, y));
                     if (tile == null || tile.Object == null || tile.Object.topoType != TopoType.Sloped && tile.Object.topoType != TopoType.Smooth) continue;
 
+                    bool flat = true;
+
                     for (int v = 0; v < 4; v++)
                     {
                         TileConfig lowestObj = null;
@@ -143,11 +144,14 @@ namespace Cinderwild.WorldBuilder.Generation
                         if (lowestObj != null)
                         {
                             vHeight = lowestObj.WorldHeight;
+                            if (vHeight < tile.Object.WorldHeight) flat = false;
                         }
 
                         if (tile.Object.topoType == TopoType.Sloped || (tile.Object.topoType == TopoType.Smooth && lowestObj.topoType != TopoType.Smooth))
                             tile.Vertices[v].SetHeight(vHeight * WorldData.Properties.heightScale);
                     }
+
+                    tile.IsFlat = flat;
                 }
             }
         }

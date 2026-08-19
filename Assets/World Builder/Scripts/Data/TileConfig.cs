@@ -22,6 +22,7 @@ namespace Cinderwild.WorldBuilder.Data
         public TileConfig Prev => prevObject;
         private TileConfig prevObject; // The previous object (lower tile)
         private float worldHeight; // The total world height
+        public bool walkable = true;
 
         public void Init(int index, TileConfig prev)
         {

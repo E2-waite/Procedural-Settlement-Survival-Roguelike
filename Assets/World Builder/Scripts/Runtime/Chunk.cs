@@ -5,7 +5,6 @@ using Cinderwild.WorldBuilder.Data;
 
 namespace Cinderwild.WorldBuilder.Runtime
 {
-    [ExecuteAlways]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class Chunk : MonoBehaviour
     {
@@ -28,28 +27,12 @@ namespace Cinderwild.WorldBuilder.Runtime
             transform.position = new Vector3(worldPos.x, 0, worldPos.y);
         }
 
-#if UNITY_EDITOR
-        private void OnEnable()
-        {
-            SceneView.duringSceneGui += OnSceneGUI;
-        }
-
-        private void OnDisable()
-        {
-            SceneView.duringSceneGui -= OnSceneGUI;
-        }
-
-        private void OnSceneGUI(SceneView sceneView)
+        private void Update()
         {
             if (Data == null || Data.Resources == null)
                 return;
 
-            //ResourceRenderer.Render(Data.Resources);
-
-            sceneView.Repaint();
+            ResourceRenderer.Render(Data.Resources);
         }
-#endif
-
-        
     }
 }

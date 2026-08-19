@@ -1,4 +1,6 @@
 using UnityEngine;
+using Cinderwild.WorldBuilder.Data;
+using Cinderwild.WorldBuilder.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {
@@ -19,13 +21,17 @@ namespace Cinderwild.Gameplay.Agents
 
             Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-            //GridTile tile = grid.GetTile(targetPos);
 
-            //// Only move if tile is walkable
-            //if (tile != null && tile.IsEmpty)
-            //{
+            TileData tile = WorldManager.GetTile(targetPos);
+
+            // Only move if tile is walkable
+            if (tile != null && tile.IsWalkable)
+            {
+                targetPos.y = tile.WorldPosition.y;
+                //targetPos += new Vector3(0, .5f, 0);
                 transform.position = targetPos;
-            //}
+                Debug.Log(tile.Object);
+            }
         }
 
         Vector3 CameraRelativeMove(Vector2 input, Transform cam)
