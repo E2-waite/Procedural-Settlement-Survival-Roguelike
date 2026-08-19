@@ -79,8 +79,8 @@ namespace Haztech.SpriteEditor.Editor
 
             newConfig.AddLayer(new Layer("New Layer", newConfig));
             newConfig.AddState(new StateConfig("New State"));
-            config.selectedLayer = 0;
-            config.selectedState = 0;
+            newConfig.selectedLayer = 0;
+            newConfig.selectedState = 0;
 
             // Sets previous config to ensure the same config opens after closing and re-opening
             EditorPrefs.SetString(LastConfigKey, path);

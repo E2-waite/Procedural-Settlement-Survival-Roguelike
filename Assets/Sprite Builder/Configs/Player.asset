@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a91c93c498396c4fa69cc9aced1fae2, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: Assembly-CSharp::Haztech.SpriteEditor.Data.SpriteConfig
+  layerObjects:
+  - rid: 4503306502312820804
+  - rid: 4503306502312820803
+  - rid: 4503306502312820802
+  - rid: 4503306502312820800
+  - rid: 4503306502312820801
+  states:
+  - name: New State
+  colorGroups:
+  - name: New Group
+    color: {r: 0.5999999, g: 0.22528292, b: 0.22528292, a: 1}
+  - name: New Group
+    color: {r: 1, g: 1, b: 1, a: 1}
+  selectedLayer: 0
+  selectedState: 0
+  selectedDir: 3
+  references:
+    version: 2
+    RefIds:
+    - rid: 4503306502312820800
+      type: {class: Layer, ns: Haztech.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Head
+        visible: 1
+        id: 3
+        color: {r: 1, g: 0.854902, b: 0.7254902, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 21300000, guid: f983dcea7498fce4cb37c64bdbe517cf, type: 3}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+    - rid: 4503306502312820801
+      type: {class: Layer, ns: Haztech.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Robe
+        visible: 1
+        id: 4
+        color: {r: 0.6679245, g: 0.2608686, b: 0.2608686, a: 1}
+        colorGroupId: 0
+        states:
+        - directions:
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 21300000, guid: 052379b3345658046b0f556af4a68f08, type: 3}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+    - rid: 4503306502312820802
+      type: {class: Layer, ns: Haztech.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Eyes
+        visible: 1
+        id: 2
+        color: {r: 1, g: 1, b: 1, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 220285781, guid: 272cb28b15fb9d64dbfb8d316a409504, type: 3}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+    - rid: 4503306502312820803
+      type: {class: Layer, ns: Haztech.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Hood
+        visible: 1
+        id: 1
+        color: {r: 1, g: 1, b: 1, a: 1}
+        colorGroupId: 0
+        states:
+        - directions:
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 220285781, guid: 9dd2e260a327eed4dbc69921b96c5422, type: 3}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+    - rid: 4503306502312820804
+      type: {class: Layer, ns: Haztech.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Hood Trim
+        visible: 1
+        id: 0
+        color: {r: 0.7735849, g: 0.47024643, b: 0.16201496, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 220285781, guid: 786d72b0f9062694f923a9868062d5ad, type: 3}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}
+          - sprite: {fileID: 0}

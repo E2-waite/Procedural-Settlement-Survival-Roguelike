@@ -26,5 +26,6 @@ MonoBehaviour:
   heightScale: 1.53
   tileScale: 1
   seaLevel: 0.258
-  chunkSize: 10
+  chunkSize: 40
+  streamDist: 3
   worldSize: {x: 1, y: 1}

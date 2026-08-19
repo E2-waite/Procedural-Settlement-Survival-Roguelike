@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
         if (player == null) return;
 
         Vector3 targetPos =
-            player.transform.position + followOffset;
+            player.transform.position;
 
         targetPos.y = transform.position.y;
 
