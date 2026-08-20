@@ -11,7 +11,11 @@ namespace Cinderwild.Gameplay.Agents
 
         public void Init(Context context)
         {
+            Chunk chunk = WorldManager.GetChunk(transform.position);
+            WorldManager.StreamChunks(chunk);
+
             Controller = GetComponent<PlayerController>();
+            Controller.Init();
             health.Fill();
         }
 
@@ -19,6 +23,24 @@ namespace Cinderwild.Gameplay.Agents
         {
             Chunk chunk = WorldManager.GetChunk(transform.position);
             WorldManager.StreamChunks(chunk);
+        }
+
+        private void LateUpdate()
+        {
+            Camera cam = Camera.main;
+
+            if (cam == null)
+                return;
+
+            Vector3 direction = cam.transform.position - transform.position;
+            direction.y = 0f;
+
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                transform.rotation =
+                    Quaternion.LookRotation(direction) *
+                    Quaternion.Euler(0f, 180f, 0f);
+            }
         }
     }
 }

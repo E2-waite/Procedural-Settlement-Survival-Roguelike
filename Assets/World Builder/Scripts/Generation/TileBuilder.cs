@@ -24,7 +24,7 @@ namespace Cinderwild.WorldBuilder.Generation
                     // Assign tiles to tile grid
                     if (x > 0 && y > 0 && x < chunkSize + 1 && y < chunkSize + 1)
                     {
-                        Vector2Int gridPos = new Vector2Int(chunk.GridPos.x * chunkSize + x, chunk.GridPos.y * chunkSize + y);
+                        Vector2Int gridPos = new Vector2Int(chunk.GridPos.x * chunkSize + x - 1, chunk.GridPos.y * chunkSize + y - 1);
                         WorldData.Instance.Tiles[gridPos] = tile;
                     }
                 }

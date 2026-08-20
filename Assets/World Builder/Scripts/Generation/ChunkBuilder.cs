@@ -1,13 +1,12 @@
 using Cinderwild.WorldBuilder.Data;
 using Cinderwild.WorldBuilder.Runtime;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 namespace Cinderwild.WorldBuilder.Generation
 {
     public static class ChunkBuilder
     {
-        private static World world;
+        [SerializeField] private static World world;
         private static WorldProperties properties;
         private static bool initialized = false;
         public static void Init(World builder)
@@ -20,7 +19,8 @@ namespace Cinderwild.WorldBuilder.Generation
             }
         }
 
-        public static Chunk GenerateChunk(Vector2Int position)
+        // Generates a chunk and 
+        public static Chunk Generate(Vector2Int position)
         {
             Chunk chunk = world.SpawnChunk();
             chunk.Init(properties, position);
@@ -30,23 +30,26 @@ namespace Cinderwild.WorldBuilder.Generation
             
             TileBuilder.BuildTiles(chunk.Data);
 
-            
             MeshGenerator.Generate(chunk, properties);
 
             ResourceBuilder.Build(chunk.Data);
+
+            world.Data.Chunks[position] = chunk;
+            chunk.transform.parent = world.transform;
+
             return chunk;
         }
 
         // Calculates chunk's terrain noise
-        private static void CalculateNoise(ChunkData data)
+        private static void CalculateNoise(ChunkData chunkData)
         {
-            for (int x = 0; x < data.Size + 3; x++)
+            for (int x = 0; x < chunkData.Size + 3; x++)
             {
-                for (int y = 0; y < data.Size + 3; y++)
+                for (int y = 0; y < chunkData.Size + 3; y++)
                 {
-                    data.Noise[x, y] = Noise.GetNoise(x - 1 + data.Position.x, y - 1 + data.Position.y, properties.noiseScale, world.SeedOffset) - properties.seaLevel;
-                    if (data.Noise[x, y] > 0) data.Noise[x, y] *= properties.heightMultiplier;
-                    data.Noise[x, y] = Mathf.Clamp01(data.Noise[x, y]);
+                    chunkData.Noise[x, y] = Noise.GetNoise(x - 1 + chunkData.Position.x, y - 1 + chunkData.Position.y, properties.noiseScale, world.SeedOffset) - properties.seaLevel;
+                    if (chunkData.Noise[x, y] > 0) chunkData.Noise[x, y] *= properties.heightMultiplier;
+                    chunkData.Noise[x, y] = Mathf.Clamp01(chunkData.Noise[x, y]);
                 }
             }
         }

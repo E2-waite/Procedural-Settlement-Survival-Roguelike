@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Cinderwild.Core.Input
 {
@@ -24,8 +25,9 @@ namespace Cinderwild.Core.Input
         public event Action<Vector2, float> RightClickHeld;
         public event Action<Vector2, float> LeftClickReleased;
         public event Action<Vector2, float> RightClickReleased;
-        public event Action EscapePressed;
-        public event Action FPressed;
+        public event Action<Key> KeyPressed;
+        public event Action<Key> KeyReleased;
+
         public event Action<Vector2, Vector2> MouseMoved;
         public event Action<Vector2> Moved;
 
@@ -129,10 +131,19 @@ namespace Cinderwild.Core.Input
         // Invokes keypress actions on key input
         void HandleKeys()
         {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-                EscapePressed?.Invoke();
-            if (Keyboard.current.fKey.wasPressedThisFrame)
-                FPressed?.Invoke();
+            if (Keyboard.current == null) return;
+
+            foreach (KeyControl key in Keyboard.current.allKeys)
+            {
+                if (key.wasPressedThisFrame)
+                {
+                    KeyPressed?.Invoke(key.keyCode);
+                }
+                else if (key.wasReleasedThisFrame)
+                {
+                    KeyReleased?.Invoke(key.keyCode);
+                }
+            }
         }
 
         // Invokes Moved action on move input (WASD)

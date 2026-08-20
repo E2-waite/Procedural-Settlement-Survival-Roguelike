@@ -13,11 +13,12 @@ namespace Cinderwild.WorldBuilder.Runtime
     public class World : MonoBehaviour
     {
         public WorldProperties Properties => properties;
-        public WorldData Data { get; private set; }
+        private WorldData data = null;
+        public WorldData Data => data;
         public Vector2 SeedOffset => seedOffset;
         [SerializeField] private Chunk chunkPrefab;
         [SerializeField] private WorldProperties properties;
-        private Vector2 seedOffset = Vector2.zero;
+        private Vector2 seedOffset = new Vector2(100000f, 100000f);
         public static Action OnPropertiesChanged;
 
 #if GENERATE_IN_EDITOR
@@ -38,29 +39,33 @@ namespace Cinderwild.WorldBuilder.Runtime
         {
             properties?.Init();
 
+            Clear();
+
             ChunkBuilder.Init(this);
             WorldManager.Init(this);
             ResourceBuilder.Init(this);
-            Data = new WorldData(properties);
 
-            if (transform.childCount > 0)
+            if (data == null)
             {
-                DestroyImmediate(transform.GetChild(0).gameObject);
-            }
+                data = new WorldData(properties);
 
-            GameObject chunksObj = new GameObject("Chunks");
-            chunksObj.transform.parent = transform;
-
-            for (int x = 0; x < properties.worldSize.x; x++)
-            {
-                for (int y = 0; y < properties.worldSize.y; y++)
+                for (int x = 0; x < properties.worldSize.x; x++)
                 {
-                    Vector2Int gridPos = new Vector2Int(x, y);
-                    Chunk chunk = ChunkBuilder.GenerateChunk(gridPos);
-                    chunk.transform.parent = chunksObj.transform;
-                    Data.Chunks[gridPos] = chunk;
+                    for (int y = 0; y < properties.worldSize.y; y++)
+                    {
+                        ChunkBuilder.Generate(new Vector2Int(x, y));
+                    }
                 }
             }
+        }
+
+        public void Clear()
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                DestroyImmediate(transform.GetChild(i).gameObject);
+            }
+            data = null;
         }
 
         public Chunk SpawnChunk()

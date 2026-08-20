@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Cinderwild.WorldBuilder.Data
 {
     // Stores chunk's resources (trees, etc.) rendering data
+    [System.Serializable]
     public class ChunkResources
     {
         public List<int> ids = new List<int>();

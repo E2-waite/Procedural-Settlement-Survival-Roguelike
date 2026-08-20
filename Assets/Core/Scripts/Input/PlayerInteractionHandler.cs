@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Core.Data;
+using UnityEngine.InputSystem;
 
 namespace Cinderwild.Core.Input
 {
@@ -8,10 +9,11 @@ namespace Cinderwild.Core.Input
     {
         private InteractionController controller;
         private Player player;
-
+        private CameraController camera;
         public PlayerInteractionHandler(Context context)
         {
             player = context.Player;
+            camera = context.Camera;
         }
 
         public void Enable()
@@ -46,20 +48,32 @@ namespace Cinderwild.Core.Input
         {
 
         }
-        public void OnRightHeld(Vector2 diff, float time)
+
+        public void OnRightHeld(Vector2 pos, Vector2 diff, float time)
         {
-           
         }
+
         public void OnRightUp(Vector2 diff, float time)
         {
             
         }
-        public void OnEscape()
+        public void OnKeyPressed(Key key)
         {
+            if (key == Key.Comma) // '<'
+            {
+                camera.Rotate(-1);
+            }
+            else if (key == Key.Period) // '>'
+            {
+                camera.Rotate(1);
+            }
         }
-        public void OnFKey()
+
+        public void OnKeyReleased(Key key)
         {
+
         }
+
         public void OnMoveInput(Vector2 move)
         {
             player?.Controller?.MovePlayer(move);

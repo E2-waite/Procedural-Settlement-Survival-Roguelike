@@ -18,4 +18,5 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: d73d9c2a9902a1349a38671cf1c30450, type: 2}
   noiseThesh: 1
   noiseMulti: 1
-  height: 3.24
+  height: 5
+  walkable: 1

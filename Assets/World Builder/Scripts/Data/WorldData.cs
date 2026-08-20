@@ -4,6 +4,7 @@ using Cinderwild.WorldBuilder.Runtime;
 
 namespace Cinderwild.WorldBuilder.Data
 {
+    [System.Serializable]
     public class WorldData
     {
         public static WorldData Instance { get; private set; }

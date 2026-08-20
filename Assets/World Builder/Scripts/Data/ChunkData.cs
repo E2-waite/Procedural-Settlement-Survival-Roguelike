@@ -2,10 +2,11 @@ using UnityEngine;
 
 namespace Cinderwild.WorldBuilder.Data
 {
+    [System.Serializable]
     public class ChunkData
     {
-        public Vector2 Position { get; private set; }
-        public Vector2Int GridPos { get; private set; }
+        public Vector2 Position { get; private set; } // World position
+        public Vector2Int GridPos { get; private set; } // Grid position
         public float[,] Noise { get; private set; }
         public ChunkVertex[,] Vertices { get; private set; }
         public int Size { get; private set; }
@@ -25,18 +26,15 @@ namespace Cinderwild.WorldBuilder.Data
         public void SetTile(TileData tile, Vector2Int pos)
         {
             int rowSize = Size + 2;
-            // 2D bounds check
             if (pos.x < 0 || pos.y < 0 || pos.x >= rowSize || pos.y >= rowSize) return;
-
             int index = pos.y * rowSize + pos.x;
             tiles[index] = tile;
         }
+
         public TileData GetTile(int x, int y)
         {
             int rowSize = Size + 2;
-            // 2D bounds check first
             if (x < 0 || y < 0 || x >= rowSize || y >= rowSize) return null;
-
             int index = y * rowSize + x;
             if (index < 0 || index >= tiles.Length) return null;
             else return tiles[index];

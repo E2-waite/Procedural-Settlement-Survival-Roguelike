@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Cinderwild.WorldBuilder.Data
 {
+    [System.Serializable]
     public class ChunkVertex
     {
         public Vector3 position;

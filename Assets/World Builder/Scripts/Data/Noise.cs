@@ -10,7 +10,7 @@ namespace Cinderwild.WorldBuilder.Data
         }
         public static float GetNoise(float x, float y, float noiseScale, Vector2 offset)
         {
-            float height = GenerateNoise((x + offset.x) * noiseScale, (y + offset.y) * noiseScale);
+            float height = GenerateNoise(x * noiseScale + offset.x , y * noiseScale + offset.y);
 
             height = Mathf.Clamp01(height);
             height = Mathf.Pow(height, 1.2f);

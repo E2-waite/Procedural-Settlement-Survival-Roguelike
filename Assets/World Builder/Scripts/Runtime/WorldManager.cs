@@ -36,7 +36,7 @@ namespace Cinderwild.WorldBuilder.Runtime
         public static TileData GetTile(Vector3 position)
         {
             position *= World.Properties.tileScale;
-            Vector2Int tilePos = new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.z));
+            Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
             World.Data.Tiles.TryGetValue(tilePos, out TileData tile);
             return tile;
@@ -70,8 +70,7 @@ namespace Cinderwild.WorldBuilder.Runtime
             {
                 if (!World.Data.Chunks.TryGetValue(pos, out Chunk other))
                 {
-                    other = ChunkBuilder.GenerateChunk(pos);
-                    World.Data.Chunks[pos] = other;
+                    other = ChunkBuilder.Generate(pos);
                 }
 
                 if (!other.isActiveAndEnabled)

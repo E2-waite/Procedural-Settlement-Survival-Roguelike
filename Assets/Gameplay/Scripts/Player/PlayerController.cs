@@ -10,6 +10,16 @@ namespace Cinderwild.Gameplay.Agents
         public float moveSpeed = 5f;
         private Vector3 facing = Vector3.zero;
         public Vector3 Facing => facing;
+        public bool Rotating { get; private set; }
+
+        public void Init()
+        {
+            TileData tile = WorldManager.GetTile(transform.position);
+            if (tile != null && tile.IsWalkable)
+            {
+                transform.position += new Vector3(0, tile.WorldPosition.y, 0);
+            }
+        }
 
         public void MovePlayer(Vector2 moveInput)
         {
@@ -21,19 +31,17 @@ namespace Cinderwild.Gameplay.Agents
 
             Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-
             TileData tile = WorldManager.GetTile(targetPos);
 
             // Only move if tile is walkable
             if (tile != null && tile.IsWalkable)
             {
                 targetPos.y = tile.WorldPosition.y;
-                //targetPos += new Vector3(0, .5f, 0);
                 transform.position = targetPos;
-                Debug.Log(tile.Object);
             }
         }
 
+        // Get movement vector relative to the camera rotation
         Vector3 CameraRelativeMove(Vector2 input, Transform cam)
         {
             Vector3 forward = cam.forward;

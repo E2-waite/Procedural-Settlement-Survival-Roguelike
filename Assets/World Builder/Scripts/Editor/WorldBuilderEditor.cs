@@ -19,9 +19,20 @@ namespace Cinderwild.WorldBuilder.Editor
             {
                 Undo.RegisterFullObjectHierarchyUndo(
                     world.gameObject,
-                    "Build Sprite Rig");
+                    "Build World");
 
                 world.Generate();
+
+                EditorUtility.SetDirty(world);
+            }
+
+            if (GUILayout.Button("Clear World"))
+            {
+                Undo.RegisterFullObjectHierarchyUndo(
+                    world.gameObject,
+                    "Clear World");
+
+                world.Clear();
 
                 EditorUtility.SetDirty(world);
             }

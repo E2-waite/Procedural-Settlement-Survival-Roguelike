@@ -1,5 +1,7 @@
 using UnityEngine;
 using Cinderwild.Core.Data;
+using UnityEngine.InputSystem;
+
 namespace Cinderwild.Core.Input
 {
     public class InteractionController : MonoBehaviour
@@ -7,7 +9,6 @@ namespace Cinderwild.Core.Input
         private bool initialized = false;
         private float rayInterval = 0.01f, rayTimer = 0f;
         private Vector2 mousePos;
-        public Vector2 MousePos => mousePos;
         private Quaternion lookRot, lastRot;
         private RaycastHit lastHit;
         private float lookDist = 0, lastDist = 0;
@@ -26,8 +27,8 @@ namespace Cinderwild.Core.Input
                 context.Input.RightClickHeld += OnRightHeld;
                 context.Input.LeftClickReleased += OnLeftUp;
                 context.Input.RightClickReleased += OnRightUp;
-                context.Input.EscapePressed += OnEscape;
-                context.Input.FPressed += OnFKey;
+                context.Input.KeyPressed += OnKeyPressed;
+                context.Input.KeyReleased += OnKeyReleased;
                 context.Input.Moved += OnMoveInput;
                 initialized = true;
 
@@ -53,8 +54,8 @@ namespace Cinderwild.Core.Input
             context.Input.RightClickHeld -= OnRightHeld;
             context.Input.LeftClickReleased -= OnLeftUp;
             context.Input.RightClickReleased -= OnRightUp;
-            context.Input.EscapePressed -= OnEscape;
-            context.Input.FPressed -= OnFKey;
+            context.Input.KeyPressed -= OnKeyPressed;
+            context.Input.KeyReleased -= OnKeyReleased;
             context.Input.Moved -= OnMoveInput;
             initialized = false;
         }
@@ -99,17 +100,17 @@ namespace Cinderwild.Core.Input
         // Consumes context.InputManager's LeftClick action
         void OnLeftDown()
         {
-            if (currentHandler != null) currentHandler.OnLeftDown();
+            currentHandler?.OnLeftDown();
         }
 
         void OnLeftHeld(Vector2 diff, float time)
         {
-            if (currentHandler != null) currentHandler.OnLeftHeld(diff, time);
+            currentHandler?.OnLeftHeld(diff, time);
         }
 
         void OnLeftUp(Vector2 diff, float time)
         {
-            if (currentHandler != null) currentHandler.OnLeftUp(diff, time);
+            currentHandler?.OnLeftUp(diff, time);
         }
 
 
@@ -117,37 +118,34 @@ namespace Cinderwild.Core.Input
         // Consumes context.InputManager's RightClick action
         void OnRightDown()
         {
-            if (currentHandler != null) currentHandler.OnRightDown();
+            currentHandler?.OnRightDown();
         }
 
 
         void OnRightHeld(Vector2 diff, float time)
         {
-            if (currentHandler != null) currentHandler.OnRightHeld(diff, time);
+            currentHandler?.OnRightHeld(mousePos, diff, time);
         }
 
         void OnRightUp(Vector2 diff, float time)
         {
-            if (currentHandler != null) currentHandler.OnRightUp(diff, time);
-
+            currentHandler?.OnRightUp(diff, time);
         }
 
-        // Consumes context.InputManager's EscapePressed action on Esc key pressed
-        void OnEscape()
+        void OnKeyPressed(Key key)
         {
-            if (currentHandler != null) currentHandler.OnEscape();
+            currentHandler?.OnKeyPressed(key);
         }
 
-        // Consumes context.InputManager's FKeyPressed action on F key pressed
-        void OnFKey()
+        void OnKeyReleased(Key key)
         {
-            if (currentHandler != null) currentHandler.OnFKey();
+            currentHandler?.OnKeyReleased(key);
         }
 
         // Consumes context.InputManager's Move action on WASD pressed
         void OnMoveInput(Vector2 move)
         {
-            if (currentHandler != null) currentHandler.OnMoveInput(move);
+            currentHandler?.OnMoveInput(move);
         }
     }
 }
