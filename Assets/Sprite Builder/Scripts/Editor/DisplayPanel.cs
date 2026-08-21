@@ -1,9 +1,9 @@
-using Haztech.SpriteEditor.Data;
+using Cinderwild.SpriteEditor.Data;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Editor
+namespace Cinderwild.SpriteEditor.Editor
 {
     public static class DisplayPanel
     {
@@ -90,11 +90,11 @@ namespace Haztech.SpriteEditor.Editor
                     {
                         if (!group.visible) continue;
 
-                        foreach(Layer layer in group.Layers)
-                        {
-                            if (!layer.visible) continue;
-                            DrawLayer(layer, config, canvasRect, scale);
-                        }
+                        //foreach(Layer layer in group.Layers)
+                        //{
+                        //    if (!layer.visible) continue;
+                        //    DrawLayer(layer, config, canvasRect, scale);
+                        //}
                     }
                     else if (layerObj is Layer layer)
                     {

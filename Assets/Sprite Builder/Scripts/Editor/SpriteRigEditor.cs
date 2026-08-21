@@ -1,8 +1,8 @@
-using Haztech.SpriteEditor.Runtime;
+using Cinderwild.SpriteEditor.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Editor
+namespace Cinderwild.SpriteEditor.Editor
 {
     [CustomEditor(typeof(SpriteRig))]
     public class SpriteRigEditorBuilder : UnityEditor.Editor

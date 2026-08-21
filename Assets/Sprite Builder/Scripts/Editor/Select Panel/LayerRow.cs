@@ -1,8 +1,8 @@
-using Haztech.SpriteEditor.Data;
+using Cinderwild.SpriteEditor.Data;
 using UnityEditor;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Editor
+namespace Cinderwild.SpriteEditor.Editor
 {
     public static class LayerRow
     {
@@ -266,16 +266,16 @@ namespace Haztech.SpriteEditor.Editor
                 toolWindow.Repaint();
             }
 
-            if (layerObj is LayerGroup group && !group.IsEmpty)
-            {
-                bool expand = group.expanded;
-                expand = EditorGUI.Foldout(
-                    rects.expand,
-                    group.expanded,
-                    GUIContent.none);
+            //if (layerObj is LayerGroup group && !group.IsEmpty)
+            //{
+            //    bool expand = group.expanded;
+            //    expand = EditorGUI.Foldout(
+            //        rects.expand,
+            //        group.expanded,
+            //        GUIContent.none);
 
-                group.Expand(expand);
-            }
+            //    group.Expand(expand);
+            //}
 
             if (layerObj != null && index > 0 &&
                 GUI.Button(rects.moveUp, EditorGUIUtility.IconContent("scrollup"), EditorStyles.iconButton))

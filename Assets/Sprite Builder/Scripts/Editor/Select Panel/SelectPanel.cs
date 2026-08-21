@@ -1,9 +1,9 @@
-using Haztech.SpriteEditor.Data;
+using Cinderwild.SpriteEditor.Data;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Editor
+namespace Cinderwild.SpriteEditor.Editor
 {
     public static class SelectPanel
     {

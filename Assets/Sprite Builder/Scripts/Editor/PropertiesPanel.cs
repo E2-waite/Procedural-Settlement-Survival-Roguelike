@@ -1,8 +1,8 @@
-using Haztech.SpriteEditor.Data;
+using Cinderwild.SpriteEditor.Data;
 using UnityEditor;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Editor
+namespace Cinderwild.SpriteEditor.Editor
 {
     public static class PropertiesPanel
     {
@@ -63,7 +63,7 @@ namespace Haztech.SpriteEditor.Editor
                     group.visible = EditorGUILayout.Toggle("Visible", group.visible);
                     group.name = EditorGUILayout.TextField("Name", group.name);
 
-                    GUILayout.Label(group.Layers.Count + " Layers");
+                    //GUILayout.Label(group.Layers.Count + " Layers");
                 }
 
             }

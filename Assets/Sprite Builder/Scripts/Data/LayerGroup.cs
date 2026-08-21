@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Data
+namespace Cinderwild.SpriteEditor.Data
 {
     [System.Serializable]
     public class LayerGroup : LayerObject
@@ -9,9 +9,9 @@ namespace Haztech.SpriteEditor.Data
         public int id = 0;
         private SpriteConfig config;
         public bool expanded = false;
-        [SerializeReference] private List<Layer> layers = new List<Layer>();
-        public List<Layer> Layers => layers;
-        public bool IsEmpty => layers.Count == 0;
+        //[SerializeField] private List<Layer> layers = new List<Layer>();
+        //public List<Layer> Layers => layers;
+        //public bool IsEmpty => layers.Count == 0;
         public LayerGroup(string name, SpriteConfig config)
         {
             this.name = name;
@@ -20,30 +20,30 @@ namespace Haztech.SpriteEditor.Data
 
         public void AddLayer(Layer layer)
         {
-            if (!layers.Contains(layer))
-            {
-                layers.Add(layer);
-                layer.SetGroup(this);
-            }
+            //if (!layers.Contains(layer))
+            //{
+            //    layers.Add(layer);
+            //    layer.SetGroup(this);
+            //}
         }
 
         public void RemoveLayer(Layer layer)
         {
-            if (layer != null && layers != null)
-            {
-                layers.Remove(layer);
-            }
+            //if (layer != null && layers != null)
+            //{
+            //    layers.Remove(layer);
+            //}
         }
 
         public void RemoveLayer(int index)
         {
-            if (index < layers.Count)
-                layers.RemoveAt(index);
+            //if (index < layers.Count)
+            //    layers.RemoveAt(index);
         }
 
         public Layer GetLayer(int index)
         {
-            if (index < layers.Count) return layers[index];
+            //if (index < layers.Count) return layers[index];
             return null;
         }
 

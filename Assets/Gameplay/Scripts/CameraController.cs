@@ -2,6 +2,7 @@ using Cinderwild.Core.Data;
 using Cinderwild.Gameplay.Agents;
 using System.Collections;
 using UnityEngine;
+using Cinderwild.SpriteEditor.Data;
 
 public class CameraController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class CameraController : MonoBehaviour
     private Vector3 followOffset = new Vector3(-10, 10, -10);
     private bool initialized = false;
     private Coroutine rotateRoutine = null;
+    public Direction Facing => facingDir;
+    private Direction facingDir = Direction.North;
 
     public void Init(Context context)
     {
@@ -50,18 +53,31 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator RotateRoutine(int dir)
     {
-        Vector3 desiredVec = transform.rotation.eulerAngles + new Vector3(0, dir > 0 ? 45 : -45, 0);
+        Vector3 desiredVec = transform.rotation.eulerAngles + new Vector3(0, dir > 0 ? 90 : -90, 0);
         Quaternion desiredRot = Quaternion.Euler(desiredVec);
 
         while (Quaternion.Angle(transform.rotation, desiredRot) > 0.01f)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
+
+            facingDir = GetDirectionFromAngle(transform.rotation.eulerAngles.y);
+
             yield return null;
         }
 
         transform.rotation = desiredRot;
         rotateRoutine = null;
     }
+
+    private Direction GetDirectionFromAngle(float angle)
+    {
+        angle = Mathf.Repeat(angle, 360f);
+
+        int index = Mathf.RoundToInt(angle / 45f) % 8;
+
+        return (Direction)index;
+    }
+
     void FollowPlayer()
     {
         if (player == null) return;

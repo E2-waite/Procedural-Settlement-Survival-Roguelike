@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Data
+namespace Cinderwild.SpriteEditor.Data
 {
     public class SpriteConfig : ScriptableObject
     {
@@ -30,6 +30,12 @@ namespace Haztech.SpriteEditor.Data
             RefeshExpandedList();
         }
 
+        public void Init()
+        {
+            RefreshGroupRef();
+            RefeshExpandedList();
+        }
+
         public List<Layer> GetLayers()
         {
             List<Layer> layers = new List<Layer>();
@@ -43,10 +49,10 @@ namespace Haztech.SpriteEditor.Data
                 }
                 else if (layerObj is LayerGroup group)
                 {
-                    foreach (Layer groupedLayer in group.Layers)
-                    {
-                        layers.Add(groupedLayer);
-                    }
+                    //foreach (Layer groupedLayer in group.Layers)
+                    //{
+                    //    layers.Add(groupedLayer);
+                    //}
                 }
             }
             return layers;
@@ -254,11 +260,11 @@ namespace Haztech.SpriteEditor.Data
                     
                     if (group.expanded)
                     {
-                        foreach (Layer groupLayer in group.Layers)
-                        {
-                            groupLayer.id = expanded.Count;
-                            expanded.Add(groupLayer);
-                        }
+                        //foreach (Layer groupLayer in group.Layers)
+                        //{
+                        //    groupLayer.id = expanded.Count;
+                        //    expanded.Add(groupLayer);
+                        //}
                     }
                 }
             }
@@ -270,10 +276,10 @@ namespace Haztech.SpriteEditor.Data
             {
                 if (layerObj is LayerGroup group)
                 {
-                    foreach (Layer layer in group.Layers)
-                    {
-                        layer.SetGroup(group);
-                    }
+                    //foreach (Layer layer in group.Layers)
+                    //{
+                    //    layer.SetGroup(group);
+                    //}
                 }
                 else if (layerObj is Layer layer)
                 {

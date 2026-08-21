@@ -1,14 +1,20 @@
 using System.Collections.Generic;
-using Haztech.SpriteEditor.Data;
+using Cinderwild.SpriteEditor.Data;
 using UnityEngine;
 
-namespace Haztech.SpriteEditor.Runtime
+namespace Cinderwild.SpriteEditor.Runtime
 {
     public class SpriteRig : MonoBehaviour
     {
         public Transform body;
         public SpriteConfig config;
-        private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
+        [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
+
+        public void Init()
+        {
+            config?.Init();
+        }
+
         public void Build()
         {
             Clear();
@@ -55,7 +61,7 @@ namespace Haztech.SpriteEditor.Runtime
                 SpriteRenderer rend = renderers[i];
 
                 if (rend != null)
-                    rend.sprite = config.GetSprite(i);
+                    rend.sprite = config.GetSprite(i, dir);
             }
         }
     }

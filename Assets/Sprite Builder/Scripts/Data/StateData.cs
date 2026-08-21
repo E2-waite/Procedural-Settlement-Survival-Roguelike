@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace Haztech.SpriteEditor.Data
+namespace Cinderwild.SpriteEditor.Data
 {
     [System.Serializable]
     public class StateData
