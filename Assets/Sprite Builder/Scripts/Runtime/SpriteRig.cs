@@ -25,6 +25,9 @@ namespace Cinderwild.SpriteEditor.Runtime
 
                 GameObject layerObj = new GameObject(layer.name);
                 layerObj.transform.parent = transform;
+                layerObj.transform.position = Vector3.zero;
+                layerObj.transform.rotation = Quaternion.identity;
+                layerObj.transform.localScale = Vector3.one;
 
                 SpriteRenderer rend = layerObj.AddComponent<SpriteRenderer>();
                 rend.sprite = config.GetSprite(i);

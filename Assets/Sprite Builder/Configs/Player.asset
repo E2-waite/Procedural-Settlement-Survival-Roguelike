@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.SpriteEditor.Data.SpriteConfig
   layerObjects:
   - rid: 4503306533209374722
+  - rid: 4503306533209374787
+  - rid: 4503306533209374789
+  - rid: 4503306533209374788
   states:
   - name: New State
   colorGroups: []
-  selectedLayer: 0
+  selectedLayer: 1
   selectedState: 0
   selectedDir: 4
   references:
@@ -26,7 +29,7 @@ MonoBehaviour:
     - rid: 4503306533209374722
       type: {class: Layer, ns: Cinderwild.SpriteEditor.Data, asm: Assembly-CSharp}
       data:
-        name: New Layer
+        name: Eyes
         visible: 1
         id: 0
         color: {r: 1, g: 1, b: 1, a: 1}
@@ -35,9 +38,63 @@ MonoBehaviour:
         - directions:
           - sprite: {fileID: 0}
           - sprite: {fileID: 0}
+          - sprite: {fileID: -1352960935, guid: 459f8f3724ddab84392c5b85bb38cf93, type: 3}
+          - sprite: {fileID: 368571912, guid: 459f8f3724ddab84392c5b85bb38cf93, type: 3}
+          - sprite: {fileID: 1010734390, guid: 459f8f3724ddab84392c5b85bb38cf93, type: 3}
+          - sprite: {fileID: -1418999322, guid: 459f8f3724ddab84392c5b85bb38cf93, type: 3}
+          - sprite: {fileID: -466546037, guid: 459f8f3724ddab84392c5b85bb38cf93, type: 3}
           - sprite: {fileID: 0}
-          - sprite: {fileID: 0}
-          - sprite: {fileID: 0}
-          - sprite: {fileID: 0}
-          - sprite: {fileID: 0}
-          - sprite: {fileID: 0}
+    - rid: 4503306533209374787
+      type: {class: Layer, ns: Cinderwild.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Head
+        visible: 1
+        id: 1
+        color: {r: 1, g: 0.8941177, b: 0.7686275, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: -1218162591, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: 1094729902, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: -1352960935, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: 368571912, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: 1010734390, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: -1418999322, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: -466546037, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+          - sprite: {fileID: -177272644, guid: 7d26b157f76dd8d4288d2c59c8a70799, type: 3}
+    - rid: 4503306533209374788
+      type: {class: Layer, ns: Cinderwild.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Torso
+        visible: 1
+        id: 3
+        color: {r: 0.6377357, g: 0.23945165, b: 0.23945165, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: -1218162591, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: 1094729902, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: -1352960935, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: 368571912, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: 1010734390, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: -1418999322, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: -466546037, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+          - sprite: {fileID: -177272644, guid: a6b67542a9bf4414d89c387f619fe118, type: 3}
+    - rid: 4503306533209374789
+      type: {class: Layer, ns: Cinderwild.SpriteEditor.Data, asm: Assembly-CSharp}
+      data:
+        name: Trim
+        visible: 1
+        id: 2
+        color: {r: 0.7735849, g: 0.5033476, b: 0.17953002, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: -1218162591, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: 1094729902, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: -1352960935, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: 368571912, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: 1010734390, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: -1418999322, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: -466546037, guid: a3befd832cc132a48b8e4b518109332d, type: 3}
+          - sprite: {fileID: -177272644, guid: a3befd832cc132a48b8e4b518109332d, type: 3}

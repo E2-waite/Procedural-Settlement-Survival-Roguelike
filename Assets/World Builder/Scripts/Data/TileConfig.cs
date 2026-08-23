@@ -41,8 +41,6 @@ namespace Cinderwild.WorldBuilder.Data
             {
                 World.OnPropertiesChanged?.Invoke();
             };
-#else
-        WorldGenerator.OnPropertiesChanged?.Invoke();
 #endif
         }
     }

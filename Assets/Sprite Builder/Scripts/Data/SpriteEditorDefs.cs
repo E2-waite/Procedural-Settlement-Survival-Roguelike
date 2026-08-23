@@ -2,14 +2,6 @@ using UnityEngine;
 
 namespace Cinderwild.SpriteEditor.Data
 {
-    public enum DirectionConfig
-    {
-        Two,
-        Four,
-        Eight,
-        Custom
-    }
-
     public enum Direction
     {
         North,
