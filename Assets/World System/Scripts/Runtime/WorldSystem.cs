@@ -8,15 +8,15 @@ namespace Cinderwild.WorldBuilder.Runtime
     /// <summary>
     /// Provides global access to the current World and manages runtime world operations.
     /// </summary>
-    public static class WorldManager
+    public static class WorldSystem
     {
-        public static World World { get; private set; }
+        public static WorldBuilder World { get; private set; }
         private static Chunk lastChunk = null;
         private static Vector2Int lastPos = Vector2Int.zero;
         private static HashSet<Vector2Int> required = new HashSet<Vector2Int>();
         private static HashSet<Vector2Int> active = new HashSet<Vector2Int>();
 
-        public static void Init(World world)
+        public static void Init(WorldBuilder world)
         {
             World = world;
         }

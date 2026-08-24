@@ -6,10 +6,10 @@ namespace Cinderwild.WorldBuilder.Generation
 {
     public static class ChunkBuilder
     {
-        [SerializeField] private static World world;
+        [SerializeField] private static Runtime.WorldBuilder world;
         private static WorldProperties properties;
         private static bool initialized = false;
-        public static void Init(World builder)
+        public static void Init(Runtime.WorldBuilder builder)
         {
             if (!initialized)
             {

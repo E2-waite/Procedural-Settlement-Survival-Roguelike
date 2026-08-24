@@ -10,7 +10,7 @@ namespace Cinderwild.WorldBuilder.Runtime
     /// Responsible for generating and managing the world's initial state.
     /// </summary>
     [ExecuteAlways]
-    public class World : MonoBehaviour
+    public class WorldBuilder : MonoBehaviour
     {
         public WorldProperties Properties => properties;
         private WorldData data = null;
@@ -42,7 +42,7 @@ namespace Cinderwild.WorldBuilder.Runtime
             Clear();
 
             ChunkBuilder.Init(this);
-            WorldManager.Init(this);
+            WorldSystem.Init(this);
             ResourceBuilder.Init(this);
 
             if (data == null)

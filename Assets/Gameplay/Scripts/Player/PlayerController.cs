@@ -14,7 +14,7 @@ namespace Cinderwild.Gameplay.Agents
 
         public void Init()
         {
-            TileData tile = WorldManager.GetTile(transform.position);
+            TileData tile = WorldSystem.GetTile(transform.position);
             if (tile != null && tile.IsWalkable)
             {
                 transform.position += new Vector3(0, tile.WorldPosition.y, 0);
@@ -31,7 +31,7 @@ namespace Cinderwild.Gameplay.Agents
 
             Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-            TileData tile = WorldManager.GetTile(targetPos);
+            TileData tile = WorldSystem.GetTile(targetPos);
 
             // Only move if tile is walkable
             if (tile != null && tile.IsWalkable)

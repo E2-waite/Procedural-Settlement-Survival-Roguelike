@@ -1,8 +1,8 @@
-using Cinderwild.SpriteEditor.Runtime;
+using Cinderwild.SpriteSytem.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     [CustomEditor(typeof(SpriteRig))]
     public class SpriteRigEditorBuilder : UnityEditor.Editor

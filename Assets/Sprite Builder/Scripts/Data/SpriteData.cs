@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Data
+namespace Cinderwild.SpriteSytem.Data
 {
     [System.Serializable]
     public class SpriteData
     {
-        public Sprite sprite = null;
+        public UnityEngine.Sprite sprite = null;
 
         public SpriteData()
         {

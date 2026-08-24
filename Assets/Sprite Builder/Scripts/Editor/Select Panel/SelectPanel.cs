@@ -1,9 +1,9 @@
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public static class SelectPanel
     {

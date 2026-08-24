@@ -1,8 +1,8 @@
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public static class PropertiesPanel
     {
@@ -54,7 +54,7 @@ namespace Cinderwild.SpriteEditor.Editor
                     if (state != null)
                     {
                         SpriteData data = state.GetData(Window.Instance.SpriteConfig.selectedDir);
-                        data.sprite = (Sprite)EditorGUILayout.ObjectField("Sprite", data.sprite, typeof(Sprite), false);
+                        data.sprite = (UnityEngine.Sprite)EditorGUILayout.ObjectField("Sprite", data.sprite, typeof(UnityEngine.Sprite), false);
                     }
                 }
                 else if (layerObj is LayerGroup group)

@@ -19,5 +19,11 @@ namespace Cinderwild.WorldBuilder.Data
             Properties = properties;
             Instance = this;
         }
+
+        public TileData GetTile(Vector2Int pos)
+        {
+            Tiles.TryGetValue(pos, out TileData tile);
+            return tile;
+        }
     }
 }

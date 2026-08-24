@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace Cinderwild.SpriteEditor.Data
+namespace Cinderwild.SpriteSytem.Data
 {
     [System.Serializable]
     public class StateData

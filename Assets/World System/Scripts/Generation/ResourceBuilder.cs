@@ -9,7 +9,7 @@ namespace Cinderwild.WorldBuilder.Generation
         private static WorldProperties properties;
 
         private static bool initialized = false;
-        public static void Init(World builder)
+        public static void Init(Runtime.WorldBuilder builder)
         {
             if (!initialized)
             {

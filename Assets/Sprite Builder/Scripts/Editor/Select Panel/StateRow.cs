@@ -1,8 +1,8 @@
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public static class StateRow
     {

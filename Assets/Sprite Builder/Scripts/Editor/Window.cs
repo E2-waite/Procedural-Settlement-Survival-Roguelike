@@ -1,9 +1,9 @@
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public class Window : EditorWindow
     {

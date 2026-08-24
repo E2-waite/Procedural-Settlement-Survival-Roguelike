@@ -2,7 +2,7 @@ using Cinderwild.Core.Data;
 using Cinderwild.Gameplay.Agents;
 using System.Collections;
 using UnityEngine;
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 
 public class CameraController : MonoBehaviour
 {

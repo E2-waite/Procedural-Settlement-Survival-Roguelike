@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Runtime
+namespace Cinderwild.SpriteSytem.Runtime
 {
     public class SpriteRig : MonoBehaviour
     {

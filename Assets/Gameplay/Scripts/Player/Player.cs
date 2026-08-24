@@ -1,35 +1,37 @@
 using UnityEngine;
 using Cinderwild.Core.Data;
 using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.SpriteSytem.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {
-    [RequireComponent(typeof(PlayerController), typeof(AgentSpriteController))]
+    [RequireComponent(typeof(PlayerController), typeof(SpriteController))]
     public class Player : Destructable
     {
         public PlayerController Controller { get; private set; }
-        public AgentSpriteController SpriteController { get; private set; }
+        private SpriteController spriteController;
 
         public void Init(Context context)
         {
-            Chunk chunk = WorldManager.GetChunk(transform.position);
-            WorldManager.StreamChunks(chunk);
+            Chunk chunk = WorldSystem.GetChunk(transform.position);
+            WorldSystem.StreamChunks(chunk);
 
             Controller = GetComponent<PlayerController>();
             Controller.Init();
 
-            SpriteController = GetComponent<AgentSpriteController>();
-            SpriteController?.Init(context);
+            spriteController = GetComponent<SpriteController>();
+            spriteController?.Init(context);
 
             health.Fill();
         }
 
         private void Update()
         {
-            Chunk chunk = WorldManager.GetChunk(transform.position);
-            WorldManager.StreamChunks(chunk);
+            Chunk chunk = WorldSystem.GetChunk(transform.position);
+            WorldSystem.StreamChunks(chunk);
+
             if (Controller != null)
-                SpriteController?.UpdateDirection(Controller.Facing);
+                spriteController?.UpdateDirection(Controller.Facing);
         }
 
         private void LateUpdate()

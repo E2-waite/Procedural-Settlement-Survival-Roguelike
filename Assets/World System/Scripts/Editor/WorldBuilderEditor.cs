@@ -4,14 +4,14 @@ using Cinderwild.WorldBuilder.Runtime;
 
 namespace Cinderwild.WorldBuilder.Editor
 {
-    [CustomEditor(typeof(World))]
+    [CustomEditor(typeof(Runtime.WorldBuilder))]
     public class WorldBuilderEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            World world = (World)target;
+            Runtime.WorldBuilder world = (Runtime.WorldBuilder)target;
 
             EditorGUILayout.Space();
 

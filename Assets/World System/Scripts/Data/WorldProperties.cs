@@ -36,7 +36,7 @@ namespace Cinderwild.WorldBuilder.Data
 #if UNITY_EDITOR
             EditorApplication.delayCall += () =>
             {
-                World.OnPropertiesChanged?.Invoke();
+                Runtime.WorldBuilder.OnPropertiesChanged?.Invoke();
             };
 #endif
         }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Data
+namespace Cinderwild.SpriteSytem.Data
 {
     public enum Direction
     {

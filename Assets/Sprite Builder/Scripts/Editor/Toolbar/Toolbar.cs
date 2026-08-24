@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public static class Toolbar
     {

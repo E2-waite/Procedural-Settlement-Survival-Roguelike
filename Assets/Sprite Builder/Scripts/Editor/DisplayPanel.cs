@@ -1,9 +1,9 @@
-using Cinderwild.SpriteEditor.Data;
+using Cinderwild.SpriteSytem.Data;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Editor
+namespace Cinderwild.SpriteSytem.Editor
 {
     public static class DisplayPanel
     {
@@ -121,7 +121,7 @@ namespace Cinderwild.SpriteEditor.Editor
             DrawSprite(data.sprite, rect, scale, colorGroup == null ? layer.color : colorGroup.color);
         }
 
-        private static void DrawSprite(Sprite sprite, Rect rect, float scale, Color color)
+        private static void DrawSprite(UnityEngine.Sprite sprite, Rect rect, float scale, Color color)
         {
             Texture2D texture = sprite.texture;
 

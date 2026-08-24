@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cinderwild.SpriteEditor.Data
+namespace Cinderwild.SpriteSytem.Data
 {
     public class SpriteConfig : ScriptableObject
     {
@@ -58,7 +58,7 @@ namespace Cinderwild.SpriteEditor.Data
             return layers;
         }
 
-        public Sprite GetSprite(int layerId, Direction dir = Direction.Null)
+        public UnityEngine.Sprite GetSprite(int layerId, Direction dir = Direction.Null)
         {
             if (layerId >= 0 && layerId < layerObjects.Count)
             {
