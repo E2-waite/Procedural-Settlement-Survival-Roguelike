@@ -1,6 +1,6 @@
 using UnityEngine;
-using Cinderwild.WorldBuilder.Data;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Data;
+using Cinderwild.World.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {

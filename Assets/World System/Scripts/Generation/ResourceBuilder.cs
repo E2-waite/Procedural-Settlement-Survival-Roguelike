@@ -1,15 +1,15 @@
-using Cinderwild.WorldBuilder.Data;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Data;
+using Cinderwild.World.Runtime;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Generation
+namespace Cinderwild.World.Generation
 {
     public static class ResourceBuilder
     {
         private static WorldProperties properties;
 
         private static bool initialized = false;
-        public static void Init(Runtime.WorldBuilder builder)
+        public static void Init(Runtime.WorldManager builder)
         {
             if (!initialized)
             {

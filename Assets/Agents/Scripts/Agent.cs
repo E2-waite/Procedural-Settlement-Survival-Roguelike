@@ -1,6 +1,4 @@
 using Cinderwild.Core.Data;
-using Cinderwild.WorldBuilder.Data;
-using System.Collections;
 using UnityEngine;
 using Cinderwild.SpriteSytem.Runtime;
 
@@ -9,15 +7,16 @@ namespace Cinderwild.Gameplay.Agents
     [RequireComponent(typeof(AgentController), typeof(SpriteController))]
     public class Agent : Destructable
     {
-        private SpriteController spriteController;
         private AgentController controller;
+        private SpriteController spriteController;
 
         public float chunkInterval = 1f, chunkTimer = 0f;
         [SerializeField] private Transform body;
         public Transform Body => body;
         public virtual void Init(Context context)
         {
-
+            controller = GetComponent<AgentController>();
+            spriteController = GetComponent<SpriteController>();
         }
 
         protected virtual void Update()

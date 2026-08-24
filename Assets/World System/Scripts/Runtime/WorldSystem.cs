@@ -1,22 +1,22 @@
-using Cinderwild.WorldBuilder.Data;
-using Cinderwild.WorldBuilder.Generation;
+using Cinderwild.World.Data;
+using Cinderwild.World.Generation;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Runtime
+namespace Cinderwild.World.Runtime
 {
     /// <summary>
     /// Provides global access to the current World and manages runtime world operations.
     /// </summary>
     public static class WorldSystem
     {
-        public static WorldBuilder World { get; private set; }
+        public static WorldManager World { get; private set; }
         private static Chunk lastChunk = null;
         private static Vector2Int lastPos = Vector2Int.zero;
         private static HashSet<Vector2Int> required = new HashSet<Vector2Int>();
         private static HashSet<Vector2Int> active = new HashSet<Vector2Int>();
 
-        public static void Init(WorldBuilder world)
+        public static void Init(WorldManager world)
         {
             World = world;
         }

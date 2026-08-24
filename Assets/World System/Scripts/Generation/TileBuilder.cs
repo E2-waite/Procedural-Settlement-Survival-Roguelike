@@ -1,7 +1,7 @@
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Data;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Generation
+namespace Cinderwild.World.Generation
 {
     public static class TileBuilder
     {

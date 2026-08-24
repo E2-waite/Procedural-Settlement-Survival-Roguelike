@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     [System.Serializable]
     public class TileData

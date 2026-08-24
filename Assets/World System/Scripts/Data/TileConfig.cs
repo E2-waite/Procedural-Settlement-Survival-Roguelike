@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Runtime;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     [CreateAssetMenu(fileName = "New Tile Def", menuName = "World Builder/Tile")]
     public class TileConfig : ScriptableObject
@@ -39,7 +38,7 @@ namespace Cinderwild.WorldBuilder.Data
 #if UNITY_EDITOR
             EditorApplication.delayCall += () =>
             {
-                Runtime.WorldBuilder.OnPropertiesChanged?.Invoke();
+                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
             };
 #endif
         }

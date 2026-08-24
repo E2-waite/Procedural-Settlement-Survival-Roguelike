@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     // Stores chunk's resources (trees, etc.) rendering data
     [System.Serializable]

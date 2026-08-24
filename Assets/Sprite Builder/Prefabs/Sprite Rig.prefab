@@ -378,6 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7327354670681632182}
   - component: {fileID: 1351806796122790261}
+  - component: {fileID: 6594618821593633675}
   m_Layer: 0
   m_Name: Sprite Rig
   m_TagString: Untagged
@@ -417,9 +418,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Haztech.SpriteEditor.Runtime.SpriteRig
   body: {fileID: 7327354670681632182}
-  config: {fileID: 11400000, guid: e11b7a470e99b884f82e06314f64c7d2, type: 2}
+  config: {fileID: 0}
   renderers:
   - {fileID: 3184086571258365245}
   - {fileID: 4235561892174000655}
   - {fileID: 1993565149520832778}
   - {fileID: 5854410727877609853}
+--- !u!210 &6594618821593633675
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9071892759735087817}
+  m_Enabled: 1
+  m_SortingLayerID: -501180599
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0

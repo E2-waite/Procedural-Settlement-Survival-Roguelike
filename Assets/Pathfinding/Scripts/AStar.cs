@@ -16,7 +16,7 @@ namespace Cinderwild.Pathfinding.Runtime
     }
 
     // A Star Pathfinding
-    public static class Pathfinding
+    public static class AStar
     {
         private class Node
         {

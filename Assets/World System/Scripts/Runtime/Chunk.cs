@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Rendering;
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Rendering;
+using Cinderwild.World.Data;
 
-namespace Cinderwild.WorldBuilder.Runtime
+namespace Cinderwild.World.Runtime
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class Chunk : MonoBehaviour

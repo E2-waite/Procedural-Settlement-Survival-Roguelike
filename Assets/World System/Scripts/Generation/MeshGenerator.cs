@@ -1,9 +1,9 @@
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Data;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Runtime
+namespace Cinderwild.World.Runtime
 {
     public static class MeshGenerator
     {

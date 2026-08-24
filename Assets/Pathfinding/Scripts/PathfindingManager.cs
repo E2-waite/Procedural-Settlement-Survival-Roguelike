@@ -46,7 +46,7 @@ namespace Cinderwild.Pathfinding.Runtime
                 // Requests contain plain data only, so the worker avoids touching Unity objects.
                 if (requestQueue.TryDequeue(out PathRequest request))
                 {
-                    List<Vector2Int> path = Pathfinding.FindPath(request);
+                    List<Vector2Int> path = AStar.FindPath(request);
 
                     // Add request callback to the result queue
                     resultQueue.Enqueue(() =>

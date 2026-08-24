@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Runtime;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     [System.Serializable]
     public class WorldData

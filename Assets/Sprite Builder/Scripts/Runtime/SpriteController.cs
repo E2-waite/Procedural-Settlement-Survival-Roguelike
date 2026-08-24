@@ -78,6 +78,8 @@ namespace Cinderwild.SpriteSytem.Runtime
 
         public void UpdateSpriteRig()
         {
+            if (camera == null) return;
+
             if (facing == Direction.Null ||
                 camera.Facing == Direction.Null)
                 return;
@@ -95,7 +97,10 @@ namespace Cinderwild.SpriteSytem.Runtime
             if (relativeIndex < 0)
                 relativeIndex += 8;
 
-            spriteRig.UpdateDirection((Direction)relativeIndex);
+            Direction dir = (Direction)relativeIndex;
+            Debug.Log(dir);
+
+            spriteRig.UpdateDirection(dir);
         }
     }
 }

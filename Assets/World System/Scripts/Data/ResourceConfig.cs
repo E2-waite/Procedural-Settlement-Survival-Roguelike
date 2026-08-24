@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Runtime;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     [System.Serializable]
     public class ResourceSize
@@ -37,7 +37,7 @@ namespace Cinderwild.WorldBuilder.Data
 #if UNITY_EDITOR
             EditorApplication.delayCall += () =>
             {
-                Runtime.WorldBuilder.OnPropertiesChanged?.Invoke();
+                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
             };
 #endif
         }

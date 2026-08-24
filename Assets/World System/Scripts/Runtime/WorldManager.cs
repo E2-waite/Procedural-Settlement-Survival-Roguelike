@@ -1,16 +1,16 @@
 using UnityEngine;
 using System;
-using Cinderwild.WorldBuilder.Data;
-using Cinderwild.WorldBuilder.Generation;
+using Cinderwild.World.Data;
+using Cinderwild.World.Generation;
 
-namespace Cinderwild.WorldBuilder.Runtime
+namespace Cinderwild.World.Runtime
 {
     /// <summary>
     /// Represents the current game world, including its configuration and runtime data.
-    /// Responsible for generating and managing the world's initial state.
+    /// Responsible for generating and managing the world's state.
     /// </summary>
     [ExecuteAlways]
-    public class WorldBuilder : MonoBehaviour
+    public class WorldManager : MonoBehaviour
     {
         public WorldProperties Properties => properties;
         private WorldData data = null;

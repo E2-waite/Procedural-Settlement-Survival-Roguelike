@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     public class ResourceNode
     {

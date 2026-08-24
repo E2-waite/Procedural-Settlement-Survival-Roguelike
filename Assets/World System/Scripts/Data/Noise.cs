@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     public static class Noise
     {

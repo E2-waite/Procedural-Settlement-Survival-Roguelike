@@ -1,17 +1,17 @@
 using UnityEditor;
 using UnityEngine;
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Runtime;
 
-namespace Cinderwild.WorldBuilder.Editor
+namespace Cinderwild.World.Editor
 {
-    [CustomEditor(typeof(Runtime.WorldBuilder))]
+    [CustomEditor(typeof(Runtime.WorldManager))]
     public class WorldBuilderEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            Runtime.WorldBuilder world = (Runtime.WorldBuilder)target;
+            Runtime.WorldManager world = (Runtime.WorldManager)target;
 
             EditorGUILayout.Space();
 

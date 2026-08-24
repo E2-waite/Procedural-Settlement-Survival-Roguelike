@@ -1,10 +1,10 @@
-using Cinderwild.WorldBuilder.Runtime;
+using Cinderwild.World.Runtime;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cinderwild.WorldBuilder.Data
+namespace Cinderwild.World.Data
 {
     [CreateAssetMenu(fileName = "WorldProperties", menuName = "Scriptable Objects/WorldProperties")]
     public class WorldProperties : ScriptableObject
@@ -36,7 +36,7 @@ namespace Cinderwild.WorldBuilder.Data
 #if UNITY_EDITOR
             EditorApplication.delayCall += () =>
             {
-                Runtime.WorldBuilder.OnPropertiesChanged?.Invoke();
+                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
             };
 #endif
         }

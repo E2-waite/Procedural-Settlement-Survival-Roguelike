@@ -1,5 +1,5 @@
 using Cinderwild.Core.Data;
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

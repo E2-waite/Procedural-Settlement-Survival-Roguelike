@@ -1,9 +1,9 @@
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Cinderwild.WorldBuilder.Rendering
+namespace Cinderwild.World.Rendering
 {
     public static class ResourceRenderer
     {

@@ -1,5 +1,5 @@
 using Cinderwild.Gameplay.Agents;
-using Cinderwild.WorldBuilder.Data;
+using Cinderwild.World.Data;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;

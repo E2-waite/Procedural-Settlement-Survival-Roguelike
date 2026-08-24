@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9148344224061531736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 512447587623341801}
+  - component: {fileID: 9187159177000500425}
+  - component: {fileID: 7730551813837068460}
+  - component: {fileID: 1746455596911737894}
+  m_Layer: 0
+  m_Name: Agent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &512447587623341801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4, y: 0.81112, z: -0.22346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 95948137249673263}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9187159177000500425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba09ccb11ac0854798bed6480583343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Gameplay.Agents.Agent
+  health:
+    current: 0
+    max: 100
+  deathTime: 0.5
+  chunkInterval: 1
+  chunkTimer: 0
+  body: {fileID: 0}
+--- !u!114 &7730551813837068460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f9425de490e874fa20c4bf0e543616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgentController
+  moveSpeed: 5
+  pathWeight: 2
+  swarmWeight: 1
+  swarmRadius: 1
+--- !u!114 &1746455596911737894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a8e96ab80aec94cbb63b3293365ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgentSpriteController
+  spriteRig: {fileID: 8518993056542500076}
+--- !u!1001 &7276442689043152281
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 512447587623341801}
+    m_Modifications:
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071892759735087817, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_Name
+      value: Sprite Rig
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+--- !u!4 &95948137249673263 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7327354670681632182, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+  m_PrefabInstance: {fileID: 7276442689043152281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8518993056542500076 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1351806796122790261, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+  m_PrefabInstance: {fileID: 7276442689043152281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6591c0990e1f9f4bb95811b36427a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Haztech.SpriteEditor.Runtime.SpriteRig
