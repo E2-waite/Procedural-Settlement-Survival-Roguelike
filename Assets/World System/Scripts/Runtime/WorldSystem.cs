@@ -24,7 +24,6 @@ namespace Cinderwild.World.Runtime
         // Returns the chunk at the passed world position
         public static Chunk GetChunk(Vector3 position)
         {
-            position *= World.Properties.tileScale;
             position /= World.Properties.chunkSize;
             Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
@@ -35,7 +34,6 @@ namespace Cinderwild.World.Runtime
 
         public static TileData GetTile(Vector3 position)
         {
-            position *= World.Properties.tileScale;
             Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
             World.Data.Tiles.TryGetValue(tilePos, out TileData tile);

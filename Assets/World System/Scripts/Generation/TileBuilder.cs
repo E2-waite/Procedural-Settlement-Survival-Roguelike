@@ -55,11 +55,11 @@ namespace Cinderwild.World.Generation
             Vector3 chunkOffset = new Vector3(chunk.Position.x, 0, chunk.Position.y);
             // Offset by -1 to accound for padding
             Vector3 worldPos = chunkOffset + new Vector3(pos.x - 1, 0, pos.y - 1);
-            worldPos *= WorldData.Properties.tileScale;
+            //worldPos *= WorldData.Properties.tileScale;
             worldPos.y = tile.Object.WorldHeight * WorldData.Properties.heightScale;
 
             tile.WorldPosition = worldPos;
-            tile.Center = new Vector3(worldPos.x + (WorldData.Properties.tileScale * .5f), worldPos.y, worldPos.z + (WorldData.Properties.tileScale * .5f));
+            tile.Center = new Vector3(worldPos.x + .5f, worldPos.y, worldPos.z + .5f);
             tile.IsFlat = tile.Object.topoType == TopoType.Stepped || tile.Object.topoType == TopoType.Sloped;
 
             return tile;

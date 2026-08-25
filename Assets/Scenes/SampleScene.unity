@@ -666,6 +666,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1810104503552511824, guid: 00b348c6470a24b41be1bdbf93e29cad, type: 3}
+      propertyPath: m_TagString
+      value: Agent
+      objectReference: {fileID: 0}
     - target: {fileID: 9148344224061531736, guid: 00b348c6470a24b41be1bdbf93e29cad, type: 3}
       propertyPath: m_Name
       value: Agent

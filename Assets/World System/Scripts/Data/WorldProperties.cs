@@ -15,7 +15,6 @@ namespace Cinderwild.World.Data
         [Range(0.001f, .3f)] public float resourceScale = 0.05f;
         [Range(0.01f, 10f)] public float heightMultiplier = 2.5f;
         [Range(0.01f, 10f)] public float heightScale = 1f;
-        [Range(0.01f, 2f)] public float tileScale = 1f;
         [Range(0.01f, 1f)] public float seaLevel = 0.35f;
         [Range(1, 100)] public int chunkSize = 20;
         [Range(1, 10)] public int streamDist = 2; 

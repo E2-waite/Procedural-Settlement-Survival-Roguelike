@@ -3,7 +3,7 @@ using Cinderwild.Gameplay.Agents;
 using Cinderwild.Core.Data;
 using UnityEngine.InputSystem;
 
-namespace Cinderwild.Core.Input
+namespace Cinderwild.Core.Interaction
 {
     public class PlayerInteractionHandler : IInteractionHandler
     {
@@ -21,10 +21,6 @@ namespace Cinderwild.Core.Input
         }
 
         public void Disable()
-        {
-        }
-
-        public void OnHover()
         {
         }
 

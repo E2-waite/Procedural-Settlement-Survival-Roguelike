@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Cinderwild.SpriteSytem.Runtime
 {
+    /// <summary>
+    /// Controls sprite direction 
+    /// </summary>
     public class SpriteController : MonoBehaviour
     {
         private Direction facing = Direction.South;
@@ -98,7 +101,6 @@ namespace Cinderwild.SpriteSytem.Runtime
                 relativeIndex += 8;
 
             Direction dir = (Direction)relativeIndex;
-            Debug.Log(dir);
 
             spriteRig.UpdateDirection(dir);
         }

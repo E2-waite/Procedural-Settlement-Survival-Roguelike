@@ -5,13 +5,13 @@ using Cinderwild.World.Data;
 
 namespace Cinderwild.World.Runtime
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public class Chunk : MonoBehaviour
     {
         public Mesh Mesh { get; set; }
         public MeshFilter MeshFilter { get; private set; }
         public MeshRenderer MeshRenderer { get; private set; }
-
+        public MeshCollider Collider { get; private set; }
         [SerializeField] private MeshFilter meshFilter;
 
         public ChunkData Data { get; private set; }
@@ -24,6 +24,7 @@ namespace Cinderwild.World.Runtime
 
             MeshFilter = GetComponent<MeshFilter>();
             MeshRenderer = GetComponent<MeshRenderer>();
+            Collider = GetComponent<MeshCollider>();
             transform.position = new Vector3(worldPos.x, 0, worldPos.y);
         }
 

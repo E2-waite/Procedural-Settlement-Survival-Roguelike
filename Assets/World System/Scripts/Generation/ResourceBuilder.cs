@@ -79,14 +79,14 @@ namespace Cinderwild.World.Generation
             Vector3 scale = new Vector3(width, height, width) * Random.Range(config.scale - scaleVariation, config.scale + scaleVariation);
 
 
-            scale *= properties.tileScale; // Scale to match tile scale
+            //scale *= properties.tileScale; // Scale to match tile scale
             scale *= node.Config.sizes[node.nodeSize].Scale; // Scale to match node size's scale
 
             Vector3 pos = tile.Center;
             Vector3 offset = Vector3.zero;
             offset.x = Random.Range(-config.offsetVariation, config.offsetVariation);
             offset.z = Random.Range(-config.offsetVariation, config.offsetVariation);
-            offset *= properties.tileScale;
+            //offset *= properties.tileScale;
             pos += offset;
 
             Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);

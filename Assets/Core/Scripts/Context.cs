@@ -1,11 +1,16 @@
 using UnityEngine;
 using Cinderwild.Core.Input;
-using Cinderwild.World.Runtime;
+using Cinderwild.Core.Interaction;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
 
+// Expect to use most namespaces here
+
 namespace Cinderwild.Core.Data
 {
+    /// <summary>
+    /// The Game Context Containing All Required Resources
+    /// </summary>
     [System.Serializable]
     public class Context
     {

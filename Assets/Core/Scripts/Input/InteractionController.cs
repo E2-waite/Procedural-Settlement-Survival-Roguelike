@@ -1,8 +1,11 @@
 using UnityEngine;
-using Cinderwild.Core.Data;
 using UnityEngine.InputSystem;
+using Cinderwild.Core.Data;
+using Cinderwild.Gameplay.Agents;
+using Cinderwild.World.Data;
+using Cinderwild.World.Runtime;
 
-namespace Cinderwild.Core.Input
+namespace Cinderwild.Core.Interaction
 {
     public class InteractionController : MonoBehaviour
     {
@@ -14,6 +17,7 @@ namespace Cinderwild.Core.Input
         private float lookDist = 0, lastDist = 0;
         private IInteractionHandler currentHandler;
         Context context = null;
+        private InteractionTarget selection = new();
         public void Init(Context context)
         {
             if (!initialized)
@@ -33,13 +37,6 @@ namespace Cinderwild.Core.Input
                 initialized = true;
 
                 currentHandler = new PlayerInteractionHandler(context);
-                //handlers[(int)GameState.Build] = new BuildInteractionHandler(context);
-                //handlers[(int)GameState.Action] = new ActionInteractionHandler(context);
-                //handlers[(int)GameState.Command] = new CommandInteractionHandler(context);
-                //handlers[(int)GameState.Select] = new PlayerInteractionHandler(context);
-                //currentHandler = handlers[(int)currentState];
-
-                //highlighter.Init(context);
             }
 
         }
@@ -76,7 +73,19 @@ namespace Cinderwild.Core.Input
         // Called from mouse raycast
         void OnHover(RaycastHit hit)
         {
-
+            switch(hit.transform.tag)
+            {
+                case "Agent":
+                    Agent agent = hit.transform.GetComponentInParent<Agent>();
+                    if (agent != null) selection.SelectAgent(agent);
+                    break;
+                case "World":
+                    TileData tile = WorldSystem.GetTile(hit.point);
+                    if (tile != null) selection.SelectTile(tile);
+                    break;
+                case "Building":
+                    break;
+            }
         }
 
         // Casts ray from the mouse position

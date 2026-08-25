@@ -18,8 +18,7 @@ namespace Cinderwild.World.Generation
                 initialized = true;
             }
         }
-
-        // Generates a chunk and 
+ 
         public static Chunk Generate(Vector2Int position)
         {
             Chunk chunk = world.SpawnChunk();
@@ -36,6 +35,7 @@ namespace Cinderwild.World.Generation
 
             world.Data.Chunks[position] = chunk;
             chunk.transform.parent = world.transform;
+            chunk.Collider.sharedMesh = chunk.Mesh;
 
             return chunk;
         }
@@ -61,7 +61,7 @@ namespace Cinderwild.World.Generation
             {
                 for (int z = 0; z < data.Size + 3; z++)
                 {
-                    data.Vertices[x, z] = new ChunkVertex(new Vector3((x - 1) * properties.tileScale, 0, (z - 1) * properties.tileScale));
+                    data.Vertices[x, z] = new ChunkVertex(new Vector3((x - 1), 0, (z - 1)));
                 }
             }
         }
