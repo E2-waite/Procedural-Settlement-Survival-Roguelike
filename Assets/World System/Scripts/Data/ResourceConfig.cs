@@ -31,15 +31,5 @@ namespace Cinderwild.World.Data
 
         [SerializeField] public List<ResourceSize> sizes = new List<ResourceSize>(); 
         public List<Material> materials = new List<Material>();
-
-        private void OnValidate()
-        {
-#if UNITY_EDITOR
-            EditorApplication.delayCall += () =>
-            {
-                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
-            };
-#endif
-        }
     }
 }

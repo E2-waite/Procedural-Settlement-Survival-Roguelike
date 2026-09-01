@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace Cinderwild.Gameplay
 {
-    public class Bootstrapper : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        public Context context;
+        [SerializeField] private Context context;
+        public static Context Context;
 
         private void Start()
         {
@@ -15,7 +16,7 @@ namespace Cinderwild.Gameplay
             context.World.Generate();
             context.Player.Init(context);
             context.Camera.Init(context);
-            Destroy(this);
+            Context = context;
         }
     }
 }

@@ -1,24 +1,33 @@
 using Cinderwild.Core.Data;
 using Cinderwild.SpriteSytem.Data;
+using Cinderwild.SpriteSytem.Runtime;
 using System.Collections;
 using UnityEngine;
 
-namespace Cinderwild.SpriteSytem.Runtime
+namespace Cinderwild.Gameplay.Agents
 {
     /// <summary>
     /// Controls sprite direction 
     /// </summary>
-    public class SpriteController : MonoBehaviour
+    public class AgentSprites : MonoBehaviour
     {
         private Direction facing = Direction.South;
         [SerializeField] private SpriteRig spriteRig;
         private CameraController camera;
         private int lastCamIndex = -1, lastPlayerIndex = -1;
         Coroutine rotateRoutine = null;
-        public void Init(Context context)
+        private Agent agent = null;
+        public void Init(Agent agent)
+        {
+            this.agent = agent;
+            spriteRig?.Init();
+            camera = GameManager.Context.Camera;
+        }
+
+        public void Init()
         {
             spriteRig?.Init();
-            camera = context.Camera;
+            camera = GameManager.Context.Camera;
         }
 
         public void UpdateDirection(Vector3 facingVec)

@@ -5,11 +5,11 @@ using Cinderwild.SpriteSytem.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {
-    [RequireComponent(typeof(PlayerController), typeof(SpriteController))]
+    [RequireComponent(typeof(PlayerController), typeof(AgentSprites))]
     public class Player : Destructable
     {
         public PlayerController Controller { get; private set; }
-        private SpriteController spriteController;
+        private AgentSprites spriteController;
 
         public void Init(Context context)
         {
@@ -19,8 +19,8 @@ namespace Cinderwild.Gameplay.Agents
             Controller = GetComponent<PlayerController>();
             Controller.Init();
 
-            spriteController = GetComponent<SpriteController>();
-            spriteController?.Init(context);
+            spriteController = GetComponent<AgentSprites>();
+            spriteController?.Init();
 
             health.Fill();
         }

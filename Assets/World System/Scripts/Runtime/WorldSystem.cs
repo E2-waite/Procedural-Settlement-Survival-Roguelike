@@ -6,28 +6,28 @@ using UnityEngine;
 namespace Cinderwild.World.Runtime
 {
     /// <summary>
-    /// Provides global access to the current World and manages runtime world operations.
+    /// Provides global access to the current world and manages runtime world operations.
     /// </summary>
     public static class WorldSystem
     {
-        public static WorldManager World { get; private set; }
         private static Chunk lastChunk = null;
         private static Vector2Int lastPos = Vector2Int.zero;
         private static HashSet<Vector2Int> required = new HashSet<Vector2Int>();
         private static HashSet<Vector2Int> active = new HashSet<Vector2Int>();
+        private static WorldManager world;
 
-        public static void Init(WorldManager world)
+        public static void Init(WorldManager worldManager)
         {
-            World = world;
+            world = worldManager;
         }
 
         // Returns the chunk at the passed world position
         public static Chunk GetChunk(Vector3 position)
         {
-            position /= World.Properties.chunkSize;
+            position /= world.Properties.chunkSize;
             Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
-            World.Data.Chunks.TryGetValue(chunkPos, out Chunk chunk);
+            world.Data.Chunks.TryGetValue(chunkPos, out Chunk chunk);
 
             return chunk;
         }
@@ -36,7 +36,7 @@ namespace Cinderwild.World.Runtime
         {
             Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
-            World.Data.Tiles.TryGetValue(tilePos, out TileData tile);
+            world.Data.Tiles.TryGetValue(tilePos, out TileData tile);
             return tile;
         }
 
@@ -50,9 +50,9 @@ namespace Cinderwild.World.Runtime
 
             int dist = 1;
 
-            if (World.Properties != null)
+            if (world.Properties != null)
             {
-                dist = World.Properties.streamDist;
+                dist = world.Properties.streamDist;
             }
 
             for (int x = chunk.Data.GridPos.x - dist; x <= chunk.Data.GridPos.x + dist; x++)
@@ -66,7 +66,7 @@ namespace Cinderwild.World.Runtime
             // Activate/generate required chunks
             foreach (Vector2Int pos in required)
             {
-                if (!World.Data.Chunks.TryGetValue(pos, out Chunk other))
+                if (!world.Data.Chunks.TryGetValue(pos, out Chunk other))
                 {
                     other = ChunkBuilder.Generate(pos);
                 }
@@ -81,7 +81,7 @@ namespace Cinderwild.World.Runtime
             foreach (Vector2Int pos in active)
             {
                 if (required.Contains(pos)) continue;
-                World.Data.Chunks[pos]?.gameObject.SetActive(false);
+                world.Data.Chunks[pos]?.gameObject.SetActive(false);
             }
 
             active.Clear();

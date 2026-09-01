@@ -4,19 +4,29 @@ using Cinderwild.SpriteSytem.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
 {
-    [RequireComponent(typeof(AgentController), typeof(SpriteController))]
+    [RequireComponent(typeof(AgentController))]
+    [RequireComponent(typeof(AgentSprites))]
+    [RequireComponent(typeof(AgentStates))]
+    [RequireComponent(typeof(AgentTracking))]
     public class Agent : Destructable
     {
-        private AgentController controller;
-        private SpriteController spriteController;
+        public AgentController Controller { get; private set; }
+        public AgentSprites Sprite {  get; private set; }
+        public AgentStates States { get; private set; }
+        public AgentTracking Tracking { get; private set; }
 
-        public float chunkInterval = 1f, chunkTimer = 0f;
         [SerializeField] private Transform body;
         public Transform Body => body;
         public virtual void Init(Context context)
         {
-            controller = GetComponent<AgentController>();
-            spriteController = GetComponent<SpriteController>();
+            Controller = GetComponent<AgentController>();
+            Sprite = GetComponent<AgentSprites>();
+            States = GetComponent<AgentStates>();
+            Tracking = GetComponent<AgentTracking>();
+            Controller?.Init(this);
+            Sprite?.Init(this);
+            States?.Init(this);
+            Tracking?.Init(this);
         }
 
         protected virtual void Update()

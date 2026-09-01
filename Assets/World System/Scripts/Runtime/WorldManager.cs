@@ -19,9 +19,10 @@ namespace Cinderwild.World.Runtime
         [SerializeField] private Chunk chunkPrefab;
         [SerializeField] private WorldProperties properties;
         private Vector2 seedOffset = new Vector2(100000f, 100000f);
-        public static Action OnPropertiesChanged;
 
 #if GENERATE_IN_EDITOR
+        public static Action OnPropertiesChanged;
+
         private void OnEnable()
         {
             Debug.Log("Subscribed");

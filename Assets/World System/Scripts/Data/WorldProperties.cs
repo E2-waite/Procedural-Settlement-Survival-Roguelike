@@ -29,16 +29,5 @@ namespace Cinderwild.World.Data
                 tileTypes[i]?.Init(i, prev);
             }
         }
-
-        private void OnValidate()
-        {
-#if UNITY_EDITOR
-            EditorApplication.delayCall += () =>
-            {
-                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
-            };
-#endif
-        }
-
     }
 }

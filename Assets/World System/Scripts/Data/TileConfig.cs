@@ -32,15 +32,5 @@ namespace Cinderwild.World.Data
             else
                 worldHeight = prev.WorldHeight + height;
         }
-
-        private void OnValidate()
-        {
-#if UNITY_EDITOR
-            EditorApplication.delayCall += () =>
-            {
-                Runtime.WorldManager.OnPropertiesChanged?.Invoke();
-            };
-#endif
-        }
     }
 }

@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using Cinderwild.World.Rendering;
 using Cinderwild.World.Data;
