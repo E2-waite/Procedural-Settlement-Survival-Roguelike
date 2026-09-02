@@ -26,8 +26,8 @@ namespace Cinderwild.Core
         public CameraController Camera => camera;
 
         [Header("User Interface")]
-        [SerializeField] private CommandPanel commandPanel;
-        public CommandPanel CommandPanel => commandPanel;
+        [SerializeField] private CommandWidget commandWidget;
+        public CommandWidget CommandWidget => commandWidget;
 
 
         [Header("Managers")]

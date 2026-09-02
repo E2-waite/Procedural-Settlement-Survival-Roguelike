@@ -14,8 +14,9 @@ namespace Cinderwild.Core
             camera = context.Camera;
         }
 
-        public void Enable()
+        public void Enable(InteractionTarget target, Vector2 mousePos)
         {
+            Debug.Log("Enabled Player Handler");
         }
 
         public void Disable()
@@ -28,6 +29,7 @@ namespace Cinderwild.Core
 
         public void OnLeftDown()
         {
+            InteractionSystem.SelectHandler(HandlerType.Command);
         }
 
         public void OnLeftHeld(Vector2 diff, float time)

@@ -1,5 +1,6 @@
 using Cinderwild.SpriteSytem.Data;
 using Cinderwild.SpriteSytem.Runtime;
+using Cinderwild.Core;
 using System.Collections;
 using UnityEngine;
 
@@ -23,10 +24,10 @@ namespace Cinderwild.Gameplay.Agents
             camera = GameManager.Context.Camera;
         }
 
-        public void Init()
+        public void Init(Context context)
         {
             spriteRig?.Init();
-            camera = GameManager.Context.Camera;
+            camera = context.Camera;
         }
 
         public void UpdateDirection(Vector3 facingVec)

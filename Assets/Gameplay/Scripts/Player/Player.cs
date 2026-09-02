@@ -19,7 +19,7 @@ namespace Cinderwild.Gameplay.Agents
             Controller.Init();
 
             spriteController = GetComponent<AgentSprites>();
-            spriteController?.Init();
+            spriteController?.Init(context);
 
             health.Fill();
         }

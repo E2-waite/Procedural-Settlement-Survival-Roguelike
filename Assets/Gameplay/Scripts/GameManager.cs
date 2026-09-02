@@ -13,7 +13,11 @@ namespace Cinderwild.Gameplay
             context.Input.Init();
             context.Input.EnableGameplayInput();
             context.World.Generate();
+            context.Player.Init(context);
             context.Camera.Init(context);
+
+            InteractionSystem.Init(context);
+
             Context = context;
         }
     }

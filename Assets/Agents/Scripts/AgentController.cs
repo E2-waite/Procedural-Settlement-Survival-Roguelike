@@ -50,7 +50,7 @@ public class AgentController : MonoBehaviour
 
     private void Update()
     {
-        FollowPath();
+        //FollowPath();
     }
 
     private void FollowPath()
