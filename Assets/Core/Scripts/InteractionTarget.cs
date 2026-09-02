@@ -2,7 +2,7 @@ using Cinderwild.Gameplay.Agents;
 using Cinderwild.World.Data;
 using UnityEngine;
 
-namespace Cinderwild.Core.Interaction
+namespace Cinderwild.Core
 {
     public class InteractionTarget
     {

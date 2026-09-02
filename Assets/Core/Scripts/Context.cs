@@ -1,12 +1,11 @@
-using UnityEngine;
-using Cinderwild.Core.Input;
-using Cinderwild.Core.Interaction;
+using Cinderwild.Command.UI;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
+using UnityEngine;
 
 // Expect to use most namespaces here
 
-namespace Cinderwild.Core.Data
+namespace Cinderwild.Core
 {
     /// <summary>
     /// The Game Context Containing All Required Resources
@@ -17,15 +16,24 @@ namespace Cinderwild.Core.Data
         // Monobehaviours
         [SerializeField] private World.Runtime.WorldManager world;
         [SerializeField] private InputManager input;
-        [SerializeField] private InteractionController interaction;
         [SerializeField] private Player player;
         [SerializeField] private CameraController camera;
-        [SerializeField] private PathfindingManager pathfinding;
+
+
         public World.Runtime.WorldManager World => world;
         public InputManager Input => input;
-        public InteractionController Interaction => interaction;
         public Player Player => player;
         public CameraController Camera => camera;
+
+        [Header("User Interface")]
+        [SerializeField] private CommandPanel commandPanel;
+        public CommandPanel CommandPanel => commandPanel;
+
+
+        [Header("Managers")]
+        [SerializeField] private PathfindingManager pathfinding;
         public PathfindingManager Pathfinding => pathfinding;
+
+
     }
 }

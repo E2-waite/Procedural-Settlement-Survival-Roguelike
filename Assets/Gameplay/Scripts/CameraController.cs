@@ -1,4 +1,4 @@
-using Cinderwild.Core.Data;
+using Cinderwild.Core;
 using Cinderwild.Gameplay.Agents;
 using System.Collections;
 using UnityEngine;

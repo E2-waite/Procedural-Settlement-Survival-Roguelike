@@ -1,13 +1,11 @@
 using UnityEngine;
 using Cinderwild.Gameplay.Agents;
-using Cinderwild.Core.Data;
 using UnityEngine.InputSystem;
 
-namespace Cinderwild.Core.Interaction
+namespace Cinderwild.Core
 {
     public class PlayerInteractionHandler : IInteractionHandler
     {
-        private InteractionController controller;
         private Player player;
         private CameraController camera;
         public PlayerInteractionHandler(Context context)
@@ -47,12 +45,14 @@ namespace Cinderwild.Core.Interaction
 
         public void OnRightHeld(Vector2 pos, Vector2 diff, float time)
         {
+
         }
 
         public void OnRightUp(Vector2 diff, float time)
         {
             
         }
+
         public void OnKeyPressed(Key key)
         {
             if (key == Key.Comma) // '<'
@@ -73,14 +73,6 @@ namespace Cinderwild.Core.Interaction
         public void OnMoveInput(Vector2 move)
         {
             player?.Controller?.MovePlayer(move);
-        }
-
-        public void OnLookChanged(Quaternion rot)
-        {
-        }
-
-        public void OnLookDistChanged(float dist)
-        {
         }
     }
 }

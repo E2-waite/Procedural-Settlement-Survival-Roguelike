@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Cinderwild.Core.Input
+namespace Cinderwild.Core
 {
     // Converts raw Input System state into simple gameplay events for other systems.
     public class InputManager : MonoBehaviour
@@ -30,12 +30,13 @@ namespace Cinderwild.Core.Input
 
         public event Action<Vector2, Vector2> MouseMoved;
         public event Action<Vector2> Moved;
-
+        public event Action<RaycastHit> RayHit;
         private PlayerControls controls;
         private Vector2 moveInput;
         private bool[] held = new bool[(int)MouseButton.Max];
         private Vector2[] clickStartPos = new Vector2[(int)MouseButton.Max];
         private float[] clickStartTime = new float[(int)MouseButton.Max];
+        private float rayInterval = 0.01f, rayTimer = 0f;
 
         public void Init()
         {
@@ -63,6 +64,7 @@ namespace Cinderwild.Core.Input
             HandleClick();
             HandleKeys();
             HandleMove();
+            HandleRay();
         }
 
         private void OnDestroy()
@@ -152,6 +154,24 @@ namespace Cinderwild.Core.Input
             if (moveInput.x != 0 || moveInput.y != 0)
             {
                 Moved?.Invoke(moveInput);
+            }
+        }
+
+        void HandleRay()
+        {
+            if (rayTimer <= 0)
+            {
+                rayTimer = rayInterval;
+                Ray ray = Camera.main.ScreenPointToRay(mousePos);
+
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+                {
+                    RayHit?.Invoke(hit);
+                }
+            }
+            else
+            {
+                rayTimer -= Time.deltaTime;
             }
         }
     }

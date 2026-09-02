@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Cinderwild.Core.Interaction
+namespace Cinderwild.Core
 {
     public interface IInteractionHandler
     {
@@ -16,10 +16,6 @@ namespace Cinderwild.Core.Interaction
         void OnRightUp(Vector2 diff, float time);
         void OnKeyPressed(Key key);
         void OnKeyReleased(Key key);
-
         void OnMoveInput(Vector2 move);
-        void OnLookChanged(Quaternion rot);
-        void OnLookDistChanged(float dist);
-
     }
 }

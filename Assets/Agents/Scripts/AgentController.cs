@@ -1,4 +1,5 @@
 using Cinderwild.Gameplay.Agents;
+using Cinderwild.Pathfinding.Runtime;
 using Cinderwild.World.Data;
 using System.Collections.Generic;
 using TMPro;
@@ -28,19 +29,31 @@ public class AgentController : MonoBehaviour
         this.agent = agent;
     }
 
-    public void SetPath(List<Vector2Int> path)
+    public void MoveTo(TileData tile)
+    {
+    }
+
+    public void MoveTo(Vector3 target)
+    {
+        if (!pathRequested)
+        {
+            PathfindingSystem.RequestPath(transform.position, target, SetPath);
+            pathRequested = true;
+        }
+    }
+
+    private void SetPath(List<Vector2Int> path)
     {
         this.path = path;
         pathIndex = 0;
     }
 
-    public void ClearPath()
+    private void Update()
     {
-        if (path != null) path.Clear();
-        pathIndex = 0;
+        FollowPath();
     }
 
-    public void FollowPath()
+    private void FollowPath()
     {
         float targetDist = Vector3.Distance(agent.Body.position, targetPos);
         if (path != null && path.Count > 0 && pathIndex < path.Count)

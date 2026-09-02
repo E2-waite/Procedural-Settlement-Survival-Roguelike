@@ -1,4 +1,4 @@
-using Cinderwild.Core.Data;
+using Cinderwild.Core;
 using UnityEngine;
 
 namespace Cinderwild.Gameplay
@@ -12,9 +12,7 @@ namespace Cinderwild.Gameplay
         {
             context.Input.Init();
             context.Input.EnableGameplayInput();
-            context.Interaction.Init(context);
             context.World.Generate();
-            context.Player.Init(context);
             context.Camera.Init(context);
             Context = context;
         }

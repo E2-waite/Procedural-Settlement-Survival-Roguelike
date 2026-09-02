@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentSpriteController
   spriteRig: {fileID: 718741153}
---- !u!1 &1577593362
+--- !u!1 &2099301563
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1013,11 +1013,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1577593364}
-  - component: {fileID: 1577593366}
-  - component: {fileID: 1577593363}
-  - component: {fileID: 1577593365}
-  - component: {fileID: 1577593367}
+  - component: {fileID: 2099301567}
+  - component: {fileID: 2099301566}
+  - component: {fileID: 2099301565}
+  - component: {fileID: 2099301564}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1025,87 +1024,64 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1577593363
+--- !u!114 &2099301564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577593362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cea2012e0fed1f4cb754f75dafb4e3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Core.Input.InputManager
---- !u!4 &1577593364
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577593362}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.92807, y: 0.26876, z: 17.70265}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1577593365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577593362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b598a12014dcdd640987eff0d2c45820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Core.Input.InteractionController
---- !u!114 &1577593366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577593362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a712d072f7ee34bb425b09cddb568a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Gameplay.Bootstrapper
-  context:
-    world: {fileID: 1594991349}
-    input: {fileID: 1577593363}
-    interaction: {fileID: 1577593365}
-    player: {fileID: 1377924888}
-    camera: {fileID: 352907237}
-    pathfinding: {fileID: 1577593367}
---- !u!114 &1577593367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577593362}
+  m_GameObject: {fileID: 2099301563}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1732ca51f63f99409445221acda9045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Pathfinding.Runtime.PathfindingManager
---- !u!114 &1594991349 stripped
+--- !u!114 &2099301565
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1449161021081541967, guid: 62c27f739ca44514cb5372b39dc4d525, type: 3}
-  m_PrefabInstance: {fileID: 8101937226311086283}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2099301563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c2c30e9e31af2d43b3d7a703043e468, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cea2012e0fed1f4cb754f75dafb4e3f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.World.Runtime.WorldManager
+  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Core.InputManager
+--- !u!114 &2099301566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099301563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a712d072f7ee34bb425b09cddb568a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Gameplay.GameManager
+  context:
+    world: {fileID: 0}
+    input: {fileID: 0}
+    player: {fileID: 0}
+    camera: {fileID: 0}
+    commandPanel: {fileID: 0}
+    pathfinding: {fileID: 0}
+--- !u!4 &2099301567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099301563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.19197, y: 2.06339, z: -0.72346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5537212122646614864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1270,8 +1246,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 832575519}
+  - {fileID: 2099301567}
   - {fileID: 8101937226311086283}
-  - {fileID: 1577593364}
   - {fileID: 352907238}
   - {fileID: 1377924892}
   - {fileID: 675359453}

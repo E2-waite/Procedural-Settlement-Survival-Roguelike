@@ -1,4 +1,4 @@
-using Cinderwild.Core.Data;
+using Cinderwild.Core;
 using Cinderwild.World.Data;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,15 @@ namespace Cinderwild.Pathfinding.Runtime
         {
             manager = context.Pathfinding;
             worldData = context.World.Data;
+        }
+
+        public static void RequestPath(Vector3 start, Vector3 end, Action<List<Vector2Int>> callback, bool includeTarget = false)
+        {
+            RequestPath(
+                new Vector2Int((int)start.x, (int)start.z),
+                new Vector2Int((int)end.x, (int)end.z),
+                callback,
+                includeTarget);
         }
 
         // Request a path to the position

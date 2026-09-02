@@ -1,6 +1,5 @@
-using Cinderwild.Core.Data;
 using UnityEngine;
-using Cinderwild.SpriteSytem.Runtime;
+using Cinderwild.Core;
 
 namespace Cinderwild.Gameplay.Agents
 {

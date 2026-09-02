@@ -16,7 +16,6 @@ namespace Cinderwild.World.Data
         [Range(0f, 10f)] public float height = 0f;
         public float WorldHeight => worldHeight;
         public int Index => index;
-
         private int index = 0;
         public TileConfig Prev => prevObject;
         private TileConfig prevObject; // The previous object (lower tile)
