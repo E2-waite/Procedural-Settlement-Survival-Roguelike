@@ -29,11 +29,12 @@ namespace Cinderwild.Core
 
         public void OnLeftDown()
         {
-            InteractionSystem.SelectHandler(HandlerType.Command);
         }
 
         public void OnLeftHeld(Vector2 diff, float time)
         {
+            if (time > .1f)
+                InteractionSystem.SelectHandler(HandlerType.Command);
         }
 
         public void OnLeftUp(Vector2 diff, float time)
