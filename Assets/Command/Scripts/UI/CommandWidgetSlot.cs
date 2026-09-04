@@ -8,11 +8,10 @@ public class CommandWidgetSlot : MonoBehaviour
     public Image Icon { get; private set; }
     public RectTransform Rect { get; private set; }
 
-    private void Start()
+    public void Init()
     {
         if (transform.childCount == 0) return;
         Icon = transform.GetChild(0).GetComponent<Image>();
         Rect = GetComponent<RectTransform>();
     }
-
 }
