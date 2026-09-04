@@ -7,6 +7,7 @@ namespace Cinderwild.Command.Data
     public class CommandOption : ScriptableObject
     {
         public Sprite sprite;
+        public Color color;
         public CommandType commandType;
     }
 }

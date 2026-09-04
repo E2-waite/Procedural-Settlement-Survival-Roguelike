@@ -16,7 +16,6 @@ namespace Cinderwild.Core
 
         public void Enable(InteractionTarget target, Vector2 mousePos)
         {
-            Debug.Log("Enabled Player Handler");
         }
 
         public void Disable()

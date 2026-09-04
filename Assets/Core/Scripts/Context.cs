@@ -1,3 +1,4 @@
+using Cinderwild.Command.Data;
 using Cinderwild.Command.UI;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
@@ -18,12 +19,13 @@ namespace Cinderwild.Core
         [SerializeField] private InputManager input;
         [SerializeField] private Player player;
         [SerializeField] private CameraController camera;
-
+        [SerializeField] private CommandOptionCatalog commandOptions;
 
         public World.Runtime.WorldManager World => world;
         public InputManager Input => input;
         public Player Player => player;
         public CameraController Camera => camera;
+        public CommandOptionCatalog CommandOptions => commandOptions;
 
         [Header("User Interface")]
         [SerializeField] private CommandWidget commandWidget;

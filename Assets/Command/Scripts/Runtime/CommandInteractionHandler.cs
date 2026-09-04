@@ -1,4 +1,5 @@
-
+using System.Collections.Generic;
+using Cinderwild.Command.Data;
 using Cinderwild.Command.UI;
 using Cinderwild.Core;
 using UnityEngine;
@@ -9,23 +10,29 @@ namespace Cinderwild.Command.Runtime
     public class CommandInteractionHandler : IInteractionHandler
     {
         private CommandWidget widget = null;
-
+        private CommandOptionCatalog commandOptions = null;
         public CommandInteractionHandler(Context context)
         {
             widget = context.CommandWidget;
+            commandOptions = context.CommandOptions;
         }
-
 
         public void Enable(InteractionTarget target, Vector2 mousePos)
         {
-            Debug.Log("Enabled Command Handler");
             Cursor.visible = false;
-            widget.Show(mousePos);
+
+            List<CommandOption> options = new List<CommandOption>();
+            options.Add(commandOptions.move);
+            options.Add(commandOptions.attack);
+            options.Add(commandOptions.gather);
+
+            widget.Show(mousePos, options);
         }
 
         public void Disable()
         {
-            widget.Hide();
+            CommandType commandType = widget.Hide();
+            Debug.Log("Command Type: " + commandType);
             Cursor.visible = true;
         }
 

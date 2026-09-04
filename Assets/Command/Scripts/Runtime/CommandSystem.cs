@@ -5,8 +5,10 @@ namespace Cinderwild.Command.Runtime
 {
     public enum CommandType
     {
-        MoveTo
-
+        None,
+        MoveTo,
+        Attack,
+        Gather
     }
 
     public static class CommandSystem

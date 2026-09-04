@@ -1,3 +1,5 @@
+using Cinderwild.Command.Data;
+using Cinderwild.Command.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,29 +27,30 @@ namespace Cinderwild.Command.UI
             gameObject.SetActive(false);
         }
 
-        public void Show(Vector2 position)
+        public void Show(Vector2 position, List<CommandOption> options)
         {
             if (numSlots == 0) return;
 
             gameObject.SetActive(true);
             rect.position = position;
             selector.rectTransform.position = position;
-            UpdateSlots(numSlots);
+            UpdateSlots(options);
         }
 
-        public void Hide()
+        public CommandType Hide()
         {
+            CommandType commandType = selectedSlot ? selectedSlot.CommandType : CommandType.None;
             selector.sprite = defaultSelector;
             selector.rectTransform.sizeDelta = new Vector2(defaultSelectorSize, defaultSelectorSize);
             selectedSlot = null;
-            hasSnapped = false;
             gameObject.SetActive(false);
+            return commandType;
         }
 
-        private void UpdateSlots(int numOptions)
+        private void UpdateSlots(List<CommandOption> options)
         {
             // Enable/instantiate required slots
-            for (int i = 0; i < numOptions; i++)
+            for (int i = 0; i < options.Count; i++)
             {
                 if (i >= slots.Count)
                 {
@@ -57,17 +60,18 @@ namespace Cinderwild.Command.UI
                 }
 
                 slots[i].gameObject.SetActive(true);
+                slots[i].SetOption(options[i]);
             }
 
             // Disable non-required slots
-            for (int i = numOptions; i < slots.Count; i++)
+            for (int i = options.Count; i < slots.Count; i++)
             {
                 slots[i].gameObject.SetActive(false);
             }
 
             // Update slot position based on number of options
-            float angleStep = 360f / numOptions;
-            for (int i = 0; i < numOptions; i++)
+            float angleStep = 360f / options.Count;
+            for (int i = 0; i < options.Count; i++)
             {
                 float angle = (i * angleStep) + 90f;
 
@@ -124,7 +128,6 @@ namespace Cinderwild.Command.UI
                 selector.rectTransform.position = selectedSlot.Rect.position;
                 selector.rectTransform.sizeDelta = new Vector2(100, 100);
                 selector.sprite = snappedSelector;
-                hasSnapped = true;
             }
         }
     }
