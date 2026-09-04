@@ -10,11 +10,11 @@ namespace Cinderwild.Command.Runtime
     public class CommandInteractionHandler : IInteractionHandler
     {
         private CommandWidget widget = null;
-        private CommandOptionCatalog commandOptions = null;
+        private CommandOptionCatalog commandCatalog = null;
         public CommandInteractionHandler(Context context)
         {
             widget = context.CommandWidget;
-            commandOptions = context.CommandOptions;
+            commandCatalog = context.CommandCatalog;
         }
 
         public void Enable(InteractionTarget target, Vector2 mousePos)
@@ -22,9 +22,11 @@ namespace Cinderwild.Command.Runtime
             Cursor.visible = false;
 
             List<CommandOption> options = new List<CommandOption>();
-            options.Add(commandOptions.move);
-            options.Add(commandOptions.attack);
-            options.Add(commandOptions.gather);
+
+            foreach (CommandOption option in commandCatalog.options)
+            {
+                if (option != null) options.Add(option);
+            }
 
             widget.Show(mousePos, options);
         }

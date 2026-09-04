@@ -19,13 +19,13 @@ namespace Cinderwild.Core
         [SerializeField] private InputManager input;
         [SerializeField] private Player player;
         [SerializeField] private CameraController camera;
-        [SerializeField] private CommandOptionCatalog commandOptions;
+        [SerializeField] private CommandOptionCatalog commandCatalog;
 
         public World.Runtime.WorldManager World => world;
         public InputManager Input => input;
         public Player Player => player;
         public CameraController Camera => camera;
-        public CommandOptionCatalog CommandOptions => commandOptions;
+        public CommandOptionCatalog CommandCatalog => commandCatalog;
 
         [Header("User Interface")]
         [SerializeField] private CommandWidget commandWidget;

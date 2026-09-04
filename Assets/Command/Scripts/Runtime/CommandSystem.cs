@@ -5,10 +5,10 @@ namespace Cinderwild.Command.Runtime
 {
     public enum CommandType
     {
-        None,
         MoveTo,
         Attack,
-        Gather
+        Gather,
+        None // No command type (max)
     }
 
     public static class CommandSystem
@@ -24,7 +24,5 @@ namespace Cinderwild.Command.Runtime
         {
             selected = null;
         }
-
-
     }
 }
