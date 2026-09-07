@@ -17,17 +17,17 @@ namespace Cinderwild.Gameplay.Agents
         private int lastCamIndex = -1, lastPlayerIndex = -1;
         Coroutine rotateRoutine = null;
         private Agent agent = null;
-        public void Init(Agent agent)
+        public void Init(CameraController camera, Agent agent)
         {
             this.agent = agent;
             spriteRig?.Init();
-            camera = GameManager.Context.Camera;
+            this.camera = camera;
         }
 
-        public void Init(Context context)
+        public void Init(CameraController camera)
         {
             spriteRig?.Init();
-            camera = context.Camera;
+            this.camera = camera;
         }
 
         public void UpdateDirection(Vector3 facingVec)

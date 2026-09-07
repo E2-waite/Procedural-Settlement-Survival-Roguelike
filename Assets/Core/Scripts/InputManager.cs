@@ -50,6 +50,11 @@ namespace Cinderwild.Core
             initialized = true;
         }
 
+        public void Shutdown()
+        {
+            controls?.Player.Disable();
+        }
+
         public void EnableGameplayInput()
         {
             // Keep enabling separate from Init so listeners can subscribe before input starts firing.

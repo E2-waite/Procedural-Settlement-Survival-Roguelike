@@ -1,8 +1,8 @@
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
 using Cinderwild.World.Data;
+using Cinderwild.World.Runtime;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 
@@ -13,9 +13,9 @@ public class AgentController : MonoBehaviour
     [SerializeField] private float swarmRadius = 1f;
     private Vector3 targetPos = Vector3.zero;
     private Vector3 moveDir = Vector3.zero;
-    private List<Vector2Int> path = new List<Vector2Int>();
+    [SerializeField] private List<Vector2Int> path = new List<Vector2Int>();
     private float reachedThresh = .01f;
-    private int pathIndex = 0;
+    [SerializeField] private int pathIndex = 0;
     public bool ReachedTarget => pathIndex >= path.Count;
     public bool HasPath => !(path == null || path.Count == 0);
     private TileData targetTile;
@@ -31,14 +31,25 @@ public class AgentController : MonoBehaviour
 
     public void MoveTo(TileData tile)
     {
+        MoveTo(tile.WorldPosition);
     }
 
     public void MoveTo(Vector3 target)
     {
         if (!pathRequested)
         {
-            PathfindingSystem.RequestPath(transform.position, target, SetPath);
+            // Validate target tile is walkable before requesting a path
+            Vector2Int targetGrid = new Vector2Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.z));
+            TileData tTile = WorldSystem.GetTile(targetGrid);
+            if (tTile == null || !tTile.IsWalkable)
+            {
+                Debug.LogWarning($"MoveTo aborted: target tile not walkable or missing at {targetGrid}");
+                return;
+            }
+
+            PathfindingSystem.RequestPath(agent.Body.position, target, SetPath);
             pathRequested = true;
+            targetPos = target;
         }
     }
 
@@ -46,22 +57,27 @@ public class AgentController : MonoBehaviour
     {
         this.path = path;
         pathIndex = 0;
+        pathRequested = false;
     }
 
     private void Update()
     {
-        //FollowPath();
+        FollowPath();
     }
 
     private void FollowPath()
     {
+        if (agent == null) return;
+
         float targetDist = Vector3.Distance(agent.Body.position, targetPos);
         if (path != null && path.Count > 0 && pathIndex < path.Count)
         {
             Vector2Int currentTarget = path[pathIndex];
 
-            Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
+            TileData tile = WorldSystem.GetTile(currentTarget);
 
+            Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
+            //Debug.Log("Target tile: " + tile.Object.name + " pos: " + targetPos);
             Vector3 pathDir = (targetPos - agent.Body.position).normalized;
             //Vector3 swarmDir = SwarmDirection();
             Vector3 swarmDir = Vector3.zero;
@@ -76,16 +92,16 @@ public class AgentController : MonoBehaviour
                 pathIndex++;
             }
         }
-        else if (targetDist < 5f && targetDist > 0.01f) // If we're close to the target position, move to the target
-        {
-            moveDir = (targetPos - agent.Body.position).normalized;
-            Vector3 movePos = agent.Body.position + (moveDir * moveSpeed * Time.deltaTime);
-            movePos.y = 0;
-            agent.Body.position = movePos;
-        }
-        else if (targetDist <= 0.01f)
-        {
-            agent.Body.position = targetPos;
-        }
+        //else if (targetDist < 5f && targetDist > 0.01f) // If we're close to the target position, move to the target
+        //{
+        //    moveDir = (targetPos - agent.Body.position).normalized;
+        //    Vector3 movePos = agent.Body.position + (moveDir * moveSpeed * Time.deltaTime);
+        //    movePos.y = 0;
+        //    agent.Body.position = movePos;
+        //}
+        //else if (targetDist <= 0.01f)
+        //{
+        //    agent.Body.position = targetPos;
+        //}
     }
 }

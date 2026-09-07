@@ -16,7 +16,7 @@ namespace Cinderwild.World.Data
         public Vector2Int Position => position;
         public Vector3 WorldPosition { get; set; }
         public Vector3 Center { get; set; }
-        public bool IsWalkable => IsFlat;
+        public bool IsWalkable => Object != null && Object.walkable;
         public TileConfig Object  { get; set; }
         public bool IsFlat { get; set; }
 

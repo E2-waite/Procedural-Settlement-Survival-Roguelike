@@ -79,7 +79,10 @@ namespace Cinderwild.Core
                     break;
                 case "World":
                     TileData tile = WorldSystem.GetTile(hit.point);
-                    if (tile != null) currentTarget.SelectTile(tile);
+                    if (tile != null)
+                    {
+                        currentTarget.SelectTile(tile);
+                    }
                     break;
                 case "Building":
                     break;
@@ -96,7 +99,7 @@ namespace Cinderwild.Core
         // Consumes context.InputManager's LeftClick action
         static void OnLeftDown()
         {
-            handlers[(int)selectedHandler]?.OnLeftDown();
+            handlers[(int)selectedHandler]?.OnLeftDown(currentTarget);
         }
 
         static void OnLeftHeld(Vector2 diff, float time)
@@ -111,7 +114,7 @@ namespace Cinderwild.Core
 
         static void OnRightDown()
         {
-            handlers[(int)selectedHandler]?.OnRightDown();
+            handlers[(int)selectedHandler]?.OnRightDown(currentTarget);
         }
 
         static void OnRightHeld(Vector2 diff, float time)

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 9187159177000500425}
   - component: {fileID: 7730551813837068460}
   - component: {fileID: 1746455596911737894}
+  - component: {fileID: 8734384050018268209}
+  - component: {fileID: 7142171365348350701}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent
@@ -51,9 +53,7 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
-  chunkInterval: 1
-  chunkTimer: 0
-  body: {fileID: 0}
+  body: {fileID: 95948137249673263}
 --- !u!114 &7730551813837068460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +70,7 @@ MonoBehaviour:
   pathWeight: 2
   swarmWeight: 1
   swarmRadius: 1
+  path: []
 --- !u!114 &1746455596911737894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +84,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentSpriteController
   spriteRig: {fileID: 8518993056542500076}
+--- !u!114 &8734384050018268209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c26a7fe2896e5543a5808fa7c02689d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Gameplay.Agents.AgentStates
+--- !u!114 &7142171365348350701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148344224061531736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb7215988d6d15b47a90a6fcbecc0ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AgentTracking
 --- !u!1001 &7276442689043152281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,7 +174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9071892759735087817, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
       propertyPath: m_Name
-      value: Sprite Rig
+      value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071892759735087817, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
+      propertyPath: m_TagString
+      value: Agent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

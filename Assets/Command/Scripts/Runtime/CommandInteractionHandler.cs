@@ -11,14 +11,18 @@ namespace Cinderwild.Command.Runtime
     {
         private CommandWidget widget = null;
         private CommandOptionCatalog commandCatalog = null;
+        private InteractionTarget currentTarget = null;
+
         public CommandInteractionHandler(Context context)
         {
             widget = context.CommandWidget;
             commandCatalog = context.CommandCatalog;
         }
 
+        // Display command widget
         public void Enable(InteractionTarget target, Vector2 mousePos)
         {
+            currentTarget = new InteractionTarget(target);
             Cursor.visible = false;
 
             List<CommandOption> options = new List<CommandOption>();
@@ -31,12 +35,19 @@ namespace Cinderwild.Command.Runtime
             widget.Show(mousePos, options);
         }
 
+        // Execute command if there is one
         public void Disable()
         {
             CommandType commandType = widget.Hide();
-            Debug.Log("Command Type: " + commandType);
+
             Cursor.visible = true;
+
+            if (commandType != CommandType.None)
+            {
+                CommandSystem.ExecuteCommand(commandType, currentTarget);
+            }
         }
+
 
         #region Input
         public void OnMouseMoved(Vector2 pos, Vector2 diff)
@@ -44,7 +55,7 @@ namespace Cinderwild.Command.Runtime
             widget.UpdateSelector(diff);
         }
 
-        public void OnLeftDown()
+        public void OnLeftDown(InteractionTarget target)
         {
         }
 
@@ -54,11 +65,10 @@ namespace Cinderwild.Command.Runtime
 
         public void OnLeftUp(Vector2 diff, float time)
         {
-            // Execute command, hide widget and switch state
-            InteractionSystem.SelectHandler(HandlerType.Player);
+
         }
 
-        public void OnRightDown()
+        public void OnRightDown(InteractionTarget target)
         {
 
         }
@@ -70,7 +80,8 @@ namespace Cinderwild.Command.Runtime
 
         public void OnRightUp(Vector2 diff, float time)
         {
-
+            // Execute command, hide widget and switch state
+            InteractionSystem.SelectHandler(HandlerType.Player);
         }
 
         public void OnKeyPressed(Key key)

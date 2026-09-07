@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea7be43dc6888c469a34803461e9051, type: 3}
   m_Name: CommandCatalog
   m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Command.Data.CommandOptionCatalog
-  move: {fileID: 11400000, guid: 5e36c6d4566ec3c4ab8fadd013982963, type: 2}
-  attack: {fileID: 11400000, guid: d48885c2f2601d745a6c404f1971c5ef, type: 2}
-  gather: {fileID: 11400000, guid: 66c9e88296642454f93310ebb96c3923, type: 2}
+  options:
+  - {fileID: 11400000, guid: 5e36c6d4566ec3c4ab8fadd013982963, type: 2}
+  - {fileID: 11400000, guid: d48885c2f2601d745a6c404f1971c5ef, type: 2}
+  - {fileID: 11400000, guid: 66c9e88296642454f93310ebb96c3923, type: 2}

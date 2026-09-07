@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594f4a788a14fd9449010ecc529317a0, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.WorldBuilder.Data.TileDefinition
+  resourceTypes: []
   surfaceType: 0
   topoType: 0
   material: {fileID: 2100000, guid: ae3e9f95db3315d4db411bed380c4a0d, type: 2}
   noiseThesh: 0
   noiseMulti: 1
   height: 0
+  walkable: 0

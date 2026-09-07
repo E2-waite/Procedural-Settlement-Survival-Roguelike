@@ -1,4 +1,5 @@
 using Cinderwild.Core;
+using Cinderwild.Pathfinding.Runtime;
 using UnityEngine;
 
 namespace Cinderwild.Gameplay
@@ -6,19 +7,24 @@ namespace Cinderwild.Gameplay
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private Context context;
-        public static Context Context;
 
-        private void Start()
+        private void OnEnable()
         {
             context.Input.Init();
             context.Input.EnableGameplayInput();
             context.World.Generate();
             context.Player.Init(context);
+            context.Agent.Init(context);
             context.Camera.Init(context);
+            context.Pathfinding.Init();
 
+            PathfindingSystem.Init(context);
             InteractionSystem.Init(context);
+        }
 
-            Context = context;
+        private void OnDisable()
+        {
+            context.Input.Shutdown();
         }
     }
 }

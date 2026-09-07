@@ -7,7 +7,6 @@ namespace Cinderwild.Pathfinding.Runtime
 {
     public struct PathRequest
     {
-        public int size;
         public Vector2Int start;
         public Vector2Int target;
         public Vector2Int origin;
@@ -68,10 +67,23 @@ namespace Cinderwild.Pathfinding.Runtime
 
                 foreach (Vector2Int neighbourPos in GetNeighbours(current.pos))
                 {
-                    if (neighbourPos.x >= request.size || neighbourPos.x < 0 || 
-                        neighbourPos.y >= request.size || neighbourPos.y < 0 ||
+                    int sizeX = request.pathable.GetLength(0);
+                    int sizeY = request.pathable.GetLength(1);
+
+                    if (neighbourPos.x >= sizeX || neighbourPos.x < 0 || 
+                        neighbourPos.y >= sizeY || neighbourPos.y < 0 ||
                         (neighbourPos != targetLocal && !request.pathable[neighbourPos.x, neighbourPos.y]))
                         continue;
+
+                    // Prevent corner-cutting: disallow diagonal moves that pass between two blocked orthogonal tiles
+                    int dx = neighbourPos.x - current.pos.x;
+                    int dy = neighbourPos.y - current.pos.y;
+                    if (dx != 0 && dy != 0)
+                    {
+                        bool walkX = request.pathable[current.pos.x + dx, current.pos.y];
+                        bool walkY = request.pathable[current.pos.x, current.pos.y + dy];
+                        if (!walkX || !walkY) continue;
+                    }
 
                     // Skip closed positions
                     if (closedSet.Contains(neighbourPos)) continue;
@@ -102,6 +114,7 @@ namespace Cinderwild.Pathfinding.Runtime
                 }
             }
 
+            Debug.Log("No path");
             return null; // No path found
         }
 

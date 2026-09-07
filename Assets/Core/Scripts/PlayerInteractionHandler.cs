@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinderwild.Gameplay.Agents;
 using UnityEngine.InputSystem;
+using Cinderwild.Command.Runtime;
 
 namespace Cinderwild.Core
 {
@@ -26,28 +27,36 @@ namespace Cinderwild.Core
         {
         }
 
-        public void OnLeftDown()
+        public void OnLeftDown(InteractionTarget target)
         {
+            if (target.Type == TargetType.Agent)
+            {
+                CommandSystem.SelectAgent(target.Agent);
+            }
+            else
+            {
+                CommandSystem.ClearSelection();
+            }
         }
 
         public void OnLeftHeld(Vector2 diff, float time)
         {
-            if (time > .1f)
-                InteractionSystem.SelectHandler(HandlerType.Command);
+
         }
 
         public void OnLeftUp(Vector2 diff, float time)
         { 
         }
 
-        public void OnRightDown()
+        public void OnRightDown(InteractionTarget target)
         {
 
         }
 
         public void OnRightHeld(Vector2 pos, Vector2 diff, float time)
         {
-
+            if (time > .1f)
+                InteractionSystem.SelectHandler(HandlerType.Command);
         }
 
         public void OnRightUp(Vector2 diff, float time)

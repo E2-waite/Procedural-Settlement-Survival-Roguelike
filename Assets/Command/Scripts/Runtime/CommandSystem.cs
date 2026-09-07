@@ -1,3 +1,4 @@
+using Cinderwild.Core;
 using Cinderwild.Gameplay.Agents;
 using UnityEngine;
 
@@ -18,11 +19,27 @@ namespace Cinderwild.Command.Runtime
         public static void SelectAgent(Agent agent)
         {
             selected = agent;
+            Debug.Log("Selected " + agent.name);
         }
 
         public static void ClearSelection()
         {
             selected = null;
         }
+
+        public static void ExecuteCommand(CommandType commandType, InteractionTarget target)
+        {
+            if (selected == null) return;
+
+            switch (commandType)
+            {
+                case CommandType.MoveTo:
+                    if (target.Type == TargetType.Tile)
+                        selected.Controller?.MoveTo(target.Tile);
+                    break;
+            }
+        }
+
+
     }
 }

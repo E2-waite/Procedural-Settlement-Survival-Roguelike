@@ -36,7 +36,12 @@ namespace Cinderwild.World.Runtime
         {
             Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
-            world.Data.Tiles.TryGetValue(tilePos, out TileData tile);
+            return GetTile(tilePos);
+        }
+
+        public static TileData GetTile(Vector2Int position)
+        {
+            world.Data.Tiles.TryGetValue(position, out TileData tile);
             return tile;
         }
 

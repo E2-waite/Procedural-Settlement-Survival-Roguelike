@@ -16,6 +16,7 @@ namespace Cinderwild.Gameplay.Agents
 
         [SerializeField] private Transform body;
         public Transform Body => body;
+
         public virtual void Init(Context context)
         {
             Controller = GetComponent<AgentController>();
@@ -23,7 +24,7 @@ namespace Cinderwild.Gameplay.Agents
             States = GetComponent<AgentStates>();
             Tracking = GetComponent<AgentTracking>();
             Controller?.Init(this);
-            Sprite?.Init(this);
+            Sprite?.Init(context.Camera, this);
             States?.Init(this);
             Tracking?.Init(this);
         }

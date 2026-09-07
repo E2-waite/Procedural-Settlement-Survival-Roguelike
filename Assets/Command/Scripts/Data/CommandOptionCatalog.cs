@@ -9,7 +9,7 @@ namespace Cinderwild.Command.Data
     [CreateAssetMenu(fileName = "CommandCatalog", menuName = "Scriptable Objects/CommandCatalog")]
     public class CommandOptionCatalog : ScriptableObject
     {
-        public CommandOption[] options;
+        [SerializeField] public CommandOption[] options;
 
         public CommandOption GetOption(CommandType type)
         {
@@ -50,6 +50,7 @@ namespace Cinderwild.Command.Editor
 
             List<CommandOption> options = new List<CommandOption>();
 
+            // Get CommandOption objects from directory
             foreach (string guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -61,8 +62,8 @@ namespace Cinderwild.Command.Editor
                     options.Add(option);
             }
 
+            // Assign CommandOption objects by CommandType
             catalog.options = new CommandOption[(int)CommandType.None];
-
             foreach(CommandOption option in options)
             {
                 if (option == null || 
@@ -73,6 +74,7 @@ namespace Cinderwild.Command.Editor
 
                 catalog.options[(int)option.commandType] = option;
             }
+            EditorUtility.SetDirty(catalog);
         }
     }
 }

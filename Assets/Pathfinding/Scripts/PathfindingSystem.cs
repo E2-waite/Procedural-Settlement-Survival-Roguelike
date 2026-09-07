@@ -19,8 +19,8 @@ namespace Cinderwild.Pathfinding.Runtime
         public static void RequestPath(Vector3 start, Vector3 end, Action<List<Vector2Int>> callback, bool includeTarget = false)
         {
             RequestPath(
-                new Vector2Int((int)start.x, (int)start.z),
-                new Vector2Int((int)end.x, (int)end.z),
+                new Vector2Int(Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.z)),
+                new Vector2Int(Mathf.FloorToInt(end.x), Mathf.FloorToInt(end.z)),
                 callback,
                 includeTarget);
         }
@@ -28,26 +28,30 @@ namespace Cinderwild.Pathfinding.Runtime
         // Request a path to the position
         public static void RequestPath(Vector2Int start, Vector2Int target, Action<List<Vector2Int>> callback, bool includeTarget = false)
         {
-            int pathRange = Mathf.RoundToInt(Vector2Int.Distance(start, target));
-            int size = pathRange * 4;
+            // Build a bounding box with padding between the start and the target
+            int padding = 4;
 
-            bool[,] pathable = new bool[size, size];
+            int minX = Mathf.Min(start.x, target.x) - padding;
+            int minY = Mathf.Min(start.y, target.y) - padding;
+            int maxX = Mathf.Max(start.x, target.x) + padding;
+            int maxY = Mathf.Max(start.y, target.y) + padding;
 
-            Vector2Int origin = new Vector2Int(
-                                start.x - pathRange,
-                                start.y - pathRange);
+            int sizeX = Mathf.Max(3, maxX - minX + 1);
+            int sizeY = Mathf.Max(3, maxY - minY + 1);
 
-            for (int x = 0; x < size; x++)
+            bool[,] pathable = new bool[sizeX, sizeY];
+
+            Vector2Int origin = new Vector2Int(minX, minY);
+
+            for (int x = 0; x < sizeX; x++)
             {
-                for (int y = 0; y < size; y++)
+                for (int y = 0; y < sizeY; y++)
                 {
                     Vector2Int tilePos = new Vector2Int(origin.x + x, origin.y + y);
 
                     TileData tile = worldData.GetTile(tilePos);
-                    if (tile == null || !tile.IsWalkable)
-                        pathable[x, y] = false;
-                    else
-                        pathable[x, y] = true;
+
+                    pathable[x, y] = !(tile == null || !tile.IsWalkable);
 
                     if (includeTarget && tilePos == target)
                     {
@@ -59,7 +63,6 @@ namespace Cinderwild.Pathfinding.Runtime
             // Construct the pathing request
             PathRequest request = new PathRequest
             {
-                size = size,
                 start = start,
                 target = target,
                 origin = origin,
