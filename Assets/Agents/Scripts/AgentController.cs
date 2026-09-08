@@ -5,7 +5,6 @@ using Cinderwild.World.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // Handles agent pathfinding and movement
 public class AgentController : MonoBehaviour
 {
@@ -23,10 +22,18 @@ public class AgentController : MonoBehaviour
     public TileData TargetTile => targetTile;
     private Agent agent;
     private bool pathRequested = false;
+    private Vector3 facing = Vector3.zero;
+    public Vector3 Facing => facing;
 
     public void Init(Agent agent)
     {
         this.agent = agent;
+
+        TileData tile = WorldSystem.GetTile(agent.Body.position);
+        if (tile != null && tile.IsWalkable)
+        {
+            agent.Body.position += new Vector3(0, tile.WorldPosition.y, 0);
+        }
     }
 
     public void MoveTo(TileData tile)
@@ -63,6 +70,7 @@ public class AgentController : MonoBehaviour
     private void Update()
     {
         FollowPath();
+        UpdateHeight();
     }
 
     private void FollowPath()
@@ -77,6 +85,9 @@ public class AgentController : MonoBehaviour
             TileData tile = WorldSystem.GetTile(currentTarget);
 
             Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
+
+            facing = (targetPos - agent.Body.position).normalized;
+
             //Debug.Log("Target tile: " + tile.Object.name + " pos: " + targetPos);
             Vector3 pathDir = (targetPos - agent.Body.position).normalized;
             //Vector3 swarmDir = SwarmDirection();
@@ -84,10 +95,12 @@ public class AgentController : MonoBehaviour
             moveDir = (pathDir * pathWeight + swarmDir * swarmWeight).normalized;
 
             Vector3 movePos = agent.Body.position + (moveDir * moveSpeed * Time.deltaTime);
-            movePos.y = 0;
+            movePos.y = tile.WorldPosition.y;
             agent.Body.position = movePos;
 
-            if ((agent.Body.position - targetPos).sqrMagnitude < reachedThresh)
+            // Remove y axis for threshold detection
+            Vector3 flatPos = new Vector3(agent.Body.position.x, 0, agent.Body.position.z);
+            if ((flatPos - targetPos).sqrMagnitude < reachedThresh)
             {
                 pathIndex++;
             }
@@ -103,5 +116,12 @@ public class AgentController : MonoBehaviour
         //{
         //    agent.Body.position = targetPos;
         //}
+    }
+
+    private void UpdateHeight()
+    {
+        // TODO: improve this.. feels inefficient 
+        TileData tile = WorldSystem.GetTile(agent.Body.position);
+        agent.Body.position = new Vector3(agent.Body.position.x, tile.WorldPosition.y, agent.Body.position.z);
     }
 }

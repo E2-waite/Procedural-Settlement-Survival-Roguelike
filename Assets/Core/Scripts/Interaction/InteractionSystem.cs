@@ -96,7 +96,6 @@ namespace Cinderwild.Core
             handlers[(int)selectedHandler]?.OnMouseMoved(pos, diff);
         }
 
-        // Consumes context.InputManager's LeftClick action
         static void OnLeftDown()
         {
             handlers[(int)selectedHandler]?.OnLeftDown(currentTarget);

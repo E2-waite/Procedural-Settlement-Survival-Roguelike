@@ -1,5 +1,6 @@
-using UnityEngine;
 using Cinderwild.Core;
+using Cinderwild.World.Runtime;
+using UnityEngine;
 
 namespace Cinderwild.Gameplay.Agents
 {
@@ -16,6 +17,7 @@ namespace Cinderwild.Gameplay.Agents
 
         [SerializeField] private Transform body;
         public Transform Body => body;
+        private bool selected = false;
 
         public virtual void Init(Context context)
         {
@@ -27,6 +29,42 @@ namespace Cinderwild.Gameplay.Agents
             Sprite?.Init(context.Camera, this);
             States?.Init(this);
             Tracking?.Init(this);
+        }
+
+        public void Highlight()
+        {
+            Sprite?.Highlight(Color.white);
+        }
+
+        public void ClearHighlight()
+        {
+            if (selected)
+            {
+                Sprite?.Highlight(Color.green);
+            }
+            else
+            {
+                Sprite?.ClearHighlight();
+            }
+        }
+
+        public void Select()
+        {
+            Sprite?.Highlight(Color.green);
+            selected = true;
+        }
+
+        public void Deselect()
+        {
+            Sprite?.ClearHighlight();
+            selected = false;
+        }
+
+        private void Update()
+        {
+            // TODO: remove update from agent 
+            if (Controller != null)
+                Sprite?.UpdateDirection(Controller.Facing);
         }
     }
 }

@@ -29,25 +29,9 @@ namespace Cinderwild.Gameplay.Agents
             Chunk chunk = WorldSystem.GetChunk(transform.position);
             WorldSystem.StreamChunks(chunk);
 
+            // TODO: remove update from player
             if (Controller != null)
                 spriteController?.UpdateDirection(Controller.Facing);
-        }
-
-        private void LateUpdate()
-        {
-            Camera cam = Camera.main;
-
-            if (cam == null) return;
-
-            Vector3 direction = cam.transform.position - transform.position;
-            direction.y = 0f;
-
-            if (direction.sqrMagnitude > 0.001f)
-            {
-                transform.rotation =
-                    Quaternion.LookRotation(direction) *
-                    Quaternion.Euler(0f, 180f, 0f);
-            }
         }
     }
 }

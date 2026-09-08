@@ -10,6 +10,21 @@ namespace Cinderwild.SpriteSytem.Runtime
         public SpriteConfig config;
         [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
 
+        private void LateUpdate()
+        {
+            Camera cam = Camera.main;
+
+            if (cam == null) return;
+
+            Vector3 direction = cam.transform.position - transform.position;
+            //direction.y = 0f;
+
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                transform.rotation = cam.transform.rotation;
+            }
+        }
+
         public void Init()
         {
             config?.Init();

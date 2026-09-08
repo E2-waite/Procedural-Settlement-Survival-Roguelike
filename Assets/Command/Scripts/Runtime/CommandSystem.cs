@@ -19,11 +19,13 @@ namespace Cinderwild.Command.Runtime
         public static void SelectAgent(Agent agent)
         {
             selected = agent;
+            agent.Select();
             Debug.Log("Selected " + agent.name);
         }
 
-        public static void ClearSelection()
+        public static void Deselect()
         {
+            selected?.Deselect();
             selected = null;
         }
 

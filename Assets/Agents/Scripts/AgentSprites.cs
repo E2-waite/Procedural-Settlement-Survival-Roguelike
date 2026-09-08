@@ -114,9 +114,15 @@ namespace Cinderwild.Gameplay.Agents
             spriteRig.UpdateDirection(dir);
         }
 
-        public void Highlight(bool enable)
+        public void Highlight(Color color)
         {
-            spriteRig?.Display(enable, "Outline");
+            spriteRig?.Display(true, "Outline"); // Display the outline sprites
+            spriteRig?.SetColor(color, "Outline"); // Set the colour of the outline sprites
+        }
+
+        public void ClearHighlight()
+        {
+            spriteRig?.Display(false, "Outline"); // Hide the outline sprites
         }
     }
 }

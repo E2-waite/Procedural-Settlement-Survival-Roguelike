@@ -35,7 +35,7 @@ namespace Cinderwild.Core
             }
             else
             {
-                CommandSystem.ClearSelection();
+                CommandSystem.Deselect();
             }
         }
 
