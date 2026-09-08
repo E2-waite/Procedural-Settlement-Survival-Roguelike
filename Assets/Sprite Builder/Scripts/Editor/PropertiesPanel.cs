@@ -36,6 +36,7 @@ namespace Cinderwild.SpriteSytem.Editor
 
                     layer.visible = EditorGUILayout.Toggle("Visible", layer.visible);
                     layer.name = EditorGUILayout.TextField("Name", layer.name);
+                    layer.tag = EditorGUILayout.TextField("Tag", layer.tag);
 
                     DrawColor();
 

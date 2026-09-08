@@ -35,6 +35,7 @@ namespace Cinderwild.Core
             ClearSelection();
             this.agent = agent;
             type = TargetType.Agent;
+            agent?.Sprite.Highlight(true);
         }
 
         public void SelectTile(TileData tile)
@@ -47,6 +48,7 @@ namespace Cinderwild.Core
 
         private void ClearSelection()
         {
+            agent?.Sprite?.Highlight(false);
             agent = null;
             tile = null;
         }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.STP;
 
 namespace Cinderwild.SpriteSytem.Data
 {
@@ -286,6 +287,18 @@ namespace Cinderwild.SpriteSytem.Data
                     layer.ClearGroup();
                 }
             }
+        }
+
+        // Returns sprite layers with associated tag
+        public List<Layer> GetLayers(string tag)
+        {
+            List<Layer> layers = new List<Layer>();
+            for (int i = 0; i < LayerCount; i++)
+            {
+                Layer layer = GetLayer(i);
+                if (layer.tag == tag) layers.Add(layer);
+            }
+            return layers;
         }
     }
 }

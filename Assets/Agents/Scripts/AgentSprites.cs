@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Cinderwild.Gameplay.Agents
 {
     /// <summary>
-    /// Controls sprite direction 
+    /// Controls sprite direction and display
     /// </summary>
     public class AgentSprites : MonoBehaviour
     {
@@ -112,6 +112,11 @@ namespace Cinderwild.Gameplay.Agents
             Direction dir = (Direction)relativeIndex;
 
             spriteRig.UpdateDirection(dir);
+        }
+
+        public void Highlight(bool enable)
+        {
+            spriteRig?.Display(enable, "Outline");
         }
     }
 }

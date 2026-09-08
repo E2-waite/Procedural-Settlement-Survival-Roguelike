@@ -6,7 +6,8 @@ namespace Cinderwild.SpriteSytem.Data
     [System.Serializable]
     public class Layer : LayerObject
     {
-        public int id = 0; 
+        public int id = 0;
+        public string tag;
         private SpriteConfig config;
         public Color color = Color.white;
         public int colorGroupId = -1;

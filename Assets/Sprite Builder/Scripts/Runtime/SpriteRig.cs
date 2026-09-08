@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Cinderwild.SpriteSytem.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cinderwild.SpriteSytem.Runtime
@@ -34,6 +34,8 @@ namespace Cinderwild.SpriteSytem.Runtime
                 rend.color = config.GetColor(i);
                 rend.sortingOrder = config.LayerCount - i;
                 renderers.Add(rend);
+
+                layerObj.SetActive(layer.visible);
             }
         }
 
@@ -65,6 +67,53 @@ namespace Cinderwild.SpriteSytem.Runtime
 
                 if (rend != null)
                     rend.sprite = config.GetSprite(i, dir);
+            }
+        }
+
+        // Enable/disable layers with the passed tag
+        public void Display(bool enable, string tag = "")
+        {
+            if (tag == "")
+            {
+                foreach (SpriteRenderer rend in renderers)
+                {
+                    rend.gameObject.SetActive(enable);
+                }
+            }
+            else
+            {
+                List<Layer> layers = config?.GetLayers(tag);
+
+                foreach (Layer layer in layers)
+                {
+                    int id = layer.id;
+                    SpriteRenderer rend = renderers[id];
+                    rend.gameObject.SetActive(enable);
+                }
+            }
+
+
+        }
+
+        public void SetColor(Color color, string tag = "")
+        {
+            if (tag == "")
+            {
+                foreach (SpriteRenderer rend in renderers)
+                {
+                    rend.color = color;
+                }
+            }
+            else
+            {
+                List<Layer> layers = config?.GetLayers(tag);
+
+                foreach (Layer layer in layers)
+                {
+                    int id = layer.id;
+                    SpriteRenderer rend = renderers[id];
+                    rend.color = color;
+                }
             }
         }
     }

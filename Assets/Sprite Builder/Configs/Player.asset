@@ -17,21 +17,62 @@ MonoBehaviour:
   - rid: 4503306546498764864
   - rid: 4503306546498764867
   - rid: 4503306546498764866
+  - rid: 1370292934614712385
+  - rid: 1370292934614712384
   states:
   - name: New State
   colorGroups: []
-  selectedLayer: 2
+  selectedLayer: 5
   selectedState: 0
   selectedDir: 5
   references:
     version: 2
     RefIds:
+    - rid: 1370292934614712384
+      type: {class: Layer, ns: Cinderwild.SpriteSytem.Data, asm: Assembly-CSharp}
+      data:
+        name: Torso Outline
+        visible: 0
+        id: 5
+        tag: Outline
+        color: {r: 1, g: 1, b: 1, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: -1218162591, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: 1094729902, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: -1352960935, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: 368571912, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: 1010734390, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: -1418999322, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: -466546037, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+          - sprite: {fileID: -177272644, guid: 338a4eb891024d140ab53ea37538e48f, type: 3}
+    - rid: 1370292934614712385
+      type: {class: Layer, ns: Cinderwild.SpriteSytem.Data, asm: Assembly-CSharp}
+      data:
+        name: Head Outline
+        visible: 0
+        id: 4
+        tag: Outline
+        color: {r: 1, g: 1, b: 1, a: 1}
+        colorGroupId: -1
+        states:
+        - directions:
+          - sprite: {fileID: -1218162591, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: 1094729902, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: -1352960935, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: 368571912, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: 1010734390, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: -1418999322, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: -466546037, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
+          - sprite: {fileID: -177272644, guid: 65bfd10d488ed264a981f927944915b2, type: 3}
     - rid: 4503306546498764864
       type: {class: Layer, ns: Cinderwild.SpriteSytem.Data, asm: Assembly-CSharp}
       data:
         name: Head
         visible: 1
         id: 1
+        tag: 
         color: {r: 1, g: 0.8941177, b: 0.7686275, a: 1}
         colorGroupId: -1
         states:
@@ -50,6 +91,7 @@ MonoBehaviour:
         name: Eyes
         visible: 1
         id: 0
+        tag: 
         color: {r: 1, g: 1, b: 1, a: 1}
         colorGroupId: -1
         states:
@@ -68,6 +110,7 @@ MonoBehaviour:
         name: Torso
         visible: 1
         id: 3
+        tag: 
         color: {r: 0.5773585, g: 0.22985399, b: 0.22985399, a: 1}
         colorGroupId: -1
         states:
@@ -86,6 +129,7 @@ MonoBehaviour:
         name: Trim
         visible: 1
         id: 2
+        tag: 
         color: {r: 0.6603774, g: 0.48178366, b: 0.18814526, a: 1}
         colorGroupId: -1
         states:
