@@ -21,6 +21,7 @@ namespace Cinderwild.World.Data
             this.tile = tile;
             this.index = index;
             nodeSize = size;
+            tile.resource = this;
         }
     }
 }
