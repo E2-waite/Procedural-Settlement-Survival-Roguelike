@@ -11,10 +11,12 @@ namespace Cinderwild.Gameplay.Agents
         private Vector3 facing = Vector3.zero;
         public Vector3 Facing => facing;
         public bool Rotating { get; private set; }
+        private WorldSystem world;
 
-        public void Init()
+        public void Init(WorldSystem world)
         {
-            TileData tile = WorldSystem.GetTile(transform.position);
+            this.world = world;
+            TileData tile = world.GetTile(transform.position);
             if (tile != null && tile.IsWalkable)
             {
                 transform.position += new Vector3(0, tile.WorldPosition.y, 0);
@@ -31,7 +33,7 @@ namespace Cinderwild.Gameplay.Agents
 
             Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
 
-            TileData tile = WorldSystem.GetTile(targetPos);
+            TileData tile = world.GetTile(targetPos);
 
             // Only move if tile is walkable
             if (tile != null && tile.IsWalkable)

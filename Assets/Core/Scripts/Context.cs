@@ -2,6 +2,7 @@ using Cinderwild.Command.Data;
 using Cinderwild.Command.UI;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
+using Cinderwild.World.Runtime;
 using UnityEngine;
 
 // Expect to use most namespaces here
@@ -15,14 +16,14 @@ namespace Cinderwild.Core
     public class Context
     {
         // Monobehaviours
-        [SerializeField] private World.Runtime.WorldManager world;
+        [SerializeField] private WorldManager world;
         [SerializeField] private InputManager input;
         [SerializeField] private Player player;
         [SerializeField] private Agent agent;
         [SerializeField] private CameraController camera;
         [SerializeField] private CommandOptionCatalog commandCatalog;
 
-        public World.Runtime.WorldManager World => world;
+        public WorldManager World => world;
         public InputManager Input => input;
         public Player Player => player;
         public Agent Agent => agent;

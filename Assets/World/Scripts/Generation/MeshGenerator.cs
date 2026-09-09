@@ -1,11 +1,10 @@
 using Cinderwild.World.Data;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 namespace Cinderwild.World.Runtime
 {
-    public static class MeshGenerator
+    public class MeshGenerator
     {
         private class ChunkFace
         {
@@ -19,7 +18,7 @@ namespace Cinderwild.World.Runtime
             public List<int> triangles = new List<int>();
         }
 
-        public static void Generate(Chunk chunk, WorldProperties properties)
+        public void Generate(Chunk chunk, WorldProperties properties)
         {
             int size = chunk.Data.Size;
             chunk.Mesh = new Mesh();
@@ -59,7 +58,7 @@ namespace Cinderwild.World.Runtime
             }
         }
 
-        private static TypeMesh ConstructTypeMesh(Chunk chunk, TileConfig tileType, List<Vector3> vertexList, int size)
+        private TypeMesh ConstructTypeMesh(Chunk chunk, TileConfig tileType, List<Vector3> vertexList, int size)
         {
             TypeMesh typeMesh = new TypeMesh();
 
@@ -88,7 +87,7 @@ namespace Cinderwild.World.Runtime
             return typeMesh;
         }
 
-        private static void ConstructFace(TileData tile, TypeMesh typeMesh, List<Vector3> vertexList)
+        private void ConstructFace(TileData tile, TypeMesh typeMesh, List<Vector3> vertexList)
         {
             if (tile.Object == null) return;
 
@@ -127,7 +126,7 @@ namespace Cinderwild.World.Runtime
 
         }
 
-        private static void ConstructStepFaces(TileData tile, TypeMesh typeMesh, List<Vector3> vertexList)
+        private void ConstructStepFaces(TileData tile, TypeMesh typeMesh, List<Vector3> vertexList)
         {
             List<ChunkFace> stepFaces = new List<ChunkFace>();
 
@@ -169,7 +168,7 @@ namespace Cinderwild.World.Runtime
             }
         }
 
-        private static void CreateQuad(List<int> triangles, int topLeft, int topRight, int btmLeft, int btmRight)
+        private void CreateQuad(List<int> triangles, int topLeft, int topRight, int btmLeft, int btmRight)
         {
             triangles.Add(topLeft);
             triangles.Add(btmLeft);

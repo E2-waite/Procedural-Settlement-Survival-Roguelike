@@ -24,12 +24,14 @@ public class AgentController : MonoBehaviour
     private bool pathRequested = false;
     private Vector3 facing = Vector3.zero;
     public Vector3 Facing => facing;
+    private WorldSystem world;
 
-    public void Init(Agent agent)
+    public void Init(Agent agent, WorldSystem world)
     {
+        this.world = world;
         this.agent = agent;
 
-        TileData tile = WorldSystem.GetTile(agent.Body.position);
+        TileData tile = world.GetTile(agent.Body.position);
         if (tile != null && tile.IsWalkable)
         {
             agent.Body.position += new Vector3(0, tile.WorldPosition.y, 0);
@@ -47,7 +49,7 @@ public class AgentController : MonoBehaviour
         {
             // Validate target tile is walkable before requesting a path
             Vector2Int targetGrid = new Vector2Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.z));
-            TileData tTile = WorldSystem.GetTile(targetGrid);
+            TileData tTile = world.GetTile(targetGrid);
             if (tTile == null || !tTile.IsWalkable)
             {
                 Debug.LogWarning($"MoveTo aborted: target tile not walkable or missing at {targetGrid}");
@@ -82,7 +84,7 @@ public class AgentController : MonoBehaviour
         {
             Vector2Int currentTarget = path[pathIndex];
 
-            TileData tile = WorldSystem.GetTile(currentTarget);
+            TileData tile = world.GetTile(currentTarget);
 
             Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
 
@@ -121,7 +123,7 @@ public class AgentController : MonoBehaviour
     private void UpdateHeight()
     {
         // TODO: improve this.. feels inefficient 
-        TileData tile = WorldSystem.GetTile(agent.Body.position);
+        TileData tile = world.GetTile(agent.Body.position);
         agent.Body.position = new Vector3(agent.Body.position.x, tile.WorldPosition.y, agent.Body.position.z);
     }
 }

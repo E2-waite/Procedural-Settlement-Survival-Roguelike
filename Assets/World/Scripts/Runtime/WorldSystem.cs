@@ -8,21 +8,21 @@ namespace Cinderwild.World.Runtime
     /// <summary>
     /// Provides global access to the current world and manages runtime world operations.
     /// </summary>
-    public static class WorldSystem
+    public class WorldSystem
     {
-        private static Chunk lastChunk = null;
-        private static Vector2Int lastPos = Vector2Int.zero;
-        private static HashSet<Vector2Int> required = new HashSet<Vector2Int>();
-        private static HashSet<Vector2Int> active = new HashSet<Vector2Int>();
-        private static WorldManager world;
+        private Chunk lastChunk = null;
+        private Vector2Int lastPos = Vector2Int.zero;
+        private HashSet<Vector2Int> required = new HashSet<Vector2Int>();
+        private HashSet<Vector2Int> active = new HashSet<Vector2Int>();
+        private WorldManager world;
 
-        public static void Init(WorldManager worldManager)
+        public WorldSystem(WorldManager worldManager)
         {
             world = worldManager;
         }
 
         // Returns the chunk at the passed world position
-        public static Chunk GetChunk(Vector3 position)
+        public Chunk GetChunk(Vector3 position)
         {
             position /= world.Properties.chunkSize;
             Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
@@ -32,21 +32,21 @@ namespace Cinderwild.World.Runtime
             return chunk;
         }
 
-        public static TileData GetTile(Vector3 position)
+        public TileData GetTile(Vector3 position)
         {
             Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
 
             return GetTile(tilePos);
         }
 
-        public static TileData GetTile(Vector2Int position)
+        public TileData GetTile(Vector2Int position)
         {
             world.Data.Tiles.TryGetValue(position, out TileData tile);
             return tile;
         }
 
         // Streams surrounding chunks, enabling/creating valid chunks and disabling invalid chunks
-        public static void StreamChunks(Chunk chunk)
+        public void StreamChunks(Chunk chunk)
         {
             if (chunk == null || chunk == lastChunk) return; // Ignore if already handled or null
             lastChunk = chunk;
@@ -73,7 +73,7 @@ namespace Cinderwild.World.Runtime
             {
                 if (!world.Data.Chunks.TryGetValue(pos, out Chunk other))
                 {
-                    other = ChunkBuilder.Generate(pos);
+                    other = world.Chunks.Generate(pos);
                 }
 
                 if (!other.isActiveAndEnabled)

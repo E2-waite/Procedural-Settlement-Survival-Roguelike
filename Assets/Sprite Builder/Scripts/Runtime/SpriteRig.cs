@@ -21,7 +21,7 @@ namespace Cinderwild.SpriteSytem.Runtime
 
             if (direction.sqrMagnitude > 0.001f)
             {
-                transform.rotation = cam.transform.rotation;
+                transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
             }
         }
 

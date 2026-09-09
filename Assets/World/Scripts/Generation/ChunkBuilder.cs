@@ -4,22 +4,23 @@ using UnityEngine;
 
 namespace Cinderwild.World.Generation
 {
-    public static class ChunkBuilder
+    public class ChunkBuilder
     {
-        [SerializeField] private static Runtime.WorldManager world;
-        private static WorldProperties properties;
-        private static bool initialized = false;
-        public static void Init(Runtime.WorldManager builder)
+        [SerializeField] private WorldManager world;
+        private WorldProperties properties;
+        private bool initialized = false;
+        MeshGenerator meshGenerator = new();
+        public ChunkBuilder(WorldManager world)
         {
             if (!initialized)
             {
-                world = builder;
-                properties = builder.Properties;
+                this.world = world;
+                properties = world.Properties;
                 initialized = true;
             }
         }
  
-        public static Chunk Generate(Vector2Int position)
+        public Chunk Generate(Vector2Int position)
         {
             Chunk chunk = world.SpawnChunk();
             chunk.Init(properties, position);
@@ -27,11 +28,11 @@ namespace Cinderwild.World.Generation
             CalculateNoise(chunk.Data);
             BuildVertices(chunk.Data);
             
-            TileBuilder.BuildTiles(chunk.Data);
+            world.Tiles.BuildTiles(chunk.Data);
 
-            MeshGenerator.Generate(chunk, properties);
+            meshGenerator.Generate(chunk, properties);
 
-            ResourceBuilder.Build(chunk.Data);
+            world.Resources.Build(chunk.Data);
 
             world.Data.Chunks[position] = chunk;
             chunk.transform.parent = world.transform;
@@ -41,7 +42,7 @@ namespace Cinderwild.World.Generation
         }
 
         // Calculates chunk's terrain noise
-        private static void CalculateNoise(ChunkData chunkData)
+        private void CalculateNoise(ChunkData chunkData)
         {
             for (int x = 0; x < chunkData.Size + 3; x++)
             {
@@ -55,7 +56,7 @@ namespace Cinderwild.World.Generation
         }
 
         // Create vertex grid
-        private static void BuildVertices(ChunkData data)
+        private void BuildVertices(ChunkData data)
         {
             for (int x = 0; x < data.Size + 3; x++)
             {

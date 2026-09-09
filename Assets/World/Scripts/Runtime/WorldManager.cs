@@ -12,6 +12,11 @@ namespace Cinderwild.World.Runtime
     [ExecuteAlways]
     public class WorldManager : MonoBehaviour
     {
+        public WorldSystem System { get; private set; }
+        public ChunkBuilder Chunks { get; private set; }
+        public TileBuilder Tiles { get; private set; }
+        public ResourceBuilder Resources { get; private set; }
+
         public WorldProperties Properties => properties;
         private WorldData data = null;
         public WorldData Data => data;
@@ -20,31 +25,14 @@ namespace Cinderwild.World.Runtime
         [SerializeField] private WorldProperties properties;
         private Vector2 seedOffset = new Vector2(100000f, 100000f);
 
-#if GENERATE_IN_EDITOR
-        public static Action OnPropertiesChanged;
-
-        private void OnEnable()
-        {
-            Debug.Log("Subscribed");
-            OnPropertiesChanged -= Generate;
-            OnPropertiesChanged += Generate;
-        }
-
-        private void OnDisable()
-        {
-            OnPropertiesChanged -= Generate;
-        }
-#endif
-
         public void Generate()
         {
-            properties?.Init();
-
             Clear();
-
-            ChunkBuilder.Init(this);
-            WorldSystem.Init(this);
-            ResourceBuilder.Init(this);
+            properties?.Init();
+            System = new WorldSystem(this);
+            Chunks = new ChunkBuilder(this);
+            Resources = new ResourceBuilder(this);
+            Tiles = new TileBuilder();
 
             if (data == null)
             {
@@ -54,7 +42,7 @@ namespace Cinderwild.World.Runtime
                 {
                     for (int y = 0; y < properties.worldSize.y; y++)
                     {
-                        ChunkBuilder.Generate(new Vector2Int(x, y));
+                       Chunks.Generate(new Vector2Int(x, y));
                     }
                 }
             }

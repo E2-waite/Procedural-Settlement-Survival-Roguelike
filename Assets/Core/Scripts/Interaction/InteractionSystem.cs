@@ -17,7 +17,7 @@ namespace Cinderwild.Core
     // TODO: consider making this class non-static
     public static class InteractionSystem
     {
-
+        private static WorldManager world;
 
         private static bool initialized = false;
         private static Vector2 mousePos; // The current mouse position
@@ -31,6 +31,7 @@ namespace Cinderwild.Core
         {
             if (!initialized)
             {
+                world = context.World;
                 context.Input.RayHit += OnHover;
                 context.Input.MouseMoved += OnMouseMoved;
                 context.Input.LeftClick += OnLeftDown;
@@ -78,7 +79,7 @@ namespace Cinderwild.Core
                     if (agent != null) currentTarget.SelectAgent(agent);
                     break;
                 case "World":
-                    TileData tile = WorldSystem.GetTile(hit.point);
+                    TileData tile = world.System.GetTile(hit.point);
                     if (tile != null)
                     {
                         currentTarget.SelectTile(tile);

@@ -9,25 +9,27 @@ namespace Cinderwild.Gameplay.Agents
     {
         public PlayerController Controller { get; private set; }
         private AgentSprites spriteController;
+        private WorldSystem world;
 
-        public void Init(Context context)
+        public void Init(WorldSystem world, CameraController camera)
         {
-            Chunk chunk = WorldSystem.GetChunk(transform.position);
-            WorldSystem.StreamChunks(chunk);
+            this.world = world;
+            Chunk chunk = world.GetChunk(transform.position);
+            world.StreamChunks(chunk);
 
             Controller = GetComponent<PlayerController>();
-            Controller.Init();
+            Controller.Init(world);
 
             spriteController = GetComponent<AgentSprites>();
-            spriteController?.Init(context.Camera);
+            spriteController?.Init(camera);
 
             health.Fill();
         }
 
         private void Update()
         {
-            Chunk chunk = WorldSystem.GetChunk(transform.position);
-            WorldSystem.StreamChunks(chunk);
+            Chunk chunk = world.GetChunk(transform.position);
+            world.StreamChunks(chunk);
 
             // TODO: remove update from player
             if (Controller != null)

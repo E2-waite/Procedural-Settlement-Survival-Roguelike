@@ -4,21 +4,21 @@ using UnityEngine;
 
 namespace Cinderwild.World.Generation
 {
-    public static class ResourceBuilder
+    public class ResourceBuilder
     {
-        private static WorldProperties properties;
+        private WorldProperties properties;
 
-        private static bool initialized = false;
-        public static void Init(Runtime.WorldManager builder)
+        private bool initialized = false;
+        public ResourceBuilder(WorldManager world)
         {
             if (!initialized)
             {
-                properties = builder.Properties;
+                properties = world.Properties;
                 initialized = true;
             }
         }
 
-        public static void Build(ChunkData chunk)
+        public void Build(ChunkData chunk)
         {
             ChunkResources resources = new ChunkResources(chunk);
 
@@ -65,7 +65,7 @@ namespace Cinderwild.World.Generation
             chunk.Resources = resources;
         }
 
-        private static void UpdateMatrix(ChunkResources resources, ResourceNode node, TileData tile, int id)
+        private void UpdateMatrix(ChunkResources resources, ResourceNode node, TileData tile, int id)
         {
             ResourceConfig config = node.Config;
             if (config == null) return;

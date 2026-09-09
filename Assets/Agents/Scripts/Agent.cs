@@ -25,10 +25,10 @@ namespace Cinderwild.Gameplay.Agents
             Sprite = GetComponent<AgentSprites>();
             States = GetComponent<AgentStates>();
             Tracking = GetComponent<AgentTracking>();
-            Controller?.Init(this);
+            Controller?.Init(this, context.World.System);
             Sprite?.Init(context.Camera, this);
             States?.Init(this);
-            Tracking?.Init(this);
+            Tracking?.Init(this, context.World.System);
         }
 
         public void Highlight()

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Cinderwild.World.Generation
 {
-    public static class TileBuilder
+    public class TileBuilder
     {
         // Build and assign tiles
-        public static void BuildTiles(ChunkData chunk)
+        public void BuildTiles(ChunkData chunk)
         {
             if (WorldData.Properties == null || WorldData.Instance == null) return;
 
@@ -35,7 +35,7 @@ namespace Cinderwild.World.Generation
             CalculateSteps(chunk);
         }
 
-        private static TileData BuildTile(ChunkData chunk, Vector2Int pos)
+        private TileData BuildTile(ChunkData chunk, Vector2Int pos)
         {
             TileData tile = new TileData(pos);
 
@@ -66,7 +66,7 @@ namespace Cinderwild.World.Generation
         }
 
         // Assign tile type based on average noise value
-        private static void AssignObject(TileData tile)
+        private void AssignObject(TileData tile)
         {
             float tileNoise = tile.AverageNoise();
 
@@ -83,7 +83,7 @@ namespace Cinderwild.World.Generation
             }
         }
         
-        private static void AssignVertices(TileData tile, ChunkVertex[,] vertices)
+        private void AssignVertices(TileData tile, ChunkVertex[,] vertices)
         {
             if (tile.Object == null) return;
 
@@ -110,7 +110,7 @@ namespace Cinderwild.World.Generation
             }
         }
 
-        private static void CalculateSlopes(ChunkData chunk)
+        private void CalculateSlopes(ChunkData chunk)
         {
             for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
             {
@@ -157,7 +157,7 @@ namespace Cinderwild.World.Generation
         }
 
         // Calculate the stepped vertices based on adjacent tiles 
-        private static void CalculateSteps(ChunkData chunk)
+        private void CalculateSteps(ChunkData chunk)
         {
             for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
             {
@@ -221,7 +221,7 @@ namespace Cinderwild.World.Generation
             }
         }
 
-        private static int[] AdjacentVerts(Vector2Int dir)
+        private int[] AdjacentVerts(Vector2Int dir)
         {
             if (dir == Vector2Int.up)
                 return new int[2] { 1, 2 };
@@ -233,7 +233,7 @@ namespace Cinderwild.World.Generation
                 return new int[2] { 0, 1 };
         }
 
-        private static void CalculateSmooth(ChunkData chunk)
+        private void CalculateSmooth(ChunkData chunk)
         {
             for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
             {

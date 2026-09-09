@@ -13,7 +13,7 @@ namespace Cinderwild.Gameplay
             context.Input.Init();
             context.Input.EnableGameplayInput();
             context.World.Generate();
-            context.Player.Init(context);
+            context.Player.Init(context.World.System, context.Camera);
             context.Agent.Init(context);
             context.Camera.Init(context);
             context.Pathfinding.Init();
@@ -21,6 +21,7 @@ namespace Cinderwild.Gameplay
             PathfindingSystem.Init(context);
             InteractionSystem.Init(context);
         }
+
 
         private void OnDisable()
         {
