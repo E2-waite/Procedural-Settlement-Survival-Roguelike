@@ -16,14 +16,11 @@ namespace Cinderwild.World.Runtime
         public ChunkBuilder Chunks { get; private set; }
         public TileBuilder Tiles { get; private set; }
         public ResourceBuilder Resources { get; private set; }
-
+        public WorldData Data { get; private set; }
         public WorldProperties Properties => properties;
-        private WorldData data = null;
-        public WorldData Data => data;
-        public Vector2 SeedOffset => seedOffset;
-        [SerializeField] private Chunk chunkPrefab;
         [SerializeField] private WorldProperties properties;
-        private Vector2 seedOffset = new Vector2(100000f, 100000f);
+        [SerializeField] private Chunk chunkPrefab;
+        public Vector2 SeedOffset = new Vector2(100000f, 100000f);
 
         public void Generate()
         {
@@ -32,18 +29,14 @@ namespace Cinderwild.World.Runtime
             System = new WorldSystem(this);
             Chunks = new ChunkBuilder(this);
             Resources = new ResourceBuilder(this);
-            Tiles = new TileBuilder();
+            Tiles = new TileBuilder(this);
+            Data = new WorldData();
 
-            if (data == null)
+            for (int x = 0; x < properties.worldSize.x; x++)
             {
-                data = new WorldData(properties);
-
-                for (int x = 0; x < properties.worldSize.x; x++)
+                for (int y = 0; y < properties.worldSize.y; y++)
                 {
-                    for (int y = 0; y < properties.worldSize.y; y++)
-                    {
-                       Chunks.Generate(new Vector2Int(x, y));
-                    }
+                    Chunks.Generate(new Vector2Int(x, y));
                 }
             }
         }
@@ -52,9 +45,9 @@ namespace Cinderwild.World.Runtime
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                DestroyImmediate(transform.GetChild(i).gameObject);
+                Destroy(transform.GetChild(i).gameObject);
             }
-            data = null;
+            Data = null;
         }
 
         public Chunk SpawnChunk()

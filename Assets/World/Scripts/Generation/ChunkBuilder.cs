@@ -7,30 +7,23 @@ namespace Cinderwild.World.Generation
     public class ChunkBuilder
     {
         [SerializeField] private WorldManager world;
-        private WorldProperties properties;
-        private bool initialized = false;
         MeshGenerator meshGenerator = new();
         public ChunkBuilder(WorldManager world)
         {
-            if (!initialized)
-            {
-                this.world = world;
-                properties = world.Properties;
-                initialized = true;
-            }
+            this.world = world;
         }
  
         public Chunk Generate(Vector2Int position)
         {
             Chunk chunk = world.SpawnChunk();
-            chunk.Init(properties, position);
+            chunk.Init(world.Properties, position);
 
             CalculateNoise(chunk.Data);
             BuildVertices(chunk.Data);
             
             world.Tiles.BuildTiles(chunk.Data);
 
-            meshGenerator.Generate(chunk, properties);
+            meshGenerator.Generate(chunk, world.Properties);
 
             world.Resources.Build(chunk.Data);
 
@@ -48,8 +41,8 @@ namespace Cinderwild.World.Generation
             {
                 for (int y = 0; y < chunkData.Size + 3; y++)
                 {
-                    chunkData.Noise[x, y] = Noise.GetNoise(x - 1 + chunkData.Position.x, y - 1 + chunkData.Position.y, properties.noiseScale, world.SeedOffset) - properties.seaLevel;
-                    if (chunkData.Noise[x, y] > 0) chunkData.Noise[x, y] *= properties.heightMultiplier;
+                    chunkData.Noise[x, y] = Noise.GetNoise(x - 1 + chunkData.Position.x, y - 1 + chunkData.Position.y, world.Properties.noiseScale, world.SeedOffset) - world.Properties.seaLevel;
+                    if (chunkData.Noise[x, y] > 0) chunkData.Noise[x, y] *= world.Properties.heightMultiplier;
                     chunkData.Noise[x, y] = Mathf.Clamp01(chunkData.Noise[x, y]);
                 }
             }

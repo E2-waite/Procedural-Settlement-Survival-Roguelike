@@ -6,16 +6,11 @@ namespace Cinderwild.World.Generation
 {
     public class ResourceBuilder
     {
-        private WorldProperties properties;
+        private WorldManager world;
 
-        private bool initialized = false;
         public ResourceBuilder(WorldManager world)
         {
-            if (!initialized)
-            {
-                properties = world.Properties;
-                initialized = true;
-            }
+            this.world = world;
         }
 
         public void Build(ChunkData chunk)
@@ -33,13 +28,11 @@ namespace Cinderwild.World.Generation
 
                     if (tile.Object.resourceTypes.Count == 0) continue;
 
-
-
                     foreach (ResourceConfig config in tile.Object.resourceTypes)
                     {
                         if (config == null) continue;
 
-                        float noise = Noise.GetNoise(x - 1 + chunk.Position.x, z - 1 + chunk.Position.y, properties.resourceScale, config.noiseOffset);
+                        float noise = Noise.GetNoise(x - 1 + chunk.Position.x, z - 1 + chunk.Position.y, world.Properties.resourceScale, config.noiseOffset);
 
 
                         if (noise > config.noiseThresh)

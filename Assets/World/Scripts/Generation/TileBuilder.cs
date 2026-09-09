@@ -1,16 +1,23 @@
 using Cinderwild.World.Data;
+using Cinderwild.World.Runtime;
 using UnityEngine;
 
 namespace Cinderwild.World.Generation
 {
     public class TileBuilder
     {
+        WorldManager world;
+        public TileBuilder(WorldManager world)
+        {
+            this.world = world;
+        }
+
         // Build and assign tiles
         public void BuildTiles(ChunkData chunk)
         {
-            if (WorldData.Properties == null || WorldData.Instance == null) return;
+            if (world.Properties == null || world.Data == null) return;
 
-            int chunkSize = WorldData.Properties.chunkSize;
+            int chunkSize = world.Properties.chunkSize;
             // Calculate 
             for (int x = 0; x < chunkSize + 2; x++)
             {
@@ -25,7 +32,7 @@ namespace Cinderwild.World.Generation
                     if (x > 0 && y > 0 && x < chunkSize + 1 && y < chunkSize + 1)
                     {
                         Vector2Int gridPos = new Vector2Int(chunk.GridPos.x * chunkSize + x - 1, chunk.GridPos.y * chunkSize + y - 1);
-                        WorldData.Instance.Tiles[gridPos] = tile;
+                        world.Data.Tiles[gridPos] = tile;
                     }
                 }
             }
@@ -55,8 +62,8 @@ namespace Cinderwild.World.Generation
             Vector3 chunkOffset = new Vector3(chunk.Position.x, 0, chunk.Position.y);
             // Offset by -1 to accound for padding
             Vector3 worldPos = chunkOffset + new Vector3(pos.x - 1, 0, pos.y - 1);
-            //worldPos *= WorldData.Properties.tileScale;
-            worldPos.y = tile.Object.WorldHeight * WorldData.Properties.heightScale;
+            //worldPos *= world.Properties.tileScale;
+            worldPos.y = tile.Object.WorldHeight * world.Properties.heightScale;
 
             tile.WorldPosition = worldPos;
             tile.Center = new Vector3(worldPos.x + .5f, worldPos.y, worldPos.z + .5f);
@@ -70,11 +77,11 @@ namespace Cinderwild.World.Generation
         {
             float tileNoise = tile.AverageNoise();
 
-            if (WorldData.Properties.tileTypes.Count == 0) return;
+            if (world.Properties.tileTypes.Count == 0) return;
 
-            for (int i = 0; i < WorldData.Properties.tileTypes.Count; i++)
+            for (int i = 0; i < world.Properties.tileTypes.Count; i++)
             {
-                TileConfig tileObject = WorldData.Properties.tileTypes[i];
+                TileConfig tileObject = world.Properties.tileTypes[i];
                 if (tileNoise <= tileObject.noiseThesh)
                 {
                     tile.Object = tileObject;
@@ -105,16 +112,16 @@ namespace Cinderwild.World.Generation
                 }
                 else if (tile.Object.topoType == TopoType.Stepped)
                 {
-                    tile.Vertices[i] = new ChunkVertex(new Vector3(vertex.position.x, tile.Object.WorldHeight * WorldData.Properties.heightScale, vertex.position.z));
+                    tile.Vertices[i] = new ChunkVertex(new Vector3(vertex.position.x, tile.Object.WorldHeight * world.Properties.heightScale, vertex.position.z));
                 }
             }
         }
 
         private void CalculateSlopes(ChunkData chunk)
         {
-            for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
+            for (int x = 1; x < world.Properties.chunkSize + 1; x++)
             {
-                for (int y = 1; y < WorldData.Properties.chunkSize + 1; y++)
+                for (int y = 1; y < world.Properties.chunkSize + 1; y++)
                 {
                     TileData tile = chunk.GetTile(new Vector2Int(x, y));
                     if (tile == null || tile.Object == null || tile.Object.topoType != TopoType.Sloped && tile.Object.topoType != TopoType.Smooth) continue;
@@ -148,7 +155,7 @@ namespace Cinderwild.World.Generation
                         }
 
                         if (tile.Object.topoType == TopoType.Sloped || (tile.Object.topoType == TopoType.Smooth && lowestObj.topoType != TopoType.Smooth))
-                            tile.Vertices[v].SetHeight(vHeight * WorldData.Properties.heightScale);
+                            tile.Vertices[v].SetHeight(vHeight * world.Properties.heightScale);
                     }
 
                     tile.IsFlat = flat;
@@ -159,9 +166,9 @@ namespace Cinderwild.World.Generation
         // Calculate the stepped vertices based on adjacent tiles 
         private void CalculateSteps(ChunkData chunk)
         {
-            for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
+            for (int x = 1; x < world.Properties.chunkSize + 1; x++)
             {
-                for (int y = 1; y < WorldData.Properties.chunkSize + 1; y++)
+                for (int y = 1; y < world.Properties.chunkSize + 1; y++)
                 {
                     TileData tile = chunk.GetTile(new Vector2Int(x, y));
                     if (tile == null || tile.Object == null) continue;
@@ -189,14 +196,14 @@ namespace Cinderwild.World.Generation
                                     tile.StepVertices[v] = new ChunkVertex(
                                         new Vector3(
                                             tile.Vertices[v].position.x,
-                                            neighbor.Object.WorldHeight * WorldData.Properties.heightScale,
+                                            neighbor.Object.WorldHeight * world.Properties.heightScale,
                                             tile.Vertices[v].position.z));
                                 }
                                 else
                                 {
                                     ChunkVertex vertex = tile.StepVertices[v];
 
-                                    vertex.SetHeight(neighbor.Object.WorldHeight * WorldData.Properties.heightScale);
+                                    vertex.SetHeight(neighbor.Object.WorldHeight * world.Properties.heightScale);
                                 }
                             }
                         }
@@ -214,7 +221,7 @@ namespace Cinderwild.World.Generation
 
                         if (neighbor.Object.Index < tile.Object.Index)
                         {
-                            vertex.SetHeight(neighbor.Object.WorldHeight * WorldData.Properties.heightScale);
+                            vertex.SetHeight(neighbor.Object.WorldHeight * world.Properties.heightScale);
                         }
                     }
                 }
@@ -235,9 +242,9 @@ namespace Cinderwild.World.Generation
 
         private void CalculateSmooth(ChunkData chunk)
         {
-            for (int x = 1; x < WorldData.Properties.chunkSize + 1; x++)
+            for (int x = 1; x < world.Properties.chunkSize + 1; x++)
             {
-                for (int y = 1; y < WorldData.Properties.chunkSize + 1; y++)
+                for (int y = 1; y < world.Properties.chunkSize + 1; y++)
                 {
                     TileData tile = chunk.GetTile(new Vector2Int(x, y));
                     if (tile == null || tile.Object == null) continue;
@@ -260,7 +267,7 @@ namespace Cinderwild.World.Generation
                                 noise * tile.Object.height;
                         }
 
-                        tile.Vertices[v].SetHeight(height * WorldData.Properties.heightScale);
+                        tile.Vertices[v].SetHeight(height * world.Properties.heightScale);
                     }
                 }
             }
