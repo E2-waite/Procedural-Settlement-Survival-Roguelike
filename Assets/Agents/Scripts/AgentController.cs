@@ -25,15 +25,15 @@ namespace Cinderwild.Gameplay.Agents
         private bool pathRequested = false;
         private Vector3 facing = Vector3.zero;
         public Vector3 Facing => facing;
-        private WorldSystem world;
+        private WorldManager world;
         private PathfindingManager pathfinding;
-        public void Init(Agent agent, WorldSystem world, PathfindingManager pathfinding)
+        public void Init(Agent agent, WorldManager world, PathfindingManager pathfinding)
         {
             this.world = world;
             this.agent = agent;
             this.pathfinding = pathfinding;
 
-            TileData tile = world.GetTile(agent.Body.position);
+            TileData tile = world.Data.GetTile(agent.Body.position);
             if (tile != null && tile.IsWalkable)
             {
                 agent.Body.position += new Vector3(0, tile.WorldPosition.y, 0);
@@ -51,7 +51,7 @@ namespace Cinderwild.Gameplay.Agents
             {
                 // Validate target tile is walkable before requesting a path
                 Vector2Int targetGrid = new Vector2Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.z));
-                TileData tTile = world.GetTile(targetGrid);
+                TileData tTile = world.Data.GetTile(targetGrid);
                 if (tTile == null || !tTile.IsWalkable)
                 {
                     Debug.LogWarning($"MoveTo aborted: target tile not walkable or missing at {targetGrid}");
@@ -86,7 +86,7 @@ namespace Cinderwild.Gameplay.Agents
             {
                 Vector2Int currentTarget = path[pathIndex];
 
-                TileData tile = world.GetTile(currentTarget);
+                TileData tile = world.Data.GetTile(currentTarget);
 
                 Vector3 targetPos = new Vector3(currentTarget.x + .5f, 0, currentTarget.y + .5f);
 
@@ -125,7 +125,7 @@ namespace Cinderwild.Gameplay.Agents
         private void UpdateHeight()
         {
             // TODO: improve this.. feels inefficient 
-            TileData tile = world.GetTile(agent.Body.position);
+            TileData tile = world.Data.GetTile(agent.Body.position);
             agent.Body.position = new Vector3(agent.Body.position.x, tile.WorldPosition.y, agent.Body.position.z);
         }
     }

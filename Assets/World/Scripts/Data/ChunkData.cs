@@ -1,3 +1,4 @@
+using Cinderwild.World.Runtime;
 using UnityEngine;
 
 namespace Cinderwild.World.Data
@@ -5,6 +6,7 @@ namespace Cinderwild.World.Data
     [System.Serializable]
     public class ChunkData
     {
+        // TODO: condider refactoring.. this class is doing too much. It's owns vertices, tiles and position
         public Vector2 Position { get; private set; } // World position
         public Vector2Int GridPos { get; private set; } // Grid position
         public float[,] Noise { get; private set; }

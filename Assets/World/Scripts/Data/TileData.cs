@@ -5,6 +5,9 @@ namespace Cinderwild.World.Data
     [System.Serializable]
     public class TileData
     {
+        // TODO: condider refactoring.. this class is doing too much. It's owns vertices, noise, position and more!
+
+        public ChunkData Chunk { get; private set; }
         public ChunkVertex[] Vertices => vertices;
         public ChunkVertex[] StepVertices => stepVertices;
         private ChunkVertex[] vertices = new ChunkVertex[4];
@@ -21,9 +24,10 @@ namespace Cinderwild.World.Data
         public bool IsFlat { get; set; }
         public ResourceNode resource = null;
 
-        public TileData(Vector2Int position)
+        public TileData(Vector2Int position, ChunkData chunk)
         {
             this.position = position;
+            Chunk = chunk;
         }
 
         // Returns offset position based on vertex index

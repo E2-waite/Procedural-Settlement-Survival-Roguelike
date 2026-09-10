@@ -6,11 +6,11 @@ using UnityEngine;
 namespace Cinderwild.World.Runtime
 {
     /// <summary>
-    /// Provides global access to the current world and manages runtime world operations.
+    /// System class for handling chunk streaming
     /// </summary>
     public class WorldSystem
     {
-        private Chunk lastChunk = null;
+        private ChunkData lastChunk = null;
         private Vector2Int lastPos = Vector2Int.zero;
         private HashSet<Vector2Int> required = new HashSet<Vector2Int>();
         private HashSet<Vector2Int> active = new HashSet<Vector2Int>();
@@ -21,33 +21,12 @@ namespace Cinderwild.World.Runtime
             world = worldManager;
         }
 
-        // Returns the chunk at the passed world position
-        public Chunk GetChunk(Vector3 position)
-        {
-            position /= world.Properties.chunkSize;
-            Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
-
-            world.Data.Chunks.TryGetValue(chunkPos, out Chunk chunk);
-
-            return chunk;
-        }
-
-        public TileData GetTile(Vector3 position)
-        {
-            Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
-
-            return GetTile(tilePos);
-        }
-
-        public TileData GetTile(Vector2Int position)
-        {
-            world.Data.Tiles.TryGetValue(position, out TileData tile);
-            return tile;
-        }
-
         // Streams surrounding chunks, enabling/creating valid chunks and disabling invalid chunks
-        public void StreamChunks(Chunk chunk)
+        public void StreamChunks(ChunkData chunk)
         {
+            // TODO: clear far chunks from memory (serialize and destroy GameObject)
+
+            if (chunk == null) Debug.LogWarning("CANNOT STREAM NULL CHUNK!");
             if (chunk == null || chunk == lastChunk) return; // Ignore if already handled or null
             lastChunk = chunk;
 
@@ -60,9 +39,9 @@ namespace Cinderwild.World.Runtime
                 dist = world.Properties.streamDist;
             }
 
-            for (int x = chunk.Data.GridPos.x - dist; x <= chunk.Data.GridPos.x + dist; x++)
+            for (int x = chunk.GridPos.x - dist; x <= chunk.GridPos.x + dist; x++)
             {
-                for (int y = chunk.Data.GridPos.y - dist; y <= chunk.Data.GridPos.y + dist; y++)
+                for (int y = chunk.GridPos.y - dist; y <= chunk.GridPos.y + dist; y++)
                 {
                     required.Add(new Vector2Int(x, y));
                 }

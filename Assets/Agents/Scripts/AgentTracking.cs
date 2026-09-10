@@ -2,28 +2,32 @@ using Cinderwild.Gameplay.Agents;
 using Cinderwild.World.Data;
 using Cinderwild.World.Runtime;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AgentTracking : MonoBehaviour
 {
     Vector3 lastPos = Vector3.zero;
     private Agent agent;
-    WorldSystem world;
-    public void Init(Agent agent, WorldSystem worldSystem)
+    WorldManager world;
+    public void Init(Agent agent, WorldManager world)
     {
         this.agent = agent;
-        this.world = worldSystem;
+        this.world = world;
     }
 
-    void Update()
-    {
-        UpdateChunk();
-    }
+    //void Update()
+    //{
+    //    UpdateChunk();
+    //}
 
-    private void UpdateChunk()
-    {
-        if ((transform.position - lastPos).sqrMagnitude < 0.1f) return;
-        lastPos = transform.position;
+    //private void UpdateChunk()
+    //{
+    //    if ((transform.position - lastPos).sqrMagnitude < 0.1f) return;
+    //    lastPos = transform.position;
 
-        Chunk chunk = world.GetChunk(transform.position);
-    }
+    //    position /= world.Properties.chunkSize;
+    //    Vector2Int chunkPos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
+
+    //    Chunk chunk = world.Data.GetChunk(transform.position);
+    //}
 }

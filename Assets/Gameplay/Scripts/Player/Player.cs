@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinderwild.World.Runtime;
+using Cinderwild.World.Data;
 
 namespace Cinderwild.Gameplay.Agents
 {
@@ -9,14 +10,16 @@ namespace Cinderwild.Gameplay.Agents
         public PlayerController Controller { get; private set; }
         public Transform Body => body;
         private AgentSprites spriteController;
-        private WorldSystem world;
+        private WorldManager world;
         [SerializeField] private Transform body;
 
-        public void Init(WorldSystem world, CameraController camera)
+        public void Init(WorldManager world, CameraController camera)
         {
             this.world = world;
-            Chunk chunk = world.GetChunk(transform.position);
-            world.StreamChunks(chunk);
+
+            TileData tile = world.Data.GetTile(body.position);
+            ChunkData chunk = tile?.Chunk;
+            world.System.StreamChunks(chunk);
 
             Controller = GetComponent<PlayerController>();
             Controller.Init(world, this);
@@ -29,8 +32,10 @@ namespace Cinderwild.Gameplay.Agents
 
         private void Update()
         {
-            Chunk chunk = world.GetChunk(transform.position);
-            world.StreamChunks(chunk);
+            TileData tile = world.Data.GetTile(body.position);
+            ChunkData chunk = tile?.Chunk;
+
+            world.System.StreamChunks(chunk);
 
             // TODO: remove update from player
             if (Controller != null)

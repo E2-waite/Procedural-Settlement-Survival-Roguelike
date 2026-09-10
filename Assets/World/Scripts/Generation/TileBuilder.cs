@@ -44,7 +44,7 @@ namespace Cinderwild.World.Generation
 
         private TileData BuildTile(ChunkData chunk, Vector2Int pos)
         {
-            TileData tile = new TileData(pos);
+            TileData tile = new TileData(pos, chunk);
 
             for (int i = 0; i < 4; i++)
             {

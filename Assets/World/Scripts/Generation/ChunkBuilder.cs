@@ -16,6 +16,7 @@ namespace Cinderwild.World.Generation
         public Chunk Generate(Vector2Int position)
         {
             Chunk chunk = world.SpawnChunk();
+            chunk.name = "Chunk (" + position.x + ":" + position.y + ")";
             chunk.Init(world.Properties, position);
 
             CalculateNoise(chunk.Data);

@@ -1,6 +1,6 @@
+using Cinderwild.World.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinderwild.World.Runtime;
 
 namespace Cinderwild.World.Data
 {
@@ -16,6 +16,13 @@ namespace Cinderwild.World.Data
         {
             Tiles.TryGetValue(pos, out TileData tile);
             return tile;
+        }
+
+        public TileData GetTile(Vector3 position)
+        {
+            Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
+
+            return GetTile(tilePos);
         }
     }
 }

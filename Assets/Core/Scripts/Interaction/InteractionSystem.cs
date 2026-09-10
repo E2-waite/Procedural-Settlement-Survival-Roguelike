@@ -80,7 +80,7 @@ namespace Cinderwild.Core
                     if (agent != null) currentTarget.SelectAgent(agent);
                     break;
                 case "World":
-                    TileData tile = world.System.GetTile(hit.point);
+                    TileData tile = world.Data.GetTile(hit.point);
                     if (tile != null)
                     {
                         currentTarget.SelectTile(tile);

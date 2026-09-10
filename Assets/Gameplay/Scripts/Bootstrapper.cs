@@ -24,8 +24,8 @@ namespace Cinderwild.Gameplay
             input.Init();
             input.EnableGameplayInput();
             world.Generate();
-            player.Init(world.System, camera);
-            agent.Init(world.System, camera, pathfinding);
+            player.Init(world, camera);
+            agent.Init(world, camera, pathfinding);
             camera.Init(player);
             pathfinding.Init(world.Data);
             command.Init();

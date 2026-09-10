@@ -18,7 +18,7 @@ namespace Cinderwild.Gameplay.Agents
         [SerializeField] private Transform body;
         private bool selected = false;
 
-        public virtual void Init(WorldSystem world, CameraController camera, PathfindingManager pathfinding)
+        public virtual void Init(WorldManager world, CameraController camera, PathfindingManager pathfinding)
         {
             Controller = GetComponent<AgentController>();
             Sprite = GetComponent<AgentSprites>();
