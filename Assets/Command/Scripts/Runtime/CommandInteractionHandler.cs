@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Cinderwild.Command.Data;
-using Cinderwild.Command.UI;
 using Cinderwild.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,15 +9,15 @@ namespace Cinderwild.Command.Runtime
     public class CommandInteractionHandler : IInteractionHandler
     {
         private InteractionManager interaction;
-        private CommandOptionCatalog commandCatalog = null;
-        private CommandWidget widget = null;
+        private CommandManager command;
+
         private InteractionTarget currentTarget = null;
 
-        public CommandInteractionHandler(InteractionManager interaction, CommandOptionCatalog commandCatalog, CommandWidget widget)
+
+        public CommandInteractionHandler(InteractionManager interaction, CommandManager command)
         {
             this.interaction = interaction;
-            this.commandCatalog = commandCatalog;
-            this.widget = widget;
+            this.command = command;
         }
 
         // Display command widget
@@ -29,24 +28,24 @@ namespace Cinderwild.Command.Runtime
 
             List<CommandOption> options = new List<CommandOption>();
 
-            foreach (CommandOption option in commandCatalog.options)
+            foreach (CommandOption option in command.Catalog.options)
             {
                 if (option != null) options.Add(option);
             }
 
-            widget.Show(mousePos, options);
+            command.Widget.Show(mousePos, options);
         }
 
         // Execute command if there is one
         public void Disable()
         {
-            CommandType commandType = widget.Hide();
+            CommandType commandType = command.Widget.Hide();
 
             Cursor.visible = true;
 
             if (commandType != CommandType.None)
             {
-                CommandSystem.ExecuteCommand(commandType, currentTarget);
+                command.System.ExecuteCommand(commandType, currentTarget);
             }
         }
 
@@ -54,7 +53,7 @@ namespace Cinderwild.Command.Runtime
         #region Input
         public void OnMouseMoved(Vector2 pos, Vector2 diff)
         {
-            widget.UpdateSelector(diff);
+            command.Widget.UpdateSelector(diff);
         }
 
         public void OnLeftDown(InteractionTarget target)

@@ -10,9 +10,12 @@ namespace Cinderwild.Core
         private Player player;
         private CameraController camera;
         private InteractionManager interaction;
-        public PlayerInteractionHandler(InteractionManager interaction, Player player, CameraController camera)
+        private CommandManager command;
+
+        public PlayerInteractionHandler(InteractionManager interaction, CommandManager command, Player player, CameraController camera)
         {
             this.interaction = interaction;
+            this.command = command;
             this.player = player;
             this.camera = camera;
         }
@@ -33,11 +36,11 @@ namespace Cinderwild.Core
         {
             if (target.Type == TargetType.Agent)
             {
-                CommandSystem.SelectAgent(target.Agent);
+                command.System.SelectAgent(target.Agent);
             }
             else
             {
-                CommandSystem.Deselect();
+                command.System.Deselect();
             }
         }
 

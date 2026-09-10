@@ -12,24 +12,24 @@ namespace Cinderwild.Command.Runtime
         None // No command type (max)
     }
 
-    public static class CommandSystem
+    public class CommandSystem
     {
-        private static Agent selected = null; // The currently selected agent
+        private Agent selected = null; // The currently selected agent
 
-        public static void SelectAgent(Agent agent)
+        public void SelectAgent(Agent agent)
         {
             selected = agent;
             agent.Select();
             Debug.Log("Selected " + agent.name);
         }
 
-        public static void Deselect()
+        public void Deselect()
         {
             selected?.Deselect();
             selected = null;
         }
 
-        public static void ExecuteCommand(CommandType commandType, InteractionTarget target)
+        public void ExecuteCommand(CommandType commandType, InteractionTarget target)
         {
             if (selected == null) return;
 
@@ -41,7 +41,5 @@ namespace Cinderwild.Command.Runtime
                     break;
             }
         }
-
-
     }
 }

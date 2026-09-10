@@ -1,6 +1,4 @@
-using Cinderwild.Command.Data;
 using Cinderwild.Command.Runtime;
-using Cinderwild.Command.UI;
 using Cinderwild.Core;
 using Cinderwild.Gameplay.Agents;
 using Cinderwild.Pathfinding.Runtime;
@@ -17,9 +15,8 @@ namespace Cinderwild.Gameplay
         [SerializeField] private Player player;
         [SerializeField] private Agent agent;
         [SerializeField] private CameraController camera;
-        [SerializeField] private CommandOptionCatalog commandCatalog;
-        [SerializeField] private CommandWidget commandWidget;
         [SerializeField] private PathfindingManager pathfinding;
+        [SerializeField] private CommandManager command;
 
 
         private void OnEnable()
@@ -31,9 +28,9 @@ namespace Cinderwild.Gameplay
             agent.Init(world.System, camera, pathfinding);
             camera.Init(player);
             pathfinding.Init(world.Data);
-
-            PlayerInteractionHandler playerHandler = new PlayerInteractionHandler(interaction, player, camera);
-            CommandInteractionHandler commandHandler = new CommandInteractionHandler(interaction, commandCatalog, commandWidget);
+            command.Init();
+            PlayerInteractionHandler playerHandler = new PlayerInteractionHandler(interaction, command, player, camera);
+            CommandInteractionHandler commandHandler = new CommandInteractionHandler(interaction, command);
             interaction.Init(input, world, playerHandler, commandHandler);
 
             Destroy(this);
