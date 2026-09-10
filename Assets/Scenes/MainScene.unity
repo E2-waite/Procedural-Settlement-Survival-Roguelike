@@ -1317,6 +1317,7 @@ MonoBehaviour:
     current: 0
     max: 100
   deathTime: 0.5
+  body: {fileID: 718741152}
 --- !u!4 &1377924892
 Transform:
   m_ObjectHideFlags: 0
@@ -2006,6 +2007,7 @@ GameObject:
   - component: {fileID: 2099301567}
   - component: {fileID: 2099301566}
   - component: {fileID: 2099301565}
+  - component: {fileID: 2099301568}
   - component: {fileID: 2099301564}
   m_Layer: 0
   m_Name: Game Manager
@@ -2050,15 +2052,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a712d072f7ee34bb425b09cddb568a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cinderwild.Gameplay.GameManager
-  context:
-    world: {fileID: 2107095133}
-    input: {fileID: 2099301565}
-    player: {fileID: 1377924888}
-    agent: {fileID: 279574722}
-    camera: {fileID: 352907237}
-    commandCatalog: {fileID: 11400000, guid: 605ea60f016acaa4782562827d73a997, type: 2}
-    commandWidget: {fileID: 2230963341494873201}
-    pathfinding: {fileID: 2099301564}
+  world: {fileID: 2107095133}
+  input: {fileID: 2099301565}
+  interaction: {fileID: 2099301568}
+  player: {fileID: 1377924888}
+  agent: {fileID: 279574722}
+  camera: {fileID: 352907237}
+  commandCatalog: {fileID: 11400000, guid: 605ea60f016acaa4782562827d73a997, type: 2}
+  commandWidget: {fileID: 2230963341494873201}
+  pathfinding: {fileID: 2099301564}
 --- !u!4 &2099301567
 Transform:
   m_ObjectHideFlags: 0
@@ -2074,6 +2076,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2099301568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099301563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba39c00814233c64287822ca850411b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
 --- !u!114 &2107095133 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1449161021081541967, guid: 62c27f739ca44514cb5372b39dc4d525, type: 3}
@@ -2299,7 +2313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9071892759735087817, guid: 9833f630c2c90954c8be6a391622cd0f, type: 3}
       propertyPath: m_Name
-      value: Sprite Rig
+      value: Body
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

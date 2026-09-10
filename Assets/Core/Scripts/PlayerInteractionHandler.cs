@@ -9,10 +9,12 @@ namespace Cinderwild.Core
     {
         private Player player;
         private CameraController camera;
-        public PlayerInteractionHandler(Context context)
+        private InteractionManager interaction;
+        public PlayerInteractionHandler(InteractionManager interaction, Player player, CameraController camera)
         {
-            player = context.Player;
-            camera = context.Camera;
+            this.interaction = interaction;
+            this.player = player;
+            this.camera = camera;
         }
 
         public void Enable(InteractionTarget target, Vector2 mousePos)
@@ -56,7 +58,7 @@ namespace Cinderwild.Core
         public void OnRightHeld(Vector2 pos, Vector2 diff, float time)
         {
             if (time > .1f)
-                InteractionSystem.SelectHandler(HandlerType.Command);
+                interaction.System.SelectHandler(HandlerType.Command);
         }
 
         public void OnRightUp(Vector2 diff, float time)

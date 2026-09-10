@@ -1,4 +1,4 @@
-using Cinderwild.Core;
+using Cinderwild.Pathfinding.Runtime;
 using Cinderwild.World.Runtime;
 using UnityEngine;
 
@@ -14,21 +14,20 @@ namespace Cinderwild.Gameplay.Agents
         public AgentSprites Sprite {  get; private set; }
         public AgentStates States { get; private set; }
         public AgentTracking Tracking { get; private set; }
-
-        [SerializeField] private Transform body;
         public Transform Body => body;
+        [SerializeField] private Transform body;
         private bool selected = false;
 
-        public virtual void Init(Context context)
+        public virtual void Init(WorldSystem world, CameraController camera, PathfindingManager pathfinding)
         {
             Controller = GetComponent<AgentController>();
             Sprite = GetComponent<AgentSprites>();
             States = GetComponent<AgentStates>();
             Tracking = GetComponent<AgentTracking>();
-            Controller?.Init(this, context.World.System);
-            Sprite?.Init(context.Camera, this);
+            Controller?.Init(this, world, pathfinding);
+            Sprite?.Init(camera, this);
             States?.Init(this);
-            Tracking?.Init(this, context.World.System);
+            Tracking?.Init(this, world);
         }
 
         public void Highlight()

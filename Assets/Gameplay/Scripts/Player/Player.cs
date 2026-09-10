@@ -1,5 +1,4 @@
 using UnityEngine;
-using Cinderwild.Core;
 using Cinderwild.World.Runtime;
 
 namespace Cinderwild.Gameplay.Agents
@@ -8,8 +7,10 @@ namespace Cinderwild.Gameplay.Agents
     public class Player : Destructable
     {
         public PlayerController Controller { get; private set; }
+        public Transform Body => body;
         private AgentSprites spriteController;
         private WorldSystem world;
+        [SerializeField] private Transform body;
 
         public void Init(WorldSystem world, CameraController camera)
         {
@@ -18,7 +19,7 @@ namespace Cinderwild.Gameplay.Agents
             world.StreamChunks(chunk);
 
             Controller = GetComponent<PlayerController>();
-            Controller.Init(world);
+            Controller.Init(world, this);
 
             spriteController = GetComponent<AgentSprites>();
             spriteController?.Init(camera);

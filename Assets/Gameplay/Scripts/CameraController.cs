@@ -24,11 +24,10 @@ public class CameraController : MonoBehaviour
     public Direction Facing => facingDir;
     private Direction facingDir = Direction.North;
 
-    public void Init(Context context)
+    public void Init(Player player)
     {
-        player = context.Player;
-
-        Vector3 targetPos = player.transform.position + followOffset;
+        this.player = player;
+        Vector3 targetPos = player.Body.position + followOffset;
         targetPos.y = transform.position.y;
         transform.position = targetPos;
 
@@ -82,7 +81,7 @@ public class CameraController : MonoBehaviour
     {
         if (player == null) return;
 
-        Vector3 targetPosition = player.transform.position;
+        Vector3 targetPosition = player.Body.position;
 
         transform.position = Vector3.SmoothDamp(
             transform.position,

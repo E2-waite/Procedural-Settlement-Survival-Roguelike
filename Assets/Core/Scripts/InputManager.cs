@@ -50,7 +50,7 @@ namespace Cinderwild.Core
             initialized = true;
         }
 
-        public void Shutdown()
+        private void OnDisable()
         {
             controls?.Player.Disable();
         }

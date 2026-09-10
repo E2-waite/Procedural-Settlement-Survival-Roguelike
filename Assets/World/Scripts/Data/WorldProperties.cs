@@ -17,6 +17,7 @@ namespace Cinderwild.World.Data
         [Range(1, 100)] public int chunkSize = 20;
         [Range(1, 10)] public int streamDist = 2; 
         public Vector2Int worldSize = new Vector2Int(1, 1);
+        public Vector2 SeedOffset = new Vector2(100000f, 100000f);
 
         public void Init()
         {

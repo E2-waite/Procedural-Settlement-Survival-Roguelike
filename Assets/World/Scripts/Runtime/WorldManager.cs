@@ -20,7 +20,6 @@ namespace Cinderwild.World.Runtime
         public WorldProperties Properties => properties;
         [SerializeField] private WorldProperties properties;
         [SerializeField] private Chunk chunkPrefab;
-        public Vector2 SeedOffset = new Vector2(100000f, 100000f);
 
         public void Generate()
         {

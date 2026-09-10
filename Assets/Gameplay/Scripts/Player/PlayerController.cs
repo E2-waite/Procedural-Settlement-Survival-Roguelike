@@ -7,19 +7,22 @@ namespace Cinderwild.Gameplay.Agents
     // Class for handling player character movement
     public class PlayerController : MonoBehaviour
     {
+        private Player player;
         public float moveSpeed = 5f;
         private Vector3 facing = Vector3.zero;
         public Vector3 Facing => facing;
         public bool Rotating { get; private set; }
         private WorldSystem world;
 
-        public void Init(WorldSystem world)
+        public void Init(WorldSystem world, Player player)
         {
             this.world = world;
-            TileData tile = world.GetTile(transform.position);
+            this.player = player;
+
+            TileData tile = world.GetTile(player.Body.position);
             if (tile != null && tile.IsWalkable)
             {
-                transform.position += new Vector3(0, tile.WorldPosition.y, 0);
+                player.Body.position += new Vector3(0, tile.WorldPosition.y, 0);
             }
         }
 
@@ -31,7 +34,7 @@ namespace Cinderwild.Gameplay.Agents
                 facing = move.normalized;
             }
 
-            Vector3 targetPos = transform.position + move * moveSpeed * Time.deltaTime;
+            Vector3 targetPos = player.Body.position + move * moveSpeed * Time.deltaTime;
 
             TileData tile = world.GetTile(targetPos);
 
@@ -39,7 +42,7 @@ namespace Cinderwild.Gameplay.Agents
             if (tile != null && tile.IsWalkable)
             {
                 targetPos.y = tile.WorldPosition.y;
-                transform.position = targetPos;
+                player.Body.position = targetPos;
             }
         }
 

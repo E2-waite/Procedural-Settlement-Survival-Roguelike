@@ -41,7 +41,7 @@ namespace Cinderwild.World.Generation
             {
                 for (int y = 0; y < chunkData.Size + 3; y++)
                 {
-                    chunkData.Noise[x, y] = Noise.GetNoise(x - 1 + chunkData.Position.x, y - 1 + chunkData.Position.y, world.Properties.noiseScale, world.SeedOffset) - world.Properties.seaLevel;
+                    chunkData.Noise[x, y] = Noise.GetNoise(x - 1 + chunkData.Position.x, y - 1 + chunkData.Position.y, world.Properties.noiseScale, world.Properties.SeedOffset) - world.Properties.seaLevel;
                     if (chunkData.Noise[x, y] > 0) chunkData.Noise[x, y] *= world.Properties.heightMultiplier;
                     chunkData.Noise[x, y] = Mathf.Clamp01(chunkData.Noise[x, y]);
                 }

@@ -9,14 +9,16 @@ namespace Cinderwild.Command.Runtime
 {
     public class CommandInteractionHandler : IInteractionHandler
     {
-        private CommandWidget widget = null;
+        private InteractionManager interaction;
         private CommandOptionCatalog commandCatalog = null;
+        private CommandWidget widget = null;
         private InteractionTarget currentTarget = null;
 
-        public CommandInteractionHandler(Context context)
+        public CommandInteractionHandler(InteractionManager interaction, CommandOptionCatalog commandCatalog, CommandWidget widget)
         {
-            widget = context.CommandWidget;
-            commandCatalog = context.CommandCatalog;
+            this.interaction = interaction;
+            this.commandCatalog = commandCatalog;
+            this.widget = widget;
         }
 
         // Display command widget
@@ -81,7 +83,7 @@ namespace Cinderwild.Command.Runtime
         public void OnRightUp(Vector2 diff, float time)
         {
             // Execute command, hide widget and switch state
-            InteractionSystem.SelectHandler(HandlerType.Player);
+            interaction.System.SelectHandler(HandlerType.Player);
         }
 
         public void OnKeyPressed(Key key)
