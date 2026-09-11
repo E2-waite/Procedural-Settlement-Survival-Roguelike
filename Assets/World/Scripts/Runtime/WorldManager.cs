@@ -9,7 +9,6 @@ namespace Cinderwild.World.Runtime
     /// Represents the current game world, including its configuration and runtime data.
     /// Responsible for generating and managing the world's state.
     /// </summary>
-    [ExecuteAlways]
     public class WorldManager : MonoBehaviour
     {
         public WorldSystem System { get; private set; }

@@ -20,7 +20,6 @@ namespace Cinderwild.Command.Runtime
         {
             selected = agent;
             agent.Select();
-            Debug.Log("Selected " + agent.name);
         }
 
         public void Deselect()

@@ -10,7 +10,6 @@ namespace Cinderwild.Gameplay.Agents
     public class AgentController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;
-        [SerializeField] private float swarmRadius = 1f;
         private Vector3 targetPos = Vector3.zero;
         private Vector3 moveDir = Vector3.zero;
         [SerializeField] private List<Vector2Int> path = new List<Vector2Int>();
@@ -109,17 +108,6 @@ namespace Cinderwild.Gameplay.Agents
                     pathIndex++;
                 }
             }
-            //else if (targetDist < 5f && targetDist > 0.01f) // If we're close to the target position, move to the target
-            //{
-            //    moveDir = (targetPos - agent.Body.position).normalized;
-            //    Vector3 movePos = agent.Body.position + (moveDir * moveSpeed * Time.deltaTime);
-            //    movePos.y = 0;
-            //    agent.Body.position = movePos;
-            //}
-            //else if (targetDist <= 0.01f)
-            //{
-            //    agent.Body.position = targetPos;
-            //}
         }
 
         private void UpdateHeight()

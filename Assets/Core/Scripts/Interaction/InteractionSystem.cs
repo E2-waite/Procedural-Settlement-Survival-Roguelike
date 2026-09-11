@@ -14,7 +14,6 @@ namespace Cinderwild.Core
         Max
     }
 
-    // TODO: consider making this class non-static
     public class InteractionSystem
     {
         private WorldManager world;
@@ -45,7 +44,6 @@ namespace Cinderwild.Core
                 input.Moved += OnMoveInput;
                 initialized = true;
 
-                // TODO: move handler creation to bootstrapper
                 handlers[(int)HandlerType.Player] = playerHandler;
                 handlers[(int)HandlerType.Command] = commandHandler;
             }

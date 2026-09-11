@@ -21,6 +21,7 @@ namespace Cinderwild.Gameplay
 
         private void OnEnable()
         {
+
             input.Init();
             input.EnableGameplayInput();
             world.Generate();

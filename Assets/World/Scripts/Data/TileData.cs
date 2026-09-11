@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Cinderwild.World.Data
 {
-    [System.Serializable]
     public class TileData
     {
         // TODO: condider refactoring.. this class is doing too much. It's owns vertices, noise, position and more!
