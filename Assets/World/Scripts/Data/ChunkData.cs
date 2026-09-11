@@ -1,9 +1,7 @@
-using Cinderwild.World.Runtime;
 using UnityEngine;
 
 namespace Cinderwild.World.Data
 {
-    [System.Serializable]
     public class ChunkData
     {
         // TODO: condider refactoring.. this class is doing too much. It's owns vertices, tiles and position

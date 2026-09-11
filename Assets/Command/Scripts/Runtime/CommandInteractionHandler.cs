@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 namespace Cinderwild.Command.Runtime
 {
+    /// <summary>
+    /// Handles interaction with the command widget and execution of commands when in command state
+    /// </summary>
     public class CommandInteractionHandler : IInteractionHandler
     {
         private InteractionManager interaction;

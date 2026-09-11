@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Cinderwild.Command.Runtime
 {
+    /// <summary>
+    /// Acts as the point of entry for interacting with the command system
+    /// </summary>
     public class CommandManager : MonoBehaviour
     {
         public CommandSystem System { get; private set; }

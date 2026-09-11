@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace Cinderwild.Gameplay.Agents
 {
-    // Handles agent pathfinding and movement
+    /// <summary>
+    /// Handles an agent's movement and pathfinding functionality.
+    /// </summary>
     public class AgentController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = 5f, pathWeight = 2f, swarmWeight = 1f;

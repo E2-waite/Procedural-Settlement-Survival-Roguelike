@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Cinderwild.Gameplay.Agents
 {
+    /// <summary>
+    /// Represents an agent entity and acts as a point of entry for interacting with its components
+    /// </summary>
     [RequireComponent(typeof(AgentController))]
     [RequireComponent(typeof(AgentSprites))]
     [RequireComponent(typeof(AgentStates))]

@@ -12,6 +12,9 @@ namespace Cinderwild.Command.Runtime
         None // No command type (max)
     }
 
+    /// <summary>
+    /// Handles agent selection and command execution
+    /// </summary>
     public class CommandSystem
     {
         private Agent selected = null; // The currently selected agent

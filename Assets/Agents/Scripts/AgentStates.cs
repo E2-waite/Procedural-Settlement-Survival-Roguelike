@@ -8,6 +8,9 @@ namespace Cinderwild.Gameplay.Agents
         Move
     }
 
+    /// <summary>
+    /// Handles the switching and execution of agent states
+    /// </summary>
     public class AgentStates : MonoBehaviour
     {
         private AgentState current = AgentState.Idle;

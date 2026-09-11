@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Cinderwild.Gameplay.Agents
 {
     /// <summary>
-    /// Controls sprite direction and display
+    /// Controls an agent's sprite direction and display
     /// </summary>
     public class AgentSprites : MonoBehaviour
     {

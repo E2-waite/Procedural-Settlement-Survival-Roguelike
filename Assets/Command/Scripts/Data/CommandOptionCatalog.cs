@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Cinderwild.Command.Data
 {
+    /// <summary>
+    /// Container for storing command options
+    /// </summary>
     [CreateAssetMenu(fileName = "CommandCatalog", menuName = "Scriptable Objects/CommandCatalog")]
     public class CommandOptionCatalog : ScriptableObject
     {
